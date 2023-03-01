@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.overview.OverviewFragment">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/text_overview"
         android:layout_width="match_parent"
