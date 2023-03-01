@@ -1,13 +1,13 @@
-package com.example.artthiefdemo.ui.home
+package com.example.artthiefdemo.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class OverviewViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is overview Fragment"
     }
     val text: LiveData<String> = _text
 }
