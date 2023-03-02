@@ -7,14 +7,18 @@
     app:layout_constraintTop_toTopOf="@+id/nav_host_fragment_activity_main"
     app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment_activity_main" >
 
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tab_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content" />-->
-
-    <androidx.viewpager.widget.PagerTitleStrip
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:paddingBottom="8dp"
+        app:tabMode="fixed" />
+
+<!--    <androidx.viewpager.widget.PagerTitleStrip-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:paddingBottom="8dp" />-->
 
 </androidx.viewpager.widget.ViewPager>
