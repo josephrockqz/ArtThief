@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.artthiefdemo.R
 
-class Page2OverviewFragment : Fragment() {
+class Page4OverviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.overview_page2_fragment, container, false)
+        return inflater.inflate(R.layout.overview_page4_fragment, container, false)
     }
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

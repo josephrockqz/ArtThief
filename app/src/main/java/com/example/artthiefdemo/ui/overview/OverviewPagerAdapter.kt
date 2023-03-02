@@ -6,24 +6,23 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class OverviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    override fun getCount(): Int = 2
+    override fun getCount(): Int = 4
 
     override fun getItem(i: Int): Fragment {
-        if (i == 0) {
-            return Page1OverviewFragment()
-        } else if (i == 1) {
-            return Page2OverviewFragment()
+        return when (i) {
+            0 -> Page1OverviewFragment()
+            1 -> Page2OverviewFragment()
+            2 -> Page3OverviewFragment()
+            else -> Page4OverviewFragment()
         }
-        // TODO: implement all 4 pages of overview tab
-        return OverviewFragment()
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        if (position == 0) {
-            return "uno"
-        } else if (position == 1) {
-            return "two"
+        return when (position) {
+            0 -> "1"
+            1 -> "2"
+            2 -> "3"
+            else -> "4"
         }
-        return "eleventy"
     }
 }
