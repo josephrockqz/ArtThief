@@ -2,6 +2,6 @@
     <string name="app_name">ArtThiefDemo</string>
     <string name="title_overview">Overview</string>
     <string name="title_rate">Rate Art</string>
-    <string name="title_augmented">Augmented Reality</string>
+    <string name="title_augmented">Aug. Reality</string>
     <string name="title_send">Send List</string>
 </resources>

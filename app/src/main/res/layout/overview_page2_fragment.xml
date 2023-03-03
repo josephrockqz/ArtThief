@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/text_overview_page1"
-        android:text="paaaaage DOS"
+        android:text="page 2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
