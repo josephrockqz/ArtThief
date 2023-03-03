@@ -18,11 +18,12 @@ class OverviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> "1"
-            1 -> "2"
-            2 -> "3"
-            else -> "4"
-        }
+//        return when (position) {
+//            0 -> "1"
+//            1 -> "2"
+//            2 -> "3"
+//            else -> "4"
+//        }
+        return "\u2B24"
     }
 }

@@ -8,7 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="art_thief_primary">#116B66</color>
+    <color name="art_thief_primary">#0F605C</color>
+    <color name="art_thief_secondary">#13756F</color>
+
     <color name="bottom_nav_item_inactive">#B4ABA9</color>
     <color name="bottom_nav_item_background_active">#D2DFDE</color>
+
+    <color name="overview_tab_inactive">#63BBB6</color>
 </resources>

@@ -8,17 +8,16 @@
     app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment_activity_main" >
 
     <com.google.android.material.tabs.TabLayout
+        android:background="@color/art_thief_secondary"
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:paddingBottom="8dp"
-        app:tabMode="fixed" />
-
-<!--    <androidx.viewpager.widget.PagerTitleStrip-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        android:paddingBottom="8dp" />-->
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/overview_tab_inactive"
+        app:tabIndicatorHeight="0dp"
+        app:tabMaxWidth="37dp"
+        app:tabMode="auto" />
 
 </androidx.viewpager.widget.ViewPager>
