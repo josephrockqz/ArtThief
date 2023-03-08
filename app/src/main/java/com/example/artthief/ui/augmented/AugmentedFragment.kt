@@ -1,4 +1,4 @@
-package com.example.artthiefdemo.ui.augmented
+package com.example.artthief.ui.augmented
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.artthiefdemo.databinding.FragmentAugmentedBinding
+import com.example.artthief.databinding.FragmentAugmentedBinding
 
 class AugmentedFragment : Fragment() {
 

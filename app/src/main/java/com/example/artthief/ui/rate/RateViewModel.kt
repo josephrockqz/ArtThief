@@ -1,4 +1,4 @@
-package com.example.artthiefdemo.ui.rate
+package com.example.artthief.ui.rate
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

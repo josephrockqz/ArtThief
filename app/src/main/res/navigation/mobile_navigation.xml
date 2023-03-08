@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_overview"
-        android:name="com.example.artthiefdemo.ui.overview.OverviewFragment"
+        android:name="com.example.artthief.ui.overview.OverviewFragment"
         android:label="@string/title_overview"
         tools:layout="@layout/fragment_overview" />
 
     <fragment
         android:id="@+id/navigation_rate"
-        android:name="com.example.artthiefdemo.ui.rate.RateFragment"
+        android:name="com.example.artthief.ui.rate.RateFragment"
         android:label="@string/title_rate"
         tools:layout="@layout/fragment_rate" />
 
     <fragment
         android:id="@+id/navigation_augmented"
-        android:name="com.example.artthiefdemo.ui.augmented.AugmentedFragment"
+        android:name="com.example.artthief.ui.augmented.AugmentedFragment"
         android:label="@string/title_augmented"
         tools:layout="@layout/fragment_augmented" />
 
     <fragment
         android:id="@+id/navigation_send"
-        android:name="com.example.artthiefdemo.ui.send.SendFragment"
+        android:name="com.example.artthief.ui.send.SendFragment"
         android:label="@string/title_send"
         tools:layout="@layout/fragment_send" />
 </navigation>

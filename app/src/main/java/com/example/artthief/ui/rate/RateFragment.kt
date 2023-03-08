@@ -1,4 +1,4 @@
-package com.example.artthiefdemo.ui.rate
+package com.example.artthief.ui.rate
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.artthiefdemo.R
+import com.example.artthief.R
 
 class RateFragment : Fragment() {
 

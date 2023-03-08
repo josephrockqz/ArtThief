@@ -1,4 +1,4 @@
-package com.example.artthiefdemo.ui.rate
+package com.example.artthief.ui.rate
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.artthiefdemo.R
+import com.example.artthief.R
 
 class RateArtAdapter : RecyclerView.Adapter<RateArtAdapter.ViewHolder>() {
 

@@ -1,4 +1,4 @@
-package com.example.artthiefdemo.ui.send
+package com.example.artthief.ui.send
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.artthiefdemo.databinding.FragmentSendBinding
+import com.example.artthief.databinding.FragmentSendBinding
 
 class SendFragment : Fragment() {
 

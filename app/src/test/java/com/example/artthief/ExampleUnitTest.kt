@@ -1,4 +1,4 @@
-package com.example.artthiefdemo
+package com.example.artthief
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.artthiefdemo.ui.overview
+package com.example.artthief.ui.overview
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
