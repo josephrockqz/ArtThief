@@ -1,9 +1,8 @@
 package com.example.artthief.ui.overview
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
@@ -22,9 +21,11 @@ class OverviewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         overviewPagerAdapter = OverviewPagerAdapter(childFragmentManager)
         viewPager = view.findViewById(R.id.pager_overview)
         viewPager.adapter = overviewPagerAdapter
-    }
 
+        super.onViewCreated(view, savedInstanceState)
+    }
 }
