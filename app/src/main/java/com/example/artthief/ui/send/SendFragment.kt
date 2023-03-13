@@ -1,11 +1,10 @@
 package com.example.artthief.ui.send
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.artthief.R
@@ -24,6 +23,8 @@ class SendFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
+
         val rateViewModel =
             ViewModelProvider(this).get(SendViewModel::class.java)
 
@@ -37,8 +38,22 @@ class SendFragment : Fragment() {
         return root
     }
 
+    @SuppressLint("RestrictedApi")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        (activity as AppCompatActivity).supportActionBar!!.setShowHideAnimationEnabled(false)
+        (activity as AppCompatActivity).supportActionBar!!.show()
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.send_menu, menu)
+        super.onCreateOptionsMenu(menu,inflater)
     }
 }

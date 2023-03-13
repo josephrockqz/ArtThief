@@ -5,7 +5,7 @@
     <item
         android:id="@+id/mi_star"
         android:icon="@drawable/ic_rate_24dp"
-        android:title="Refresh"
+        android:title="Star"
         app:showAsAction="always" />
     <item
         android:id="@+id/mi_new_size"

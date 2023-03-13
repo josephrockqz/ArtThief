@@ -13,7 +13,7 @@ class Page1OverviewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.overview_page1_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_overview_page1, container, false)
     }
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

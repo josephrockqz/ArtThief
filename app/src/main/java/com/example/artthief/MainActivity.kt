@@ -1,5 +1,6 @@
 package com.example.artthief
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +14,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setShowHideAnimationEnabled(false)
+        supportActionBar!!.hide()
 
         val navView: BottomNavigationView = binding.navView
 
