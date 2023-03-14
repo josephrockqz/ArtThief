@@ -1,9 +1,7 @@
 package com.example.artthief.ui.overview
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
@@ -21,11 +19,7 @@ class OverviewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        (activity as AppCompatActivity).supportActionBar!!.setShowHideAnimationEnabled(false)
-        (activity as AppCompatActivity).supportActionBar!!.hide()
 
         overviewPagerAdapter = OverviewPagerAdapter(childFragmentManager)
         viewPager = view.findViewById(R.id.pager_overview)
