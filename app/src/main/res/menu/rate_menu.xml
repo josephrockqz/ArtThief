@@ -14,4 +14,10 @@
         android:title="@string/mi_refresh_title"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/mi_search"
+        android:title="@string/mi_title_search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom|withText"/>
+
 </menu>

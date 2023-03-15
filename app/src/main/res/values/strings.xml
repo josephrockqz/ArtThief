@@ -11,4 +11,5 @@
     <string name="mi_list_title">List</string>
     <string name="mi_rate_title">Rate</string>
     <string name="mi_refresh_title">Refresh</string>
+    <string name="mi_title_search">Search</string>
 </resources>
