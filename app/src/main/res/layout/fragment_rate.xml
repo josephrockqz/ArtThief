@@ -10,31 +10,21 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetEnd="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:elevation="0dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:elevation="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="@string/title_rate"
-                app:menu="@menu/rate_menu"
-                app:navigationIcon="@drawable/ic_list_24dp"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/title_rate"
+            app:menu="@menu/rate_menu"
+            app:navigationIcon="@drawable/ic_list_24dp"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

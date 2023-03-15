@@ -6,6 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.send.SendFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/title_rate"
+            app:menu="@menu/send_menu"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <TextView
         android:id="@+id/text_send"
         android:layout_width="match_parent"
