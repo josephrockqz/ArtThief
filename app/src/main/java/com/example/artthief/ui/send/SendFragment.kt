@@ -5,7 +5,6 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.artthief.R
 import com.example.artthief.databinding.FragmentSendBinding
 
 class SendFragment : Fragment() {
@@ -21,6 +20,7 @@ class SendFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val rateViewModel =
             ViewModelProvider(this).get(SendViewModel::class.java)
 
@@ -37,10 +37,5 @@ class SendFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.send_menu, menu)
-        super.onCreateOptionsMenu(menu,inflater)
     }
 }

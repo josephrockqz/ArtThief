@@ -20,6 +20,7 @@ class AugmentedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val augmentedViewModel =
             ViewModelProvider(this).get(AugmentedViewModel::class.java)
 

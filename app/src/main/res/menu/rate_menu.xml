@@ -5,14 +5,13 @@
     <item
         android:id="@+id/mi_star"
         android:icon="@drawable/ic_rate_24dp"
-        android:title="Star"
-        app:showAsAction="always" />
+        android:title="@string/mi_rate_title"
+        app:showAsAction="ifRoom" />
+
     <item
-        android:id="@+id/mi_new_size"
-        android:title="Choose new size"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/mi_custom"
-        android:title="Create custom game"
-        app:showAsAction="never" />
+        android:id="@+id/mi_refresh"
+        android:icon="@drawable/ic_refresh_24dp"
+        android:title="@string/mi_refresh_title"
+        app:showAsAction="ifRoom" />
+
 </menu>
