@@ -15,4 +15,6 @@
     <color name="bottom_nav_item_background_active">#D2DFDE</color>
 
     <color name="overview_tab_inactive">#63BBB6</color>
+
+    <color name="toolbar_bottom_border">#808080</color>
 </resources>
