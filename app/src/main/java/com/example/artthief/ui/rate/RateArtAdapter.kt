@@ -4,48 +4,60 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 
 class RateArtAdapter : RecyclerView.Adapter<RateArtAdapter.ViewHolder>() {
 
-    private val kode = arrayOf("d116df5",
-        "36ffc75", "f5cfe78", "5b87628",
-        "db8d14e", "9913dc4", "e120f96",
-        "466251b")
+//    {"artThiefID":2012345,"showID":"259","title":"Math Class","artist":"Jeanne Garant","media":"Oil",
+//        "image_large":"https:\/\/artthief.zurka.com\/images\/Large\/12345L-22.jpg",
+//        "image_small":"https:\/\/artthief.zurka.com\/images\/Small\/12345S-22.jpg","width":38,"height":38,"taken":true}
 
-    private val kategori = arrayOf("Kekayaan", "Teknologi",
-        "Keluarga", "Bisnis",
-        "Keluarga", "Hutang",
-        "Teknologi", "Pidana")
+    private val titles = arrayOf(
+        "Math Class", "Mary Elizabeth", "Portrait of D.D.", "Saddle Shoes",
+        "Burnt Offerings", "The Wild Blue Yonder", "Me, Myself, and I",
+        "Gerbera in Pewter Vase"
+    )
 
-    private val isi = arrayOf("pertanyaan 9",
-        "pertanyaan 11", "pertanyaan 17", "test forum",
-        "pertanyaan 12", "pertanyaan 18", "pertanyaan 20",
-        "pertanyaan 21")
+    private val artists = arrayOf(
+        "Jeanne Garant", "Jackie Saunders",
+        "Avis Fleming", "Terry Rowe",
+        "Terry Rowe", "Melissa Hentges",
+        "Melissa Hentges", "Karen Baith"
+    )
+
+    private val media = arrayOf(
+        "Oil", "Ink and Ink Washes", "Ink", "Photography",
+        "Photography", "Collage", "Collage", "Oil"
+    )
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var itemKode: TextView
-        var itemKategori: TextView
-        var itemIsi: TextView
+        var itemImage: ImageView
+
+        var itemTitle: TextView
+        var itemArtist: TextView
+        var itemMedium: TextView
 
         init {
-            itemKode = itemView.findViewById(R.id.text1)
-            itemKategori = itemView.findViewById(R.id.text2)
-            itemIsi = itemView.findViewById(R.id.text3)
+            itemImage = itemView.findViewById(R.id.rv_image)
+
+            itemTitle = itemView.findViewById(R.id.text1)
+            itemArtist = itemView.findViewById(R.id.text2)
+            itemMedium = itemView.findViewById(R.id.text3)
 
             itemView.setOnClickListener {
-                var position: Int = adapterPosition
-                val context = itemView.context
-                val intent = Intent(context, RateFragment::class.java).apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
-                }
-                context.startActivity(intent)
+//                var position: Int = adapterPosition
+//                val context = itemView.context
+//                val intent = Intent(context, RateFragment::class.java).apply {
+//                    putExtra("NUMBER", position)
+//                    putExtra("CODE", itemKode.text)
+//                    putExtra("CATEGORY", itemKategori.text)
+//                    putExtra("CONTENT", itemIsi.text)
+//                }
+//                context.startActivity(intent)
             }
         }
     }
@@ -57,12 +69,14 @@ class RateArtAdapter : RecyclerView.Adapter<RateArtAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemKode.text = kode[i]
-        viewHolder.itemKategori.text = kategori[i]
-        viewHolder.itemIsi.text = isi[i]
+        viewHolder.itemImage.setImageResource(R.drawable.my_image)
+
+        viewHolder.itemTitle.text = titles[i]
+        viewHolder.itemArtist.text = artists[i]
+        viewHolder.itemMedium.text = media[i]
     }
 
     override fun getItemCount(): Int {
-        return kode.size
+        return titles.size
     }
 }

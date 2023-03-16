@@ -16,7 +16,6 @@ class RateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_rate, container, false)
     }
 
