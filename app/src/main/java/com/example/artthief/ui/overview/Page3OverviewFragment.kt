@@ -15,11 +15,4 @@ class Page3OverviewFragment : Fragment() {
     ): View {
         return inflater.inflate(R.layout.fragment_overview_page3, container, false)
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-//            val textView: TextView = view.findViewById(android.R.id.text1)
-//            textView.text = getInt(ARG_OBJECT).toString()
-//        }
-//    }
 }

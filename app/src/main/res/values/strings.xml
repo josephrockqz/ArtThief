@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Art Thief</string>
-    <string name="app_subtitle">Get a steal at the Art League\'s Patrons\' Show</string>
     <string name="title_overview">Overview</string>
     <string name="title_rate">Rate Art</string>
     <string name="title_augmented">Augmented Reality</string>
@@ -13,4 +12,19 @@
     <string name="mi_rate_title">Rate</string>
     <string name="mi_refresh_title">Refresh</string>
     <string name="mi_title_search">Search</string>
+
+    <string name="overview_fragment_1_subtitle">
+        Get a steal at the Art League\'s Patrons\' Show
+    </string>
+    <string name="overview_fragment_1_instruction">
+        Swipe to the left for an overview of the app.
+    </string>
+    <string name="overview_fragment_2_title">The Heist</string>
+    <string name="overview_fragment_2_subtitle">
+        Art Thief makes it easy to build and submit a list of your favorite
+        art from the Art League\'s Patrons\' Show. When your name is selected
+        during the Patron\'s Show drawing, the highest ranked artwork from the
+        list you submitted via Art Thief will be automatically selected
+        as your chosen piece.
+    </string>
 </resources>

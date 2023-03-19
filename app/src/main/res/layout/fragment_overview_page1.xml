@@ -21,28 +21,46 @@
     <TextView
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:text="@string/app_subtitle"
-        android:textSize="16sp"
-        android:textColor="@color/teal_200"
+        android:text="@string/overview_fragment_1_subtitle"
         android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
 
+    <!--
+    Width is calculated by:
+    [burglar vector] width / height * 250dp
+    -->
+    <TextView
+        android:id="@+id/tv_of1_instruction"
+        android:layout_width="218.6dp"
+        android:layout_height="wrap_content"
+        android:text="@string/overview_fragment_1_instruction"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/rl_burglar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <RelativeLayout
+        android:id="@+id/rl_burglar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/burglar"
+            android:id="@+id/iv_burglar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/burglar_1"
             android:adjustViewBounds="true"
             android:cropToPadding="false"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@drawable/burglar_1" />
 
     </RelativeLayout>
 
