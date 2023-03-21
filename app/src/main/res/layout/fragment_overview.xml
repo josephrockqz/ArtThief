@@ -15,7 +15,7 @@
         android:layout_gravity="bottom"
         android:paddingBottom="8dp"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/overview_tab_inactive"
+        app:tabTextColor="@color/art_thief_tertiary"
         app:tabIndicatorHeight="0dp"
         app:tabMaxWidth="37dp"
         app:tabMode="auto" />

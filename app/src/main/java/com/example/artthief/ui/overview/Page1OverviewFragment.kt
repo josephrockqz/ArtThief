@@ -1,14 +1,12 @@
 package com.example.artthief.ui.overview
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import com.example.artthief.R
-import com.google.android.material.tabs.TabLayout
 
 class Page1OverviewFragment : Fragment() {
     override fun onCreateView(
