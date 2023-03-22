@@ -17,4 +17,7 @@
     <color name="overview_tab_inactive">#63BBB6</color>
 
     <color name="toolbar_bottom_border">#808080</color>
+
+    <color name="link_background">#666666</color>
+    <color name="link_background_hover">#7A807D</color>
 </resources>

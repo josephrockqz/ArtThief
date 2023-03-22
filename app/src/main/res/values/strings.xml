@@ -34,6 +34,7 @@
     <string name="overview_fragment_3_bp_3_text">Use the "Compare" feature or drag and drop the artworks with a given star rating to get your art in order with your favorite pieces at the top of your list.</string>
     <string name="overview_fragment_3_bp_4_num">4</string>
     <string name="overview_fragment_3_bp_4_text">Enter the code name that\'s associated with your ticket and submit your list. You can resubmit your list at any time.</string>
+    <string name="overview_fragment_3_link"><a href="https://www.zurka.com/art-thief/instructions.php">Detailed Instructions</a></string>
 
     <!--Overview page 4 strings-->
     <string name="overview_fragment_4_title">Roll Credits</string>
