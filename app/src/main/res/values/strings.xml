@@ -43,4 +43,9 @@
     <string name="overview_fragment_4_zurka">ZURKA</string>
     <string name="overview_fragment_4_interactive">i n t e r a c t i v e</string>
     <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\nsupport@zurka.com</string>
+
+    <!--Augmented tab strings-->
+    <string name="augmented_visualize_header">Visualize Art on Your Wall</string>
+    <string name="augmented_visualize_text">Use that camera on your device to place a virtual copy of the art on any wall.</string>
+    <string name="augmented_visualize_button_text">Launch</string>
 </resources>
