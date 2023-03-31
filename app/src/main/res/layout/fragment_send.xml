@@ -30,7 +30,8 @@
         android:layout_below="@+id/toolbar_top"
         android:layout_margin="20dp"
         android:text="@string/send_fragment_directions"
-        android:textAlignment="center"/>
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 
     <RelativeLayout
         android:id="@+id/rl_input_box"
@@ -38,35 +39,50 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_directions"
         android:layout_marginHorizontal="20dp"
-        android:padding="40dp"
-        android:background="@drawable/launch_button_outline">
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="50dp"
+        android:background="@drawable/send_input_box_background">
 
         <TextView
             android:id="@+id/tv_input_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="6dp"
-            android:text="@string/send_fragment_input_header"/>
+            android:text="@string/send_fragment_input_header"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/et_input_text"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_input_header"
             android:layout_centerHorizontal="true"
+            android:background="@color/white"
             android:hint="@string/send_fragment_input_hint"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="10dp"/>
 
-        <Button
+        <android.widget.Button
+            android:id="@+id/b_send_button"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_below="@id/et_input_text"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/launch_button_background"
+            android:background="@drawable/send_button_background"
+            android:elevation="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="20dp"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="5dp"
             android:text="@string/send_fragment_button_text"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -76,6 +92,7 @@
         android:layout_below="@+id/rl_input_box"
         android:layout_margin="20dp"
         android:text="@string/send_fragment_disclaimer"
-        android:textAlignment="center"/>
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 
 </RelativeLayout>
