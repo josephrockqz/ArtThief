@@ -48,4 +48,11 @@
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>
     <string name="augmented_visualize_text">Use that camera on your device to place a virtual copy of the art on any wall.</string>
     <string name="augmented_visualize_button_text">Launch</string>
+
+    <!--Send tab strings-->
+    <string name="send_fragment_directions">Enter your code name and submit your list ahead of the drawing. Your highest ranked artwork that\'s still available will be selected automatically on your behalf.</string>
+    <string name="send_fragment_input_header">Enter Code Name</string>
+    <string name="send_fragment_input_hint">Assigned to You</string>
+    <string name="send_fragment_button_text">Send _ Artworks</string>
+    <string name="send_fragment_disclaimer">Only artwork with one or more stars are sent. You can update and resend your list anytime.</string>
 </resources>
