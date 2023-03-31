@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -59,6 +59,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_bp_1_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:lineSpacingExtra="5sp"
                 android:text="@string/overview_fragment_3_bp_1_text"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
@@ -97,6 +98,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_bp_2_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:lineSpacingExtra="5sp"
                 android:text="@string/overview_fragment_3_bp_2_text"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
@@ -135,6 +137,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_bp_3_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:lineSpacingExtra="5sp"
                 android:text="@string/overview_fragment_3_bp_3_text"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
@@ -173,6 +176,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_bp_4_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:lineSpacingExtra="5sp"
                 android:text="@string/overview_fragment_3_bp_4_text"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
