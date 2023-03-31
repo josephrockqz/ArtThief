@@ -17,4 +17,6 @@
 
     <color name="link_background">#666666</color>
     <color name="link_background_hover">#7A807D</color>
+
+    <color name="send_button_background">#3E8076</color>
 </resources>
