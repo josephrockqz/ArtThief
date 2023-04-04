@@ -11,12 +11,6 @@
     <string name="nav_item_augmented">Aug. Reality</string>
     <string name="nav_item_send">Send List</string>
 
-    <!--Rate menu titles-->
-    <string name="mi_list_title">List</string>
-    <string name="mi_rate_title">Rate</string>
-    <string name="mi_refresh_title">Refresh</string>
-    <string name="mi_title_search">Search</string>
-
     <!--Overview page 1 strings-->
     <string name="overview_fragment_1_subtitle">Get a steal at the Art League\'s Patrons\' Show</string>
     <string name="overview_fragment_1_instruction">Swipe to the left for an overview of the app.</string>
@@ -43,6 +37,13 @@
     <string name="overview_fragment_4_zurka">ZURKA</string>
     <string name="overview_fragment_4_interactive">i n t e r a c t i v e</string>
     <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\nsupport@zurka.com</string>
+
+    <!--Rate page strings-->
+    <string name="mi_rate_title">Rate</string>
+    <string name="mi_refresh_title">Refresh</string>
+    <string name="mi_title_search">Search</string>
+    <string name="rate_fragment_compare_button">Compare</string>
+    <string name="rate_fragment_unrated">Unrated</string>
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>

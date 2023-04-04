@@ -2,8 +2,6 @@ package com.example.artthief.ui.rate
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
