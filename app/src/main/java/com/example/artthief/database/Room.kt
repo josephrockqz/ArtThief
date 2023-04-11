@@ -6,14 +6,14 @@ import androidx.room.*
 
 @Dao
 interface ArtworksDao {
-    @Query("select * from databaseartwork")
-    fun getVideos(): LiveData<List<DatabaseArtwork>>
+    @Query("select * from databaseArtwork")
+    fun getArtworks(): LiveData<List<DatabaseArtwork>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll( videos: List<DatabaseArtwork>)
+    fun insertAll(
+        artworks: List<DatabaseArtwork>
+    )
 }
-
-
 
 @Database(entities = [DatabaseArtwork::class], version = 1)
 abstract class ArtworksDatabase: RoomDatabase() {

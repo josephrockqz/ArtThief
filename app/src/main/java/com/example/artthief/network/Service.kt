@@ -14,7 +14,7 @@ import retrofit2.http.GET
  */
 interface ArtThiefService {
     @GET("artThiefArtworks")
-    suspend fun getPlaylist(): NetworkArtworkContainer
+    suspend fun getArtworkList(): NetworkArtworkContainer
 }
 
 /**
