@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 /**
  * Repository for fetching Art Thief artwork from the network and storing them on disk
  */
-class VideosRepository(private val database: ArtworksDatabase) {
+class ArtworksRepo(private val database: ArtworksDatabase) {
 
     val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
@@ -27,5 +27,4 @@ class VideosRepository(private val database: ArtworksDatabase) {
             database.artworkDao.insertAll(playlist.asDatabaseModel())
         }
     }
-
 }
