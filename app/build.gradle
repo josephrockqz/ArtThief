@@ -1,11 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.example.artthief'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.artthief"
@@ -48,4 +49,24 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+
+    /**
+     * Room
+     */
+    def room_version = "2.5.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+    // RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+    // RxJava3 support for Room
+    implementation "androidx.room:room-rxjava3:$room_version"
+    // Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    // Paging 3 Integration
+    implementation "androidx.room:room-paging:$room_version"
 }
