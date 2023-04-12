@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
-import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.viewmodels.ArtworksViewModel
 
 class RateFragment : Fragment() {
 
     private lateinit var viewModelAdapter: ArtworkAdapter
-    private lateinit var rvList: RecyclerView
 
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
@@ -70,14 +68,11 @@ class RateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.artworkList.observe(viewLifecycleOwner, Observer<List<ArtThiefArtwork>> { artworks ->
+        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
-                viewModelAdapter?.artworks = artworks
+                viewModelAdapter.artworks = artworks
             }
-        })
-
-//        val searchView = getView()?.findViewById<SearchView>(R.id.mi_search)
-//        searchView?.color
+        }
     }
 
     /**

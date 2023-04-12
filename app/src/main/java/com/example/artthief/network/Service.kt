@@ -3,6 +3,7 @@ package com.example.artthief.network
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * If more services are needed, split into multiple files
@@ -13,8 +14,11 @@ import retrofit2.http.GET
  * A retrofit service to fetch a Art Thief playlist.
  */
 interface ArtThiefService {
-    @GET("artThiefArtworks")
-    suspend fun getArtworkList(): NetworkArtworkContainer
+//    @GET("artThiefArtworks")
+//    suspend fun getArtworkList(): NetworkArtworkContainer
+
+    @GET("artwork")
+    suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
 }
 
 /**
@@ -24,7 +28,7 @@ object ArtThiefNetwork {
 
     // Configure retrofit to parse JSON and use coroutines
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://patronsshow.theartleague.org/api/artwork?passcode=fb56a1e6-ee06-4911-ad33-c35c298fddbd")
+        .baseUrl("https://patronsshow.theartleague.org/api/")
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 

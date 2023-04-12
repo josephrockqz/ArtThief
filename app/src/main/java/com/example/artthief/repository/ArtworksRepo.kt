@@ -27,7 +27,8 @@ class ArtworksRepo(private val database: ArtworksDatabase) {
 
     suspend fun refreshArtworks() {
         withContext(Dispatchers.IO) {
-            val playlist = ArtThiefNetwork.artThiefArtworks.getArtworkList()
+            val playlist = ArtThiefNetwork.artThiefArtworks.getArtworkList("fb56a1e6-ee06-4911-ad33-c35c298fddbd")
+//            database.artworkDao.insertAll(playlist.asDatabaseModel())
             database.artworkDao.insertAll(playlist.asDatabaseModel())
         }
     }
