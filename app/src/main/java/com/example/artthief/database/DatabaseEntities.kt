@@ -14,11 +14,16 @@ import com.example.artthief.domain.ArtThiefArtwork
 @Entity
 data class DatabaseArtwork constructor(
     @PrimaryKey
-    val url: String,
-    val updated: String,
+    val artThiefID: Int,
+    val showID: String,
     val title: String,
-    val description: String,
-    val thumbnail: String
+    val artist: String,
+    val media: String,
+    val image_large: String,
+    val image_small: String,
+    val width: Float,
+    val height: Float,
+    val taken: Boolean
 )
 
 /**
@@ -27,11 +32,16 @@ data class DatabaseArtwork constructor(
 fun List<DatabaseArtwork>.asDomainModel(): List<ArtThiefArtwork> {
     return map {
         ArtThiefArtwork(
-            url = it.url,
+            artThiefID = it.artThiefID,
+            showID = it.showID,
             title = it.title,
-            description = it.description,
-            updated = it.updated,
-            thumbnail = it.thumbnail
+            artist = it.title,
+            media = it.media,
+            image_large = it.image_large,
+            image_small = it.image_small,
+            width = it.width,
+            height = it.height,
+            taken = it.taken
         )
     }
 }

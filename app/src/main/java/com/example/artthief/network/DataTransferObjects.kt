@@ -35,14 +35,28 @@ import com.squareup.moshi.JsonClass
 /**
  * Artworks represent an Art Thief item that can be viewed, rated.
  */
+//@JsonClass(generateAdapter = true)
+//data class NetworkArtwork(
+//    val title: String,
+//    val description: String,
+//    val url: String,
+//    val updated: String,
+//    val thumbnail: String,
+//    val closedCaptions: String?
+//)
+
 @JsonClass(generateAdapter = true)
 data class NetworkArtwork(
+    val artThiefID: Int,
+    val showID: String,
     val title: String,
-    val description: String,
-    val url: String,
-    val updated: String,
-    val thumbnail: String,
-    val closedCaptions: String?
+    val artist: String,
+    val media: String,
+    val image_large: String,
+    val image_small: String,
+    val width: Float,
+    val height: Float,
+    val taken: Boolean
 )
 
 /**
@@ -61,13 +75,18 @@ data class NetworkArtwork(
 //}
 
 fun List<NetworkArtwork>.asDomainModel(): List<ArtThiefArtwork> {
-    return this.map {
+    return map {
         ArtThiefArtwork(
-            url = it.url,
+            artThiefID = it.artThiefID,
+            showID = it.showID,
             title = it.title,
-            description = it.description,
-            updated = it.updated,
-            thumbnail = it.thumbnail
+            artist = it.title,
+            media = it.media,
+            image_large = it.image_large,
+            image_small = it.image_small,
+            width = it.width,
+            height = it.height,
+            taken = it.taken
         )
     }
 }
@@ -88,13 +107,18 @@ fun List<NetworkArtwork>.asDomainModel(): List<ArtThiefArtwork> {
 //}
 
 fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
-    return this.map {
+    return map {
         DatabaseArtwork(
+            artThiefID = it.artThiefID,
+            showID = it.showID,
             title = it.title,
-            description = it.description,
-            url = it.url,
-            updated = it.updated,
-            thumbnail = it.thumbnail
+            artist = it.title,
+            media = it.media,
+            image_large = it.image_large,
+            image_small = it.image_small,
+            width = it.width,
+            height = it.height,
+            taken = it.taken
         )
     }
 }

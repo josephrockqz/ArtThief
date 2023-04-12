@@ -12,11 +12,16 @@ package com.example.artthief.domain
  * Videos represent a devbyte that can be played.
  */
 data class ArtThiefArtwork(
+    val artThiefID: Int,
+    val showID: String,
     val title: String,
-    val description: String,
-    val url: String,
-    val updated: String,
-    val thumbnail: String
+    val artist: String,
+    val media: String,
+    val image_large: String,
+    val image_small: String,
+    val width: Float,
+    val height: Float,
+    val taken: Boolean
 ) {
     // TODO - any calculated fields for an artwork go here
 }
