@@ -1,136 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
 
-    <RelativeLayout
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.artthief.viewmodels.ArtworksViewModel" />
+    </data>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorOnPrimary"
-        tools:context=".ui.rate.RateFragment">
+        android:layout_height="match_parent">
 
-        <!--Toolbar-->
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/toolbar_top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:elevation="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="@string/title_rate"
-                app:menu="@menu/rate_menu"
-                app:navigationIcon="@drawable/ic_list_24dp"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <!--Bottom border for toolbar-->
-        <View
-            android:id="@+id/toolbar_bottom_border"
-            android:background="@color/toolbar_bottom_border"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_below="@+id/toolbar_top"/>
-
-        <!--Artworks container-->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_bottom_border"
-            android:layout_marginStart="15dp">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorOnPrimary"
+            tools:context=".ui.rate.RateFragment">
 
-            <!--Five star artworks container-->
-            <RelativeLayout
-                android:id="@+id/five_stars"
+            <!--Toolbar-->
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/toolbar_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="25dp">
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetEnd="0dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="15dp"
-                    android:orientation="horizontal">
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
+                    android:elevation="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:title="@string/title_rate"
+                    app:menu="@menu/rate_menu"
+                    app:navigationIcon="@drawable/ic_list_24dp"
+                    style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_rate_24dp"
-                        app:tint="@color/art_thief_primary"/>
+            </com.google.android.material.appbar.AppBarLayout>
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_rate_24dp"
-                        app:tint="@color/art_thief_primary"/>
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_rate_24dp"
-                        app:tint="@color/art_thief_primary"/>
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_rate_24dp"
-                        app:tint="@color/art_thief_primary"/>
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_rate_24dp"
-                        app:tint="@color/art_thief_primary"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="@string/rate_fragment_compare_button"/>
-
-            </RelativeLayout>
-
-            <!--Bottom border for five stars-->
+            <!--Bottom border for toolbar-->
             <View
-                android:id="@+id/five_stars_bottom_border"
+                android:id="@+id/toolbar_bottom_border"
                 android:background="@color/toolbar_bottom_border"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_below="@+id/five_stars"/>
+                android:layout_below="@+id/toolbar_top"/>
 
-            <!--Five stars artworks-->
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!--Artworks container-->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/five_stars_bottom_border">
+                android:layout_height="match_parent"
+                android:layout_below="@+id/toolbar_bottom_border"
+                android:layout_marginStart="15dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/art_view"
+                <!--Five star artworks container-->
+                <RelativeLayout
+                    android:id="@+id/five_stars"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="25dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_rate_24dp"
+                            app:tint="@color/art_thief_primary"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_rate_24dp"
+                            app:tint="@color/art_thief_primary"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_rate_24dp"
+                            app:tint="@color/art_thief_primary"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_rate_24dp"
+                            app:tint="@color/art_thief_primary"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_rate_24dp"
+                            app:tint="@color/art_thief_primary"/>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="15dp"
+                        android:text="@string/rate_fragment_compare_button"/>
+
+                </RelativeLayout>
+
+                <!--Bottom border for five stars-->
+                <View
+                    android:id="@+id/five_stars_bottom_border"
+                    android:background="@color/toolbar_bottom_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/five_stars"/>
+
+                <!--Five stars artworks-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/five_stars_bottom_border">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </ScrollView>
 
-</ScrollView>
+</layout>

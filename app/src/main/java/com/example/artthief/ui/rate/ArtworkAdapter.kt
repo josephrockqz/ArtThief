@@ -1,6 +1,6 @@
 package com.example.artthief.ui.rate
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,30 +8,52 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
+import com.example.artthief.domain.ArtThiefArtwork
 
-class RateArtAdapter : RecyclerView.Adapter<RateArtAdapter.ViewHolder>() {
+class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
-//    {"artThiefID":2012345,"showID":"259","title":"Math Class","artist":"Jeanne Garant","media":"Oil",
+//    {
+//        "artThiefID":2012345,
+//        "showID":"259",
+//        "title":"Math Class",
+//        "artist":"Jeanne Garant",
+//        "media":"Oil",
 //        "image_large":"https:\/\/artthief.zurka.com\/images\/Large\/12345L-22.jpg",
-//        "image_small":"https:\/\/artthief.zurka.com\/images\/Small\/12345S-22.jpg","width":38,"height":38,"taken":true}
+//        "image_small":"https:\/\/artthief.zurka.com\/images\/Small\/12345S-22.jpg",
+//        "width":38,
+//        "height":38,
+//        "taken":true
+//    }
 
-    private val titles = arrayOf(
-        "Math Class", "Mary Elizabeth", "Portrait of D.D.", "Saddle Shoes",
-        "Burnt Offerings", "The Wild Blue Yonder", "Me, Myself, and I",
-        "Gerbera in Pewter Vase"
-    )
+    /**
+     * The artworks that our Adapter will show
+     */
+    var artworks: List<ArtThiefArtwork> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            // Notify any registered observers that the data set has changed. This will cause every
+            // element in our RecyclerView to be invalidated.
+            notifyDataSetChanged()
+        }
 
-    private val artists = arrayOf(
-        "Jeanne Garant", "Jackie Saunders",
-        "Avis Fleming", "Terry Rowe",
-        "Terry Rowe", "Melissa Hentges",
-        "Melissa Hentges", "Karen Baith"
-    )
-
-    private val media = arrayOf(
-        "Oil", "Ink and Ink Washes", "Ink", "Photography",
-        "Photography", "Collage", "Collage", "Oil"
-    )
+//    private val titles = arrayOf(
+//        "Math Class", "Mary Elizabeth", "Portrait of D.D.", "Saddle Shoes",
+//        "Burnt Offerings", "The Wild Blue Yonder", "Me, Myself, and I",
+//        "Gerbera in Pewter Vase"
+//    )
+//
+//    private val artists = arrayOf(
+//        "Jeanne Garant", "Jackie Saunders",
+//        "Avis Fleming", "Terry Rowe",
+//        "Terry Rowe", "Melissa Hentges",
+//        "Melissa Hentges", "Karen Baith"
+//    )
+//
+//    private val media = arrayOf(
+//        "Oil", "Ink and Ink Washes", "Ink", "Photography",
+//        "Photography", "Collage", "Collage", "Oil"
+//    )
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -71,12 +93,13 @@ class RateArtAdapter : RecyclerView.Adapter<RateArtAdapter.ViewHolder>() {
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.itemImage.setImageResource(R.drawable.my_image)
 
-        viewHolder.itemTitle.text = titles[i]
-        viewHolder.itemArtist.text = artists[i]
-        viewHolder.itemMedium.text = media[i]
+//        viewHolder.itemTitle.text = titles[i]
+//        viewHolder.itemArtist.text = artists[i]
+//        viewHolder.itemMedium.text = media[i]
     }
 
     override fun getItemCount(): Int {
-        return titles.size
+//        return titles.size
+        return 10
     }
 }

@@ -15,6 +15,10 @@ import kotlinx.coroutines.withContext
  */
 class ArtworksRepo(private val database: ArtworksDatabase) {
 
+    /**
+     * This object is automatically updated when the database is updated
+     * The attached fragment/activity is refreshed with new values
+     */
     val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
     ) {
