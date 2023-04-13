@@ -12,18 +12,26 @@ import com.example.artthief.domain.ArtThiefArtwork
 
 class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
-//    {
-//        "artThiefID":2012345,
-//        "showID":"259",
-//        "title":"Math Class",
-//        "artist":"Jeanne Garant",
-//        "media":"Oil",
-//        "image_large":"https://artthief.zurka.com/images/Large/12345L-22.jpg",
-//        "image_small":"https://artthief.zurka.com/images/Small/12345S-22.jpg",
-//        "width":38,
-//        "height":38,
-//        "taken":true
-//    }
+/**
+ * First level of our network result which looks like:
+
+ * [
+        {
+            "artThiefID":2012345,
+            "showID":"259",
+            "title":"Math Class",
+            "artist":"Jeanne Garant",
+            "media":"Oil",
+            "image_large":"https://artthief.zurka.com/images/Large/12345L-22.jpg",
+            "image_small":"https://artthief.zurka.com/images/Small/12345S-22.jpg",
+            "width":38,
+            "height":38,
+            "taken":true
+        }
+        ...
+   ]
+
+ */
 
     /**
      * The artworks that our Adapter will show
@@ -36,24 +44,6 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
             // element in our RecyclerView to be invalidated.
             notifyDataSetChanged()
         }
-
-//    private val titles = arrayOf(
-//        "Math Class", "Mary Elizabeth", "Portrait of D.D.", "Saddle Shoes",
-//        "Burnt Offerings", "The Wild Blue Yonder", "Me, Myself, and I",
-//        "Gerbera in Pewter Vase"
-//    )
-//
-//    private val artists = arrayOf(
-//        "Jeanne Garant", "Jackie Saunders",
-//        "Avis Fleming", "Terry Rowe",
-//        "Terry Rowe", "Melissa Hentges",
-//        "Melissa Hentges", "Karen Baith"
-//    )
-//
-//    private val media = arrayOf(
-//        "Oil", "Ink and Ink Washes", "Ink", "Photography",
-//        "Photography", "Collage", "Collage", "Oil"
-//    )
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -93,13 +83,10 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.itemImage.setImageResource(R.drawable.my_image)
 
-//        viewHolder.itemTitle.text = titles[i]
-//        viewHolder.itemArtist.text = artists[i]
-//        viewHolder.itemMedium.text = media[i]
+        viewHolder.itemTitle.text = artworks[i].title
     }
 
     override fun getItemCount(): Int {
-//        return titles.size
-        return 10
+        return artworks.size
     }
 }

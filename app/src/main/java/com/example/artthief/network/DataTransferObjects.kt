@@ -11,6 +11,7 @@ import com.squareup.moshi.JsonClass
 
 /**
  * First level of our network result which looks like:
+
  * [
        {
             "artThiefID":2012345,
@@ -25,7 +26,8 @@ import com.squareup.moshi.JsonClass
             "taken":true
         }
         ...
- * ]
+   ]
+
  */
 
 /**
