@@ -14,9 +14,6 @@ import retrofit2.http.Query
  * A retrofit service to fetch a Art Thief playlist.
  */
 interface ArtThiefService {
-//    @GET("artThiefArtworks")
-//    suspend fun getArtworkList(): NetworkArtworkContainer
-
     @GET("artwork")
     suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
 }

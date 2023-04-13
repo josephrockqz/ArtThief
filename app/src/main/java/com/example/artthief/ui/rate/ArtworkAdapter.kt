@@ -18,8 +18,8 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 //        "title":"Math Class",
 //        "artist":"Jeanne Garant",
 //        "media":"Oil",
-//        "image_large":"https:\/\/artthief.zurka.com\/images\/Large\/12345L-22.jpg",
-//        "image_small":"https:\/\/artthief.zurka.com\/images\/Small\/12345S-22.jpg",
+//        "image_large":"https://artthief.zurka.com/images/Large/12345L-22.jpg",
+//        "image_small":"https://artthief.zurka.com/images/Small/12345S-22.jpg",
 //        "width":38,
 //        "height":38,
 //        "taken":true

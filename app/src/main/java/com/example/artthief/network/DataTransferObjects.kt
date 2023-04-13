@@ -6,13 +6,11 @@ import com.squareup.moshi.JsonClass
 
 /**
  * DataTransferObjects are responsible for parsing responses from the server or formatting
- * objects to send to the server. You should convert these to domain objects before using them.
+ * objects to send to the server.
  */
 
 /**
- * ArtworkHolder holds a list of Artwork.
- *
- * This is to parse first level of our network result which looks like:
+ * First level of our network result which looks like:
  * [
        {
             "artThiefID":2012345,
@@ -29,22 +27,10 @@ import com.squareup.moshi.JsonClass
         ...
  * ]
  */
-//@JsonClass(generateAdapter = true)
-//data class NetworkArtworkContainer(val artworks: List<NetworkArtwork>)
 
 /**
  * Artworks represent an Art Thief item that can be viewed, rated.
  */
-//@JsonClass(generateAdapter = true)
-//data class NetworkArtwork(
-//    val title: String,
-//    val description: String,
-//    val url: String,
-//    val updated: String,
-//    val thumbnail: String,
-//    val closedCaptions: String?
-//)
-
 @JsonClass(generateAdapter = true)
 data class NetworkArtwork(
     val artThiefID: Int,
@@ -62,18 +48,6 @@ data class NetworkArtwork(
 /**
  * Convert Network results to database objects
  */
-//fun NetworkArtworkContainer.asDomainModel(): List<ArtThiefArtwork> {
-//    return artworks.map {
-//        ArtThiefArtwork(
-//            url = it.url,
-//            title = it.title,
-//            description = it.description,
-//            updated = it.updated,
-//            thumbnail = it.thumbnail
-//        )
-//    }
-//}
-
 fun List<NetworkArtwork>.asDomainModel(): List<ArtThiefArtwork> {
     return map {
         ArtThiefArtwork(
@@ -94,18 +68,6 @@ fun List<NetworkArtwork>.asDomainModel(): List<ArtThiefArtwork> {
 /**
  * Convert Network results to database objects
  */
-//fun NetworkArtworkContainer.asDatabaseModel(): List<DatabaseArtwork> {
-//    return artworks.map {
-//        DatabaseArtwork(
-//            title = it.title,
-//            description = it.description,
-//            url = it.url,
-//            updated = it.updated,
-//            thumbnail = it.thumbnail
-//        )
-//    }
-//}
-
 fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
     return map {
         DatabaseArtwork(

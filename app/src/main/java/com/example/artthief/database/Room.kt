@@ -9,6 +9,7 @@ interface ArtworksDao {
     @Query("select * from databaseArtwork")
     fun getArtworks(): LiveData<List<DatabaseArtwork>>
 
+    // TODO: update onConflictStrategy so that accounted for artworks' ratings aren't dismissed
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(
         artworks: List<DatabaseArtwork>
