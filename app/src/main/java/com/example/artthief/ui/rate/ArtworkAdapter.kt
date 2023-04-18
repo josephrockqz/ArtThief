@@ -86,12 +86,16 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.artworkImage.setImageResource(R.drawable.my_image)
+//        viewHolder.artworkImage.setImageResource(R.drawable.my_image)
 
         viewHolder.artworkTitle.text = artworks[i].title
         viewHolder.artworkArtist.text = artworks[i].artist
         viewHolder.artworkMedia.text = artworks[i].media
-//        viewHolder.artworkDimensions.text = artworks[i].height
+
+        val width = artworks[i].width.toString()
+        val height = artworks[i].height.toString()
+        val dimensions = "$width\" by $height\""
+        viewHolder.artworkDimensions.text = dimensions
 
         viewHolder.artworkShowId.text = artworks[i].showID
     }
