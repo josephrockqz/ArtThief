@@ -47,18 +47,23 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var itemImage: ImageView
+        var artworkImage: ImageView
 
-        var itemTitle: TextView
-        var itemArtist: TextView
-        var itemMedium: TextView
+        var artworkTitle: TextView
+        var artworkArtist: TextView
+        var artworkMedia: TextView
+        var artworkDimensions: TextView
+        var artworkShowId: TextView
 
         init {
-            itemImage = itemView.findViewById(R.id.rv_image)
+            artworkImage = itemView.findViewById(R.id.iv_artImage)
 
-            itemTitle = itemView.findViewById(R.id.text1)
-            itemArtist = itemView.findViewById(R.id.text2)
-            itemMedium = itemView.findViewById(R.id.text3)
+            artworkTitle = itemView.findViewById(R.id.tv_artTitle)
+            artworkArtist = itemView.findViewById(R.id.tv_artArtist)
+            artworkMedia = itemView.findViewById(R.id.tv_artMedia)
+            artworkDimensions = itemView.findViewById(R.id.tv_artDimensions)
+
+            artworkShowId = itemView.findViewById(R.id.tv_artShowId)
 
             itemView.setOnClickListener {
 //                var position: Int = adapterPosition
@@ -81,9 +86,14 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-        viewHolder.itemImage.setImageResource(R.drawable.my_image)
+        viewHolder.artworkImage.setImageResource(R.drawable.my_image)
 
-        viewHolder.itemTitle.text = artworks[i].title
+        viewHolder.artworkTitle.text = artworks[i].title
+        viewHolder.artworkArtist.text = artworks[i].artist
+        viewHolder.artworkMedia.text = artworks[i].media
+//        viewHolder.artworkDimensions.text = artworks[i].height
+
+        viewHolder.artworkShowId.text = artworks[i].showID
     }
 
     override fun getItemCount(): Int {
