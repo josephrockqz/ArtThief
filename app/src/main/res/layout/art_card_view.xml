@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -40,26 +41,30 @@
                     android:id="@+id/tv_artTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hallelujah"
+                    android:text="Title"
+                    android:textColor="@color/black"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tv_artArtist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hallelujah"/>
+                    android:text="Artist"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/tv_artMedia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hallelujah"/>
+                    android:text="Media"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/tv_artDimensions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hallelujah"/>
+                    android:text="Dimensions"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -72,7 +77,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:text="135"/>
+            android:text="Show ID"/>
 
     </RelativeLayout>
 

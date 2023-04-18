@@ -14,8 +14,7 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
 /**
  * First level of our network result which looks like:
-
- * [
+   [
         {
             "artThiefID":2012345,
             "showID":"259",
@@ -30,7 +29,6 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
         }
         ...
    ]
-
  */
 
     /**
