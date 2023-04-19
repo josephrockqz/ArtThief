@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/my_image" />
+                android:src="@drawable/burglar_1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
