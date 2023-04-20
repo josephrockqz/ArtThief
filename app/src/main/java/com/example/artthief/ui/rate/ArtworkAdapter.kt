@@ -65,6 +65,7 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
             artworkShowId = itemView.findViewById(R.id.tv_artShowId)
 
+            // TODO: add temporary functionality so that clicking on an artwork row rates it 1-5
             itemView.setOnClickListener {
 //                var position: Int = adapterPosition
 //                val context = itemView.context
@@ -97,10 +98,12 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
         val dimensions = "$width\" by $height\""
         viewHolder.artworkDimensions.text = dimensions
 
+        // TODO: add stars to this text field temporarily to show artworks' rating
         viewHolder.artworkShowId.text = artworks[i].showID
     }
 
     override fun getItemCount(): Int {
+        // TODO: item count depends on how many sections there are (1-6 sections)
         return artworks.size
     }
 }

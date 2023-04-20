@@ -68,8 +68,11 @@ class RateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO: log here to see when this function is called - navigating tabs?
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
+                // TODO: update so artworks are sorted by number of stars in decreasing order
+                // TODO: might want to add entries here that represent sections, i.e. stars = -1
                 val sortedArtworks = artworks.sortedBy { it.title }
                 viewModelAdapter.artworks = sortedArtworks
             }
