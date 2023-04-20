@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
+            Log.i("howdy", value[1].toString())
             // Notify any registered observers that the data set has changed. This will cause every
             // element in our RecyclerView to be invalidated.
             notifyDataSetChanged()

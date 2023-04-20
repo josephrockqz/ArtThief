@@ -70,7 +70,8 @@ class RateFragment : Fragment() {
 
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
-                viewModelAdapter.artworks = artworks
+                val sortedArtworks = artworks.sortedBy { it.title }
+                viewModelAdapter.artworks = sortedArtworks
             }
         }
     }

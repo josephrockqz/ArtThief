@@ -36,7 +36,7 @@ fun List<DatabaseArtwork>.asDomainModel(): List<ArtThiefArtwork> {
             artThiefID = it.artThiefID,
             showID = it.showID,
             title = it.title,
-            artist = it.title,
+            artist = it.artist,
             media = it.media,
             image_large = it.image_large,
             image_small = it.image_small,
