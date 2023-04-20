@@ -9,8 +9,11 @@ interface ArtworksDao {
     @Query("select * from databaseArtwork")
     fun getArtworks(): LiveData<List<DatabaseArtwork>>
 
-    // TODO: update onConflictStrategy so that accounted for artworks' ratings aren't dismissed
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    /**
+     * On conflict strategy is ignore. This way, if an artwork has already been given
+     * a rating, its rating will not be lost
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(
         artworks: List<DatabaseArtwork>
     )

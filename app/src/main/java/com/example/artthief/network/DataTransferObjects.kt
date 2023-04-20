@@ -62,7 +62,8 @@ fun List<NetworkArtwork>.asDomainModel(): List<ArtThiefArtwork> {
             image_small = it.image_small,
             width = it.width,
             height = it.height,
-            taken = it.taken
+            taken = it.taken,
+            stars = 0 // 0 stars represents that it's unrated
         )
     }
 }
@@ -82,7 +83,8 @@ fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
             image_small = it.image_small,
             width = it.width,
             height = it.height,
-            taken = it.taken
+            taken = it.taken,
+            stars = 0 // 0 stars represents that it's unrated
         )
     }
 }

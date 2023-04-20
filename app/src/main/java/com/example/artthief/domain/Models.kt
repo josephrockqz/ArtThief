@@ -7,10 +7,6 @@ package com.example.artthief.domain
  * @see database for objects that are mapped to the database
  * @see network for objects that parse or prepare network calls
  */
-
-/**
- * Videos represent a devbyte that can be played.
- */
 data class ArtThiefArtwork(
     val artThiefID: Int,
     val showID: String,
@@ -21,7 +17,8 @@ data class ArtThiefArtwork(
     val image_small: String,
     val width: Float,
     val height: Float,
-    val taken: Boolean
+    val taken: Boolean,
+    val stars: Int
 ) {
     // TODO - any calculated fields for an artwork go here
 }
