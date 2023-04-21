@@ -5,9 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.artthief.R
+import com.example.artthief.viewmodels.ArtworksViewModel
 
 class Page4OverviewFragment : Fragment() {
+
+    // TODO: use view model to retrieve highest rated artwork and display in this fragment
+    private val viewModel: ArtworksViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -5,8 +5,8 @@ import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
@@ -17,20 +17,7 @@ class RateFragment : Fragment() {
 
     private lateinit var viewModelAdapter: ArtworkRatingAdapter
 
-    /**
-     * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
-     * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
-     * do in this Fragment.
-     */
-    private val viewModel: ArtworksViewModel by lazy {
-        val activity = requireNotNull(this.activity) {
-            "You can only access the viewModel after onActivityCreated()"
-        }
-        ViewModelProvider(
-            this,
-            ArtworksViewModel.Factory(activity.application)
-        )[ArtworksViewModel::class.java]
-    }
+    private val viewModel: ArtworksViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
