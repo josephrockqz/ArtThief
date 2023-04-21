@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
+import com.squareup.picasso.Picasso
 
 class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolder>() {
 
@@ -65,7 +66,6 @@ class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolde
 
             // TODO: add temporary functionality so that clicking on an artwork row rates it 1-5
             itemView.setOnClickListener {
-
 //                var position: Int = adapterPosition
 //                val context = itemView.context
 //                val intent = Intent(context, RateFragment::class.java).apply {
@@ -87,6 +87,10 @@ class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolde
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
 //        viewHolder.artworkImage.setImageResource(R.drawable.my_image)
+        Picasso
+            .get()
+            .load("https://artthief.zurka.com/images/Large/12345L-22.jpg")
+            .into(viewHolder.artworkImage)
 
         viewHolder.artworkTitle.text = artworks[i].title
         viewHolder.artworkArtist.text = artworks[i].artist
