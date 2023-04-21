@@ -1,7 +1,6 @@
 package com.example.artthief.ui.rate
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,7 +104,7 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        // TODO: item count depends on how many sections there are (1-6 sections)
+        // TODO: item count depends on how many sections there are (1-6 sections), might not be necessary
         return artworks.size
     }
 }
