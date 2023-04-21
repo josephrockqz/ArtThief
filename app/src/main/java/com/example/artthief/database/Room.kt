@@ -17,6 +17,12 @@ interface ArtworksDao {
     fun insertAll(
         artworks: List<DatabaseArtwork>
     )
+
+    // TODO: check to see this actually works
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(
+        artwork: DatabaseArtwork
+    )
 }
 
 @Database(entities = [DatabaseArtwork::class], version = 1)

@@ -15,7 +15,7 @@ import com.example.artthief.viewmodels.ArtworksViewModel
 
 class RateFragment : Fragment() {
 
-    private lateinit var viewModelAdapter: ArtworkAdapter
+    private lateinit var viewModelAdapter: ArtworkRatingAdapter
 
     /**
      * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
@@ -50,7 +50,9 @@ class RateFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModelAdapter = ArtworkAdapter()
+        // TODO: dynamically assign adapter based on if what toggle is selected
+        // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
+        viewModelAdapter = ArtworkRatingAdapter()
 
         binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
@@ -70,6 +72,7 @@ class RateFragment : Fragment() {
 
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
+                // TODO: add conditional logic for what type of adapter is in use
                 val sortedArtworks = artworks.sortedByDescending { it.stars }
                 // TODO: add entries here that represent sections, i.e. stars = -1
                 viewModelAdapter.artworks = sortedArtworks

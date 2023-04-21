@@ -2,6 +2,7 @@ package com.example.artthief.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.repository.ArtworksRepo
@@ -88,6 +89,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun updateArtworkRating(artwork: DatabaseArtwork) {
+        artworksRepo.updateArtworkRating(artwork)
+    }
+
     /**
      * Resets the network error flag.
      */
@@ -107,6 +112,5 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
             }
             throw IllegalArgumentException("Unable to construct view model")
         }
-
     }
 }

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 
-class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
+class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolder>() {
 
 /**
  * First level of our network result which looks like:
@@ -65,6 +65,7 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
             // TODO: add temporary functionality so that clicking on an artwork row rates it 1-5
             itemView.setOnClickListener {
+
 //                var position: Int = adapterPosition
 //                val context = itemView.context
 //                val intent = Intent(context, RateFragment::class.java).apply {
