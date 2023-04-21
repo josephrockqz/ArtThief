@@ -39,7 +39,6 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
-            Log.i("howdy", value[1].toString())
             // Notify any registered observers that the data set has changed. This will cause every
             // element in our RecyclerView to be invalidated.
             notifyDataSetChanged()
@@ -98,8 +97,11 @@ class ArtworkAdapter : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
         val dimensions = "$width\" by $height\""
         viewHolder.artworkDimensions.text = dimensions
 
-        // TODO: add stars to this text field temporarily to show artworks' rating
-        viewHolder.artworkShowId.text = artworks[i].showID
+        // TODO: remove stars rating from this text field after infrastructure is in place
+        val showId = artworks[i].showID
+        val stars = artworks[i].stars.toString()
+        val showIdAndStars = "$showId + $stars"
+        viewHolder.artworkShowId.text = showIdAndStars
     }
 
     override fun getItemCount(): Int {
