@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -39,7 +40,13 @@ class RateFragment : Fragment() {
 
         // TODO: dynamically assign adapter based on if what toggle is selected
         // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
-        viewModelAdapter = ArtworkRatingAdapter()
+        viewModelAdapter = ArtworkRatingAdapter(
+            object: ArtworkRatingAdapter.ArtworkClickListener {
+                override fun onArtworkClicked(artThiefId: Int) {
+                    showArtworkFragment(artThiefId)
+                }
+            }
+        )
 
         binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(context)
@@ -75,5 +82,14 @@ class RateFragment : Fragment() {
             Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
             viewModel.onNetworkErrorShown()
         }
+    }
+
+    fun showArtworkFragment(artThiefId: Int) {
+        Log.i("howdy", artThiefId.toString())
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.nav_host_fragment_activity_main, ArtworkFragment(artThiefId))
+//        transaction?.disallowAddToBackStack()
+        transaction?.addToBackStack("artwork")
+        transaction?.commit()
     }
 }

@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,9 @@ import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.squareup.picasso.Picasso
 
-class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolder>() {
+class ArtworkRatingAdapter(
+    private val artworkClickListener: ArtworkClickListener
+) : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolder>() {
 
 /**
  * First level of our network result which looks like:
@@ -44,6 +47,10 @@ class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolde
             notifyDataSetChanged()
         }
 
+    interface ArtworkClickListener {
+        fun onArtworkClicked(artThiefId: Int)
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var artworkImage: ImageView
@@ -64,17 +71,9 @@ class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolde
 
             artworkShowId = itemView.findViewById(R.id.tv_artShowId)
 
-            // TODO: add temporary functionality so that clicking on an artwork row rates it 1-5
             itemView.setOnClickListener {
-//                var position: Int = adapterPosition
-//                val context = itemView.context
-//                val intent = Intent(context, RateFragment::class.java).apply {
-//                    putExtra("NUMBER", position)
-//                    putExtra("CODE", itemKode.text)
-//                    putExtra("CATEGORY", itemKategori.text)
-//                    putExtra("CONTENT", itemIsi.text)
-//                }
-//                context.startActivity(intent)
+                val position: Int = adapterPosition
+                artworkClickListener.onArtworkClicked(artworks[position].artThiefID)
             }
         }
     }
@@ -86,10 +85,10 @@ class ArtworkRatingAdapter : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolde
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
-//        viewHolder.artworkImage.setImageResource(R.drawable.my_image)
         Picasso
             .get()
-            .load("https://artthief.zurka.com/images/Large/12345L-22.jpg")
+//            .load(artworks[i].image_small)
+            .load("https://artthief.zurka.com/images/Small/12345S-22.jpg")
             .into(viewHolder.artworkImage)
 
         viewHolder.artworkTitle.text = artworks[i].title
