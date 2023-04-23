@@ -10,24 +10,34 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
+import com.example.artthief.ui.overview.OverviewPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
 
 class ArtworkFragment : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
+    private lateinit var artworkPagerAdapter: ArtworkPagerAdapter
+    private lateinit var viewPager: ViewPager
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.i("howdy", "made ittttt")
-//        Log.i("howdy", artThiefId.toString())
         return inflater.inflate(R.layout.fragment_artwork, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // configure pager adapter
+        artworkPagerAdapter = ArtworkPagerAdapter(childFragmentManager)
+        viewPager = view.findViewById(R.id.pager_artwork)
+        viewPager.adapter = artworkPagerAdapter
+
+        // back button on click listener
         val navigationIcon = view.findViewById<ViewGroup>(R.id.topAppBarArtwork)[1]
         navigationIcon.setOnClickListener {
             view.findNavController().navigate(R.id.action_artworkToRate)
@@ -40,13 +50,4 @@ class ArtworkFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
     }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        Log.i("howdy", "on options item selected")
-//        when (item.itemId) {
-//            R.id.mi_augmented -> Log.i("howdy", "augmented menu item")
-//        }
-//
-//        return super.onOptionsItemSelected(item)
-//    }
 }
