@@ -30,7 +30,9 @@
         android:label="@string/title_artwork"
         tools:layout="@layout/fragment_artwork">
 
-        <!--TODO: define action to return to rate fragment if necessary-->
+        <action
+            android:id="@+id/action_artworkToRate"
+            app:destination="@+id/navigation_rate"/>
 
     </fragment>
 
