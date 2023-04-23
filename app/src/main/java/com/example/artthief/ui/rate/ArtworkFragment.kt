@@ -33,12 +33,19 @@ class ArtworkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // configure pager adapter
-        artworkPagerAdapter = ArtworkPagerAdapter(
-            childFragmentManager,
-            viewModel.artworkList.value!!.size
-        )
+        artworkPagerAdapter = ArtworkPagerAdapter(childFragmentManager)
         viewPager = view.findViewById(R.id.pager_artwork)
         viewPager.adapter = artworkPagerAdapter
+
+        // sort artworks so that pages are in correct order
+        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
+            artworks?.apply {
+                // TODO: add conditional logic for what type of adapter is in use
+                val sortedArtworks = artworks.sortedByDescending { it.stars }
+                // TODO: add entries here that represent sections, i.e. stars = -1
+                artworkPagerAdapter.artworks = sortedArtworks
+            }
+        }
 
         // back button on click listener
         val navigationIcon = view.findViewById<ViewGroup>(R.id.topAppBarArtwork)[1]
