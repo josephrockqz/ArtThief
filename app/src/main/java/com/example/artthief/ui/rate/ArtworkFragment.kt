@@ -10,9 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.artthief.R
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-class ArtworkFragment(
-    private val artThiefId: Int
-) : Fragment() {
+class ArtworkFragment() : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
@@ -22,7 +20,7 @@ class ArtworkFragment(
         savedInstanceState: Bundle?
     ): View {
         Log.i("howdy", "made ittttt")
-        Log.i("howdy", artThiefId.toString())
+//        Log.i("howdy", artThiefId.toString())
         return inflater.inflate(R.layout.fragment_artwork, container, false)
     }
 }

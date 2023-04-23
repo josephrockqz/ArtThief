@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
@@ -48,7 +49,7 @@ class ArtworkRatingAdapter(
         }
 
     interface ArtworkClickListener {
-        fun onArtworkClicked(artThiefId: Int)
+        fun onArtworkClicked(artThiefId: Int, view: View)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -73,7 +74,7 @@ class ArtworkRatingAdapter(
 
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
-                artworkClickListener.onArtworkClicked(artworks[position].artThiefID)
+                artworkClickListener.onArtworkClicked(artworks[position].artThiefID, itemView)
             }
         }
     }

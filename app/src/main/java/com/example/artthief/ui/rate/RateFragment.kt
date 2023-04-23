@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
@@ -42,8 +43,8 @@ class RateFragment : Fragment() {
         // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
         viewModelAdapter = ArtworkRatingAdapter(
             object: ArtworkRatingAdapter.ArtworkClickListener {
-                override fun onArtworkClicked(artThiefId: Int) {
-                    showArtworkFragment(artThiefId)
+                override fun onArtworkClicked(artThiefId: Int, view: View) {
+                    showArtworkFragment(artThiefId, view)
                 }
             }
         )
@@ -84,12 +85,8 @@ class RateFragment : Fragment() {
         }
     }
 
-    fun showArtworkFragment(artThiefId: Int) {
+    fun showArtworkFragment(artThiefId: Int, view: View) {
         Log.i("howdy", artThiefId.toString())
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.nav_host_fragment_activity_main, ArtworkFragment(artThiefId))
-//        transaction?.disallowAddToBackStack()
-        transaction?.addToBackStack("artwork")
-        transaction?.commit()
+        view.findNavController().navigate(R.id.action_rateToArtwork)
     }
 }

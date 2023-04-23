@@ -15,7 +15,24 @@
         android:id="@+id/navigation_rate"
         android:name="com.example.artthief.ui.rate.RateFragment"
         android:label="@string/title_rate"
-        tools:layout="@layout/fragment_rate" />
+        tools:layout="@layout/fragment_rate">
+
+        <action
+            android:id="@+id/action_rateToArtwork"
+            app:destination="@+id/navigation_artwork"/>
+
+    </fragment>
+
+    <!--Artwork fragment: NOT part of app bar configuration-->
+    <fragment
+        android:id="@+id/navigation_artwork"
+        android:name="com.example.artthief.ui.rate.ArtworkFragment"
+        android:label="@string/title_artwork"
+        tools:layout="@layout/fragment_artwork">
+
+        <!--TODO: define action to return to rate fragment if necessary-->
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_augmented"
