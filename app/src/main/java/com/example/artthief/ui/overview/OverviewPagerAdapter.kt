@@ -6,7 +6,12 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class OverviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    override fun getCount(): Int = 4
+    companion object {
+        const val PAGE_COUNT = 4
+        const val PAGE_TITLE = "\u2B24"
+    }
+
+    override fun getCount(): Int = PAGE_COUNT
 
     override fun getItem(i: Int): Fragment {
         return when (i) {
@@ -17,13 +22,5 @@ class OverviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence {
-//        return when (position) {
-//            0 -> "1"
-//            1 -> "2"
-//            2 -> "3"
-//            else -> "4"
-//        }
-        return "\u2B24"
-    }
+    override fun getPageTitle(position: Int): CharSequence = PAGE_TITLE
 }
