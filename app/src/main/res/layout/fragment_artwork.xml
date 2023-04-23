@@ -29,13 +29,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    <TextView-->
-<!--        android:id="@+id/tv_howdy"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="?attr/actionBarSize"-->
-<!--        android:text="HOWDY" />-->
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager_artwork"
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ class Page1OverviewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         // set burglar vector's relative layout bottom margin
         val burglarLayout = requireView().findViewById<RelativeLayout>(R.id.rl_burglar)
         val burglarLayoutParams = burglarLayout.layoutParams as ViewGroup.MarginLayoutParams

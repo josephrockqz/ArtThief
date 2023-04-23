@@ -1,0 +1,31 @@
+package com.example.artthief.ui.rate
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.example.artthief.R
+import com.example.artthief.viewmodels.ArtworksViewModel
+
+class PageArtworkFragment(i: Int) : Fragment() {
+
+    private val viewModel: ArtworksViewModel by activityViewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_artwork_page, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // TODO: dynamically set appbar title, picture, rating, title, etc.
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+}
