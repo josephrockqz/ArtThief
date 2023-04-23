@@ -47,6 +47,7 @@
     <string name="rate_fragment_unrated">Unrated</string>
 
     <!--Artwork page strings-->
+    <string name="mi_augmented">Augmented Reality</string>
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>

@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.artthief.R
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-class ArtworkFragment() : Fragment() {
+class ArtworkFragment : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 

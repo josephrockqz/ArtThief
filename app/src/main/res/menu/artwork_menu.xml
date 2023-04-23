@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mi_augmented"
+        android:icon="@drawable/ic_augmented_2_24dp"
+        android:title="@string/mi_augmented"
+        app:showAsAction="ifRoom" />
+
+</menu>
