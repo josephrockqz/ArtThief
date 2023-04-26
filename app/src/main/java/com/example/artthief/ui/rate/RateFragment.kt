@@ -43,8 +43,8 @@ class RateFragment : Fragment() {
         // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
         viewModelAdapter = ArtworkRatingAdapter(
             object: ArtworkRatingAdapter.ArtworkClickListener {
-                override fun onArtworkClicked(artThiefId: Int, view: View) {
-                    showArtworkFragment(artThiefId, view)
+                override fun onArtworkClicked(position: Int, view: View) {
+                    showArtworkFragment(position, view)
                 }
             }
         )
@@ -85,8 +85,8 @@ class RateFragment : Fragment() {
         }
     }
 
-    fun showArtworkFragment(artThiefId: Int, view: View) {
-        Log.i("howdy", artThiefId.toString())
+    fun showArtworkFragment(position: Int, view: View) {
+        viewModel.currentArtwork = position
         view.findNavController().navigate(R.id.action_rateToArtwork)
     }
 }

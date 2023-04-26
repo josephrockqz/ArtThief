@@ -49,7 +49,7 @@ class ArtworkRatingAdapter(
         }
 
     interface ArtworkClickListener {
-        fun onArtworkClicked(artThiefId: Int, view: View)
+        fun onArtworkClicked(position: Int, view: View)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -74,7 +74,7 @@ class ArtworkRatingAdapter(
 
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
-                artworkClickListener.onArtworkClicked(artworks[position].artThiefID, itemView)
+                artworkClickListener.onArtworkClicked(position, itemView)
             }
         }
     }

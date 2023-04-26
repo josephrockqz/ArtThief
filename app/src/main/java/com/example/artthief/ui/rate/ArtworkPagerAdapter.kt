@@ -3,12 +3,14 @@ package com.example.artthief.ui.rate
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.artthief.domain.ArtThiefArtwork
 
 class ArtworkPagerAdapter(
     fm: FragmentManager
-) : FragmentPagerAdapter(fm) {
+) : FragmentStatePagerAdapter(fm) {
+
+    // TODO: have it so initial index of pager adapter can be non-zero
 
     /**
      * The artworks that our Adapter will show
