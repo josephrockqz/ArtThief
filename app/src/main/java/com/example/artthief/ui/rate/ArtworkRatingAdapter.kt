@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.utils.stringifyArtworkDimensions
 import com.squareup.picasso.Picasso
 
 class ArtworkRatingAdapter(
@@ -96,10 +97,13 @@ class ArtworkRatingAdapter(
         viewHolder.artworkArtist.text = artworks[i].artist
         viewHolder.artworkMedia.text = artworks[i].media
 
-        val width = artworks[i].width.toString()
-        val height = artworks[i].height.toString()
-        val dimensions = "$width\" by $height\""
-        viewHolder.artworkDimensions.text = dimensions
+//        val width = artworks[i].width.toString()
+//        val height = artworks[i].height.toString()
+//        val dimensions = "$width\" by $height\""
+        viewHolder.artworkDimensions.text = stringifyArtworkDimensions(
+            artworks[i].width,
+            artworks[i].height
+        )
 
         // TODO: remove stars rating from this text field after infrastructure is in place
         val showId = artworks[i].showID

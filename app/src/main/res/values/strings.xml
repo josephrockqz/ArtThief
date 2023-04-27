@@ -48,6 +48,10 @@
 
     <!--Artwork page strings-->
     <string name="mi_augmented">Augmented Reality</string>
+    <string name="artwork_default_author">Author</string>
+    <string name="artwork_default_media">Media</string>
+    <string name="artwork_default_dimensions">X.Y" by A.B"</string>
+    <string name="artwork_default_show_id">542</string>
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>
