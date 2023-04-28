@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.utils.stringifyArtworkDimensions
+import com.google.android.material.appbar.MaterialToolbar
 
 class PageArtworkFragment(
     private val artwork: ArtThiefArtwork = ArtThiefArtwork(
@@ -32,7 +34,6 @@ class PageArtworkFragment(
         savedInstanceState: Bundle?
     ): View {
         // TODO: change color of appbar icons
-        // TODO: dynamically set appbar title
 
         return inflater.inflate(R.layout.fragment_artwork_page, container, false)
     }
@@ -41,6 +42,10 @@ class PageArtworkFragment(
 
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
+        Log.i("howdy", artwork.toString())
+
+        // TODO: Fix what title is displayed (use async maybe)
+        parentFragment?.view?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)?.title = artwork.title
 
         view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
         view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media
