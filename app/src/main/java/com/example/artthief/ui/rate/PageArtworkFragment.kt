@@ -9,9 +9,22 @@ import androidx.fragment.app.Fragment
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.utils.stringifyArtworkDimensions
+import java.lang.Float
 
 class PageArtworkFragment(
-    private val artwork: ArtThiefArtwork
+    private val artwork: ArtThiefArtwork = ArtThiefArtwork(
+        artThiefID = 0,
+        showID = "",
+        title = "",
+        artist = "",
+        media = "",
+        image_large = "",
+        image_small = "",
+        width = 1.toFloat(),
+        height = 1.toFloat(),
+        taken = true,
+        stars = 0 // 0 stars represents that it's unrated
+    )
 ) : Fragment() {
 
     override fun onCreateView(
@@ -24,7 +37,12 @@ class PageArtworkFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        // TODO: change color of stars dynamically to reflect artwork's rating
+        // TODO: add functionality to handle star clicks: update db rating and color
+
         // TODO: dynamically set appbar title
+//        activity?.actionBar?.title = artwork.title
+
         view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
         view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media
         view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
