@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.artthief.R
+import com.google.android.material.appbar.MaterialToolbar
 
 class SendFragment : Fragment() {
 
@@ -18,6 +19,10 @@ class SendFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // make title centered
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.sendFragmentAppBar)
+        toolbar.isTitleCentered = true
 
         val numArtworks = 56
         val buttonText = "Send $numArtworks Artworks"

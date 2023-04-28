@@ -3,7 +3,6 @@ package com.example.artthief.ui.rate
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
@@ -12,8 +11,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
-import com.example.artthief.ui.overview.OverviewPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class ArtworkFragment : Fragment() {
 
@@ -49,9 +48,12 @@ class ArtworkFragment : Fragment() {
             }
         }
 
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+        // make title centered
+        toolbar.isTitleCentered = true
         // back button on click listener
-        val navigationIcon = view.findViewById<ViewGroup>(R.id.topAppBarArtwork)[1]
-        navigationIcon.setOnClickListener {
+        toolbar[1].setOnClickListener {
             view.findNavController().navigate(R.id.action_artworkToRate)
         }
 

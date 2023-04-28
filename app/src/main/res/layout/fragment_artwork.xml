@@ -18,7 +18,7 @@
         app:contentInsetEnd="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBarArtwork"
+            android:id="@+id/artworkFragmentAppBar"
             android:elevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

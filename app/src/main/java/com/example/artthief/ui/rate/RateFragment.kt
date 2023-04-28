@@ -1,7 +1,6 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class RateFragment : Fragment() {
 
@@ -73,6 +73,10 @@ class RateFragment : Fragment() {
                 viewModelAdapter.artworks = sortedArtworks
             }
         }
+
+        // make title centered
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
+        toolbar.isTitleCentered = true
     }
 
     /**

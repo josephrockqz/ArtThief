@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.utils.stringifyArtworkDimensions
-import java.lang.Float
 
 class PageArtworkFragment(
     private val artwork: ArtThiefArtwork = ArtThiefArtwork(
@@ -32,6 +31,9 @@ class PageArtworkFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // TODO: change color of appbar icons
+        // TODO: dynamically set appbar title
+
         return inflater.inflate(R.layout.fragment_artwork_page, container, false)
     }
 
@@ -39,9 +41,6 @@ class PageArtworkFragment(
 
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
-
-        // TODO: dynamically set appbar title
-//        activity?.actionBar?.title = artwork.title
 
         view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
         view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media

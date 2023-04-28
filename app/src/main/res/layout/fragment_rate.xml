@@ -29,7 +29,7 @@
             app:contentInsetEnd="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
+                android:id="@+id/rateFragmentAppBar"
                 android:elevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
