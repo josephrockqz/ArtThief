@@ -44,9 +44,7 @@ class ArtworkFragment : Fragment() {
                 val sortedArtworks = artworks.sortedByDescending { it.stars }
                 // TODO: add entries here that represent sections, i.e. stars = -1
                 artworkPagerAdapter.artworks = sortedArtworks
-                /**
-                 * Set view pager's artwork based on what row (artwork) is pressed
-                 */
+                // Set view pager's artwork based on what row (artwork) is pressed
                 viewPager.currentItem = viewModel.currentArtwork
             }
         }

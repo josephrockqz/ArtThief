@@ -24,15 +24,10 @@ class PageArtworkFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // TODO: dynamically set appbar title, picture, rating, title, etc.
+        // TODO: dynamically set appbar title
         view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
         view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media
         view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
-
-//        val width = artwork.width.toString()
-//        val height = artwork.height.toString()
-//        val dimensions = "$width\" by $height\""
-//        view.findViewById<TextView>(R.id.tv_artworkDimensions).text = dimensions
         view.findViewById<TextView>(R.id.tv_artworkDimensions).text =
             stringifyArtworkDimensions(
                 artwork.width,

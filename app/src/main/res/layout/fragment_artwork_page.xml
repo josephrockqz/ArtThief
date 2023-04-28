@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
+    <!--Artwork picture container-->
     <FrameLayout
         android:id="@+id/fl_pictureContainer"
         android:layout_width="match_parent"
@@ -17,98 +20,129 @@
 
     </FrameLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!--Artwork Info Card-->
+    <LinearLayout
         android:id="@+id/cl_infoContainer"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:background="@drawable/artwork_card_background"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fl_pictureContainer"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <!--Top half of card-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            android:layout_weight="1">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
-                app:tint="@color/art_thief_primary"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
-                app:tint="@color/art_thief_primary"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
-                app:tint="@color/art_thief_primary"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
-                app:tint="@color/art_thief_primary"/>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
-                app:tint="@color/art_thief_primary"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/tv_artworkArtist"
+            <!--Stars - rating-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/artwork_default_author"/>
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
-                android:id="@+id/tv_artworkMedia"
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_rate_sharp_24dp"
+                    app:tint="@color/art_thief_primary"/>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_rate_sharp_24dp"
+                    app:tint="@color/art_thief_primary"/>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_rate_sharp_24dp"
+                    app:tint="@color/art_thief_primary"/>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_rate_sharp_24dp"
+                    app:tint="@color/art_thief_primary"/>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_rate_sharp_24dp"
+                    app:tint="@color/art_thief_primary"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--Bottom half of card-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:layout_weight="1">
+
+            <!--Bottom left - artist, media, dimensions-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/artwork_default_media"/>
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
+                <TextView
+                    android:id="@+id/tv_artworkArtist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/artwork_default_author"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tv_artworkMedia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/artwork_default_media"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tv_artworkDimensions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/artwork_default_dimensions"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <!--Bottom right - show ID-->
             <TextView
-                android:id="@+id/tv_artworkDimensions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/artwork_default_dimensions"/>
+                android:id="@+id/tv_artworkShowId"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/artwork_show_id_background"
+                android:gravity="center"
+                android:text="@string/artwork_default_show_id"
+                android:textColor="@color/art_thief_primary"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tv_artworkShowId"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_gravity="center"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/artwork_show_id_background"
-            android:gravity="center"
-            android:text="@string/artwork_default_show_id"
-            android:textColor="@color/art_thief_primary"
-            android:textSize="14sp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

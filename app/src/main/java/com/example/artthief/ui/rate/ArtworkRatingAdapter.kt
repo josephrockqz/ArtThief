@@ -97,9 +97,6 @@ class ArtworkRatingAdapter(
         viewHolder.artworkArtist.text = artworks[i].artist
         viewHolder.artworkMedia.text = artworks[i].media
 
-//        val width = artworks[i].width.toString()
-//        val height = artworks[i].height.toString()
-//        val dimensions = "$width\" by $height\""
         viewHolder.artworkDimensions.text = stringifyArtworkDimensions(
             artworks[i].width,
             artworks[i].height

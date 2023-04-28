@@ -13,6 +13,8 @@
 
     <color name="overview_tab_inactive">#63BBB6</color>
 
+    <color name="artwork_card_background">#DDDDDD</color>
+
     <color name="toolbar_bottom_border">#808080</color>
 
     <color name="link_background">#666666</color>
