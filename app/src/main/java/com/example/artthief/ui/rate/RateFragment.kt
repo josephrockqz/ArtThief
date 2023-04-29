@@ -90,7 +90,7 @@ class RateFragment : Fragment() {
     }
 
     fun showArtworkFragment(position: Int, view: View) {
-        viewModel.currentArtwork = position
-        view.findNavController().navigate(R.id.action_rateToArtwork)
+        viewModel.currentArtworkIndex = position
+        activity?.findNavController(R.id.nav_host_fragment_activity_main)?.navigate(R.id.action_rateToArtwork)
     }
 }

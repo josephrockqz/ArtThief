@@ -67,7 +67,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      * Integer to represent current artwork selected to display the
      * appropriate page in view pager.
      */
-    var currentArtwork = 0
+    var currentArtworkIndex = 0
 
     /**
      * init{} is called immediately when this ViewModel is created.

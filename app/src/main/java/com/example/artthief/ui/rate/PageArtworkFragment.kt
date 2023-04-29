@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.utils.stringifyArtworkDimensions
+import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
+// TODO: move default parameter to different file
 class PageArtworkFragment(
     private val artwork: ArtThiefArtwork = ArtThiefArtwork(
         artThiefID = 0,
@@ -28,6 +31,8 @@ class PageArtworkFragment(
     )
 ) : Fragment() {
 
+    private val viewModel: ArtworksViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +48,9 @@ class PageArtworkFragment(
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
         Log.i("howdy", artwork.toString())
+
+        val currentArtworkIndex = viewModel.currentArtworkIndex
+        Log.i("howdy", currentArtworkIndex.toString())
 
         // TODO: Fix what title is displayed (use async maybe)
         parentFragment?.view?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)?.title = artwork.title
