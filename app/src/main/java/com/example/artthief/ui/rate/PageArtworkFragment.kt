@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.utils.stringifyArtworkDimensions
@@ -38,31 +39,45 @@ class PageArtworkFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // TODO: change color of appbar icons
-
+        Log.i("howdy", "created artwork page")
         return inflater.inflate(R.layout.fragment_artwork_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        // TODO: change color of appbar icons
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
+
         Log.i("howdy", artwork.toString())
 
-        val currentArtworkIndex = viewModel.currentArtworkIndex
-        Log.i("howdy", currentArtworkIndex.toString())
+        /**
+         * set app bar title to the current artwork's title
+         */
+        val viewPager = parentFragment
+            ?.view
+            ?.findViewById<ViewPager>(R.id.pager_artwork)
+        val currentViewPagerIndex = viewPager?.currentItem
+        val currentArtworkTitle = currentViewPagerIndex?.let {
+            viewModel.artworkList.value?.get(it)?.title
+        }
+        parentFragment
+            ?.view
+            ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+            ?.title = currentArtworkTitle
 
-        // TODO: Fix what title is displayed (use async maybe)
-        parentFragment?.view?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)?.title = artwork.title
-
+        /**
+         * set artwork card information to current artwork's:
+         * artist, media, dimensions, show ID
+         */
         view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
         view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media
-        view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
         view.findViewById<TextView>(R.id.tv_artworkDimensions).text =
             stringifyArtworkDimensions(
                 artwork.width,
                 artwork.height
             )
+        view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
 
         super.onViewCreated(view, savedInstanceState)
     }
