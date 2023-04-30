@@ -26,11 +26,6 @@ class ArtworkFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val currentDestination = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.currentDestination
-        val backQueue = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.backQueue
-        Log.i("flavor - current destination", currentDestination.toString())
-        Log.i("flavor - back queue", backQueue.toString())
-
         return inflater.inflate(R.layout.fragment_artwork, container, false)
     }
 
@@ -53,13 +48,11 @@ class ArtworkFragment : Fragment() {
             }
         }
 
-
         val toolbar = view.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
         // make title centered
         toolbar.isTitleCentered = true
         // back button on click listener
         toolbar[1].setOnClickListener {
-//            view.findNavController().navigate(R.id.action_artworkToRate)
             view.findNavController().popBackStack()
         }
 

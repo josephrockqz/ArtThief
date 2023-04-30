@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
@@ -39,17 +40,20 @@ class PageArtworkFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.i("howdy", "created artwork page")
         return inflater.inflate(R.layout.fragment_artwork_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // TODO: fix artwork view pager when returning from other tab
+        if (artwork.showID == "") {
+            activity
+                ?.findNavController(R.id.nav_host_fragment_activity_main)
+                ?.popBackStack(R.id.navigation_rate, false)
+        }
+
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
-
-        Log.i("howdy", artwork.toString())
+        // TODO: dynamically set artwork's image view source
 
         /**
          * set app bar title to the current artwork's title

@@ -60,11 +60,6 @@ class RateFragment : Fragment() {
             if (isNetworkError) onNetworkError()
         })
 
-        val currentDestination = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.currentDestination
-        val backQueue = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.backQueue
-        Log.i("flavor - current destination", currentDestination.toString())
-        Log.i("flavor - back queue", backQueue.toString())
-
         return binding.root
     }
 

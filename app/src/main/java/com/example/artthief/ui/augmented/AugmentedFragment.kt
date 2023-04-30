@@ -16,11 +16,6 @@ class AugmentedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val currentDestination = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.currentDestination
-        val backQueue = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.backQueue
-        Log.i("flavor - current destination", currentDestination.toString())
-        Log.i("flavor - back queue", backQueue.toString())
-
         return inflater.inflate(R.layout.fragment_augmented, container, false)
     }
 }
