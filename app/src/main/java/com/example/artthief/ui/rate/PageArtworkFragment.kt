@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,6 +16,7 @@ import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.utils.stringifyArtworkDimensions
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import com.squareup.picasso.Picasso
 
 // TODO: move default parameter to different file
 class PageArtworkFragment(
@@ -45,6 +47,10 @@ class PageArtworkFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        /**
+         * navigate back to rate fragment if artwork fragment is being opened
+         * directly from a different tab - not from the rate fragment
+         */
         if (artwork.showID == "") {
             activity
                 ?.findNavController(R.id.nav_host_fragment_activity_main)
@@ -53,7 +59,16 @@ class PageArtworkFragment(
 
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
-        // TODO: dynamically set artwork's image view source
+
+        /**
+         * dynamically set artwork's image view source
+         */
+        val artworkPageImage = view.findViewById<ImageView>(R.id.iv_artworkPageImage)
+        Picasso
+            .get()
+//            .load(artworks[i].image_small)
+            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
+            .into(artworkPageImage)
 
         /**
          * set app bar title to the current artwork's title
