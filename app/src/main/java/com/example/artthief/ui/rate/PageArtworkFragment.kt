@@ -45,7 +45,7 @@ class PageArtworkFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // TODO: change color of appbar icons
+        // TODO: fix artwork view pager when returning from other tab
         // TODO: change color of stars dynamically to reflect artwork's rating
         // TODO: add functionality to handle star clicks: update db rating and color
 
