@@ -26,6 +26,11 @@ class ArtworkFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val currentDestination = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.currentDestination
+        val backQueue = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.backQueue
+        Log.i("flavor - current destination", currentDestination.toString())
+        Log.i("flavor - back queue", backQueue.toString())
+
         return inflater.inflate(R.layout.fragment_artwork, container, false)
     }
 
@@ -54,7 +59,8 @@ class ArtworkFragment : Fragment() {
         toolbar.isTitleCentered = true
         // back button on click listener
         toolbar[1].setOnClickListener {
-            view.findNavController().navigate(R.id.action_artworkToRate)
+//            view.findNavController().navigate(R.id.action_artworkToRate)
+            view.findNavController().popBackStack()
         }
 
         // TODO: have on click listener launch augmented activity

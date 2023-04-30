@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -58,6 +59,11 @@ class RateFragment : Fragment() {
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
+
+        val currentDestination = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.currentDestination
+        val backQueue = activity?.findNavController(R.id.nav_host_fragment_activity_main)?.backQueue
+        Log.i("flavor - current destination", currentDestination.toString())
+        Log.i("flavor - back queue", backQueue.toString())
 
         return binding.root
     }
