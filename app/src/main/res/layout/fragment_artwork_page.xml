@@ -52,34 +52,34 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <ImageView
+                    android:id="@+id/iv_artworkPageStar1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_rate_sharp_24dp"
-                    app:tint="@color/art_thief_primary"/>
+                    android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
+                    android:id="@+id/iv_artworkPageStar2"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_rate_sharp_24dp"
-                    app:tint="@color/art_thief_primary"/>
+                    android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
+                    android:id="@+id/iv_artworkPageStar3"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_rate_sharp_24dp"
-                    app:tint="@color/art_thief_primary"/>
+                    android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
+                    android:id="@+id/iv_artworkPageStar4"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_rate_sharp_24dp"
-                    app:tint="@color/art_thief_primary"/>
+                    android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
+                    android:id="@+id/iv_artworkPageStar5"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_rate_sharp_24dp"
-                    app:tint="@color/art_thief_primary"/>
+                    android:src="@drawable/ic_rate_sharp_24dp"/>
 
             </LinearLayout>
 

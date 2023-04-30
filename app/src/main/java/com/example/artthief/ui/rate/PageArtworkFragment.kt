@@ -1,7 +1,8 @@
 package com.example.artthief.ui.rate
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.picasso.Picasso
 
 // TODO: move default parameter to different file
+@SuppressLint("UseCompatLoadingForDrawables")
 class PageArtworkFragment(
     private val artwork: ArtThiefArtwork = ArtThiefArtwork(
         artThiefID = 0,
@@ -36,6 +38,19 @@ class PageArtworkFragment(
 ) : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
+
+    private val starFilledDrawable: Drawable by lazy {
+        resources.getDrawable(R.drawable.ic_rate_sharp_24dp)
+    }
+    private val starUnfilledDrawable: Drawable by lazy {
+        resources.getDrawable(R.drawable.ic_rate_sharp_unfilled_24dp)
+    }
+
+    private lateinit var star1: ImageView
+    private lateinit var star2: ImageView
+    private lateinit var star3: ImageView
+    private lateinit var star4: ImageView
+    private lateinit var star5: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,9 +71,6 @@ class PageArtworkFragment(
                 ?.findNavController(R.id.nav_host_fragment_activity_main)
                 ?.popBackStack(R.id.navigation_rate, false)
         }
-
-        // TODO: change color of stars dynamically to reflect artwork's rating
-        // TODO: add functionality to handle star clicks: update db rating and color
 
         /**
          * dynamically set artwork's image view source
@@ -98,6 +110,70 @@ class PageArtworkFragment(
             )
         view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
 
+        // TODO: change color of stars dynamically to reflect artwork's rating on page load
+        // TODO: add functionality to handle star clicks: update db rating
+        // TODO: add functionality so that clicking already assigned rating makes it unrated (0 stars)
+        star1 = view.findViewById(R.id.iv_artworkPageStar1)
+        star2 = view.findViewById(R.id.iv_artworkPageStar2)
+        star3 = view.findViewById(R.id.iv_artworkPageStar3)
+        star4 = view.findViewById(R.id.iv_artworkPageStar4)
+        star5 = view.findViewById(R.id.iv_artworkPageStar5)
+        star1.setOnClickListener {
+            handleStarClick(1)
+        }
+        star2.setOnClickListener {
+            handleStarClick(2)
+        }
+        star3.setOnClickListener {
+            handleStarClick(3)
+        }
+        star4.setOnClickListener {
+            handleStarClick(4)
+        }
+        star5.setOnClickListener {
+            handleStarClick(5)
+        }
+
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun handleStarClick(star: Int) {
+        when(star) {
+            1 -> {
+                star1.setImageDrawable(starFilledDrawable)
+                star2.setImageDrawable(starUnfilledDrawable)
+                star3.setImageDrawable(starUnfilledDrawable)
+                star4.setImageDrawable(starUnfilledDrawable)
+                star5.setImageDrawable(starUnfilledDrawable)
+            }
+            2 -> {
+                star1.setImageDrawable(starFilledDrawable)
+                star2.setImageDrawable(starFilledDrawable)
+                star3.setImageDrawable(starUnfilledDrawable)
+                star4.setImageDrawable(starUnfilledDrawable)
+                star5.setImageDrawable(starUnfilledDrawable)
+            }
+            3 -> {
+                star1.setImageDrawable(starFilledDrawable)
+                star2.setImageDrawable(starFilledDrawable)
+                star3.setImageDrawable(starFilledDrawable)
+                star4.setImageDrawable(starUnfilledDrawable)
+                star5.setImageDrawable(starUnfilledDrawable)
+            }
+            4 -> {
+                star1.setImageDrawable(starFilledDrawable)
+                star2.setImageDrawable(starFilledDrawable)
+                star3.setImageDrawable(starFilledDrawable)
+                star4.setImageDrawable(starFilledDrawable)
+                star5.setImageDrawable(starUnfilledDrawable)
+            }
+            5 -> {
+                star1.setImageDrawable(starFilledDrawable)
+                star2.setImageDrawable(starFilledDrawable)
+                star3.setImageDrawable(starFilledDrawable)
+                star4.setImageDrawable(starFilledDrawable)
+                star5.setImageDrawable(starFilledDrawable)
+            }
+        }
     }
 }
