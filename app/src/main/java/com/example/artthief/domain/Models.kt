@@ -1,5 +1,8 @@
 package com.example.artthief.domain
 
+import com.example.artthief.database.DatabaseArtwork
+import com.example.artthief.network.NetworkArtwork
+
 /**
  * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
  * objects that should be displayed on screen, or manipulated by the app.
@@ -21,4 +24,23 @@ data class ArtThiefArtwork(
     val rating: Int
 ) {
     // TODO - any calculated fields for an artwork go here
+}
+
+/**
+ * Convert Domain entity to database object
+ */
+fun ArtThiefArtwork.asDatabaseModel(): DatabaseArtwork {
+    return DatabaseArtwork(
+        artThiefID = this.artThiefID,
+        showID = this.showID,
+        title = this.title,
+        artist = this.artist,
+        media = this.media,
+        image_large = this.image_large,
+        image_small = this.image_small,
+        width = this.width,
+        height = this.height,
+        taken = this.taken,
+        rating = this.rating
+    )
 }

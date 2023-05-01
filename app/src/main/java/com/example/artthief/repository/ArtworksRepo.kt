@@ -33,7 +33,9 @@ class ArtworksRepo(private val database: ArtworksDatabase) {
         }
     }
 
-    fun updateArtworkRating(artwork: DatabaseArtwork) {
-        database.artworkDao.insert(artwork)
+    suspend fun updateArtworkRating(artwork: DatabaseArtwork) {
+        withContext(Dispatchers.IO) {
+            database.artworkDao.insert(artwork)
+        }
     }
 }

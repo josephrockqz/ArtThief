@@ -3,6 +3,7 @@ package com.example.artthief.ui.rate
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,12 @@ import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.utils.stringifyArtworkDimensions
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.coroutineScope
 
 // TODO: move default parameter to different file
 @SuppressLint("UseCompatLoadingForDrawables")
@@ -110,41 +113,28 @@ class PageArtworkFragment(
             )
         view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
 
+        /**
+         * Set star click listeners
+         */
         star1 = view.findViewById(R.id.iv_artworkPageStar1)
+        star1.setOnClickListener { handleStarClick(1) }
         star2 = view.findViewById(R.id.iv_artworkPageStar2)
+        star2.setOnClickListener { handleStarClick(2) }
         star3 = view.findViewById(R.id.iv_artworkPageStar3)
+        star3.setOnClickListener { handleStarClick(3) }
         star4 = view.findViewById(R.id.iv_artworkPageStar4)
+        star4.setOnClickListener { handleStarClick(4) }
         star5 = view.findViewById(R.id.iv_artworkPageStar5)
+        star5.setOnClickListener { handleStarClick(5) }
         setStarDrawables(artwork.rating)
-        // TODO: add functionality to handle star clicks: update db rating
-        // TODO: add functionality so that clicking already assigned rating makes it unrated (0 stars)
-        star1.setOnClickListener {
-            handleStarClick(1)
-        }
-        star2.setOnClickListener {
-            handleStarClick(2)
-        }
-        star3.setOnClickListener {
-            handleStarClick(3)
-        }
-        star4.setOnClickListener {
-            handleStarClick(4)
-        }
-        star5.setOnClickListener {
-            handleStarClick(5)
-        }
 
         super.onViewCreated(view, savedInstanceState)
     }
 
+    // TODO: add functionality so that clicking already assigned rating makes it unrated (0 stars)
     private fun handleStarClick(rating: Int) {
-        when(rating) {
-            1 -> setStarDrawables(rating)
-            2 -> setStarDrawables(rating)
-            3 -> setStarDrawables(rating)
-            4 -> setStarDrawables(rating)
-            5 -> setStarDrawables(rating)
-        }
+        setStarDrawables(rating)
+        updateArtworkRatingDatabase(rating)
     }
 
     private fun setStarDrawables(rating: Int) {
@@ -153,5 +143,14 @@ class PageArtworkFragment(
         if (rating > 2) star3.setImageDrawable(starFilledDrawable) else star3.setImageDrawable(starUnfilledDrawable)
         if (rating > 3) star4.setImageDrawable(starFilledDrawable) else star4.setImageDrawable(starUnfilledDrawable)
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
+    }
+
+    // TODO: fix bug where changing artwork rating messes up app bar titles & jumps around
+    private fun updateArtworkRatingDatabase(rating: Int) {
+        viewModel.updateArtworkRating(
+            artwork
+                .copy(rating = rating)
+                .asDatabaseModel()
+        )
     }
 }

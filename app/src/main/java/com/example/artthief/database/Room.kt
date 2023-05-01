@@ -18,7 +18,10 @@ interface ArtworksDao {
         artworks: List<DatabaseArtwork>
     )
 
-    // TODO: check to see this actually works
+    /**
+     * On conflict strategy is replace. The intent is to replace the row (artwork)
+     * entry in the database with an updated rating
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(
         artwork: DatabaseArtwork

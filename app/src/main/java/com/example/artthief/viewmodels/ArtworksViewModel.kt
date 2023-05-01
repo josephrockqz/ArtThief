@@ -97,7 +97,9 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun updateArtworkRating(artwork: DatabaseArtwork) {
-        artworksRepo.updateArtworkRating(artwork)
+        viewModelScope.launch {
+            artworksRepo.updateArtworkRating(artwork)
+        }
     }
 
     /**
