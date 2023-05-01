@@ -23,7 +23,15 @@ data class ArtThiefArtwork(
     val taken: Boolean,
     val rating: Int
 ) {
-    // TODO - any calculated fields for an artwork go here
+    /**
+     * Dimensions is used for displaying artwork's 2 dimensions
+     */
+    val dimensions: String
+        get() {
+            val width = width.toString()
+            val height = height.toString()
+            return "$width\" by $height\""
+        }
 }
 
 /**

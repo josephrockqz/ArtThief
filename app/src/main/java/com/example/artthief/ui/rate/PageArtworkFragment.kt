@@ -106,11 +106,7 @@ class PageArtworkFragment(
          */
         view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
         view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media
-        view.findViewById<TextView>(R.id.tv_artworkDimensions).text =
-            stringifyArtworkDimensions(
-                artwork.width,
-                artwork.height
-            )
+        view.findViewById<TextView>(R.id.tv_artworkDimensions).text = artwork.dimensions
         view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
 
         /**

@@ -97,10 +97,7 @@ class ArtworkRatingAdapter(
         viewHolder.artworkArtist.text = artworks[i].artist
         viewHolder.artworkMedia.text = artworks[i].media
 
-        viewHolder.artworkDimensions.text = stringifyArtworkDimensions(
-            artworks[i].width,
-            artworks[i].height
-        )
+        viewHolder.artworkDimensions.text = artworks[i].dimensions
 
         // TODO: remove stars rating from this text field after infrastructure is in place
         val showId = artworks[i].showID
