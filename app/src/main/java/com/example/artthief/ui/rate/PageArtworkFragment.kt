@@ -16,11 +16,9 @@ import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
-import com.example.artthief.utils.stringifyArtworkDimensions
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.coroutineScope
 
 // TODO: move default parameter to different file
 @SuppressLint("UseCompatLoadingForDrawables")
@@ -88,17 +86,22 @@ class PageArtworkFragment(
         /**
          * set app bar title to the current artwork's title
          */
-        val viewPager = parentFragment
+        // TODO: fix bug where first artwork's title is wrong when swiped to
+        val currentViewPagerIndex = parentFragment
             ?.view
             ?.findViewById<ViewPager>(R.id.pager_artwork)
-        val currentViewPagerIndex = viewPager?.currentItem
-        val currentArtworkTitle = currentViewPagerIndex?.let {
-            viewModel.artworkList.value?.get(it)?.title
+            ?.currentItem
+        Log.i("howdy", currentViewPagerIndex.toString())
+        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
+            artworks?.apply {
+                val sortedArtworks = artworks.sortedByDescending { it.rating }
+                val currentArtworkTitle = sortedArtworks[currentViewPagerIndex!!].title
+                parentFragment
+                    ?.view
+                    ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+                    ?.title = currentArtworkTitle
+            }
         }
-        parentFragment
-            ?.view
-            ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-            ?.title = currentArtworkTitle
 
         /**
          * set artwork card information to current artwork's:
@@ -145,7 +148,7 @@ class PageArtworkFragment(
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
     }
 
-    // TODO: fix bug where changing artwork rating messes up app bar titles & jumps around
+    // TODO: fix bug where changing artwork rating jumps around
     private fun updateArtworkRatingDatabase(rating: Int) {
         viewModel.updateArtworkRating(
             artwork

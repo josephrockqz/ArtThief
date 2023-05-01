@@ -29,6 +29,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     /**
      * A list of artworks displayed on the screen
      */
+    // TODO: centralize artwork list sorted by rating
     val artworkList = artworksRepo.artworks
 
     /**
@@ -78,6 +79,13 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
+     * Resets the network error flag.
+     */
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
+    }
+
+    /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
@@ -96,17 +104,14 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun getSortedArtworkList(): List<ArtThiefArtwork> {
+        return artworkList.value?.sortedByDescending { it.rating }!!
+    }
+
     fun updateArtworkRating(artwork: DatabaseArtwork) {
         viewModelScope.launch {
             artworksRepo.updateArtworkRating(artwork)
         }
-    }
-
-    /**
-     * Resets the network error flag.
-     */
-    fun onNetworkErrorShown() {
-        _isNetworkErrorShown.value = true
     }
 
     /**

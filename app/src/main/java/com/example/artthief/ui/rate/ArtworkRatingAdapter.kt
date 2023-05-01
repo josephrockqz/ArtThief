@@ -56,7 +56,6 @@ class ArtworkRatingAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var artworkImage: ImageView
-
         var artworkTitle: TextView
         var artworkArtist: TextView
         var artworkMedia: TextView
@@ -65,12 +64,10 @@ class ArtworkRatingAdapter(
 
         init {
             artworkImage = itemView.findViewById(R.id.iv_artImage)
-
             artworkTitle = itemView.findViewById(R.id.tv_artTitle)
             artworkArtist = itemView.findViewById(R.id.tv_artArtist)
             artworkMedia = itemView.findViewById(R.id.tv_artMedia)
             artworkDimensions = itemView.findViewById(R.id.tv_artDimensions)
-
             artworkShowId = itemView.findViewById(R.id.tv_artShowId)
 
             itemView.setOnClickListener {
@@ -90,20 +87,14 @@ class ArtworkRatingAdapter(
         Picasso
             .get()
 //            .load(artworks[i].image_small)
-            .load("https://artthief.zurka.com/images/Small/12345S-22.jpg")
+            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
             .into(viewHolder.artworkImage)
 
         viewHolder.artworkTitle.text = artworks[i].title
         viewHolder.artworkArtist.text = artworks[i].artist
         viewHolder.artworkMedia.text = artworks[i].media
-
         viewHolder.artworkDimensions.text = artworks[i].dimensions
-
-        // TODO: remove stars rating from this text field after infrastructure is in place
-        val showId = artworks[i].showID
-        val stars = artworks[i].rating.toString()
-        val showIdAndStars = "$showId + $stars"
-        viewHolder.artworkShowId.text = showIdAndStars
+        viewHolder.artworkShowId.text = artworks[i].showID
     }
 
     override fun getItemCount(): Int {

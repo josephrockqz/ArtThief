@@ -49,15 +49,20 @@ class RateFragment : Fragment() {
             }
         )
 
-        binding.root.findViewById<RecyclerView>(R.id.recycler_view).apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = viewModelAdapter
-        }
+        binding
+            .root
+            .findViewById<RecyclerView>(R.id.recycler_view)
+            .apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = viewModelAdapter
+            }
 
         // Observer for the network error.
-        viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
-            if (isNetworkError) onNetworkError()
-        })
+        viewModel
+            .eventNetworkError
+            .observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+                if (isNetworkError) onNetworkError()
+            })
 
         return binding.root
     }
@@ -70,7 +75,6 @@ class RateFragment : Fragment() {
                 // TODO: add conditional logic for what type of adapter is in use
                 // TODO: create common util function(s) for sorting
                 val sortedArtworks = artworks.sortedByDescending { it.rating }
-                // TODO: add entries here that represent sections, i.e. stars = -1
                 viewModelAdapter.artworks = sortedArtworks
             }
         }
@@ -85,13 +89,17 @@ class RateFragment : Fragment() {
      */
     private fun onNetworkError() {
         if(!viewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+            Toast
+                .makeText(activity, "Network Error", Toast.LENGTH_LONG)
+                .show()
             viewModel.onNetworkErrorShown()
         }
     }
 
     fun showArtworkFragment(position: Int, view: View) {
         viewModel.currentArtworkIndex = position
-        activity?.findNavController(R.id.nav_host_fragment_activity_main)?.navigate(R.id.action_rateToArtwork)
+        activity
+            ?.findNavController(R.id.nav_host_fragment_activity_main)
+            ?.navigate(R.id.action_rateToArtwork)
     }
 }
