@@ -131,10 +131,14 @@ class PageArtworkFragment(
         super.onViewCreated(view, savedInstanceState)
     }
 
-    // TODO: add functionality so that clicking already assigned rating makes it unrated (0 stars)
     private fun handleStarClick(rating: Int) {
-        setStarDrawables(rating)
-        updateArtworkRatingDatabase(rating)
+        if (rating == artwork.rating) {
+            setStarDrawables(0)
+            updateArtworkRatingDatabase(0)
+        } else {
+            setStarDrawables(rating)
+            updateArtworkRatingDatabase(rating)
+        }
     }
 
     private fun setStarDrawables(rating: Int) {
