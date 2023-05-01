@@ -40,7 +40,7 @@ class ArtworkFragment : Fragment() {
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
                 // TODO: add conditional logic for what type of adapter is in use
-                val sortedArtworks = artworks.sortedByDescending { it.stars }
+                val sortedArtworks = artworks.sortedByDescending { it.rating }
                 // TODO: add entries here that represent sections, i.e. stars = -1
                 artworkPagerAdapter.artworks = sortedArtworks
                 // Set view pager's artwork based on what row (artwork) is pressed

@@ -18,7 +18,7 @@ data class ArtThiefArtwork(
     val width: Float,
     val height: Float,
     val taken: Boolean,
-    val stars: Int
+    val rating: Int
 ) {
     // TODO - any calculated fields for an artwork go here
 }

@@ -33,7 +33,7 @@ class PageArtworkFragment(
         width = 1.toFloat(),
         height = 1.toFloat(),
         taken = true,
-        stars = 0 // 0 stars represents that it's unrated
+        rating = 0 // 0 stars represents that it's unrated
     )
 ) : Fragment() {
 
@@ -110,14 +110,14 @@ class PageArtworkFragment(
             )
         view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
 
-        // TODO: change color of stars dynamically to reflect artwork's rating on page load
-        // TODO: add functionality to handle star clicks: update db rating
-        // TODO: add functionality so that clicking already assigned rating makes it unrated (0 stars)
         star1 = view.findViewById(R.id.iv_artworkPageStar1)
         star2 = view.findViewById(R.id.iv_artworkPageStar2)
         star3 = view.findViewById(R.id.iv_artworkPageStar3)
         star4 = view.findViewById(R.id.iv_artworkPageStar4)
         star5 = view.findViewById(R.id.iv_artworkPageStar5)
+        setStarDrawables(artwork.rating)
+        // TODO: add functionality to handle star clicks: update db rating
+        // TODO: add functionality so that clicking already assigned rating makes it unrated (0 stars)
         star1.setOnClickListener {
             handleStarClick(1)
         }
@@ -137,43 +137,21 @@ class PageArtworkFragment(
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun handleStarClick(star: Int) {
-        when(star) {
-            1 -> {
-                star1.setImageDrawable(starFilledDrawable)
-                star2.setImageDrawable(starUnfilledDrawable)
-                star3.setImageDrawable(starUnfilledDrawable)
-                star4.setImageDrawable(starUnfilledDrawable)
-                star5.setImageDrawable(starUnfilledDrawable)
-            }
-            2 -> {
-                star1.setImageDrawable(starFilledDrawable)
-                star2.setImageDrawable(starFilledDrawable)
-                star3.setImageDrawable(starUnfilledDrawable)
-                star4.setImageDrawable(starUnfilledDrawable)
-                star5.setImageDrawable(starUnfilledDrawable)
-            }
-            3 -> {
-                star1.setImageDrawable(starFilledDrawable)
-                star2.setImageDrawable(starFilledDrawable)
-                star3.setImageDrawable(starFilledDrawable)
-                star4.setImageDrawable(starUnfilledDrawable)
-                star5.setImageDrawable(starUnfilledDrawable)
-            }
-            4 -> {
-                star1.setImageDrawable(starFilledDrawable)
-                star2.setImageDrawable(starFilledDrawable)
-                star3.setImageDrawable(starFilledDrawable)
-                star4.setImageDrawable(starFilledDrawable)
-                star5.setImageDrawable(starUnfilledDrawable)
-            }
-            5 -> {
-                star1.setImageDrawable(starFilledDrawable)
-                star2.setImageDrawable(starFilledDrawable)
-                star3.setImageDrawable(starFilledDrawable)
-                star4.setImageDrawable(starFilledDrawable)
-                star5.setImageDrawable(starFilledDrawable)
-            }
+    private fun handleStarClick(rating: Int) {
+        when(rating) {
+            1 -> setStarDrawables(rating)
+            2 -> setStarDrawables(rating)
+            3 -> setStarDrawables(rating)
+            4 -> setStarDrawables(rating)
+            5 -> setStarDrawables(rating)
         }
+    }
+
+    private fun setStarDrawables(rating: Int) {
+        if (rating > 0) star1.setImageDrawable(starFilledDrawable) else star1.setImageDrawable(starUnfilledDrawable)
+        if (rating > 1) star2.setImageDrawable(starFilledDrawable) else star2.setImageDrawable(starUnfilledDrawable)
+        if (rating > 2) star3.setImageDrawable(starFilledDrawable) else star3.setImageDrawable(starUnfilledDrawable)
+        if (rating > 3) star4.setImageDrawable(starFilledDrawable) else star4.setImageDrawable(starUnfilledDrawable)
+        if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
     }
 }

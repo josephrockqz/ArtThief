@@ -104,7 +104,7 @@ class ArtworkRatingAdapter(
 
         // TODO: remove stars rating from this text field after infrastructure is in place
         val showId = artworks[i].showID
-        val stars = artworks[i].stars.toString()
+        val stars = artworks[i].rating.toString()
         val showIdAndStars = "$showId + $stars"
         viewHolder.artworkShowId.text = showIdAndStars
     }
