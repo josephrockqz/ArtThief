@@ -128,14 +128,13 @@ class PageArtworkFragment(
         super.onViewCreated(view, savedInstanceState)
     }
 
-    // TODO: fix bug where clicking star with current rating doesn't unrate artwork
     private fun handleStarClick(rating: Int) {
-        Log.i("current rating", artwork.rating.toString())
-        Log.i("set rating", rating.toString())
         if (rating == artwork.rating) {
+            artwork.rating = 0
             setStarDrawables(0)
             updateArtworkRatingDatabase(0)
         } else {
+            artwork.rating = rating
             setStarDrawables(rating)
             updateArtworkRatingDatabase(rating)
         }

@@ -21,7 +21,7 @@ data class ArtThiefArtwork(
     val width: Float,
     val height: Float,
     val taken: Boolean,
-    val rating: Int
+    var rating: Int
 ) {
     /**
      * Dimensions is used for displaying artwork's 2 dimensions

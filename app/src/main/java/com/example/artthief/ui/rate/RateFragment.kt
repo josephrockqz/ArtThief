@@ -1,7 +1,6 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -49,8 +48,6 @@ class RateFragment : Fragment() {
                 }
             }
         )
-
-        Log.i("howdy", "on create - rate fragment")
 
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
