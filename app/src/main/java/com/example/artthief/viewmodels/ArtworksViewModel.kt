@@ -84,9 +84,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     /**
      * init{} is called immediately when this ViewModel is created.
      */
-    init {
-        refreshDataFromRepository()
-    }
+//    init {
+//        Log.i("howdy", "init init init")
+//        refreshDataFromRepository()
+//    }
 
     /**
      * Resets the network error flag.
@@ -99,7 +100,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    private fun refreshDataFromRepository() {
+    fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
                 artworksRepo.refreshArtworks()

@@ -8,9 +8,6 @@ import com.example.artthief.R
 
 class OverviewFragment : Fragment() {
 
-    // TODO: instantiate view model here, calling refreshDataFromRepository
-    // TODO: consider moving refreshDataFromRepository from view model init block
-
     private lateinit var overviewPagerAdapter: OverviewPagerAdapter
     private lateinit var viewPager: ViewPager
 
