@@ -84,22 +84,24 @@ class PageArtworkFragment(
             .into(artworkPageImage)
 
         /**
-         * set app bar title to the current artwork's title
+         * set app bar title to the current artwork's title only if
+         *
          */
-        // TODO: fix bug where first artwork's title is wrong when swiped to
-        val currentViewPagerIndex = parentFragment
-            ?.view
-            ?.findViewById<ViewPager>(R.id.pager_artwork)
-            ?.currentItem
-        Log.i("howdy", currentViewPagerIndex.toString())
-        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
-            artworks?.apply {
-                val sortedArtworks = artworks.sortedByDescending { it.rating }
-                val currentArtworkTitle = sortedArtworks[currentViewPagerIndex!!].title
-                parentFragment
-                    ?.view
-                    ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-                    ?.title = currentArtworkTitle
+        if (viewModel.currentArtworkIndex == 0) {
+            val currentViewPagerIndex = parentFragment
+                ?.view
+                ?.findViewById<ViewPager>(R.id.pager_artwork)
+                ?.currentItem
+            viewModel.currentArtworkIndex = currentViewPagerIndex!!
+            viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
+                artworks?.apply {
+                    val sortedArtworks = artworks.sortedByDescending { it.rating }
+                    val currentArtworkTitle = sortedArtworks[currentViewPagerIndex!!].title
+                    parentFragment
+                        ?.view
+                        ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+                        ?.title = currentArtworkTitle
+                }
             }
         }
 
@@ -130,7 +132,10 @@ class PageArtworkFragment(
         super.onViewCreated(view, savedInstanceState)
     }
 
+    // TODO: fix bug where clicking star with current rating doesn't unrate artwork
     private fun handleStarClick(rating: Int) {
+        Log.i("current rating", artwork.rating.toString())
+        Log.i("set rating", rating.toString())
         if (rating == artwork.rating) {
             setStarDrawables(0)
             updateArtworkRatingDatabase(0)

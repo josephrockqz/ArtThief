@@ -68,7 +68,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      * Integer to represent current artwork selected to display the
      * appropriate page in view pager.
      */
-    // TODO: get rid of this field if never actually used
     var currentArtworkIndex = 0
 
     /**

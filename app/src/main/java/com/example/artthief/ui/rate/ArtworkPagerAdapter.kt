@@ -10,8 +10,6 @@ class ArtworkPagerAdapter(
     fm: FragmentManager
 ) : FragmentStatePagerAdapter(fm) {
 
-    // TODO: have it so initial index of pager adapter can be non-zero
-
     /**
      * The artworks that our Adapter will show
      */

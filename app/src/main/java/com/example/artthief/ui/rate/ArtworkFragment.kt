@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.artthief.R
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
@@ -38,11 +39,38 @@ class ArtworkFragment : Fragment() {
         // sort artworks so that pages are in correct order
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
+
                 // TODO: add conditional logic for what type of adapter is in use
                 val sortedArtworks = artworks.sortedByDescending { it.rating }
                 artworkPagerAdapter.artworks = sortedArtworks
                 // Set view pager's artwork based on what row (artwork) is pressed
                 viewPager.currentItem = viewModel.currentArtworkIndex
+
+                /**
+                 * Add on page change listener to set the artwork fragment's app bar
+                 * title to the current artwork's title after page change
+                 * NOTE: app bar's title is set initially in [PageArtworkFragment]
+                 */
+                viewPager.addOnPageChangeListener(object: OnPageChangeListener {
+                    override fun onPageScrolled(
+                        position: Int,
+                        positionOffset: Float,
+                        positionOffsetPixels: Int
+                    ) {
+                        // No-Op
+                    }
+
+                    override fun onPageSelected(position: Int) {
+                        view
+                            .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+                            .title = sortedArtworks[position].title
+                        Log.i("on page selected", position.toString())
+                    }
+
+                    override fun onPageScrollStateChanged(state: Int) {
+                        // No-Op
+                    }
+                })
             }
         }
 
