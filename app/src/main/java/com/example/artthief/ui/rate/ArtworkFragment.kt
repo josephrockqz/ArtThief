@@ -64,7 +64,6 @@ class ArtworkFragment : Fragment() {
                         view
                             .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
                             .title = sortedArtworks[position].title
-                        Log.i("on page selected", position.toString())
                     }
 
                     override fun onPageScrollStateChanged(state: Int) {
@@ -80,6 +79,7 @@ class ArtworkFragment : Fragment() {
         // back button on click listener
         toolbar[1].setOnClickListener {
             view.findNavController().popBackStack()
+            viewModel.currentArtworkIndex = 0
         }
 
         // TODO: have on click listener launch augmented activity

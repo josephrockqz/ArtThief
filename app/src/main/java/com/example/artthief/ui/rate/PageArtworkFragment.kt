@@ -71,6 +71,7 @@ class PageArtworkFragment(
             activity
                 ?.findNavController(R.id.nav_host_fragment_activity_main)
                 ?.popBackStack(R.id.navigation_rate, false)
+            viewModel.currentArtworkIndex = 0
         }
 
         /**
