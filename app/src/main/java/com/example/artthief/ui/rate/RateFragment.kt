@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -44,10 +45,21 @@ class RateFragment : Fragment() {
         viewModelAdapter = ArtworkRatingAdapter(
             object: ArtworkRatingAdapter.ArtworkClickListener {
                 override fun onArtworkClicked(position: Int, view: View) {
-                    showArtworkFragment(position, view)
+                    showArtworkFragment(position)
                 }
             }
         )
+
+        Log.i("howdy", "on create - rate fragment")
+
+        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
+            artworks?.apply {
+                // TODO: add conditional logic for what type of adapter is in use
+                val sortedArtworks = artworks.sortedByDescending { it.rating }
+                viewModel.setSortedArtworkList(sortedArtworks)
+                viewModelAdapter.artworks = sortedArtworks
+            }
+        }
 
         binding
             .root
@@ -70,15 +82,6 @@ class RateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
-            artworks?.apply {
-                // TODO: add conditional logic for what type of adapter is in use
-                // TODO: create common util function(s) for sorting
-                val sortedArtworks = artworks.sortedByDescending { it.rating }
-                viewModelAdapter.artworks = sortedArtworks
-            }
-        }
-
         // make title centered
         val toolbar = view.findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
         toolbar.isTitleCentered = true
@@ -96,8 +99,9 @@ class RateFragment : Fragment() {
         }
     }
 
-    fun showArtworkFragment(position: Int, view: View) {
-//        viewModel.currentArtworkIndex = position
+    fun showArtworkFragment(position: Int) {
+        // TODO: fix artwork title bugs - not set initially (use boolean in vM)
+        viewModel.currentArtworkIndex = position
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
             ?.navigate(R.id.action_rateToArtwork)

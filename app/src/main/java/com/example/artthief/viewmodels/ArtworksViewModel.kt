@@ -29,7 +29,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     /**
      * A list of artworks displayed on the screen
      */
-    // TODO: centralize artwork list sorted by rating
     val artworkList = artworksRepo.artworks
 
     /**
@@ -37,6 +36,18 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      * way to set this value to observers.
      */
     private val _artworkList = MutableLiveData<List<ArtThiefArtwork>>()
+
+    /**
+     * A list of artworks sorted by their ratings. This is private to avoid exposing a
+     * way to set this value to observers
+     */
+    private var _artworkListByRating = emptyList<ArtThiefArtwork>()
+
+    /**
+     * A list of artworks sorted by their ratings
+     */
+    val artworkListByRating: List<ArtThiefArtwork>
+        get() = _artworkListByRating
 
     /**
      * Event triggered for network error. This is private to avoid exposing a
@@ -103,8 +114,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getSortedArtworkList(): List<ArtThiefArtwork> {
-        return artworkList.value?.sortedByDescending { it.rating }!!
+    fun setSortedArtworkList(sortedArtworks: List<ArtThiefArtwork>) {
+        _artworkListByRating = sortedArtworks
     }
 
     fun updateArtworkRating(artwork: DatabaseArtwork) {

@@ -94,16 +94,11 @@ class PageArtworkFragment(
                 ?.findViewById<ViewPager>(R.id.pager_artwork)
                 ?.currentItem
             viewModel.currentArtworkIndex = currentViewPagerIndex!!
-            viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
-                artworks?.apply {
-                    val sortedArtworks = artworks.sortedByDescending { it.rating }
-                    val currentArtworkTitle = sortedArtworks[currentViewPagerIndex!!].title
-                    parentFragment
-                        ?.view
-                        ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-                        ?.title = currentArtworkTitle
-                }
-            }
+            val currentArtworkTitle = viewModel.artworkListByRating[currentViewPagerIndex].title
+            parentFragment
+                ?.view
+                ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+                ?.title = currentArtworkTitle
         }
 
         /**
@@ -154,7 +149,6 @@ class PageArtworkFragment(
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
     }
 
-    // TODO: fix bug where changing artwork rating jumps around
     private fun updateArtworkRatingDatabase(rating: Int) {
         viewModel.updateArtworkRating(
             artwork
