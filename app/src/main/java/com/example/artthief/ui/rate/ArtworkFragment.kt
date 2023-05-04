@@ -72,7 +72,6 @@ class ArtworkFragment : Fragment() {
         // back button on click listener
         toolbar[1].setOnClickListener {
             view.findNavController().popBackStack()
-            viewModel.currentArtworkIndex = 0
         }
 
         // TODO: have on click listener launch augmented activity
