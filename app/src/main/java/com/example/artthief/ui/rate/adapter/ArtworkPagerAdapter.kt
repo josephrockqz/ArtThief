@@ -1,10 +1,11 @@
-package com.example.artthief.ui.rate
+package com.example.artthief.ui.rate.adapter
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.ui.rate.PageArtworkFragment
 
 class ArtworkPagerAdapter(
     fm: FragmentManager

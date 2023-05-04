@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+// TODO: get rid of consistent "data integrity" failure
 @Dao
 interface ArtworksDao {
     @Query("select * from databaseArtwork")

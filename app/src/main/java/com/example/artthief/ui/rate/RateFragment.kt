@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
-import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
@@ -66,8 +65,10 @@ class RateFragment : Fragment() {
                 val sections = mutableListOf<RecyclerViewSection>()
                 val sectionFiveStars = RecyclerViewSection("5 stars", sortedArtworks.subList(0, 3))
                 val sectionFourStars = RecyclerViewSection("4 stars", sortedArtworks.subList(4, 6))
+                val sectionThreeStars = RecyclerViewSection("3 stars", sortedArtworks.subList(7, 19))
                 sections.add(sectionFiveStars)
                 sections.add(sectionFourStars)
+                sections.add(sectionThreeStars)
                 binding
                     .root
                     .findViewById<RecyclerView>(R.id.rv_rateFragment)
