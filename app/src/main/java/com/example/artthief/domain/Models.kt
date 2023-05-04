@@ -52,3 +52,20 @@ fun ArtThiefArtwork.asDatabaseModel(): DatabaseArtwork {
         rating = this.rating
     )
 }
+
+/**
+ * Default ArtThiefArtwork instance for use in pager adapter
+ */
+val defaultArtThiefArtwork = ArtThiefArtwork(
+    artThiefID = 0,
+    showID = "",
+    title = "",
+    artist = "",
+    media = "",
+    image_large = "",
+    image_small = "",
+    width = 1.toFloat(),
+    height = 1.toFloat(),
+    taken = true,
+    rating = 0 // 0 stars represents that it's unrated
+)

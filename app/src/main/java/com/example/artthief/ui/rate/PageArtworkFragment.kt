@@ -3,7 +3,6 @@ package com.example.artthief.ui.rate
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,26 +15,14 @@ import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
+import com.example.artthief.domain.defaultArtThiefArtwork
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.squareup.picasso.Picasso
 
-// TODO: move default parameter to different file
 @SuppressLint("UseCompatLoadingForDrawables")
 class PageArtworkFragment(
-    private val artwork: ArtThiefArtwork = ArtThiefArtwork(
-        artThiefID = 0,
-        showID = "",
-        title = "",
-        artist = "",
-        media = "",
-        image_large = "",
-        image_small = "",
-        width = 1.toFloat(),
-        height = 1.toFloat(),
-        taken = true,
-        rating = 0 // 0 stars represents that it's unrated
-    )
+    private val artwork: ArtThiefArtwork = defaultArtThiefArtwork
 ) : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()

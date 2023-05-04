@@ -1,17 +1,14 @@
 package com.example.artthief.ui.rate
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
-import com.example.artthief.utils.stringifyArtworkDimensions
 import com.squareup.picasso.Picasso
 
 class ArtworkRatingAdapter(
@@ -97,8 +94,5 @@ class ArtworkRatingAdapter(
         viewHolder.artworkShowId.text = artworks[i].showID
     }
 
-    override fun getItemCount(): Int {
-        // TODO: item count depends on how many sections there are (1-6 sections), might not be necessary
-        return artworks.size
-    }
+    override fun getItemCount(): Int = artworks.size
 }
