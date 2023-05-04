@@ -1,6 +1,5 @@
-package com.example.artthief.ui.rate
+package com.example.artthief.ui.rate.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,14 @@ import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
 import com.squareup.picasso.Picasso
 
-// TODO: delete this class/file when it's no longer needed
-class ArtworkRatingAdapter(
-    private val artworkClickListener: ArtworkClickListener
-) : RecyclerView.Adapter<ArtworkRatingAdapter.ViewHolder>() {
+class ArtworkAdapter(
+//    private val artworkClickListener: ArtworkClickListener,
+    private val artworks: List<ArtThiefArtwork>
+) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
     /**
      * First level of our network result which looks like:
-       [
+        [
             {
                 "artThiefID":2012345,
                 "showID":"259",
@@ -32,20 +31,8 @@ class ArtworkRatingAdapter(
                 "taken":true
             }
             ...
-       ]
+        ]
      */
-
-    /**
-     * The artworks that our Adapter will show
-     */
-    var artworks: List<ArtThiefArtwork> = emptyList()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            // Notify any registered observers that the data set has changed. This will cause every
-            // element in our RecyclerView to be invalidated.
-            notifyDataSetChanged()
-        }
 
     interface ArtworkClickListener {
         fun onArtworkClicked(position: Int, view: View)
@@ -70,18 +57,21 @@ class ArtworkRatingAdapter(
 
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
-                artworkClickListener.onArtworkClicked(position, itemView)
+//                artworkClickListener.onArtworkClicked(position, itemView)
             }
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val v = LayoutInflater.from(viewGroup.context)
+        val v = LayoutInflater
+            .from(viewGroup.context)
             .inflate(R.layout.art_card_view, viewGroup, false)
+
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
+
         Picasso
             .get()
 //            .load(artworks[i].image_small)
@@ -95,5 +85,5 @@ class ArtworkRatingAdapter(
         viewHolder.artworkShowId.text = artworks[i].showID
     }
 
-    override fun getItemCount(): Int = artworks.size
+    override fun getItemCount() = artworks.size
 }

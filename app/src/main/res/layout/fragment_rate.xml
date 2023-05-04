@@ -42,7 +42,7 @@
 
         <!--Five star artwork-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/rv_rateFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
@@ -50,6 +50,7 @@
             app:layoutManager="LinearLayoutManager"
             />
 
+        <!--TODO: get rid of commented xml if not needed-->
 <!--        &lt;!&ndash;Artworks container&ndash;&gt;-->
 <!--        <RelativeLayout-->
 <!--            android:id="@+id/rl_artworksContainer"-->

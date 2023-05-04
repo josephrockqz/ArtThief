@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
+import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
+import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -41,6 +44,7 @@ class RateFragment : Fragment() {
 
         // TODO: dynamically assign adapter based on if what toggle is selected
         // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
+        // TODO: delete ArtworkRatingAdapter use when ready
         viewModelAdapter = ArtworkRatingAdapter(
             object: ArtworkRatingAdapter.ArtworkClickListener {
                 override fun onArtworkClicked(position: Int, view: View) {
@@ -55,16 +59,30 @@ class RateFragment : Fragment() {
                 val sortedArtworks = artworks.sortedByDescending { it.rating }
                 viewModel.setSortedArtworkList(sortedArtworks)
                 viewModelAdapter.artworks = sortedArtworks
+
+                /**
+                 * Configure artwork rating adapter with sections
+                 */
+                val sections = mutableListOf<RecyclerViewSection>()
+                val sectionFiveStars = RecyclerViewSection("5 stars", sortedArtworks.subList(0, 3))
+                val sectionFourStars = RecyclerViewSection("4 stars", sortedArtworks.subList(4, 6))
+                sections.add(sectionFiveStars)
+                sections.add(sectionFourStars)
+                binding
+                    .root
+                    .findViewById<RecyclerView>(R.id.rv_rateFragment)
+                    .apply {
+                        hasFixedSize() // TODO: change to false?
+                        layoutManager = LinearLayoutManager(context)
+//                        adapter = viewModelAdapter
+                        val ratingSectionAdapter = RatingSectionAdapter(
+                            context = context,
+                            sections = sections
+                        )
+                        adapter = ratingSectionAdapter
+                    }
             }
         }
-
-        binding
-            .root
-            .findViewById<RecyclerView>(R.id.recycler_view)
-            .apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = viewModelAdapter
-            }
 
         // Observer for the network error.
         viewModel
