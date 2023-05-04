@@ -75,18 +75,16 @@ class PageArtworkFragment(
          * set app bar title to the current artwork's title only if
          *
          */
-        if (viewModel.currentArtworkIndex == 0) {
-            val currentViewPagerIndex = parentFragment
-                ?.view
-                ?.findViewById<ViewPager>(R.id.pager_artwork)
-                ?.currentItem
-            viewModel.currentArtworkIndex = currentViewPagerIndex!!
-            val currentArtworkTitle = viewModel.artworkListByRating[currentViewPagerIndex].title
-            parentFragment
-                ?.view
-                ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-                ?.title = currentArtworkTitle
-        }
+        val currentViewPagerIndex = parentFragment
+            ?.view
+            ?.findViewById<ViewPager>(R.id.pager_artwork)
+            ?.currentItem
+        viewModel.currentArtworkIndex = currentViewPagerIndex!!
+        val currentArtworkTitle = viewModel.artworkListByRating[currentViewPagerIndex].title
+        parentFragment
+            ?.view
+            ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+            ?.title = currentArtworkTitle
 
         /**
          * set artwork card information to current artwork's:

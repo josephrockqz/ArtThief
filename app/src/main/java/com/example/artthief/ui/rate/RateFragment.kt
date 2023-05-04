@@ -97,7 +97,6 @@ class RateFragment : Fragment() {
     }
 
     fun showArtworkFragment(position: Int) {
-        // TODO: fix artwork title bugs - not set initially (use boolean in vM)
         viewModel.currentArtworkIndex = position
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
