@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
+import com.example.artthief.ui.rate.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 
 class RatingSectionAdapter(
     private val context: Context,
+    private val artworkClickListener: ArtworkClickListener,
     private val sections : List<RecyclerViewSection>
 ) : RecyclerView.Adapter<RatingSectionAdapter.ViewHolder>() {
 
@@ -34,7 +36,11 @@ class RatingSectionAdapter(
             }
         }
 
-        fun bind(context: Context, section: RecyclerViewSection) {
+        fun bind(
+            context: Context,
+            section: RecyclerViewSection,
+            artworkClickListener: ArtworkClickListener
+        ) {
 
             val sectionTitle = itemView.findViewById<TextView>(R.id.tv_ratingSectionName)
             val recyclerView = itemView.findViewById<RecyclerView>(R.id.rv_ratingSection)
@@ -51,12 +57,8 @@ class RatingSectionAdapter(
             recyclerView.layoutManager = layoutManager
 
             val adapter = ArtworkAdapter(
-//                object: ArtworkAdapter.ArtworkClickListener {
-//                    override fun onArtworkClicked(position: Int, view: View) {
-//                        showArtworkFragment(position)
-//                    }
-//                }
-                section.artworks
+                artworkClickListener = artworkClickListener,
+                artworks = section.artworks
             )
             recyclerView.adapter = adapter
         }
@@ -68,7 +70,7 @@ class RatingSectionAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val section = sections[i]
-        viewHolder.bind(context, section)
+        viewHolder.bind(context, section, artworkClickListener)
     }
 
     override fun getItemCount() = sections.size

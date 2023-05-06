@@ -8,10 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.ui.rate.ArtworkClickListener
 import com.squareup.picasso.Picasso
 
 class ArtworkAdapter(
-//    private val artworkClickListener: ArtworkClickListener,
+    private val artworkClickListener: ArtworkClickListener,
     private val artworks: List<ArtThiefArtwork>
 ) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
@@ -34,10 +35,6 @@ class ArtworkAdapter(
         ]
      */
 
-    interface ArtworkClickListener {
-        fun onArtworkClicked(position: Int, view: View)
-    }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var artworkImage: ImageView
@@ -57,7 +54,7 @@ class ArtworkAdapter(
 
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
-//                artworkClickListener.onArtworkClicked(position, itemView)
+                artworkClickListener.onArtworkClicked(position, itemView)
             }
         }
     }

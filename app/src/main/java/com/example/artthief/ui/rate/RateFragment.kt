@@ -20,7 +20,7 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class RateFragment : Fragment() {
 
-    private lateinit var viewModelAdapter: ArtworkRatingAdapter
+    private lateinit var ratingSectionAdapter: RatingSectionAdapter
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
@@ -44,29 +44,23 @@ class RateFragment : Fragment() {
 
         // TODO: dynamically assign adapter based on if what toggle is selected
         // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
-        // TODO: delete ArtworkRatingAdapter use when ready
-        viewModelAdapter = ArtworkRatingAdapter(
-            object: ArtworkRatingAdapter.ArtworkClickListener {
-                override fun onArtworkClicked(position: Int, view: View) {
-                    showArtworkFragment(position)
-                }
-            }
-        )
 
         /**
          * sort artworks and assign to adapters
          */
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
+                // TODO: make each code block its own functionality
+
                 // TODO: add conditional logic for what type of adapter is in use
                 val sortedArtworks = artworks.sortedByDescending { it.rating }
                 viewModel.setSortedArtworkList(sortedArtworks)
-                viewModelAdapter.artworks = sortedArtworks
 
                 /**
                  * Configure artwork rating adapter with sections
                  */
                 val sections = mutableListOf<RecyclerViewSection>()
+
                 val fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
                 val fourStarArtworks = mutableListOf<ArtThiefArtwork>()
                 val threeStarArtworks = mutableListOf<ArtThiefArtwork>()
@@ -140,9 +134,13 @@ class RateFragment : Fragment() {
                     .apply {
                         hasFixedSize() // TODO: change to false?
                         layoutManager = LinearLayoutManager(context)
-//                        adapter = viewModelAdapter
-                        val ratingSectionAdapter = RatingSectionAdapter(
+                        ratingSectionAdapter = RatingSectionAdapter(
                             context = context,
+                            artworkClickListener = object: ArtworkClickListener {
+                                override fun onArtworkClicked(position: Int, view: View) {
+                                    showArtworkFragment(position)
+                                }
+                            },
                             sections = sections
                         )
                         adapter = ratingSectionAdapter

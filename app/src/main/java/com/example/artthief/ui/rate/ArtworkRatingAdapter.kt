@@ -47,10 +47,6 @@ class ArtworkRatingAdapter(
             notifyDataSetChanged()
         }
 
-    interface ArtworkClickListener {
-        fun onArtworkClicked(position: Int, view: View)
-    }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var artworkImage: ImageView
