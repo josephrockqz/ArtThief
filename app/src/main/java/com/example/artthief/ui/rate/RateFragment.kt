@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
+import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
@@ -52,6 +53,9 @@ class RateFragment : Fragment() {
             }
         )
 
+        /**
+         * sort artworks and assign to adapters
+         */
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
                 // TODO: add conditional logic for what type of adapter is in use
@@ -63,12 +67,73 @@ class RateFragment : Fragment() {
                  * Configure artwork rating adapter with sections
                  */
                 val sections = mutableListOf<RecyclerViewSection>()
-                val sectionFiveStars = RecyclerViewSection("5 stars", sortedArtworks.subList(0, 3))
-                val sectionFourStars = RecyclerViewSection("4 stars", sortedArtworks.subList(4, 6))
-                val sectionThreeStars = RecyclerViewSection("3 stars", sortedArtworks.subList(7, 19))
-                sections.add(sectionFiveStars)
-                sections.add(sectionFourStars)
-                sections.add(sectionThreeStars)
+                val fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
+                val fourStarArtworks = mutableListOf<ArtThiefArtwork>()
+                val threeStarArtworks = mutableListOf<ArtThiefArtwork>()
+                val twoStarArtworks = mutableListOf<ArtThiefArtwork>()
+                val oneStarArtworks = mutableListOf<ArtThiefArtwork>()
+                val unratedArtworks = mutableListOf<ArtThiefArtwork>()
+
+                sortedArtworks.forEach {
+                    when (it.rating) {
+                        5 -> fiveStarArtworks.add(it)
+                        4 -> fourStarArtworks.add(it)
+                        3 -> threeStarArtworks.add(it)
+                        2 -> twoStarArtworks.add(it)
+                        1 -> oneStarArtworks.add(it)
+                        0 -> unratedArtworks.add(it)
+                    }
+                }
+
+                if (fiveStarArtworks.isNotEmpty()) {
+                    sections.add(
+                        RecyclerViewSection(
+                            "5 stars",
+                            fiveStarArtworks
+                        )
+                    )
+                }
+                if (fourStarArtworks.isNotEmpty()) {
+                    sections.add(
+                        RecyclerViewSection(
+                            "4 stars",
+                            fourStarArtworks
+                        )
+                    )
+                }
+                if (threeStarArtworks.isNotEmpty()) {
+                    sections.add(
+                        RecyclerViewSection(
+                            "3 stars",
+                            threeStarArtworks
+                        )
+                    )
+                }
+                if (twoStarArtworks.isNotEmpty()) {
+                    sections.add(
+                        RecyclerViewSection(
+                            "2 stars",
+                            twoStarArtworks
+                        )
+                    )
+                }
+                if (oneStarArtworks.isNotEmpty()) {
+                    sections.add(
+                        RecyclerViewSection(
+                            "1 stars",
+                            oneStarArtworks
+                        )
+                    )
+                }
+                if (unratedArtworks.isNotEmpty()) {
+                    sections.add(
+                        RecyclerViewSection(
+                            "Unrated",
+                            unratedArtworks
+                        )
+                    )
+                }
+
                 binding
                     .root
                     .findViewById<RecyclerView>(R.id.rv_rateFragment)
