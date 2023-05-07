@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
-import com.example.artthief.ui.rate.ArtworkClickListener
+import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 
 class RatingSectionAdapter(
@@ -41,6 +41,7 @@ class RatingSectionAdapter(
         fun bind(
             context: Context,
             section: RecyclerViewSection,
+            sectionAmounts: List<Int>,
             artworkClickListener: ArtworkClickListener
         ) {
 
@@ -63,6 +64,7 @@ class RatingSectionAdapter(
                 unratedTitle.visibility = View.VISIBLE
             }
 
+            // TODO: button visible when there are more than two artworks in section
             // TODO: implement compare button functionality
             val compareButton = itemView.findViewById<Button>(R.id.b_compareButton)
 
@@ -83,7 +85,8 @@ class RatingSectionAdapter(
 
             val adapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
-                artworks = section.artworks
+                artworks = section.artworks,
+                numPriorArtworks = sectionAmounts[section.rating]
             )
             recyclerView.adapter = adapter
         }
@@ -94,8 +97,25 @@ class RatingSectionAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
+
+        /**
+         * calculate number of artworks in prior sections
+         * so [artworkClickListener] has correct index
+         */
+        val sectionAmounts = mutableListOf(0, 0, 0, 0, 0, 0)
+        sections.forEach {
+            if (it.rating != 0) sectionAmounts[it.rating - 1] = it.artworks.size
+        }
+        for (j in 4 downTo 0) {
+            sectionAmounts[j] = sectionAmounts[j] + sectionAmounts[j+1]
+        }
+
         val section = sections[i]
-        viewHolder.bind(context, section, artworkClickListener)
+        viewHolder.bind(
+            context,
+            section,
+            sectionAmounts,
+            artworkClickListener)
     }
 
     override fun getItemCount() = sections.size

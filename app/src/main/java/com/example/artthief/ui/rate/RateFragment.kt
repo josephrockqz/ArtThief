@@ -14,6 +14,7 @@ import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
+import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
@@ -49,7 +50,6 @@ class RateFragment : Fragment() {
          * sort artworks and assign to adapters
          */
         // TODO: fix lag on rate tab (slow every time it loads) - could sort artworks in view model in overview tab then re-sort after a rating change
-        // TODO: fix bug with artwork click listener indexing
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
                 // TODO: make each code block its own functionality
@@ -139,8 +139,8 @@ class RateFragment : Fragment() {
                         ratingSectionAdapter = RatingSectionAdapter(
                             context = context,
                             artworkClickListener = object: ArtworkClickListener {
-                                override fun onArtworkClicked(position: Int, view: View) {
-                                    showArtworkFragment(position)
+                                override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                                    showArtworkFragment(sectionPosition)
                                 }
                             },
                             sections = sections
