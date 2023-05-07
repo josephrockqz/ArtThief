@@ -1,8 +1,10 @@
 package com.example.artthief.ui.rate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -161,11 +163,11 @@ class RateFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        // make title centered
+        // click listeners for toolbar icons
         val toolbar = view.findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
-        toolbar.isTitleCentered = true
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     /**

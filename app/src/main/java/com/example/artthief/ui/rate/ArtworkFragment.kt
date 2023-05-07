@@ -32,6 +32,7 @@ class ArtworkFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         // configure pager adapter
         artworkPagerAdapter = ArtworkPagerAdapter(childFragmentManager)
         viewPager = view.findViewById(R.id.pager_artwork)

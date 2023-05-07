@@ -35,7 +35,6 @@
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/title_rate"
                 app:menu="@menu/rate_menu"
-                app:navigationIcon="@drawable/ic_list_24dp"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
         </com.google.android.material.appbar.AppBarLayout>

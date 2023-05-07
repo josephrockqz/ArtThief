@@ -40,7 +40,15 @@
     <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\nsupport@zurka.com</string>
 
     <!--Rate page strings-->
+    <string name="mi_view_title">View</string>
+    <string name="mi_list_title">List</string>
+    <string name="mi_grid_title">Grid</string>
     <string name="mi_rate_title">Rate</string>
+    <string name="mi_list_by_rating_title">List by Rating</string>
+    <string name="mi_list_by_id_number_title">ID Number</string>
+    <string name="mi_artist_title">Artist</string>
+    <string name="mi_show_deleted_art_title">Show Deleted Art</string>
+    <string name="mi_show_taken_art_title">Show Taken Art</string>
     <string name="mi_refresh_title">Refresh</string>
     <string name="mi_title_search">Search</string>
     <string name="rate_fragment_compare_button">Compare</string>
