@@ -11,6 +11,8 @@
         android:id="@+id/five_stars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/artwork_adapter_bottom_border"
+        android:layout_marginStart="15dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="25dp">
 
@@ -19,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -60,7 +61,9 @@
         </LinearLayout>
 
         <!--Compare button-->
+        <!--TODO: change styling of compare button-->
         <Button
+            android:id="@+id/b_compareButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -78,13 +81,6 @@
         android:padding="10dp"
         android:text="@string/rate_fragment_unrated"
         android:visibility="gone"/>
-
-    <!--Bottom border-->
-    <View
-        android:id="@+id/five_stars_bottom_border"
-        android:background="@color/toolbar_bottom_border"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ratingSection"

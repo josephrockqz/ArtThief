@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,7 +43,10 @@ class RatingSectionAdapter(
             section: RecyclerViewSection,
             artworkClickListener: ArtworkClickListener
         ) {
-            
+
+            /**
+             * Configure section UI based on its rating
+             */
             val star1 = itemView.findViewById<ImageView>(R.id.iv_artworkStar1)
             val star2 = itemView.findViewById<ImageView>(R.id.iv_artworkStar2)
             val star3 = itemView.findViewById<ImageView>(R.id.iv_artworkStar3)
@@ -59,6 +63,12 @@ class RatingSectionAdapter(
                 unratedTitle.visibility = View.VISIBLE
             }
 
+            // TODO: implement compare button functionality
+            val compareButton = itemView.findViewById<Button>(R.id.b_compareButton)
+
+            /**
+             * Configure recycler view
+             */
             // TODO: fix scroll bar positioning
             val recyclerView = itemView.findViewById<RecyclerView>(R.id.rv_ratingSection)
             recyclerView.setHasFixedSize(true)

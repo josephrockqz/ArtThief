@@ -40,15 +40,14 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!--Five star artwork-->
+        <!--Artwork recycler view-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_rateFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
             android:scrollbars="vertical"
-            app:layoutManager="LinearLayoutManager"
-            />
+            app:layoutManager="LinearLayoutManager" />
 
     </RelativeLayout>
 
