@@ -76,6 +76,7 @@
 
             <!--Show ID-->
             <!--TODO: make vertically centered-->
+            <!--TODO: make text "TAKEN" dynamically-->
             <TextView
                 android:id="@+id/tv_artShowId"
                 android:layout_width="wrap_content"

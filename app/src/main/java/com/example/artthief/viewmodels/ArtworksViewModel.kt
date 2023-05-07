@@ -29,75 +29,58 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private val artworksRepo = ArtworksRepo(getDatabase(application))
 
     /**
-     * A list of artworks displayed on the screen
+     * A list of artworks displayed on the screen.
      */
     val artworkList = artworksRepo.artworks
-
-    /**
-     * A list of artworks that can be shown on the screen. This is private to avoid exposing a
-     * way to set this value to observers.
-     */
     private val _artworkList = MutableLiveData<List<ArtThiefArtwork>>()
 
     /**
-     * Enum value determining how to display view of artwork. THis is private
-     * to avoid exposing a way to set this value to observers
+     * Enum value determining how to display view of artwork.
      */
     private var _artworkViewBySelection = ViewByOptions.LIST
-
-    /**
-     * Enum value determining how to display view of artworks
-     */
     val artworkViewBySelection: ViewByOptions
         get() = _artworkViewBySelection
 
     /**
-     * Enum value determining how to display ordering of artworks. THis is private
-     * to avoid exposing a way to set this value to observers
+     * Enum value determining how to display ordering of artworks.
      */
     private var _artworkListBySelection = ListByOptions.RATING
-
-    /**
-     * Enum value determining how to display ordering of artworks
-     */
     val artworkListBySelection: ListByOptions
         get() = _artworkListBySelection
 
     /**
-     * A list of artworks sorted by their ratings. This is private to avoid exposing a
-     * way to set this value to observers
+     * Boolean value determining if to display deleted artworks.
      */
-    private var _artworkListByRating = emptyList<ArtThiefArtwork>()
+    private var _showDeletedArtworks = false
+    val showDeletedArtworks: Boolean
+        get() = _showDeletedArtworks
 
     /**
-     * A list of artworks sorted by their ratings
+     * Enum value determining if to display taken artworks.
      */
+    private var _showTakenArtworks = false
+    val showTakenArtworks: Boolean
+        get() = _showTakenArtworks
+
+    /**
+     * A list of artworks sorted by their ratings.
+     */
+    private var _artworkListByRating = emptyList<ArtThiefArtwork>()
     val artworkListByRating: List<ArtThiefArtwork>
         get() = _artworkListByRating
 
     /**
-     * Event triggered for network error. This is private to avoid exposing a
-     * way to set this value to observers.
+     * Event triggered for network error.
      */
     private var _eventNetworkError = MutableLiveData(false)
-
-    /**
-     * Event triggered for network error. Views should use this to get access
-     * to the data.
-     */
     val eventNetworkError: LiveData<Boolean>
         get() = _eventNetworkError
-
-    /**
-     * Flag to display the error message. This is private to avoid exposing a
-     * way to set this value to observers.
-     */
-    private var _isNetworkErrorShown = MutableLiveData(false)
 
     /**
      * Flag to display the error message. Views should use this to get access
      * to the data.
      */
+    private var _isNetworkErrorShown = MutableLiveData(false)
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
 
@@ -148,6 +131,14 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     fun setSortedArtworkList(sortedArtworks: List<ArtThiefArtwork>) {
         _artworkListByRating = sortedArtworks
+    }
+
+    fun setDeletedArtworksToggle() {
+        _showDeletedArtworks = !_showDeletedArtworks
+    }
+
+    fun setTakenArtworksToggle() {
+        _showTakenArtworks = !_showTakenArtworks
     }
 
     fun updateArtworkRating(artwork: DatabaseArtwork) {

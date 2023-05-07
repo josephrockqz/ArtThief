@@ -48,7 +48,9 @@
     <string name="mi_list_by_id_number_title">ID Number</string>
     <string name="mi_artist_title">Artist</string>
     <string name="mi_show_deleted_art_title">Show Deleted Art</string>
+    <string name="mi_hide_deleted_art_title">Hide Deleted Art</string>
     <string name="mi_show_taken_art_title">Show Taken Art</string>
+    <string name="mi_hide_taken_art_title">Hide Taken Art</string>
     <string name="mi_refresh_title">Refresh</string>
     <string name="mi_title_search">Search</string>
     <string name="rate_fragment_compare_button">Compare</string>

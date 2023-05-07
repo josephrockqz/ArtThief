@@ -56,11 +56,13 @@
             <item
                 android:id="@+id/mi_deletedArtDropdown"
                 android:icon="@drawable/ic_deleted_24dp"
+                android:onClick="showDeletedArtwork"
                 android:title="@string/mi_show_deleted_art_title"/>
 
             <item
                 android:id="@+id/mi_takenArtDropdown"
                 android:icon="@drawable/ic_taken_24dp"
+                android:onClick="showTakenArtwork"
                 android:title="@string/mi_show_taken_art_title"/>
 
         </menu>

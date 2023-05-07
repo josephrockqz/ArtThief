@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    // TODO: implement these with shared preferences instead of view model
     fun displayList(item: MenuItem) {
         if (viewModel.artworkViewBySelection != ViewByOptions.LIST) {
             viewModel.setListBySelection(ViewByOptions.LIST)
@@ -87,6 +88,24 @@ class MainActivity : AppCompatActivity() {
             viewModel.setListBySelection(ListByOptions.ARTIST)
             val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
+        }
+    }
+
+    fun showDeletedArtwork(item: MenuItem) {
+        viewModel.setDeletedArtworksToggle()
+        if (item.title == resources.getString(R.string.mi_show_deleted_art_title)) {
+            item.title = resources.getString(R.string.mi_hide_deleted_art_title)
+        } else {
+            item.title = resources.getString(R.string.mi_show_deleted_art_title)
+        }
+    }
+
+    fun showTakenArtwork(item: MenuItem) {
+        viewModel.setTakenArtworksToggle()
+        if (item.title == resources.getString(R.string.mi_show_taken_art_title)) {
+            item.title = resources.getString(R.string.mi_hide_taken_art_title)
+        } else {
+            item.title = resources.getString(R.string.mi_show_taken_art_title)
         }
     }
 }
