@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.artthief.R
 
+// TODO: dynamically display highest rated artwork on wall
 class AugmentedFragment : Fragment() {
 
     override fun onCreateView(

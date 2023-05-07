@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,11 +42,25 @@ class RatingSectionAdapter(
             section: RecyclerViewSection,
             artworkClickListener: ArtworkClickListener
         ) {
+            
+            val star1 = itemView.findViewById<ImageView>(R.id.iv_artworkStar1)
+            val star2 = itemView.findViewById<ImageView>(R.id.iv_artworkStar2)
+            val star3 = itemView.findViewById<ImageView>(R.id.iv_artworkStar3)
+            val star4 = itemView.findViewById<ImageView>(R.id.iv_artworkStar4)
+            val star5 = itemView.findViewById<ImageView>(R.id.iv_artworkStar5)
+            val unratedTitle = itemView.findViewById<TextView>(R.id.tv_ratingSectionName)
 
-            val sectionTitle = itemView.findViewById<TextView>(R.id.tv_ratingSectionName)
+            if (section.rating < 5) star5.visibility = View.GONE
+            if (section.rating < 4) star4.visibility = View.GONE
+            if (section.rating < 3) star3.visibility = View.GONE
+            if (section.rating < 2) star2.visibility = View.GONE
+            if (section.rating < 1) {
+                star1.visibility = View.GONE
+                unratedTitle.visibility = View.VISIBLE
+            }
+
+            // TODO: fix scroll bar positioning
             val recyclerView = itemView.findViewById<RecyclerView>(R.id.rv_ratingSection)
-
-            sectionTitle.text = section.label
             recyclerView.setHasFixedSize(true)
             recyclerView.isNestedScrollingEnabled = false
 

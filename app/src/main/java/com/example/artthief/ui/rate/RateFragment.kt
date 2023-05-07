@@ -48,6 +48,8 @@ class RateFragment : Fragment() {
         /**
          * sort artworks and assign to adapters
          */
+        // TODO: fix lag on rate tab (slow every time it loads) - could sort artworks in view model in overview tab then re-sort after a rating change
+        // TODO: fix bug with artwork click listener indexing
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
                 // TODO: make each code block its own functionality
@@ -82,7 +84,7 @@ class RateFragment : Fragment() {
                 if (fiveStarArtworks.isNotEmpty()) {
                     sections.add(
                         RecyclerViewSection(
-                            "5 stars",
+                            5,
                             fiveStarArtworks
                         )
                     )
@@ -90,7 +92,7 @@ class RateFragment : Fragment() {
                 if (fourStarArtworks.isNotEmpty()) {
                     sections.add(
                         RecyclerViewSection(
-                            "4 stars",
+                            4,
                             fourStarArtworks
                         )
                     )
@@ -98,7 +100,7 @@ class RateFragment : Fragment() {
                 if (threeStarArtworks.isNotEmpty()) {
                     sections.add(
                         RecyclerViewSection(
-                            "3 stars",
+                            3,
                             threeStarArtworks
                         )
                     )
@@ -106,7 +108,7 @@ class RateFragment : Fragment() {
                 if (twoStarArtworks.isNotEmpty()) {
                     sections.add(
                         RecyclerViewSection(
-                            "2 stars",
+                            2,
                             twoStarArtworks
                         )
                     )
@@ -114,7 +116,7 @@ class RateFragment : Fragment() {
                 if (oneStarArtworks.isNotEmpty()) {
                     sections.add(
                         RecyclerViewSection(
-                            "1 stars",
+                            1,
                             oneStarArtworks
                         )
                     )
@@ -122,7 +124,7 @@ class RateFragment : Fragment() {
                 if (unratedArtworks.isNotEmpty()) {
                     sections.add(
                         RecyclerViewSection(
-                            "Unrated",
+                            0,
                             unratedArtworks
                         )
                     )

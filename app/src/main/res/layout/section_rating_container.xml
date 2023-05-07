@@ -1,16 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!--Five stars container-->
+    <RelativeLayout
+        android:id="@+id/five_stars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="25dp">
+
+        <!--Stars images-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_artworkStar1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_rate_24dp"
+                app:tint="@color/art_thief_primary"/>
+
+            <ImageView
+                android:id="@+id/iv_artworkStar2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_rate_24dp"
+                app:tint="@color/art_thief_primary"/>
+
+            <ImageView
+                android:id="@+id/iv_artworkStar3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_rate_24dp"
+                app:tint="@color/art_thief_primary"/>
+
+            <ImageView
+                android:id="@+id/iv_artworkStar4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_rate_24dp"
+                app:tint="@color/art_thief_primary"/>
+
+            <ImageView
+                android:id="@+id/iv_artworkStar5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_rate_24dp"
+                app:tint="@color/art_thief_primary"/>
+
+        </LinearLayout>
+
+        <!--Compare button-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:text="@string/rate_fragment_compare_button"/>
+
+    </RelativeLayout>
+
+    <!--Unrated title-->
     <TextView
         android:id="@+id/tv_ratingSectionName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Rating (e.g. 4 stars)" />
+        android:text="@string/rate_fragment_unrated"
+        android:visibility="gone"/>
+
+    <!--Bottom border-->
+    <View
+        android:id="@+id/five_stars_bottom_border"
+        android:background="@color/toolbar_bottom_border"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ratingSection"
