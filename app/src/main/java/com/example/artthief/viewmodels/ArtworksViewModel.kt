@@ -7,6 +7,7 @@ import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.repository.ArtworksRepo
 import com.example.artthief.ui.rate.data.ListByOptions
+import com.example.artthief.ui.rate.data.ViewByOptions
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -39,11 +40,26 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private val _artworkList = MutableLiveData<List<ArtThiefArtwork>>()
 
     /**
+     * Enum value determining how to display view of artwork. THis is private
+     * to avoid exposing a way to set this value to observers
+     */
+    private var _artworkViewBySelection = ViewByOptions.LIST
+
+    /**
+     * Enum value determining how to display view of artworks
+     */
+    val artworkViewBySelection: ViewByOptions
+        get() = _artworkViewBySelection
+
+    /**
      * Enum value determining how to display ordering of artworks. THis is private
      * to avoid exposing a way to set this value to observers
      */
     private var _artworkListBySelection = ListByOptions.RATING
 
+    /**
+     * Enum value determining how to display ordering of artworks
+     */
     val artworkListBySelection: ListByOptions
         get() = _artworkListBySelection
 
@@ -94,10 +110,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     /**
      * init{} is called immediately when this ViewModel is created.
      */
-//    init {
-//        Log.i("howdy", "init init init")
-//        refreshDataFromRepository()
-//    }
+    init {}
 
     /**
      * Resets the network error flag.
@@ -127,6 +140,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     fun setListBySelection(selection: ListByOptions) {
         _artworkListBySelection = selection
+    }
+
+    fun setListBySelection(selection: ViewByOptions) {
+        _artworkViewBySelection = selection
     }
 
     fun setSortedArtworkList(sortedArtworks: List<ArtThiefArtwork>) {

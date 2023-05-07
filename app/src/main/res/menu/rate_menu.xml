@@ -14,11 +14,13 @@
             <item
                 android:id="@+id/mi_listDropdown"
                 android:icon="@drawable/ic_list_24dp"
+                android:onClick="displayList"
                 android:title="@string/mi_list_title"/>
 
             <item
                 android:id="@+id/mi_gridDropdown"
                 android:icon="@drawable/ic_grid_24dp"
+                android:onClick="displayGrid"
                 android:title="@string/mi_grid_title"/>
 
         </menu>

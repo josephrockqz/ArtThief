@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.ui.rate.data.ListByOptions
+import com.example.artthief.ui.rate.data.ViewByOptions
 import com.example.artthief.viewmodels.ArtworksViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +48,22 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    fun displayList(item: MenuItem) {
+        if (viewModel.artworkViewBySelection != ViewByOptions.LIST) {
+            viewModel.setListBySelection(ViewByOptions.LIST)
+            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+            toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+        }
+    }
+
+    fun displayGrid(item: MenuItem) {
+        if (viewModel.artworkViewBySelection != ViewByOptions.GRID) {
+            viewModel.setListBySelection(ViewByOptions.GRID)
+            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+            toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+        }
     }
 
     fun listByRatingListener(item: MenuItem) {
