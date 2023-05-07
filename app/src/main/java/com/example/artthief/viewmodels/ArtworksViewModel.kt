@@ -6,6 +6,7 @@ import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.repository.ArtworksRepo
+import com.example.artthief.ui.rate.data.ListByOptions
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -36,6 +37,15 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      * way to set this value to observers.
      */
     private val _artworkList = MutableLiveData<List<ArtThiefArtwork>>()
+
+    /**
+     * Enum value determining how to display ordering of artworks. THis is private
+     * to avoid exposing a way to set this value to observers
+     */
+    private var _artworkListBySelection = ListByOptions.RATING
+
+    val artworkListBySelection: ListByOptions
+        get() = _artworkListBySelection
 
     /**
      * A list of artworks sorted by their ratings. This is private to avoid exposing a
@@ -113,6 +123,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
                     _eventNetworkError.value = true
             }
         }
+    }
+
+    fun setListBySelection(selection: ListByOptions) {
+        _artworkListBySelection = selection
     }
 
     fun setSortedArtworkList(sortedArtworks: List<ArtThiefArtwork>) {

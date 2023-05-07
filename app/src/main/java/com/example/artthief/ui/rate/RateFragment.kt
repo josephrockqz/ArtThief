@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -168,6 +167,11 @@ class RateFragment : Fragment() {
         val toolbar = view.findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i("howdy", item.toString())
+        return super.onOptionsItemSelected(item)
     }
 
     /**

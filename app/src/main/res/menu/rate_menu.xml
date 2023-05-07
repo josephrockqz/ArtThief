@@ -5,8 +5,7 @@
 
     <item
         android:id="@+id/mi_viewType"
-        android:icon="@drawable/ic_list_24dp"
-        android:iconTint="@color/teal_200"
+        android:icon="@drawable/ic_list_teal_24dp"
         android:title="@string/mi_view_title"
         app:showAsAction="always">
 
@@ -28,8 +27,7 @@
 
     <item
         android:id="@+id/mi_star"
-        android:icon="@drawable/ic_rate_outline_24dp"
-        android:iconTint="@color/teal_200"
+        android:icon="@drawable/ic_rate_outline_teal_24dp"
         android:title="@string/mi_rate_title"
         app:showAsAction="always">
 
@@ -38,16 +36,19 @@
             <item
                 android:id="@+id/mi_ratingDropdown"
                 android:icon="@drawable/ic_rate_outline_24dp"
+                android:onClick="listByRatingListener"
                 android:title="@string/mi_list_by_rating_title"/>
 
             <item
                 android:id="@+id/mi_idNumberDropdown"
                 android:icon="@drawable/ic_123_24dp"
+                android:onClick="listByShowIdListener"
                 android:title="@string/mi_list_by_id_number_title"/>
 
             <item
                 android:id="@+id/mi_artistDropdown"
                 android:icon="@drawable/ic_artist_24dp"
+                android:onClick="listByArtistListener"
                 android:title="@string/mi_artist_title"/>
 
             <item
