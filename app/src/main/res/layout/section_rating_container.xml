@@ -6,59 +6,70 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!--Five stars container-->
+    <!--Section header-->
     <RelativeLayout
-        android:id="@+id/five_stars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/artwork_adapter_bottom_border"
         android:layout_marginStart="15dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="30dp"
+        android:paddingBottom="5dp">
 
         <!--Stars images-->
+        <!--TODO: center stars vertically w.r.t. button-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/iv_artworkStar1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
+                android:src="@drawable/ic_rate_sharp_24dp"
                 app:tint="@color/art_thief_primary"/>
 
             <ImageView
                 android:id="@+id/iv_artworkStar2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
+                android:src="@drawable/ic_rate_sharp_24dp"
                 app:tint="@color/art_thief_primary"/>
 
             <ImageView
                 android:id="@+id/iv_artworkStar3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
+                android:src="@drawable/ic_rate_sharp_24dp"
                 app:tint="@color/art_thief_primary"/>
 
             <ImageView
                 android:id="@+id/iv_artworkStar4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
+                android:src="@drawable/ic_rate_sharp_24dp"
                 app:tint="@color/art_thief_primary"/>
 
             <ImageView
                 android:id="@+id/iv_artworkStar5"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_rate_24dp"
+                android:src="@drawable/ic_rate_sharp_24dp"
                 app:tint="@color/art_thief_primary"/>
 
         </LinearLayout>
+
+        <!--Unrated title-->
+        <TextView
+            android:id="@+id/tv_ratingSectionName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/rate_fragment_unrated"
+            android:visibility="gone"/>
 
         <!--Compare button-->
         <!--TODO: change styling of compare button-->
@@ -72,15 +83,6 @@
             android:text="@string/rate_fragment_compare_button"/>
 
     </RelativeLayout>
-
-    <!--Unrated title-->
-    <TextView
-        android:id="@+id/tv_ratingSectionName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/rate_fragment_unrated"
-        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ratingSection"
