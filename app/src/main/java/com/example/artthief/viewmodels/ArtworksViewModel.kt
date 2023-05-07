@@ -6,8 +6,6 @@ import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.repository.ArtworksRepo
-import com.example.artthief.ui.rate.data.ListByOptions
-import com.example.artthief.ui.rate.data.ViewByOptions
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -35,32 +33,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private val _artworkList = MutableLiveData<List<ArtThiefArtwork>>()
 
     /**
-     * Enum value determining how to display view of artwork.
+     * Integer to represent current artwork selected to display the
+     * appropriate page in view pager.
      */
-    private var _artworkViewBySelection = ViewByOptions.LIST
-    val artworkViewBySelection: ViewByOptions
-        get() = _artworkViewBySelection
-
-    /**
-     * Enum value determining how to display ordering of artworks.
-     */
-    private var _artworkListBySelection = ListByOptions.RATING
-    val artworkListBySelection: ListByOptions
-        get() = _artworkListBySelection
-
-    /**
-     * Boolean value determining if to display deleted artworks.
-     */
-    private var _showDeletedArtworks = false
-    val showDeletedArtworks: Boolean
-        get() = _showDeletedArtworks
-
-    /**
-     * Enum value determining if to display taken artworks.
-     */
-    private var _showTakenArtworks = false
-    val showTakenArtworks: Boolean
-        get() = _showTakenArtworks
+    var currentArtworkIndex = 0
 
     /**
      * A list of artworks sorted by their ratings.
@@ -83,12 +59,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private var _isNetworkErrorShown = MutableLiveData(false)
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
-
-    /**
-     * Integer to represent current artwork selected to display the
-     * appropriate page in view pager.
-     */
-    var currentArtworkIndex = 0
 
     /**
      * init{} is called immediately when this ViewModel is created.
@@ -121,24 +91,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setListBySelection(selection: ListByOptions) {
-        _artworkListBySelection = selection
-    }
-
-    fun setListBySelection(selection: ViewByOptions) {
-        _artworkViewBySelection = selection
-    }
-
     fun setSortedArtworkList(sortedArtworks: List<ArtThiefArtwork>) {
         _artworkListByRating = sortedArtworks
-    }
-
-    fun setDeletedArtworksToggle() {
-        _showDeletedArtworks = !_showDeletedArtworks
-    }
-
-    fun setTakenArtworksToggle() {
-        _showTakenArtworks = !_showTakenArtworks
     }
 
     fun updateArtworkRating(artwork: DatabaseArtwork) {

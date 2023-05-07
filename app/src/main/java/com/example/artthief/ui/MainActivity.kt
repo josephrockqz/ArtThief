@@ -1,11 +1,11 @@
 package com.example.artthief.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.get
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,12 +13,17 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
-import com.example.artthief.ui.rate.data.ListByOptions
-import com.example.artthief.ui.rate.data.ViewByOptions
 import com.example.artthief.viewmodels.ArtworksViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
 
+    private val sharedPreferences by lazy {
+        getPreferences(Context.MODE_PRIVATE)
+    }
+    private val toolbar by lazy {
+        findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
+    }
     private val viewModel: ArtworksViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
@@ -52,60 +57,77 @@ class MainActivity : AppCompatActivity() {
 
     // TODO: implement these with shared preferences instead of view model
     fun displayList(item: MenuItem) {
-        if (viewModel.artworkViewBySelection != ViewByOptions.LIST) {
-            viewModel.setListBySelection(ViewByOptions.LIST)
-            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+        val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
+        if (currentDisplayType != "list") {
+            with (sharedPreferences.edit()) {
+                putString("rv_display_type", "list")
+                apply()
+            }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
         }
     }
 
     fun displayGrid(item: MenuItem) {
-        if (viewModel.artworkViewBySelection != ViewByOptions.GRID) {
-            viewModel.setListBySelection(ViewByOptions.GRID)
-            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+        val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
+        if (currentDisplayType != "grid") {
+            with (sharedPreferences.edit()) {
+                putString("rv_display_type", "grid")
+                apply()
+            }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
         }
     }
 
     fun listByRatingListener(item: MenuItem) {
-        if (viewModel.artworkListBySelection != ListByOptions.RATING) {
-            viewModel.setListBySelection(ListByOptions.RATING)
-            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
+        if (currentListOrder != "rating") {
+            with (sharedPreferences.edit()) {
+                putString("rv_list_order", "rating")
+                apply()
+            }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
         }
     }
 
     fun listByShowIdListener(item: MenuItem) {
-        if (viewModel.artworkListBySelection != ListByOptions.SHOW_ID) {
-            viewModel.setListBySelection(ListByOptions.SHOW_ID)
-            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
+        if (currentListOrder != "show_id") {
+            with (sharedPreferences.edit()) {
+                putString("rv_list_order", "show_id")
+                apply()
+            }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
         }
     }
 
     fun listByArtistListener(item: MenuItem) {
-        if (viewModel.artworkListBySelection != ListByOptions.ARTIST) {
-            viewModel.setListBySelection(ListByOptions.ARTIST)
-            val toolbar = findViewById<Toolbar>(R.id.rateFragmentAppBar)
+        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
+        if (currentListOrder != "artist") {
+            with (sharedPreferences.edit()) {
+                putString("rv_list_order", "artist")
+                apply()
+            }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
         }
     }
 
     fun showDeletedArtwork(item: MenuItem) {
-        viewModel.setDeletedArtworksToggle()
-        if (item.title == resources.getString(R.string.mi_show_deleted_art_title)) {
-            item.title = resources.getString(R.string.mi_hide_deleted_art_title)
-        } else {
-            item.title = resources.getString(R.string.mi_show_deleted_art_title)
+        val showDeletedArtworkState = sharedPreferences.getBoolean("show_deleted_artwork", false)
+        with (sharedPreferences.edit()) {
+            putBoolean("show_deleted_artwork", !showDeletedArtworkState)
+            apply()
         }
+        if (showDeletedArtworkState) item.title = resources.getString(R.string.mi_hide_deleted_art_title)
+        else item.title = resources.getString(R.string.mi_show_deleted_art_title)
     }
 
     fun showTakenArtwork(item: MenuItem) {
-        viewModel.setTakenArtworksToggle()
-        if (item.title == resources.getString(R.string.mi_show_taken_art_title)) {
-            item.title = resources.getString(R.string.mi_hide_taken_art_title)
-        } else {
-            item.title = resources.getString(R.string.mi_show_taken_art_title)
+        val showTakenArtworkState = sharedPreferences.getBoolean("show_taken_artwork", false)
+        with (sharedPreferences.edit()) {
+            putBoolean("show_taken_artwork", !showTakenArtworkState)
+            apply()
         }
+        if (showTakenArtworkState) item.title = resources.getString(R.string.mi_hide_taken_art_title)
+        else item.title = resources.getString(R.string.mi_show_taken_art_title)
     }
 }

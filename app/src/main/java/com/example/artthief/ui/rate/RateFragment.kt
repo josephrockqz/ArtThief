@@ -1,9 +1,11 @@
 package com.example.artthief.ui.rate
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,6 +26,12 @@ class RateFragment : Fragment() {
 
     private lateinit var ratingSectionAdapter: RatingSectionAdapter
 
+    private val sharedPreferences by lazy {
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+    }
+    private val toolbar by lazy {
+        requireView().findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
+    }
     private val viewModel: ArtworksViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -163,8 +171,22 @@ class RateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // click listeners for toolbar icons
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
+        when (sharedPreferences.getString("rv_display_type", "list")) {
+            "list" -> toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+            "grid" -> toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+        }
+
+        when (sharedPreferences.getString("rv_list_order", "rating")) {
+            "rating" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
+            "show_id" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
+            "artist" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
+        }
+
+        // TODO: fix this functionality
+        when (sharedPreferences.getBoolean("show_deleted_artwork", false)) {
+            false -> toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)
+            true -> toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_hide_deleted_art_title)
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }
