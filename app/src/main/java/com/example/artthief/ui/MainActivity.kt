@@ -113,21 +113,27 @@ class MainActivity : AppCompatActivity() {
 
     fun showDeletedArtwork(item: MenuItem) {
         val showDeletedArtworkState = sharedPreferences.getBoolean("show_deleted_artwork", false)
+        if (showDeletedArtworkState) {
+            item.title = resources.getString(R.string.mi_show_deleted_art_title)
+        } else {
+            item.title = resources.getString(R.string.mi_hide_deleted_art_title)
+        }
         with (sharedPreferences.edit()) {
             putBoolean("show_deleted_artwork", !showDeletedArtworkState)
             apply()
         }
-        if (showDeletedArtworkState) item.title = resources.getString(R.string.mi_hide_deleted_art_title)
-        else item.title = resources.getString(R.string.mi_show_deleted_art_title)
     }
 
     fun showTakenArtwork(item: MenuItem) {
         val showTakenArtworkState = sharedPreferences.getBoolean("show_taken_artwork", false)
+        if (showTakenArtworkState) {
+            item.title = resources.getString(R.string.mi_show_taken_art_title)
+        } else {
+            item.title = resources.getString(R.string.mi_hide_taken_art_title)
+        }
         with (sharedPreferences.edit()) {
             putBoolean("show_taken_artwork", !showTakenArtworkState)
             apply()
         }
-        if (showTakenArtworkState) item.title = resources.getString(R.string.mi_hide_taken_art_title)
-        else item.title = resources.getString(R.string.mi_show_taken_art_title)
     }
 }

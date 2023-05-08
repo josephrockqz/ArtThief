@@ -182,10 +182,14 @@ class RateFragment : Fragment() {
             "artist" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
         }
 
-        // TODO: fix this functionality
         when (sharedPreferences.getBoolean("show_deleted_artwork", false)) {
             false -> toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)
             true -> toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_hide_deleted_art_title)
+        }
+
+        when (sharedPreferences.getBoolean("show_taken_artwork", false)) {
+            false -> toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_show_taken_art_title)
+            true -> toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_hide_taken_art_title)
         }
 
         super.onViewCreated(view, savedInstanceState)
