@@ -241,8 +241,7 @@ class RateFragment : Fragment() {
     }
 
     private fun configureArtworksByShowId(artworks: List<ArtThiefArtwork>) {
-        // TODO: cast show ID to int before sorting
-        artworkListByShowId = artworks.sortedBy { it.showID }
+        artworkListByShowId = artworks.sortedBy { it.showID.toInt() }
         viewModel.setSortedArtworkListByShowId(artworkListByShowId)
     }
 
