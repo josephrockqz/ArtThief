@@ -28,7 +28,6 @@ interface ArtworksDao {
     )
 }
 
-// TODO: add code supporting migrations?
 @Database(entities = [DatabaseArtwork::class], version = 1)
 abstract class ArtworksDatabase: RoomDatabase() {
     abstract val artworkDao: ArtworksDao

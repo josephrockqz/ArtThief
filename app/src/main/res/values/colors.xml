@@ -22,4 +22,6 @@
     <color name="link_background_hover">#7A807D</color>
 
     <color name="send_button_background">#3E8076</color>
+    <color name="compare_button_background">#DFDFDF</color>
+    <color name="compare_button_text">#818181</color>
 </resources>

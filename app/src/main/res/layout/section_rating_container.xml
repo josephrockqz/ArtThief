@@ -72,7 +72,6 @@
             android:visibility="gone"/>
 
         <!--Compare button-->
-        <!--TODO: change styling of compare button-->
         <Button
             android:id="@+id/b_compareButton"
             android:layout_width="wrap_content"
@@ -80,7 +79,13 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
-            android:text="@string/rate_fragment_compare_button"/>
+            android:backgroundTint="@color/compare_button_background"
+            android:paddingHorizontal="7dp"
+            android:paddingVertical="0dp"
+            android:text="@string/rate_fragment_compare_button"
+            android:textAllCaps="false"
+            android:textColor="@color/compare_button_text"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
