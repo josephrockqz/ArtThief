@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+            // TODO: changing to grid view should change the icon from filter to star
             refreshRateFragment()
         }
     }
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+            // TODO: changing to grid view should change the icon from star to filter
             refreshRateFragment()
         }
     }

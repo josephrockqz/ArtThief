@@ -34,6 +34,8 @@ class RateFragment : Fragment() {
     }
     private val viewModel: ArtworksViewModel by activityViewModels()
 
+    private val artworkRatingSections: MutableList<RecyclerViewSection> = mutableListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,91 +56,27 @@ class RateFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        // TODO: dynamically assign adapter based on if what toggle is selected
-        // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
-
         /**
          * sort artworks and assign to adapters
          */
         // TODO: fix lag on rate tab (slow every time it loads) - could sort artworks in view model in overview tab then re-sort after a rating change
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
+
                 // TODO: make each code block its own functionality
-
-                // TODO: add conditional logic for what type of adapter is in use
-                val sortedArtworks = artworks.sortedByDescending { it.rating }
-                viewModel.setSortedArtworkList(sortedArtworks)
-
-                /**
-                 * Configure artwork rating adapter with sections
-                 */
-                val sections = mutableListOf<RecyclerViewSection>()
-
-                val fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
-                val fourStarArtworks = mutableListOf<ArtThiefArtwork>()
-                val threeStarArtworks = mutableListOf<ArtThiefArtwork>()
-                val twoStarArtworks = mutableListOf<ArtThiefArtwork>()
-                val oneStarArtworks = mutableListOf<ArtThiefArtwork>()
-                val unratedArtworks = mutableListOf<ArtThiefArtwork>()
-
-                sortedArtworks.forEach {
-                    when (it.rating) {
-                        5 -> fiveStarArtworks.add(it)
-                        4 -> fourStarArtworks.add(it)
-                        3 -> threeStarArtworks.add(it)
-                        2 -> twoStarArtworks.add(it)
-                        1 -> oneStarArtworks.add(it)
-                        0 -> unratedArtworks.add(it)
+                // TODO: dynamically assign adapter based on if what toggle is selected
+                // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
+                when (sharedPreferences.getString("rv_display_type", "list")) {
+                    "list" -> {
+                        when (sharedPreferences.getString("rv_list_order", "rating")) {
+                            "rating" -> configureArtworksByRating(artworks)
+                            "show_id" -> Log.i("howdy", "show id")
+                            "artist" -> Log.i("howdy", "artist")
+                        }
                     }
-                }
-
-                if (fiveStarArtworks.isNotEmpty()) {
-                    sections.add(
-                        RecyclerViewSection(
-                            5,
-                            fiveStarArtworks
-                        )
-                    )
-                }
-                if (fourStarArtworks.isNotEmpty()) {
-                    sections.add(
-                        RecyclerViewSection(
-                            4,
-                            fourStarArtworks
-                        )
-                    )
-                }
-                if (threeStarArtworks.isNotEmpty()) {
-                    sections.add(
-                        RecyclerViewSection(
-                            3,
-                            threeStarArtworks
-                        )
-                    )
-                }
-                if (twoStarArtworks.isNotEmpty()) {
-                    sections.add(
-                        RecyclerViewSection(
-                            2,
-                            twoStarArtworks
-                        )
-                    )
-                }
-                if (oneStarArtworks.isNotEmpty()) {
-                    sections.add(
-                        RecyclerViewSection(
-                            1,
-                            oneStarArtworks
-                        )
-                    )
-                }
-                if (unratedArtworks.isNotEmpty()) {
-                    sections.add(
-                        RecyclerViewSection(
-                            0,
-                            unratedArtworks
-                        )
-                    )
+                    "grid" -> {
+                        Log.i("howdy", "grid")
+                    }
                 }
 
                 binding
@@ -154,7 +92,7 @@ class RateFragment : Fragment() {
                                     showArtworkFragment(sectionPosition)
                                 }
                             },
-                            sections = sections
+                            sections = artworkRatingSections
                         )
                         adapter = ratingSectionAdapter
                     }
@@ -197,14 +135,81 @@ class RateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.i("howdy", item.toString())
-        return super.onOptionsItemSelected(item)
+    private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
+        val sortedArtworks = artworks.sortedByDescending { it.rating }
+        viewModel.setSortedArtworkList(sortedArtworks)
+
+        /**
+         * Configure artwork rating adapter with sections
+         */
+        val fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
+        val fourStarArtworks = mutableListOf<ArtThiefArtwork>()
+        val threeStarArtworks = mutableListOf<ArtThiefArtwork>()
+        val twoStarArtworks = mutableListOf<ArtThiefArtwork>()
+        val oneStarArtworks = mutableListOf<ArtThiefArtwork>()
+        val unratedArtworks = mutableListOf<ArtThiefArtwork>()
+
+        sortedArtworks.forEach {
+            when (it.rating) {
+                5 -> fiveStarArtworks.add(it)
+                4 -> fourStarArtworks.add(it)
+                3 -> threeStarArtworks.add(it)
+                2 -> twoStarArtworks.add(it)
+                1 -> oneStarArtworks.add(it)
+                0 -> unratedArtworks.add(it)
+            }
+        }
+
+        if (fiveStarArtworks.isNotEmpty()) {
+            artworkRatingSections.add(
+                RecyclerViewSection(
+                    5,
+                    fiveStarArtworks
+                )
+            )
+        }
+        if (fourStarArtworks.isNotEmpty()) {
+            artworkRatingSections.add(
+                RecyclerViewSection(
+                    4,
+                    fourStarArtworks
+                )
+            )
+        }
+        if (threeStarArtworks.isNotEmpty()) {
+            artworkRatingSections.add(
+                RecyclerViewSection(
+                    3,
+                    threeStarArtworks
+                )
+            )
+        }
+        if (twoStarArtworks.isNotEmpty()) {
+            artworkRatingSections.add(
+                RecyclerViewSection(
+                    2,
+                    twoStarArtworks
+                )
+            )
+        }
+        if (oneStarArtworks.isNotEmpty()) {
+            artworkRatingSections.add(
+                RecyclerViewSection(
+                    1,
+                    oneStarArtworks
+                )
+            )
+        }
+        if (unratedArtworks.isNotEmpty()) {
+            artworkRatingSections.add(
+                RecyclerViewSection(
+                    0,
+                    unratedArtworks
+                )
+            )
+        }
     }
 
-    /**
-     * Method for displaying a Toast error message for network errors.
-     */
     private fun onNetworkError() {
         if(!viewModel.isNetworkErrorShown.value!!) {
             Toast
