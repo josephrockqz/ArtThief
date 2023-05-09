@@ -2,7 +2,6 @@ package com.example.artthief.ui.rate
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.view.get
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.ui.rate.adapter.ArtworkAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
@@ -23,8 +23,6 @@ import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
 class RateFragment : Fragment() {
-
-    private lateinit var ratingSectionAdapter: RatingSectionAdapter
 
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
@@ -35,6 +33,8 @@ class RateFragment : Fragment() {
     private val viewModel: ArtworksViewModel by activityViewModels()
 
     private val artworkRatingSections: MutableList<RecyclerViewSection> = mutableListOf()
+    private var artworkListByShowId: List<ArtThiefArtwork> = emptyList()
+    private var artworkListByArtist: List<ArtThiefArtwork> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,18 +42,14 @@ class RateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Log.i("howdy", "oc create view - refresh")
-
+        // Set the lifecycleOwner so DataBinding can observe LiveData
         val binding: FragmentRateBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_rate,
             container,
             false
         )
-
-        // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.viewModel = viewModel
 
         /**
@@ -63,19 +59,12 @@ class RateFragment : Fragment() {
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
 
-                // TODO: make each code block its own functionality
-                // TODO: dynamically assign adapter based on if what toggle is selected
-                // TODO: will need to create ArtworkIdAdapter & ArtworkArtistAdapter
                 when (sharedPreferences.getString("rv_display_type", "list")) {
                     "list" -> {
-                        when (sharedPreferences.getString("rv_list_order", "rating")) {
-                            "rating" -> configureArtworksByRating(artworks)
-                            "show_id" -> Log.i("howdy", "show id")
-                            "artist" -> Log.i("howdy", "artist")
-                        }
+                        configureArtworksList(artworks)
                     }
                     "grid" -> {
-                        Log.i("howdy", "grid")
+                        configureArtworksGrid(artworks)
                     }
                 }
 
@@ -83,18 +72,47 @@ class RateFragment : Fragment() {
                     .root
                     .findViewById<RecyclerView>(R.id.rv_rateFragment)
                     .apply {
-                        hasFixedSize() // TODO: change to false?
                         layoutManager = LinearLayoutManager(context)
-                        ratingSectionAdapter = RatingSectionAdapter(
-                            context = context,
-                            artworkClickListener = object: ArtworkClickListener {
-                                override fun onArtworkClicked(sectionPosition: Int, view: View) {
-                                    showArtworkFragment(sectionPosition)
-                                }
-                            },
-                            sections = artworkRatingSections
-                        )
-                        adapter = ratingSectionAdapter
+                        // TODO: break out different constructors into their own functions?
+                        adapter = when (sharedPreferences.getString("rv_display_type", "list")) {
+                            "list" -> when (sharedPreferences.getString("rv_list_order", "rating")) {
+                                "show_id" -> ArtworkAdapter(
+                                    artworkClickListener = object: ArtworkClickListener {
+                                        override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                                            showArtworkFragment(sectionPosition)
+                                        }
+                                    },
+                                    artworks = artworkListByShowId
+                                )
+                                "artist" -> ArtworkAdapter(
+                                    artworkClickListener = object: ArtworkClickListener {
+                                        override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                                            showArtworkFragment(sectionPosition)
+                                        }
+                                    },
+                                    artworks = artworkListByArtist
+                                )
+                                else -> RatingSectionAdapter(
+                                    context = context,
+                                    artworkClickListener = object: ArtworkClickListener {
+                                        override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                                            showArtworkFragment(sectionPosition)
+                                        }
+                                    },
+                                    sections = artworkRatingSections
+                                )
+                            }
+                            // TODO: implement grid artwork adapter
+                            else -> RatingSectionAdapter(
+                                context = context,
+                                artworkClickListener = object: ArtworkClickListener {
+                                    override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                                        showArtworkFragment(sectionPosition)
+                                    }
+                                },
+                                sections = artworkRatingSections
+                            )
+                        }
                     }
             }
         }
@@ -135,13 +153,23 @@ class RateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
-        val sortedArtworks = artworks.sortedByDescending { it.rating }
-        viewModel.setSortedArtworkList(sortedArtworks)
+    private fun configureArtworksList(artworks: List<ArtThiefArtwork>) {
+        when (sharedPreferences.getString("rv_list_order", "rating")) {
+            "rating" -> configureArtworksByRating(artworks)
+            "show_id" -> configureArtworksByShowId(artworks)
+            "artist" -> configureArtworksByArtist(artworks)
+        }
+    }
 
-        /**
-         * Configure artwork rating adapter with sections
-         */
+    private fun configureArtworksGrid(artworks: List<ArtThiefArtwork>) {
+
+    }
+
+    private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
+
+        val sortedArtworks = artworks.sortedByDescending { it.rating }
+        viewModel.setSortedArtworkListByRating(sortedArtworks)
+
         val fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
         val fourStarArtworks = mutableListOf<ArtThiefArtwork>()
         val threeStarArtworks = mutableListOf<ArtThiefArtwork>()
@@ -210,8 +238,26 @@ class RateFragment : Fragment() {
         }
     }
 
+    private fun configureArtworksByShowId(artworks: List<ArtThiefArtwork>) {
+        // TODO: cast show ID to int before sorting
+        artworkListByShowId = artworks.sortedBy { it.showID }
+        viewModel.setSortedArtworkListByShowId(artworkListByShowId)
+    }
+
+    private fun configureArtworksByArtist(artworks: List<ArtThiefArtwork>) {
+        artworkListByArtist = artworks.sortedBy { it.artist }
+        viewModel.setSortedArtworkListByArtist(artworkListByArtist)
+    }
+
+//    private fun configureArtworkListAdapter(
+//        context: Context
+//    ): Adapter {
+//        return
+//    }
+
+    // TODO: get rid of this?
     private fun onNetworkError() {
-        if(!viewModel.isNetworkErrorShown.value!!) {
+        if (!viewModel.isNetworkErrorShown.value!!) {
             Toast
                 .makeText(activity, "Network Error", Toast.LENGTH_LONG)
                 .show()

@@ -79,6 +79,7 @@ class PageArtworkFragment(
             ?.findViewById<ViewPager>(R.id.pager_artwork)
             ?.currentItem
         viewModel.currentArtworkIndex = currentViewPagerIndex!!
+        // TODO: set title dynamically based on what list is used
         val currentArtworkTitle = viewModel.artworkListByRating[currentViewPagerIndex].title
         parentFragment
             ?.view

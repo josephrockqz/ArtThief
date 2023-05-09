@@ -46,6 +46,20 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         get() = _artworkListByRating
 
     /**
+     * A list of artworks sorted by their show IDs.
+     */
+    private var _artworkListByShowId = emptyList<ArtThiefArtwork>()
+    val artworkListByShowId: List<ArtThiefArtwork>
+        get() = _artworkListByShowId
+
+    /**
+     * A list of artworks sorted by their show IDs.
+     */
+    private var _artworkListByArtist = emptyList<ArtThiefArtwork>()
+    val artworkListByArtist: List<ArtThiefArtwork>
+        get() = _artworkListByArtist
+
+    /**
      * Event triggered for network error.
      */
     private var _eventNetworkError = MutableLiveData(false)
@@ -91,8 +105,16 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun setSortedArtworkList(sortedArtworks: List<ArtThiefArtwork>) {
+    fun setSortedArtworkListByRating(sortedArtworks: List<ArtThiefArtwork>) {
         _artworkListByRating = sortedArtworks
+    }
+
+    fun setSortedArtworkListByShowId(sortedArtworks: List<ArtThiefArtwork>) {
+        _artworkListByShowId = sortedArtworks
+    }
+
+    fun setSortedArtworkListByArtist(sortedArtworks: List<ArtThiefArtwork>) {
+        _artworkListByArtist = sortedArtworks
     }
 
     fun updateArtworkRating(artwork: DatabaseArtwork) {

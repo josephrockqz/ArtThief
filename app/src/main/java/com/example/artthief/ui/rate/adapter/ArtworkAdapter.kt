@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 class ArtworkAdapter(
     private val artworkClickListener: ArtworkClickListener,
     private val artworks: List<ArtThiefArtwork>,
-    private val numPriorArtworks: Int
+    private val numPriorArtworks: Int = 0
 ) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
     /**

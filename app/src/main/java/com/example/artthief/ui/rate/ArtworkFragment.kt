@@ -58,6 +58,7 @@ class ArtworkFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
+                // TODO: set title dynamically based on what list is used
                 view
                     .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
                     .title = viewModel.artworkListByRating[position].title
