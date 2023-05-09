@@ -72,6 +72,7 @@
     <item
         android:id="@+id/mi_refresh"
         android:icon="@drawable/ic_refresh_24dp"
+        android:onClick="refreshRateFragment"
         android:title="@string/mi_refresh_title"
         app:showAsAction="always" />
 

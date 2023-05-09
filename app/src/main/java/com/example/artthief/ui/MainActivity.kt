@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+            refreshRateFragment()
         }
-        refreshRateFragment()
     }
 
     fun displayGrid(item: MenuItem) {
@@ -77,8 +77,8 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+            refreshRateFragment()
         }
-        refreshRateFragment()
     }
 
     fun listByRatingListener(item: MenuItem) {
@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
+            refreshRateFragment()
         }
-        refreshRateFragment()
     }
 
     fun listByShowIdListener(item: MenuItem) {
@@ -101,8 +101,8 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
+            refreshRateFragment()
         }
-        refreshRateFragment()
     }
 
     fun listByArtistListener(item: MenuItem) {
@@ -113,8 +113,8 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
+            refreshRateFragment()
         }
-        refreshRateFragment()
     }
 
     fun showDeletedArtwork(item: MenuItem) {
@@ -142,6 +142,10 @@ class MainActivity : AppCompatActivity() {
             putBoolean("show_taken_artwork", !showTakenArtworkState)
             apply()
         }
+        refreshRateFragment()
+    }
+
+    fun refreshRateFragment(item: MenuItem) {
         refreshRateFragment()
     }
 
