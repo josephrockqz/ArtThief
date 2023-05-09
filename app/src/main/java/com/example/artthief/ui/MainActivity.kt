@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
+import com.example.artthief.ui.rate.RateFragment
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
         }
+        refreshRateFragment()
     }
 
     fun displayGrid(item: MenuItem) {
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
         }
+        refreshRateFragment()
     }
 
     fun listByRatingListener(item: MenuItem) {
@@ -87,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
         }
+        refreshRateFragment()
     }
 
     fun listByShowIdListener(item: MenuItem) {
@@ -98,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
         }
+        refreshRateFragment()
     }
 
     fun listByArtistListener(item: MenuItem) {
@@ -109,6 +114,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
         }
+        refreshRateFragment()
     }
 
     fun showDeletedArtwork(item: MenuItem) {
@@ -122,6 +128,7 @@ class MainActivity : AppCompatActivity() {
             putBoolean("show_deleted_artwork", !showDeletedArtworkState)
             apply()
         }
+        refreshRateFragment()
     }
 
     fun showTakenArtwork(item: MenuItem) {
@@ -135,5 +142,13 @@ class MainActivity : AppCompatActivity() {
             putBoolean("show_taken_artwork", !showTakenArtworkState)
             apply()
         }
+        refreshRateFragment()
+    }
+
+    private fun refreshRateFragment() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.rl_rateFragment, RateFragment())
+            .commit()
     }
 }

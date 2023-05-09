@@ -40,6 +40,8 @@ class RateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        Log.i("howdy", "oc create view - refresh")
+
         val binding: FragmentRateBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_rate,
