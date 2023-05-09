@@ -1,7 +1,7 @@
 package com.example.artthief.ui.rate
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +18,9 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class ArtworkFragment : Fragment() {
 
+    private val sharedPreferences by lazy {
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+    }
     private val viewModel: ArtworksViewModel by activityViewModels()
 
     private lateinit var artworkPagerAdapter: ArtworkPagerAdapter
@@ -38,8 +41,13 @@ class ArtworkFragment : Fragment() {
         viewPager = view.findViewById(R.id.pager_artwork)
         viewPager.adapter = artworkPagerAdapter
 
-        // TODO: add conditional logic for what type of adapter is in use
-        artworkPagerAdapter.artworks = viewModel.artworkListByRating
+        artworkPagerAdapter.artworks = when (
+            sharedPreferences.getString("rv_list_order", "rating")
+        ) {
+            "rating" -> viewModel.artworkListByRating
+            "show_id" -> viewModel.artworkListByShowId
+            else -> viewModel.artworkListByArtist
+        }
         // Set view pager's artwork based on what row (artwork) is pressed
         viewPager.currentItem = viewModel.currentArtworkIndex
 
@@ -58,10 +66,15 @@ class ArtworkFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                // TODO: set title dynamically based on what list is used
                 view
                     .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-                    .title = viewModel.artworkListByRating[position].title
+                    .title = when (
+                        sharedPreferences.getString("rv_list_order", "rating")
+                    ) {
+                        "rating" -> viewModel.artworkListByRating[position].title
+                        "show_id" -> viewModel.artworkListByShowId[position].title
+                        else -> viewModel.artworkListByArtist[position].title
+                    }
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -79,7 +92,7 @@ class ArtworkFragment : Fragment() {
 
         // TODO: have on click listener launch augmented activity
         view.findViewById<View>(R.id.mi_augmented).setOnClickListener {
-            Log.i("howdy", "augmented item clicked")
+
         }
 
         super.onViewCreated(view, savedInstanceState)

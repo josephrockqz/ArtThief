@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,6 +26,9 @@ class PageArtworkFragment(
     private val artwork: ArtThiefArtwork = defaultArtThiefArtwork
 ) : Fragment() {
 
+    private val sharedPreferences by lazy {
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+    }
     private val viewModel: ArtworksViewModel by activityViewModels()
 
     private val starFilledDrawable: Drawable by lazy {
@@ -79,8 +83,13 @@ class PageArtworkFragment(
             ?.findViewById<ViewPager>(R.id.pager_artwork)
             ?.currentItem
         viewModel.currentArtworkIndex = currentViewPagerIndex!!
-        // TODO: set title dynamically based on what list is used
-        val currentArtworkTitle = viewModel.artworkListByRating[currentViewPagerIndex].title
+        val currentArtworkTitle = when (
+            sharedPreferences.getString("rv_list_order", "rating")
+        ) {
+            "rating" -> viewModel.artworkListByRating[currentViewPagerIndex].title
+            "show_id" -> viewModel.artworkListByShowId[currentViewPagerIndex].title
+            else -> viewModel.artworkListByArtist[currentViewPagerIndex].title
+        }
         parentFragment
             ?.view
             ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)

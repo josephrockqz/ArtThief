@@ -22,6 +22,8 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
+// TODO: fix adapter bugs - ratings not changing
+// TODO: fix icon images not changing on click
 class RateFragment : Fragment() {
 
     private val sharedPreferences by lazy {
@@ -248,12 +250,6 @@ class RateFragment : Fragment() {
         artworkListByArtist = artworks.sortedBy { it.artist }
         viewModel.setSortedArtworkListByArtist(artworkListByArtist)
     }
-
-//    private fun configureArtworkListAdapter(
-//        context: Context
-//    ): Adapter {
-//        return
-//    }
 
     // TODO: get rid of this?
     private fun onNetworkError() {
