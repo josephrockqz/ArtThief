@@ -80,48 +80,46 @@ class RateFragment : Fragment() {
                             .findViewById<RecyclerView>(R.id.rv_rateFragment)
                             .apply {
                                 layoutManager = LinearLayoutManager(context)
-                                // TODO: break out different constructors into their own functions?
-                                adapter =
-                                    when (sharedPreferences.getString("rv_list_order", "rating")) {
-                                        "show_id" -> ArtworkAdapter(
-                                            artworkClickListener = object : ArtworkClickListener {
-                                                override fun onArtworkClicked(
-                                                    sectionPosition: Int,
-                                                    view: View
-                                                ) {
-                                                    showArtworkFragment(sectionPosition)
-                                                }
-                                            },
-                                            artworks = artworkListByShowId
-                                        )
-                                        "artist" -> ArtworkAdapter(
-                                            artworkClickListener = object : ArtworkClickListener {
-                                                override fun onArtworkClicked(
-                                                    sectionPosition: Int,
-                                                    view: View
-                                                ) {
-                                                    showArtworkFragment(sectionPosition)
-                                                }
-                                            },
-                                            artworks = artworkListByArtist
-                                        )
-                                        else -> RatingSectionAdapter(
-                                            context = context,
-                                            artworkClickListener = object : ArtworkClickListener {
-                                                override fun onArtworkClicked(
-                                                    sectionPosition: Int,
-                                                    view: View
-                                                ) {
-                                                    showArtworkFragment(sectionPosition)
-                                                }
-                                            },
-                                            sections = artworkRatingSections
-                                        )
-                                    }
+                                // TODO: get rid of redundancy of click listener objects
+                                adapter = when (sharedPreferences.getString("rv_list_order", "rating")) {
+                                    "show_id" -> ArtworkAdapter(
+                                        artworkClickListener = object : ArtworkClickListener {
+                                            override fun onArtworkClicked(
+                                                sectionPosition: Int,
+                                                view: View
+                                            ) {
+                                                showArtworkFragment(sectionPosition)
+                                            }
+                                        },
+                                        artworks = artworkListByShowId
+                                    )
+                                    "artist" -> ArtworkAdapter(
+                                        artworkClickListener = object : ArtworkClickListener {
+                                            override fun onArtworkClicked(
+                                                sectionPosition: Int,
+                                                view: View
+                                            ) {
+                                                showArtworkFragment(sectionPosition)
+                                            }
+                                        },
+                                        artworks = artworkListByArtist
+                                    )
+                                    else -> RatingSectionAdapter(
+                                        context = context,
+                                        artworkClickListener = object : ArtworkClickListener {
+                                            override fun onArtworkClicked(
+                                                sectionPosition: Int,
+                                                view: View
+                                            ) {
+                                                showArtworkFragment(sectionPosition)
+                                            }
+                                        },
+                                        sections = artworkRatingSections
+                                    )
+                                }
                             }
                     }
-                    // TODO: implement grid artwork adapter
-                    // TODO: implement grid on click listener
+                    // "grid"
                     else -> {
                         binding
                             .root
