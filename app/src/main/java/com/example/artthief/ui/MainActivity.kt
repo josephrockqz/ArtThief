@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    // TODO: implement these with shared preferences instead of view model
     fun displayList(item: MenuItem) {
         val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
         if (currentDisplayType != "list") {

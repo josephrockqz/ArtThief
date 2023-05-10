@@ -22,8 +22,8 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
-// TODO: fix adapter bugs - ratings not changing
-// TODO: fix icon images not changing on click
+// TODO: fix adapter bugs - ratings not changing (notifyDataSetChanged)
+// TODO: fix icon images not changing on click (not always reproducible)
 class RateFragment : Fragment() {
 
     private val sharedPreferences by lazy {
@@ -57,7 +57,7 @@ class RateFragment : Fragment() {
         /**
          * sort artworks and assign to adapters
          */
-        // TODO: fix lag on rate tab (slow every time it loads) - could sort artworks in view model in overview tab then re-sort after a rating change
+        // TODO: fix lag on rate tab (slow every time it loads)
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
 
@@ -169,74 +169,16 @@ class RateFragment : Fragment() {
 
     private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
 
+        // sort artworks by descending rating and update view model
         val sortedArtworks = artworks.sortedByDescending { it.rating }
         viewModel.setSortedArtworkListByRating(sortedArtworks)
 
-        val fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
-        val fourStarArtworks = mutableListOf<ArtThiefArtwork>()
-        val threeStarArtworks = mutableListOf<ArtThiefArtwork>()
-        val twoStarArtworks = mutableListOf<ArtThiefArtwork>()
-        val oneStarArtworks = mutableListOf<ArtThiefArtwork>()
-        val unratedArtworks = mutableListOf<ArtThiefArtwork>()
-
-        sortedArtworks.forEach {
-            when (it.rating) {
-                5 -> fiveStarArtworks.add(it)
-                4 -> fourStarArtworks.add(it)
-                3 -> threeStarArtworks.add(it)
-                2 -> twoStarArtworks.add(it)
-                1 -> oneStarArtworks.add(it)
-                0 -> unratedArtworks.add(it)
+        // partition artworks by rating then assign to rv's sections
+        val artworkRatingMap = sortedArtworks.groupBy { it.rating }
+        for (i in 5 downTo 0) {
+            artworkRatingMap[i]?.let {
+                artworkRatingSections.add(RecyclerViewSection(i, it))
             }
-        }
-
-        if (fiveStarArtworks.isNotEmpty()) {
-            artworkRatingSections.add(
-                RecyclerViewSection(
-                    5,
-                    fiveStarArtworks
-                )
-            )
-        }
-        if (fourStarArtworks.isNotEmpty()) {
-            artworkRatingSections.add(
-                RecyclerViewSection(
-                    4,
-                    fourStarArtworks
-                )
-            )
-        }
-        if (threeStarArtworks.isNotEmpty()) {
-            artworkRatingSections.add(
-                RecyclerViewSection(
-                    3,
-                    threeStarArtworks
-                )
-            )
-        }
-        if (twoStarArtworks.isNotEmpty()) {
-            artworkRatingSections.add(
-                RecyclerViewSection(
-                    2,
-                    twoStarArtworks
-                )
-            )
-        }
-        if (oneStarArtworks.isNotEmpty()) {
-            artworkRatingSections.add(
-                RecyclerViewSection(
-                    1,
-                    oneStarArtworks
-                )
-            )
-        }
-        if (unratedArtworks.isNotEmpty()) {
-            artworkRatingSections.add(
-                RecyclerViewSection(
-                    0,
-                    unratedArtworks
-                )
-            )
         }
     }
 
@@ -250,7 +192,7 @@ class RateFragment : Fragment() {
         viewModel.setSortedArtworkListByArtist(artworkListByArtist)
     }
 
-    // TODO: get rid of this?
+    // TODO: get rid of onNetworkError functions? - check to see if ever reached
     private fun onNetworkError() {
         if (!viewModel.isNetworkErrorShown.value!!) {
             Toast

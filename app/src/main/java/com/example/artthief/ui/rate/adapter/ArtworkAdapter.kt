@@ -36,6 +36,16 @@ class ArtworkAdapter(
         ]
      */
 
+    // TODO: re-implement this:
+//    var artworks: List<ArtThiefArtwork> = emptyList()
+//        @SuppressLint("NotifyDataSetChanged")
+//        set(value) {
+//            field = value
+//            // Notify any registered observers that the data set has changed. This will cause every
+//            // element in our RecyclerView to be invalidated.
+//            notifyDataSetChanged()
+//        }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var artworkImage: ImageView
