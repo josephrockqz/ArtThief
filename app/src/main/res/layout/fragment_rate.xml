@@ -48,6 +48,14 @@
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager" />
 
+        <GridView
+            android:id="@+id/gv_rateFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp" />
+
     </RelativeLayout>
 
 </layout>
