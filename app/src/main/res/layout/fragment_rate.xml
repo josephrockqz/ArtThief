@@ -48,6 +48,7 @@
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager" />
 
+        <!--Artwork grid view-->
         <GridView
             android:id="@+id/gv_rateFragment"
             android:layout_width="match_parent"

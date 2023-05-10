@@ -1,5 +1,6 @@
 package com.example.artthief.ui.rate.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +75,9 @@ class ArtworkAdapter(
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
+
+        Log.i("howdy", artworkClickListener.toString())
+
         val v = LayoutInflater
             .from(viewGroup.context)
             .inflate(R.layout.art_card_view, viewGroup, false)

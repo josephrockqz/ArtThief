@@ -67,19 +67,12 @@ class RateFragment : Fragment() {
                 when (sharedPreferences.getString("rv_display_type", "list")) {
                     "list" -> {
                         configureArtworksList(artworks)
-                    }
-                    "grid" -> {
-                        configureArtworksGrid(artworks)
-                    }
-                }
-
-                when (sharedPreferences.getString("rv_display_type", "list")) {
-                    "list" -> {
                         binding
                             .root
                             .findViewById<RecyclerView>(R.id.rv_rateFragment)
                             .apply {
                                 layoutManager = LinearLayoutManager(context)
+                                // TODO: fix click listener
                                 // TODO: get rid of redundancy of click listener objects
                                 adapter = when (sharedPreferences.getString("rv_list_order", "rating")) {
                                     "show_id" -> ArtworkAdapter(
@@ -119,8 +112,8 @@ class RateFragment : Fragment() {
                                 }
                             }
                     }
-                    // "grid"
-                    else -> {
+                    "grid" -> {
+                        configureArtworksGrid(artworks)
                         binding
                             .root
                             .findViewById<GridView>(R.id.gv_rateFragment)
