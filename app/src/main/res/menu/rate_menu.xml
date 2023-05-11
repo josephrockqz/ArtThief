@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO: style dropdown menus so icons are aligned right-->
+<!--TODO: style dropdown menus so there is check next to currently selected option-->
 <menu
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -77,39 +79,56 @@
         android:visible="false"
         app:showAsAction="always">
 
-<!--        <menu>-->
+        <menu>
 
-<!--            <item-->
-<!--                android:id="@+id/mi_ratingDropdown"-->
-<!--                android:icon="@drawable/ic_rate_outline_24dp"-->
-<!--                android:onClick="listByRatingListener"-->
-<!--                android:title="@string/mi_list_by_rating_title"/>-->
+            <item
+                android:id="@+id/mi_showAllDropdown"
+                android:icon="@drawable/ic_filter_24dp"
+                android:title="@string/mi_show_all_title"/>
 
-<!--            <item-->
-<!--                android:id="@+id/mi_idNumberDropdown"-->
-<!--                android:icon="@drawable/ic_123_24dp"-->
-<!--                android:onClick="listByShowIdListener"-->
-<!--                android:title="@string/mi_list_by_id_number_title"/>-->
+            <item
+                android:id="@+id/mi_fiveStarDropdown"
+                android:icon="@drawable/ic_five_24dp"
+                android:title="@string/mi_five_stars_title"/>
 
-<!--            <item-->
-<!--                android:id="@+id/mi_artistDropdown"-->
-<!--                android:icon="@drawable/ic_artist_24dp"-->
-<!--                android:onClick="listByArtistListener"-->
-<!--                android:title="@string/mi_artist_title"/>-->
+            <item
+                android:id="@+id/mi_fourStarDropdown"
+                android:icon="@drawable/ic_four_24dp"
+                android:title="@string/mi_four_stars_title"/>
 
-<!--            <item-->
-<!--                android:id="@+id/mi_deletedArtDropdown"-->
-<!--                android:icon="@drawable/ic_deleted_24dp"-->
-<!--                android:onClick="showDeletedArtwork"-->
-<!--                android:title="@string/mi_show_deleted_art_title"/>-->
+            <item
+                android:id="@+id/mi_threeStarDropdown"
+                android:icon="@drawable/ic_three_24dp"
+                android:title="@string/mi_three_stars_title"/>
 
-<!--            <item-->
-<!--                android:id="@+id/mi_takenArtDropdown"-->
-<!--                android:icon="@drawable/ic_taken_24dp"-->
-<!--                android:onClick="showTakenArtwork"-->
-<!--                android:title="@string/mi_show_taken_art_title"/>-->
+            <item
+                android:id="@+id/mi_twoStarDropdown"
+                android:icon="@drawable/ic_two_24dp"
+                android:title="@string/mi_two_stars_title"/>
 
-<!--        </menu>-->
+            <item
+                android:id="@+id/mi_oneStarDropdown"
+                android:icon="@drawable/ic_one_24dp"
+                android:title="@string/mi_one_stars_title"/>
+
+            <item
+                android:id="@+id/mi_unratedDropdown"
+                android:icon="@drawable/ic_outline_circle_24dp"
+                android:title="@string/mi_unrated_title"/>
+
+            <item
+                android:id="@+id/mi_deletedArtDropdown2"
+                android:icon="@drawable/ic_deleted_24dp"
+                android:onClick="showDeletedArtwork"
+                android:title="@string/mi_show_deleted_art_title"/>
+
+            <item
+                android:id="@+id/mi_takenArtDropdown2"
+                android:icon="@drawable/ic_taken_24dp"
+                android:onClick="showTakenArtwork"
+                android:title="@string/mi_show_taken_art_title"/>
+
+        </menu>
 
     </item>
 

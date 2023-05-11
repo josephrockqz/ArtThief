@@ -49,9 +49,16 @@
     <string name="mi_list_by_rating_title">List by Rating</string>
     <string name="mi_list_by_id_number_title">ID Number</string>
     <string name="mi_artist_title">Artist</string>
+    <string name="mi_filter_title">Filter</string>
+    <string name="mi_show_all_title">Show All</string>
+    <string name="mi_five_stars_title">5 Stars</string>
+    <string name="mi_four_stars_title">4 Stars</string>
+    <string name="mi_three_stars_title">3 Stars</string>
+    <string name="mi_two_stars_title">2 Stars</string>
+    <string name="mi_one_stars_title">1 Stars</string>
+    <string name="mi_unrated_title">Unrated</string>
     <string name="mi_show_deleted_art_title">Show Deleted Art</string>
     <string name="mi_hide_deleted_art_title">Hide Deleted Art</string>
-    <string name="mi_filter_title">Filter</string>
     <string name="mi_show_taken_art_title">Show Taken Art</string>
     <string name="mi_hide_taken_art_title">Hide Taken Art</string>
     <string name="mi_refresh_title">Refresh</string>

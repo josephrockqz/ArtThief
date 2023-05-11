@@ -46,33 +46,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         get() = _artworkListByRating
 
     /**
-     * Lists partitioning artworks by their ratings.
-     */
-//    private val _unratedArtworks = mutableListOf<ArtThiefArtwork>()
-//    val unratedArtworks: MutableList<ArtThiefArtwork>
-//        get() = _unratedArtworks
-//
-//    private val _oneStarArtworks = mutableListOf<ArtThiefArtwork>()
-//    val oneStarArtworks: MutableList<ArtThiefArtwork>
-//        get() = _oneStarArtworks
-//
-//    private val _twoStarArtworks = mutableListOf<ArtThiefArtwork>()
-//    val twoStarArtworks: MutableList<ArtThiefArtwork>
-//        get() = _twoStarArtworks
-//
-//    private val _threeStarArtworks = mutableListOf<ArtThiefArtwork>()
-//    val threeStarArtworks: MutableList<ArtThiefArtwork>
-//        get() = _threeStarArtworks
-//
-//    private val _fourStarArtworks = mutableListOf<ArtThiefArtwork>()
-//    val fourStarArtworks: MutableList<ArtThiefArtwork>
-//        get() = _fourStarArtworks
-//
-//    private val _fiveStarArtworks = mutableListOf<ArtThiefArtwork>()
-//    val fiveStarArtworks: MutableList<ArtThiefArtwork>
-//        get() = _unratedArtworks
-
-    /**
      * A list of artworks sorted by their show IDs.
      */
     private var _artworkListByShowId = emptyList<ArtThiefArtwork>()
