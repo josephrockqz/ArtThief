@@ -40,6 +40,7 @@
     <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\nsupport@zurka.com</string>
 
     <!--Rate page strings-->
+    <string name="title_grid_sort">Sort Art</string>
     <string name="mi_view_title">View</string>
     <string name="mi_list_title">List</string>
     <string name="mi_grid_title">Grid</string>

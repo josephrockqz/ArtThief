@@ -59,7 +59,6 @@ class RateFragment : Fragment() {
         // TODO: fix lag on rate tab (slow every time it loads)
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
-
                 when (sharedPreferences.getString("rv_display_type", "list")) {
                     "list" -> {
                         configureArtworksList(artworks)
@@ -67,8 +66,9 @@ class RateFragment : Fragment() {
                             .root
                             .findViewById<RecyclerView>(R.id.rv_rateFragment)
                             .apply {
+                                setHasFixedSize(true)
+                                isNestedScrollingEnabled = false
                                 layoutManager = LinearLayoutManager(context)
-                                // TODO: get rid of redundancy of click listener objects
                                 adapter = when (sharedPreferences.getString("rv_list_order", "rating")) {
                                     "show_id" -> ArtworkAdapter(
                                         artworkClickListener = object : ArtworkClickListener {
@@ -127,8 +127,14 @@ class RateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         when (sharedPreferences.getString("rv_display_type", "list")) {
-            "list" -> toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
-            "grid" -> toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+            "list" -> {
+                toolbar.title = resources.getString(R.string.title_rate)
+                toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+            }
+            "grid" -> {
+                toolbar.title = resources.getString(R.string.title_grid_sort)
+                toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+            }
         }
 
         when (sharedPreferences.getString("rv_list_order", "rating")) {

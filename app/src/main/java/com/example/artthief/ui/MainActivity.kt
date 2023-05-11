@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             // TODO: changing to grid view should change the icon from filter to star
             // TODO: changing to list view should change the app bar title
+            toolbar.title = resources.getString(R.string.title_rate)
             refreshRateFragment()
         }
     }
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
             // TODO: changing to grid view should change the icon from star to filter
             // TODO: changing to grid view should change the app bar title
+            toolbar.title = resources.getString(R.string.title_grid_sort)
             refreshRateFragment()
         }
     }
