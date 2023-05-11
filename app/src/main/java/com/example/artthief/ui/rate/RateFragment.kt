@@ -34,7 +34,6 @@ class RateFragment : Fragment() {
     private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.rv_rateFragment)
     }
-    // TODO: implement sharedPreferences methods (after moving on click listeners here)
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
@@ -66,7 +65,7 @@ class RateFragment : Fragment() {
 
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
-                when (sharedPreferences.getString("rv_display_type", "list")) {
+                when (getDisplayTypeState()) {
                     "list" -> {
                         configureArtworksList(artworks)
                         binding
@@ -76,7 +75,7 @@ class RateFragment : Fragment() {
                                 setHasFixedSize(true)
                                 isNestedScrollingEnabled = false
                                 layoutManager = LinearLayoutManager(context)
-                                adapter = when (sharedPreferences.getString("rv_list_order", "rating")) {
+                                adapter = when (getRvListOrderState()) {
                                     "show_id" -> ArtworkAdapter(
                                         artworkClickListener = object : ArtworkClickListener {
                                             override fun onArtworkClicked(
@@ -133,7 +132,7 @@ class RateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        when (sharedPreferences.getString("rv_display_type", "list")) {
+        when (getDisplayTypeState()) {
             "list" -> {
                 recyclerView.visibility = View.VISIBLE
                 gridView.visibility = View.GONE
@@ -152,14 +151,13 @@ class RateFragment : Fragment() {
             }
         }
 
-        when (sharedPreferences.getString("rv_list_order", "rating")) {
+        when (getRvListOrderState()) {
             "rating" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
             "show_id" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
             "artist" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
         }
 
-        Log.i("howdy", "on view created")
-        when (sharedPreferences.getBoolean("show_deleted_artwork", false)) {
+        when (getShowDeletedArtworkState()) {
             false -> {
                 toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)
                 toolbar.menu[2].subMenu?.get(7)?.title = resources.getString(R.string.mi_show_deleted_art_title)
@@ -170,7 +168,7 @@ class RateFragment : Fragment() {
             }
         }
 
-        when (sharedPreferences.getBoolean("show_taken_artwork", false)) {
+        when (getShowTakenArtworkState()) {
             false -> {
                 toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_show_taken_art_title)
                 toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_show_taken_art_title)
@@ -187,7 +185,7 @@ class RateFragment : Fragment() {
     }
 
     private fun configureArtworksList(artworks: List<ArtThiefArtwork>) {
-        when (sharedPreferences.getString("rv_list_order", "rating")) {
+        when (getRvListOrderState()) {
             "rating" -> configureArtworksByRating(artworks)
             "show_id" -> configureArtworksByShowId(artworks)
             "artist" -> configureArtworksByArtist(artworks)
@@ -260,10 +258,9 @@ class RateFragment : Fragment() {
     }
 
     private fun displayList(): Boolean {
-        val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
-        if (currentDisplayType != "list") {
+        if (getDisplayTypeState() != "list") {
             with (sharedPreferences.edit()) {
-                putString("rv_display_type", "list")
+                putString("display_type", "list")
                 apply()
             }
             recyclerView.visibility = View.VISIBLE
@@ -278,10 +275,9 @@ class RateFragment : Fragment() {
     }
 
     private fun displayGrid(): Boolean {
-        val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
-        if (currentDisplayType != "grid") {
+        if (getDisplayTypeState() != "grid") {
             with (sharedPreferences.edit()) {
-                putString("rv_display_type", "grid")
+                putString("display_type", "grid")
                 apply()
             }
             recyclerView.visibility = View.GONE
@@ -296,8 +292,7 @@ class RateFragment : Fragment() {
     }
 
     private fun listByRatingListener(): Boolean {
-        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
-        if (currentListOrder != "rating") {
+        if (getRvListOrderState() != "rating") {
             with (sharedPreferences.edit()) {
                 putString("rv_list_order", "rating")
                 apply()
@@ -309,8 +304,7 @@ class RateFragment : Fragment() {
     }
 
     private fun listByShowIdListener(): Boolean {
-        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
-        if (currentListOrder != "show_id") {
+        if (getRvListOrderState() != "show_id") {
             with (sharedPreferences.edit()) {
                 putString("rv_list_order", "show_id")
                 apply()
@@ -322,20 +316,19 @@ class RateFragment : Fragment() {
     }
 
     private fun listByArtistListener(): Boolean {
-        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
-        if (currentListOrder != "artist") {
+        if (getRvListOrderState() != "artist") {
             with (sharedPreferences.edit()) {
                 putString("rv_list_order", "artist")
                 apply()
             }
-
+            toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
             refreshRateFragment()
         }
         return true
     }
 
     private fun showDeletedArtwork(): Boolean {
-        val showDeletedArtworkState = sharedPreferences.getBoolean("show_deleted_artwork", false)
+        val showDeletedArtworkState = getShowDeletedArtworkState()
         if (showDeletedArtworkState) {
             toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)
             toolbar.menu[2].subMenu?.get(7)?.title = resources.getString(R.string.mi_show_deleted_art_title)
@@ -352,7 +345,7 @@ class RateFragment : Fragment() {
     }
 
     private fun showTakenArtwork(): Boolean {
-        val showTakenArtworkState = sharedPreferences.getBoolean("show_taken_artwork", false)
+        val showTakenArtworkState = getShowTakenArtworkState()
         if (showTakenArtworkState) {
             toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_show_taken_art_title)
             toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_show_taken_art_title)
@@ -378,5 +371,21 @@ class RateFragment : Fragment() {
             ?.beginTransaction()
             ?.replace(R.id.rl_rateFragment, RateFragment())
             ?.commit()
+    }
+
+    private fun getDisplayTypeState(): String {
+        return sharedPreferences.getString("display_type", "list")!!
+    }
+
+    private fun getRvListOrderState(): String {
+        return sharedPreferences.getString("rv_list_order", "rating")!!
+    }
+
+    private fun getShowDeletedArtworkState(): Boolean {
+        return sharedPreferences.getBoolean("show_deleted_artwork", false)
+    }
+
+    private fun getShowTakenArtworkState(): Boolean {
+        return sharedPreferences.getBoolean("show_taken_artwork", false)
     }
 }
