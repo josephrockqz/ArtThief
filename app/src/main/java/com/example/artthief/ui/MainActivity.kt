@@ -3,6 +3,8 @@ package com.example.artthief.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.GridView
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.ui.rate.RateFragment
@@ -20,6 +23,12 @@ import com.google.android.material.appbar.MaterialToolbar
 // TODO: create sharedPreferences common util functions
 class MainActivity : AppCompatActivity() {
 
+    private val gridView by lazy {
+        findViewById<GridView>(R.id.gv_rateFragment)
+    }
+    private val recyclerView by lazy {
+        findViewById<RecyclerView>(R.id.rv_rateFragment)
+    }
     private val sharedPreferences by lazy {
         getPreferences(Context.MODE_PRIVATE)
     }
@@ -31,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         viewModel.refreshDataFromRepository()
@@ -64,9 +74,10 @@ class MainActivity : AppCompatActivity() {
                 putString("rv_display_type", "list")
                 apply()
             }
+            recyclerView.visibility = View.VISIBLE
+            gridView.visibility = View.GONE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             // TODO: changing to grid view should change the icon from filter to star
-            // TODO: changing to list view should change the app bar title
             toolbar.title = resources.getString(R.string.title_rate)
             refreshRateFragment()
         }
@@ -79,9 +90,10 @@ class MainActivity : AppCompatActivity() {
                 putString("rv_display_type", "grid")
                 apply()
             }
+            recyclerView.visibility = View.GONE
+            gridView.visibility = View.VISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
             // TODO: changing to grid view should change the icon from star to filter
-            // TODO: changing to grid view should change the app bar title
             toolbar.title = resources.getString(R.string.title_grid_sort)
             refreshRateFragment()
         }

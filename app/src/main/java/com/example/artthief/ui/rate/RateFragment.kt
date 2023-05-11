@@ -27,6 +27,12 @@ import com.google.android.material.appbar.MaterialToolbar
 // TODO: fix icons not changing on click (not always reproducible)
 class RateFragment : Fragment() {
 
+    private val gridView by lazy {
+        requireView().findViewById<GridView>(R.id.gv_rateFragment)
+    }
+    private val recyclerView by lazy {
+        requireView().findViewById<RecyclerView>(R.id.rv_rateFragment)
+    }
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
@@ -128,10 +134,14 @@ class RateFragment : Fragment() {
 
         when (sharedPreferences.getString("rv_display_type", "list")) {
             "list" -> {
+                recyclerView.visibility = View.VISIBLE
+                gridView.visibility = View.GONE
                 toolbar.title = resources.getString(R.string.title_rate)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             }
             "grid" -> {
+                recyclerView.visibility = View.GONE
+                gridView.visibility = View.VISIBLE
                 toolbar.title = resources.getString(R.string.title_grid_sort)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
             }
