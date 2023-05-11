@@ -1,4 +1,5 @@
 <resources>
+
     <!--Main-->
     <string name="app_name">Art Thief</string>
     <string name="app_version">Version 0.0.1</string>
@@ -50,6 +51,7 @@
     <string name="mi_artist_title">Artist</string>
     <string name="mi_show_deleted_art_title">Show Deleted Art</string>
     <string name="mi_hide_deleted_art_title">Hide Deleted Art</string>
+    <string name="mi_filter_title">Filter</string>
     <string name="mi_show_taken_art_title">Show Taken Art</string>
     <string name="mi_hide_taken_art_title">Hide Taken Art</string>
     <string name="mi_refresh_title">Refresh</string>

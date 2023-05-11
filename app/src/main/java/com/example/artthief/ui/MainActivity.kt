@@ -77,7 +77,8 @@ class MainActivity : AppCompatActivity() {
             recyclerView.visibility = View.VISIBLE
             gridView.visibility = View.GONE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
-            // TODO: changing to grid view should change the icon from filter to star
+            toolbar.menu[1].isVisible = true
+            toolbar.menu[2].isVisible = false
             toolbar.title = resources.getString(R.string.title_rate)
             refreshRateFragment()
         }
@@ -93,7 +94,8 @@ class MainActivity : AppCompatActivity() {
             recyclerView.visibility = View.GONE
             gridView.visibility = View.VISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
-            // TODO: changing to grid view should change the icon from star to filter
+            toolbar.menu[1].isVisible = false
+            toolbar.menu[2].isVisible = true
             toolbar.title = resources.getString(R.string.title_grid_sort)
             refreshRateFragment()
         }

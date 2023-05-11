@@ -138,12 +138,16 @@ class RateFragment : Fragment() {
                 gridView.visibility = View.GONE
                 toolbar.title = resources.getString(R.string.title_rate)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+                toolbar.menu[1].isVisible = true
+                toolbar.menu[2].isVisible = false
             }
             "grid" -> {
                 recyclerView.visibility = View.GONE
                 gridView.visibility = View.VISIBLE
                 toolbar.title = resources.getString(R.string.title_grid_sort)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+                toolbar.menu[1].isVisible = false
+                toolbar.menu[2].isVisible = true
             }
         }
 

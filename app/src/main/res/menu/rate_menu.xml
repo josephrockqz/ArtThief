@@ -31,6 +31,7 @@
         android:id="@+id/mi_star"
         android:icon="@drawable/ic_rate_outline_teal_24dp"
         android:title="@string/mi_rate_title"
+        android:visible="true"
         app:showAsAction="always">
 
         <menu>
@@ -66,6 +67,49 @@
                 android:title="@string/mi_show_taken_art_title"/>
 
         </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/mi_filter"
+        android:icon="@drawable/ic_filter_teal_24dp"
+        android:title="@string/mi_filter_title"
+        android:visible="false"
+        app:showAsAction="always">
+
+<!--        <menu>-->
+
+<!--            <item-->
+<!--                android:id="@+id/mi_ratingDropdown"-->
+<!--                android:icon="@drawable/ic_rate_outline_24dp"-->
+<!--                android:onClick="listByRatingListener"-->
+<!--                android:title="@string/mi_list_by_rating_title"/>-->
+
+<!--            <item-->
+<!--                android:id="@+id/mi_idNumberDropdown"-->
+<!--                android:icon="@drawable/ic_123_24dp"-->
+<!--                android:onClick="listByShowIdListener"-->
+<!--                android:title="@string/mi_list_by_id_number_title"/>-->
+
+<!--            <item-->
+<!--                android:id="@+id/mi_artistDropdown"-->
+<!--                android:icon="@drawable/ic_artist_24dp"-->
+<!--                android:onClick="listByArtistListener"-->
+<!--                android:title="@string/mi_artist_title"/>-->
+
+<!--            <item-->
+<!--                android:id="@+id/mi_deletedArtDropdown"-->
+<!--                android:icon="@drawable/ic_deleted_24dp"-->
+<!--                android:onClick="showDeletedArtwork"-->
+<!--                android:title="@string/mi_show_deleted_art_title"/>-->
+
+<!--            <item-->
+<!--                android:id="@+id/mi_takenArtDropdown"-->
+<!--                android:icon="@drawable/ic_taken_24dp"-->
+<!--                android:onClick="showTakenArtwork"-->
+<!--                android:title="@string/mi_show_taken_art_title"/>-->
+
+<!--        </menu>-->
 
     </item>
 
