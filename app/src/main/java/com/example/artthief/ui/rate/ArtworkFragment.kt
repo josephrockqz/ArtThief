@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.artthief.R
+import com.example.artthief.ui.MainActivity
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
@@ -56,31 +57,33 @@ class ArtworkFragment : Fragment() {
          * title to the current artwork's title after page change
          * NOTE: app bar's title is set initially in [PageArtworkFragment]
          */
-        viewPager.addOnPageChangeListener(object: OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                // No-Op
-            }
+        viewPager.addOnPageChangeListener(
+            object: OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    // No-Op
+                }
 
-            override fun onPageSelected(position: Int) {
-                view
-                    .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-                    .title = when (
-                        sharedPreferences.getString("rv_list_order", "rating")
-                    ) {
-                        "rating" -> viewModel.artworkListByRating[position].title
-                        "show_id" -> viewModel.artworkListByShowId[position].title
-                        else -> viewModel.artworkListByArtist[position].title
-                    }
-            }
+                override fun onPageSelected(position: Int) {
+                    view
+                        .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+                        .title = when (
+                            sharedPreferences.getString("rv_list_order", "rating")
+                        ) {
+                            "rating" -> viewModel.artworkListByRating[position].title
+                            "show_id" -> viewModel.artworkListByShowId[position].title
+                            else -> viewModel.artworkListByArtist[position].title
+                        }
+                }
 
-            override fun onPageScrollStateChanged(state: Int) {
-                // No-Op
+                override fun onPageScrollStateChanged(state: Int) {
+                    // No-Op
+                }
             }
-        })
+        )
 
         val toolbar = view.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
         // make title centered
@@ -88,6 +91,10 @@ class ArtworkFragment : Fragment() {
         // back button on click listener
         toolbar[1].setOnClickListener {
             view.findNavController().popBackStack()
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.rl_rateFragment, RateFragment())
+                ?.commit()
         }
 
         // TODO: have on click listener launch augmented activity

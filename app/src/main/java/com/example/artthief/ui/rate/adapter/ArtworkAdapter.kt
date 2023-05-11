@@ -1,6 +1,6 @@
 package com.example.artthief.ui.rate.adapter
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,16 +37,6 @@ class ArtworkAdapter(
         ]
      */
 
-    // TODO: re-implement this:
-//    var artworks: List<ArtThiefArtwork> = emptyList()
-//        @SuppressLint("NotifyDataSetChanged")
-//        set(value) {
-//            field = value
-//            // Notify any registered observers that the data set has changed. This will cause every
-//            // element in our RecyclerView to be invalidated.
-//            notifyDataSetChanged()
-//        }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var artworkImage: ImageView
@@ -75,8 +65,6 @@ class ArtworkAdapter(
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-
-        Log.i("howdy", artworkClickListener.toString())
 
         val v = LayoutInflater
             .from(viewGroup.context)

@@ -17,6 +17,7 @@ import com.example.artthief.ui.rate.RateFragment
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
+// TODO: create sharedPreferences common util functions
 class MainActivity : AppCompatActivity() {
 
     private val sharedPreferences by lazy {
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             // TODO: changing to grid view should change the icon from filter to star
+            // TODO: changing to list view should change the app bar title
             refreshRateFragment()
         }
     }
@@ -78,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             }
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
             // TODO: changing to grid view should change the icon from star to filter
+            // TODO: changing to grid view should change the app bar title
             refreshRateFragment()
         }
     }
@@ -113,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 putString("rv_list_order", "artist")
                 apply()
             }
-            toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
+
             refreshRateFragment()
         }
     }

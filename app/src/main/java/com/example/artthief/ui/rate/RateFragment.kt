@@ -24,8 +24,7 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
-// TODO: fix adapter bugs - ratings not changing (notifyDataSetChanged)
-// TODO: fix icon images not changing on click (not always reproducible)
+// TODO: fix icons not changing on click (not always reproducible)
 class RateFragment : Fragment() {
 
     private val sharedPreferences by lazy {
@@ -57,9 +56,6 @@ class RateFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        /**
-         * sort artworks and assign to adapters
-         */
         // TODO: fix lag on rate tab (slow every time it loads)
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
@@ -72,28 +68,21 @@ class RateFragment : Fragment() {
                             .findViewById<RecyclerView>(R.id.rv_rateFragment)
                             .apply {
                                 layoutManager = LinearLayoutManager(context)
-                                // TODO: fix click listener
                                 // TODO: get rid of redundancy of click listener objects
                                 adapter = when (sharedPreferences.getString("rv_list_order", "rating")) {
                                     "show_id" -> ArtworkAdapter(
                                         artworkClickListener = object : ArtworkClickListener {
                                             override fun onArtworkClicked(
-                                                sectionPosition: Int,
-                                                view: View
-                                            ) {
-                                                showArtworkFragment(sectionPosition)
-                                            }
+                                                sectionPosition: Int, view: View
+                                            ) { showArtworkFragment(sectionPosition) }
                                         },
                                         artworks = artworkListByShowId
                                     )
                                     "artist" -> ArtworkAdapter(
                                         artworkClickListener = object : ArtworkClickListener {
                                             override fun onArtworkClicked(
-                                                sectionPosition: Int,
-                                                view: View
-                                            ) {
-                                                showArtworkFragment(sectionPosition)
-                                            }
+                                                sectionPosition: Int, view: View
+                                            ) { showArtworkFragment(sectionPosition) }
                                         },
                                         artworks = artworkListByArtist
                                     )
@@ -101,11 +90,8 @@ class RateFragment : Fragment() {
                                         context = context,
                                         artworkClickListener = object : ArtworkClickListener {
                                             override fun onArtworkClicked(
-                                                sectionPosition: Int,
-                                                view: View
-                                            ) {
-                                                showArtworkFragment(sectionPosition)
-                                            }
+                                                sectionPosition: Int, view: View
+                                            ) { showArtworkFragment(sectionPosition) }
                                         },
                                         sections = artworkRatingSections
                                     )
@@ -180,11 +166,11 @@ class RateFragment : Fragment() {
     private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
 
         // sort artworks by descending rating and update view model
-        val sortedArtworks = artworks.sortedByDescending { it.rating }
-        viewModel.setSortedArtworkListByRating(sortedArtworks)
+        artworkListByRating = artworks.sortedByDescending { it.rating }
+        viewModel.setSortedArtworkListByRating(artworkListByRating)
 
         // partition artworks by rating then assign to rv's sections
-        val artworkRatingMap = sortedArtworks.groupBy { it.rating }
+        val artworkRatingMap = artworkListByRating.groupBy { it.rating }
         for (i in 5 downTo 0) {
             artworkRatingMap[i]?.let {
                 artworkRatingSections.add(RecyclerViewSection(i, it))
