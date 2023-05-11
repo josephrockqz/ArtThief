@@ -2,6 +2,7 @@ package com.example.artthief.ui.rate
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.GridView
 import android.widget.Toast
@@ -157,6 +158,7 @@ class RateFragment : Fragment() {
             "artist" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
         }
 
+        Log.i("howdy", "on view created")
         when (sharedPreferences.getBoolean("show_deleted_artwork", false)) {
             false -> {
                 toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)

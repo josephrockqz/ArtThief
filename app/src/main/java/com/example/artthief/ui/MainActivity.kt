@@ -20,7 +20,6 @@ import com.example.artthief.ui.rate.RateFragment
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
-// TODO: create sharedPreferences common util functions
 class MainActivity : AppCompatActivity() {
 
     private val gridView by lazy {
@@ -140,9 +139,13 @@ class MainActivity : AppCompatActivity() {
     fun showDeletedArtwork(item: MenuItem) {
         val showDeletedArtworkState = sharedPreferences.getBoolean("show_deleted_artwork", false)
         if (showDeletedArtworkState) {
-            item.title = resources.getString(R.string.mi_show_deleted_art_title)
+//            item.title = resources.getString(R.string.mi_show_deleted_art_title)
+            toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)
+            toolbar.menu[2].subMenu?.get(7)?.title = resources.getString(R.string.mi_show_deleted_art_title)
         } else {
-            item.title = resources.getString(R.string.mi_hide_deleted_art_title)
+//            item.title = resources.getString(R.string.mi_hide_deleted_art_title)
+            toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_hide_deleted_art_title)
+            toolbar.menu[2].subMenu?.get(7)?.title = resources.getString(R.string.mi_hide_deleted_art_title)
         }
         with (sharedPreferences.edit()) {
             putBoolean("show_deleted_artwork", !showDeletedArtworkState)
@@ -154,9 +157,11 @@ class MainActivity : AppCompatActivity() {
     fun showTakenArtwork(item: MenuItem) {
         val showTakenArtworkState = sharedPreferences.getBoolean("show_taken_artwork", false)
         if (showTakenArtworkState) {
-            item.title = resources.getString(R.string.mi_show_taken_art_title)
+            toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_show_taken_art_title)
+            toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_show_taken_art_title)
         } else {
-            item.title = resources.getString(R.string.mi_hide_taken_art_title)
+            toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_hide_taken_art_title)
+            toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_hide_taken_art_title)
         }
         with (sharedPreferences.edit()) {
             putBoolean("show_taken_artwork", !showTakenArtworkState)
