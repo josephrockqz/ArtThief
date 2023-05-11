@@ -16,13 +16,11 @@
             <item
                 android:id="@+id/mi_listDropdown"
                 android:icon="@drawable/ic_list_24dp"
-                android:onClick="displayList"
                 android:title="@string/mi_list_title"/>
 
             <item
                 android:id="@+id/mi_gridDropdown"
                 android:icon="@drawable/ic_grid_24dp"
-                android:onClick="displayGrid"
                 android:title="@string/mi_grid_title"/>
 
         </menu>
@@ -41,31 +39,26 @@
             <item
                 android:id="@+id/mi_ratingDropdown"
                 android:icon="@drawable/ic_rate_outline_24dp"
-                android:onClick="listByRatingListener"
                 android:title="@string/mi_list_by_rating_title"/>
 
             <item
                 android:id="@+id/mi_idNumberDropdown"
                 android:icon="@drawable/ic_123_24dp"
-                android:onClick="listByShowIdListener"
                 android:title="@string/mi_list_by_id_number_title"/>
 
             <item
                 android:id="@+id/mi_artistDropdown"
                 android:icon="@drawable/ic_artist_24dp"
-                android:onClick="listByArtistListener"
                 android:title="@string/mi_artist_title"/>
 
             <item
                 android:id="@+id/mi_deletedArtDropdown"
                 android:icon="@drawable/ic_deleted_24dp"
-                android:onClick="showDeletedArtwork"
                 android:title="@string/mi_show_deleted_art_title"/>
 
             <item
                 android:id="@+id/mi_takenArtDropdown"
                 android:icon="@drawable/ic_taken_24dp"
-                android:onClick="showTakenArtwork"
                 android:title="@string/mi_show_taken_art_title"/>
 
         </menu>
@@ -79,6 +72,7 @@
         android:visible="false"
         app:showAsAction="always">
 
+        <!--TODO: implement on click listeners-->
         <menu>
 
             <item
@@ -119,13 +113,11 @@
             <item
                 android:id="@+id/mi_deletedArtDropdown2"
                 android:icon="@drawable/ic_deleted_24dp"
-                android:onClick="showDeletedArtwork"
                 android:title="@string/mi_show_deleted_art_title"/>
 
             <item
                 android:id="@+id/mi_takenArtDropdown2"
                 android:icon="@drawable/ic_taken_24dp"
-                android:onClick="showTakenArtwork"
                 android:title="@string/mi_show_taken_art_title"/>
 
         </menu>
@@ -135,7 +127,6 @@
     <item
         android:id="@+id/mi_refresh"
         android:icon="@drawable/ic_refresh_24dp"
-        android:onClick="refreshRateFragment"
         android:title="@string/mi_refresh_title"
         app:showAsAction="always" />
 

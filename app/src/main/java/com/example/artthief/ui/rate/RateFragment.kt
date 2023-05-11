@@ -34,6 +34,7 @@ class RateFragment : Fragment() {
     private val recyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.rv_rateFragment)
     }
+    // TODO: implement sharedPreferences methods (after moving on click listeners here)
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
@@ -63,7 +64,6 @@ class RateFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        // TODO: fix lag on rate tab (slow every time it loads)
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             artworks?.apply {
                 when (sharedPreferences.getString("rv_display_type", "list")) {
@@ -181,6 +181,8 @@ class RateFragment : Fragment() {
             }
         }
 
+        setMenuItemOnClickListeners()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -197,6 +199,7 @@ class RateFragment : Fragment() {
         viewModel.setSortedArtworkListByRating(artworkListByRating)
     }
 
+    // TODO: fix lag on rate tab (slow every time it loads)
     private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
 
         // sort artworks by descending rating and update view model
@@ -237,5 +240,143 @@ class RateFragment : Fragment() {
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
             ?.navigate(R.id.action_rateToArtwork)
+    }
+
+    private fun setMenuItemOnClickListeners() {
+
+        toolbar.menu[0].subMenu?.get(0)?.setOnMenuItemClickListener { displayList() }
+        toolbar.menu[0].subMenu?.get(1)?.setOnMenuItemClickListener { displayGrid() }
+
+        toolbar.menu[1].subMenu?.get(0)?.setOnMenuItemClickListener { listByRatingListener() }
+        toolbar.menu[1].subMenu?.get(1)?.setOnMenuItemClickListener { listByShowIdListener() }
+        toolbar.menu[1].subMenu?.get(2)?.setOnMenuItemClickListener { listByArtistListener() }
+        toolbar.menu[1].subMenu?.get(3)?.setOnMenuItemClickListener { showDeletedArtwork() }
+        toolbar.menu[1].subMenu?.get(4)?.setOnMenuItemClickListener { showTakenArtwork() }
+
+        toolbar.menu[2].subMenu?.get(7)?.setOnMenuItemClickListener { showDeletedArtwork() }
+        toolbar.menu[2].subMenu?.get(8)?.setOnMenuItemClickListener { showTakenArtwork() }
+
+        toolbar.menu[3].setOnMenuItemClickListener { refreshRateFragmentFromIcon() }
+    }
+
+    private fun displayList(): Boolean {
+        val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
+        if (currentDisplayType != "list") {
+            with (sharedPreferences.edit()) {
+                putString("rv_display_type", "list")
+                apply()
+            }
+            recyclerView.visibility = View.VISIBLE
+            gridView.visibility = View.GONE
+            toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+            toolbar.menu[1].isVisible = true
+            toolbar.menu[2].isVisible = false
+            toolbar.title = resources.getString(R.string.title_rate)
+            refreshRateFragment()
+        }
+        return true
+    }
+
+    private fun displayGrid(): Boolean {
+        val currentDisplayType = sharedPreferences.getString("rv_display_type", "list")
+        if (currentDisplayType != "grid") {
+            with (sharedPreferences.edit()) {
+                putString("rv_display_type", "grid")
+                apply()
+            }
+            recyclerView.visibility = View.GONE
+            gridView.visibility = View.VISIBLE
+            toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+            toolbar.menu[1].isVisible = false
+            toolbar.menu[2].isVisible = true
+            toolbar.title = resources.getString(R.string.title_grid_sort)
+            refreshRateFragment()
+        }
+        return true
+    }
+
+    private fun listByRatingListener(): Boolean {
+        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
+        if (currentListOrder != "rating") {
+            with (sharedPreferences.edit()) {
+                putString("rv_list_order", "rating")
+                apply()
+            }
+            toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
+            refreshRateFragment()
+        }
+        return true
+    }
+
+    private fun listByShowIdListener(): Boolean {
+        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
+        if (currentListOrder != "show_id") {
+            with (sharedPreferences.edit()) {
+                putString("rv_list_order", "show_id")
+                apply()
+            }
+            toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
+            refreshRateFragment()
+        }
+        return true
+    }
+
+    private fun listByArtistListener(): Boolean {
+        val currentListOrder = sharedPreferences.getString("rv_list_order", "rating")
+        if (currentListOrder != "artist") {
+            with (sharedPreferences.edit()) {
+                putString("rv_list_order", "artist")
+                apply()
+            }
+
+            refreshRateFragment()
+        }
+        return true
+    }
+
+    private fun showDeletedArtwork(): Boolean {
+        val showDeletedArtworkState = sharedPreferences.getBoolean("show_deleted_artwork", false)
+        if (showDeletedArtworkState) {
+            toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_show_deleted_art_title)
+            toolbar.menu[2].subMenu?.get(7)?.title = resources.getString(R.string.mi_show_deleted_art_title)
+        } else {
+            toolbar.menu[1].subMenu?.get(3)?.title = resources.getString(R.string.mi_hide_deleted_art_title)
+            toolbar.menu[2].subMenu?.get(7)?.title = resources.getString(R.string.mi_hide_deleted_art_title)
+        }
+        with (sharedPreferences.edit()) {
+            putBoolean("show_deleted_artwork", !showDeletedArtworkState)
+            apply()
+        }
+        refreshRateFragment()
+        return true
+    }
+
+    private fun showTakenArtwork(): Boolean {
+        val showTakenArtworkState = sharedPreferences.getBoolean("show_taken_artwork", false)
+        if (showTakenArtworkState) {
+            toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_show_taken_art_title)
+            toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_show_taken_art_title)
+        } else {
+            toolbar.menu[1].subMenu?.get(4)?.title = resources.getString(R.string.mi_hide_taken_art_title)
+            toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_hide_taken_art_title)
+        }
+        with (sharedPreferences.edit()) {
+            putBoolean("show_taken_artwork", !showTakenArtworkState)
+            apply()
+        }
+        refreshRateFragment()
+        return true
+    }
+
+    private fun refreshRateFragmentFromIcon(): Boolean {
+        refreshRateFragment()
+        return true
+    }
+
+    private fun refreshRateFragment() {
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.replace(R.id.rl_rateFragment, RateFragment())
+            ?.commit()
     }
 }
