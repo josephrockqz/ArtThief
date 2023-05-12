@@ -79,6 +79,13 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      */
     init {}
 
+    fun getHighestRatedArtworkImageUrl(): String {
+        return if (artworkList.value.isNullOrEmpty()) { "" } else {
+            // TODO: return highest rated artwork's imageUrl dynamically
+            "https://artthief.zurka.com/images/Large/12345L-22.jpg" // large image
+        }
+    }
+
     /**
      * Resets the network error flag.
      */

@@ -12,6 +12,7 @@ import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
+// TODO: remove lag when [RateFragment] is created
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: ArtworksViewModel by viewModels()

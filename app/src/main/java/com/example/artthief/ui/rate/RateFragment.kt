@@ -25,7 +25,6 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
-// TODO: fix icons not changing on click (not always reproducible)
 class RateFragment : Fragment() {
 
     private val gridView by lazy {
@@ -64,6 +63,7 @@ class RateFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
+            // TODO: depending on taken/deleted artworks options selected, filter out here
             artworks?.apply {
                 when (getDisplayTypeState()) {
                     "list" -> {
