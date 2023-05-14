@@ -125,6 +125,13 @@
     </item>
 
     <item
+        android:id="@+id/mi_zoomSlider"
+        android:icon="@drawable/ic_zoom_teal_24dp"
+        android:title="@string/title_zoom_slider_title"
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/mi_refresh"
         android:icon="@drawable/ic_refresh_24dp"
         android:title="@string/mi_refresh_title"

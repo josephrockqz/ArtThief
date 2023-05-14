@@ -33,7 +33,7 @@ class Page4OverviewFragment : Fragment() {
             view.findViewById<ImageView>(R.id.iv_highestRatedArtwork)?.let {
                 Picasso
                     .get()
-//            .load(imageUrlHighestRatedArtwork[0])
+//                    .load(imageUrlHighestRatedArtwork)
                     .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
                     .into(it)
             }

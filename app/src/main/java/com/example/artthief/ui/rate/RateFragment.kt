@@ -140,6 +140,7 @@ class RateFragment : Fragment() {
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
                 toolbar.menu[1].isVisible = true
                 toolbar.menu[2].isVisible = false
+                toolbar.menu[3].isVisible = false
             }
             "grid" -> {
                 recyclerView.visibility = View.GONE
@@ -148,6 +149,7 @@ class RateFragment : Fragment() {
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
                 toolbar.menu[1].isVisible = false
                 toolbar.menu[2].isVisible = true
+                toolbar.menu[3].isVisible = true
             }
         }
 
@@ -254,7 +256,9 @@ class RateFragment : Fragment() {
         toolbar.menu[2].subMenu?.get(7)?.setOnMenuItemClickListener { showDeletedArtwork() }
         toolbar.menu[2].subMenu?.get(8)?.setOnMenuItemClickListener { showTakenArtwork() }
 
-        toolbar.menu[3].setOnMenuItemClickListener { refreshRateFragmentFromIcon() }
+        toolbar.menu[3].setOnMenuItemClickListener { toggleGridZoomSlider() }
+
+        toolbar.menu[4].setOnMenuItemClickListener { refreshRateFragmentFromIcon() }
     }
 
     private fun displayList(): Boolean {
@@ -268,6 +272,7 @@ class RateFragment : Fragment() {
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             toolbar.menu[1].isVisible = true
             toolbar.menu[2].isVisible = false
+            toolbar.menu[3].isVisible = false
             toolbar.title = resources.getString(R.string.title_rate)
             refreshRateFragment()
         }
@@ -285,6 +290,7 @@ class RateFragment : Fragment() {
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
             toolbar.menu[1].isVisible = false
             toolbar.menu[2].isVisible = true
+            toolbar.menu[3].isVisible = true
             toolbar.title = resources.getString(R.string.title_grid_sort)
             refreshRateFragment()
         }
@@ -361,6 +367,11 @@ class RateFragment : Fragment() {
         return true
     }
 
+    private fun toggleGridZoomSlider(): Boolean {
+        // TODO: implement so that zoom slider is shown and hidden
+        return true
+    }
+
     private fun refreshRateFragmentFromIcon(): Boolean {
         refreshRateFragment()
         return true
@@ -372,6 +383,9 @@ class RateFragment : Fragment() {
             ?.replace(R.id.rl_rateFragment, RateFragment())
             ?.commit()
     }
+
+    // TODO: implement search bar functionality
+    // TODO: hide search icon when grid is displayed
 
     private fun getDisplayTypeState(): String {
         return sharedPreferences.getString("display_type", "list")!!

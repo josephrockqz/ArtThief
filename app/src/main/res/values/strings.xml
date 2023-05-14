@@ -62,6 +62,7 @@
     <string name="mi_show_taken_art_title">Show Taken Art</string>
     <string name="mi_hide_taken_art_title">Hide Taken Art</string>
     <string name="mi_refresh_title">Refresh</string>
+    <string name="title_zoom_slider_title">Zoom</string>
     <string name="mi_title_search">Search</string>
     <string name="rate_fragment_compare_button">Compare</string>
     <string name="rate_fragment_unrated">Unrated</string>
