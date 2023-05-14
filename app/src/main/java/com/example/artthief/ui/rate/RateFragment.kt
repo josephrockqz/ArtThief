@@ -4,10 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.GridView
-import android.widget.LinearLayout
-import android.widget.SeekBar
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -204,6 +201,7 @@ class RateFragment : Fragment() {
 
         setMenuItemOnClickListeners()
         setZoomSliderChangeListener()
+        setZoomSliderCancelButtonListener()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -301,6 +299,16 @@ class RateFragment : Fragment() {
                 // No-Op
             }
         })
+    }
+
+    private fun setZoomSliderCancelButtonListener() {
+        requireView().findViewById<ImageView>(R.id.iv_sliderXButton).setOnClickListener {
+            requireView().findViewById<LinearLayout>(R.id.ll_zoomSliderContainer).visibility = View.INVISIBLE
+            with (sharedPreferences.edit()) {
+                putBoolean("show_zoom_slider", false)
+                apply()
+            }
+        }
     }
 
     private fun displayList(): Boolean {

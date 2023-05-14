@@ -51,12 +51,7 @@ internal class ArtworkGridAdapter(
         return convertView
     }
 
-    override fun areAllItemsEnabled(): Boolean {
-        return false
-    }
+    override fun areAllItemsEnabled(): Boolean = false
 
-    override fun isEnabled(position: Int): Boolean {
-        // Return true for clickable, false for not
-        return false
-    }
+    override fun isEnabled(position: Int): Boolean = false
 }
