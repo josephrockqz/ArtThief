@@ -59,6 +59,16 @@
             android:verticalSpacing="10dp"
             android:visibility="gone"/>
 
+        <!--Grid view zoom slider-->
+        <SeekBar
+            android:id="@+id/sb_zoomSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:max="5"
+            android:progress="2"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 </layout>

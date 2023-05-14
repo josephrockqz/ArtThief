@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.GridView
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -39,6 +40,7 @@ class RateFragment : Fragment() {
     private val toolbar by lazy {
         requireView().findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
     }
+
     private val viewModel: ArtworksViewModel by activityViewModels()
 
     private val artworkRatingSections: MutableList<RecyclerViewSection> = mutableListOf()
@@ -136,20 +138,33 @@ class RateFragment : Fragment() {
             "list" -> {
                 recyclerView.visibility = View.VISIBLE
                 gridView.visibility = View.GONE
+
                 toolbar.title = resources.getString(R.string.title_rate)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
                 toolbar.menu[1].isVisible = true
                 toolbar.menu[2].isVisible = false
                 toolbar.menu[3].isVisible = false
+                toolbar.menu[5].isVisible = true
+
+                requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.GONE
             }
             "grid" -> {
                 recyclerView.visibility = View.GONE
                 gridView.visibility = View.VISIBLE
+
                 toolbar.title = resources.getString(R.string.title_grid_sort)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
                 toolbar.menu[1].isVisible = false
                 toolbar.menu[2].isVisible = true
                 toolbar.menu[3].isVisible = true
+                toolbar.menu[5].isVisible = false
+
+                val zoomSliderVisibilityState = getZoomSliderVisibilityState()
+                if (zoomSliderVisibilityState) {
+                    requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).bringToFront()
+                    requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.VISIBLE
+                }
+                else requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.GONE
             }
         }
 
@@ -182,6 +197,7 @@ class RateFragment : Fragment() {
         }
 
         setMenuItemOnClickListeners()
+        setZoomSliderChangeListener()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -261,6 +277,22 @@ class RateFragment : Fragment() {
         toolbar.menu[4].setOnMenuItemClickListener { refreshRateFragmentFromIcon() }
     }
 
+    private fun setZoomSliderChangeListener() {
+        requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                gridView.numColumns = progress + 1
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // No-Op
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                // No-Op
+            }
+        })
+    }
+
     private fun displayList(): Boolean {
         if (getDisplayTypeState() != "list") {
             with (sharedPreferences.edit()) {
@@ -273,6 +305,7 @@ class RateFragment : Fragment() {
             toolbar.menu[1].isVisible = true
             toolbar.menu[2].isVisible = false
             toolbar.menu[3].isVisible = false
+            toolbar.menu[5].isVisible = true
             toolbar.title = resources.getString(R.string.title_rate)
             refreshRateFragment()
         }
@@ -291,6 +324,7 @@ class RateFragment : Fragment() {
             toolbar.menu[1].isVisible = false
             toolbar.menu[2].isVisible = true
             toolbar.menu[3].isVisible = true
+            toolbar.menu[5].isVisible = false
             toolbar.title = resources.getString(R.string.title_grid_sort)
             refreshRateFragment()
         }
@@ -368,7 +402,16 @@ class RateFragment : Fragment() {
     }
 
     private fun toggleGridZoomSlider(): Boolean {
-        // TODO: implement so that zoom slider is shown and hidden
+        val zoomSliderVisibilityState = getZoomSliderVisibilityState()
+        if (zoomSliderVisibilityState) requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.GONE
+        else {
+            requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).bringToFront()
+            requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.VISIBLE
+        }
+        with (sharedPreferences.edit()) {
+            putBoolean("show_zoom_slider", !zoomSliderVisibilityState)
+            apply()
+        }
         return true
     }
 
@@ -385,7 +428,6 @@ class RateFragment : Fragment() {
     }
 
     // TODO: implement search bar functionality
-    // TODO: hide search icon when grid is displayed
 
     private fun getDisplayTypeState(): String {
         return sharedPreferences.getString("display_type", "list")!!
@@ -401,5 +443,9 @@ class RateFragment : Fragment() {
 
     private fun getShowTakenArtworkState(): Boolean {
         return sharedPreferences.getBoolean("show_taken_artwork", false)
+    }
+
+    private fun getZoomSliderVisibilityState(): Boolean {
+        return sharedPreferences.getBoolean("show_zoom_slider", false)
     }
 }

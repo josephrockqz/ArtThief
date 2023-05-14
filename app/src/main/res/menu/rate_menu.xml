@@ -73,6 +73,7 @@
         app:showAsAction="always">
 
         <!--TODO: implement on click listeners-->
+        <!--TODO: change item's icon depending on what is selected-->
         <menu>
 
             <item
