@@ -49,25 +49,49 @@
             app:layoutManager="LinearLayoutManager" />
 
         <!--Artwork grid view-->
+        <!--TODO: adjust image ratio based on numColumns-->
         <GridView
             android:id="@+id/gv_rateFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:numColumns="3"
             android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"
             android:visibility="gone"/>
 
         <!--Grid view zoom slider-->
-        <SeekBar
-            android:id="@+id/sb_zoomSlider"
+        <!--TODO: add a background drawable to slider-->
+        <LinearLayout
+            android:id="@+id/ll_zoomSliderContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:max="5"
-            android:progress="2"
-            android:visibility="gone"/>
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/zoom_slider_background"
+            android:orientation="horizontal"
+            android:padding="25dp"
+            android:visibility="invisible">
+
+            <SeekBar
+                android:id="@+id/sb_zoomSlider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="5"
+                android:progress="2" />
+
+            <!--TODO: add cancel button-->
+            <ImageView
+                android:id="@+id/iv_sliderXButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cancel_24dp"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

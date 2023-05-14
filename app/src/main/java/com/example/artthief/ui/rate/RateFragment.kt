@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.GridView
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.view.get
@@ -134,6 +135,8 @@ class RateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val zoomSlider = requireView().findViewById<LinearLayout>(R.id.ll_zoomSliderContainer)
+
         when (getDisplayTypeState()) {
             "list" -> {
                 recyclerView.visibility = View.VISIBLE
@@ -146,7 +149,7 @@ class RateFragment : Fragment() {
                 toolbar.menu[3].isVisible = false
                 toolbar.menu[5].isVisible = true
 
-                requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.GONE
+                zoomSlider.visibility = View.INVISIBLE
             }
             "grid" -> {
                 recyclerView.visibility = View.GONE
@@ -159,12 +162,15 @@ class RateFragment : Fragment() {
                 toolbar.menu[3].isVisible = true
                 toolbar.menu[5].isVisible = false
 
-                val zoomSliderVisibilityState = getZoomSliderVisibilityState()
+                val zoomSliderVisibilityState = getZoomSliderVisibility()
+                Log.i("onViewCreated", zoomSliderVisibilityState.toString())
                 if (zoomSliderVisibilityState) {
-                    requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).bringToFront()
-                    requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.VISIBLE
-                }
-                else requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.GONE
+                    zoomSlider.bringToFront()
+                    zoomSlider.visibility = View.VISIBLE
+                } else zoomSlider.visibility = View.INVISIBLE
+                val zoomLevel = getZoomLevel()
+                gridView.numColumns = zoomLevel + 1
+                requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).progress = zoomLevel
             }
         }
 
@@ -281,6 +287,10 @@ class RateFragment : Fragment() {
         requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 gridView.numColumns = progress + 1
+                with (sharedPreferences.edit()) {
+                    putInt("zoom_level", progress)
+                    apply()
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -401,12 +411,15 @@ class RateFragment : Fragment() {
         return true
     }
 
+    // TODO: fix bug where toggle doesn't work temporarily
     private fun toggleGridZoomSlider(): Boolean {
-        val zoomSliderVisibilityState = getZoomSliderVisibilityState()
-        if (zoomSliderVisibilityState) requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.GONE
-        else {
-            requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).bringToFront()
-            requireView().findViewById<SeekBar>(R.id.sb_zoomSlider).visibility = View.VISIBLE
+        val zoomSliderVisibilityState = getZoomSliderVisibility()
+        Log.i("toggleGridZoomSlider", zoomSliderVisibilityState.toString())
+        if (zoomSliderVisibilityState) {
+            requireView().findViewById<LinearLayout>(R.id.ll_zoomSliderContainer).visibility = View.INVISIBLE
+        } else {
+            requireView().findViewById<LinearLayout>(R.id.ll_zoomSliderContainer).bringToFront()
+            requireView().findViewById<LinearLayout>(R.id.ll_zoomSliderContainer).visibility = View.VISIBLE
         }
         with (sharedPreferences.edit()) {
             putBoolean("show_zoom_slider", !zoomSliderVisibilityState)
@@ -445,7 +458,11 @@ class RateFragment : Fragment() {
         return sharedPreferences.getBoolean("show_taken_artwork", false)
     }
 
-    private fun getZoomSliderVisibilityState(): Boolean {
+    private fun getZoomLevel(): Int {
+        return sharedPreferences.getInt("zoom_level", 2)
+    }
+
+    private fun getZoomSliderVisibility(): Boolean {
         return sharedPreferences.getBoolean("show_zoom_slider", false)
     }
 }
