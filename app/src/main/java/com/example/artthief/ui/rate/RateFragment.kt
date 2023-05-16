@@ -54,6 +54,8 @@ class RateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        Log.i("howdy", "onCreateView")
+
         // Set the lifecycleOwner so DataBinding can observe LiveData
         val binding: FragmentRateBinding = DataBindingUtil.inflate(
             inflater,
@@ -118,7 +120,6 @@ class RateFragment : Fragment() {
                 toolbar.menu[5].isVisible = false
 
                 val zoomSliderVisibilityState = getZoomSliderVisibility()
-                Log.i("onViewCreated", zoomSliderVisibilityState.toString())
                 if (zoomSliderVisibilityState) {
                     zoomSlider.bringToFront()
                     zoomSlider.visibility = View.VISIBLE
@@ -380,7 +381,6 @@ class RateFragment : Fragment() {
     // TODO: fix bug where toggle doesn't work temporarily
     private fun toggleGridZoomSlider(): Boolean {
         val zoomSliderVisibilityState = getZoomSliderVisibility()
-        Log.i("toggleGridZoomSlider", zoomSliderVisibilityState.toString())
         if (zoomSliderVisibilityState) {
             requireView().findViewById<LinearLayout>(R.id.ll_zoomSliderContainer).visibility = View.INVISIBLE
         } else {

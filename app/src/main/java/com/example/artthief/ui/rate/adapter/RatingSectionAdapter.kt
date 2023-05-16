@@ -54,14 +54,13 @@ class RatingSectionAdapter(
                 unratedTitle.visibility = View.VISIBLE
             }
 
-            // TODO: button visible when there are more than two artworks in section (not unrated section)
             // TODO: implement compare button functionality
             val compareButton = itemView.findViewById<Button>(R.id.b_compareButton)
-//            if (section.rating > 0 && section.artworks.size > 1) {
-//                compareButton.visibility = View.VISIBLE
-//            } else {
-//                compareButton.visibility = View.INVISIBLE
-//            }
+            if (section.rating > 0 && section.artworks.size > 1) {
+                compareButton.visibility = View.VISIBLE
+            } else {
+                compareButton.visibility = View.INVISIBLE
+            }
 
             /**
              * Configure recycler view
