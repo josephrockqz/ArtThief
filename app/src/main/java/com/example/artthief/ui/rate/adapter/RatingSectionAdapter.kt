@@ -19,16 +19,6 @@ class RatingSectionAdapter(
     private val sections : List<RecyclerViewSection>
 ) : RecyclerView.Adapter<RatingSectionAdapter.ViewHolder>() {
 
-    // TODO: make sections similar to this:
-//    var artworks: List<ArtThiefArtwork> = emptyList()
-//        @SuppressLint("NotifyDataSetChanged")
-//        set(value) {
-//            field = value
-//            // Notify any registered observers that the data set has changed. This will cause every
-//            // element in our RecyclerView to be invalidated.
-//            notifyDataSetChanged()
-//        }
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         companion object {
@@ -64,9 +54,14 @@ class RatingSectionAdapter(
                 unratedTitle.visibility = View.VISIBLE
             }
 
-            // TODO: button visible when there are more than two artworks in section
+            // TODO: button visible when there are more than two artworks in section (not unrated section)
             // TODO: implement compare button functionality
             val compareButton = itemView.findViewById<Button>(R.id.b_compareButton)
+//            if (section.rating > 0 && section.artworks.size > 1) {
+//                compareButton.visibility = View.VISIBLE
+//            } else {
+//                compareButton.visibility = View.INVISIBLE
+//            }
 
             /**
              * Configure recycler view

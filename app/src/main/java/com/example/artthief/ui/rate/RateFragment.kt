@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.*
 
 class RateFragment : Fragment() {
 
@@ -50,7 +52,7 @@ class RateFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Set the lifecycleOwner so DataBinding can observe LiveData
         val binding: FragmentRateBinding = DataBindingUtil.inflate(
@@ -65,57 +67,13 @@ class RateFragment : Fragment() {
         viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
             // TODO: depending on taken/deleted artworks options selected, filter out here
             artworks?.apply {
-                when (getDisplayTypeState()) {
-                    "list" -> {
+                lifecycleScope.launch {
+                    val configure = async(Dispatchers.Default) {
                         configureArtworksList(artworks)
-                        binding
-                            .root
-                            .findViewById<RecyclerView>(R.id.rv_rateFragment)
-                            .apply {
-                                setHasFixedSize(true)
-                                isNestedScrollingEnabled = false
-                                layoutManager = LinearLayoutManager(context)
-                                adapter = when (getRvListOrderState()) {
-                                    "show_id" -> ArtworkAdapter(
-                                        artworkClickListener = object : ArtworkClickListener {
-                                            override fun onArtworkClicked(
-                                                sectionPosition: Int, view: View
-                                            ) { showArtworkFragment(sectionPosition) }
-                                        },
-                                        artworks = artworkListByShowId
-                                    )
-                                    "artist" -> ArtworkAdapter(
-                                        artworkClickListener = object : ArtworkClickListener {
-                                            override fun onArtworkClicked(
-                                                sectionPosition: Int, view: View
-                                            ) { showArtworkFragment(sectionPosition) }
-                                        },
-                                        artworks = artworkListByArtist
-                                    )
-                                    else -> RatingSectionAdapter(
-                                        context = context,
-                                        artworkClickListener = object : ArtworkClickListener {
-                                            override fun onArtworkClicked(
-                                                sectionPosition: Int, view: View
-                                            ) { showArtworkFragment(sectionPosition) }
-                                        },
-                                        sections = artworkRatingSections
-                                    )
-                                }
-                            }
-                    }
-                    "grid" -> {
                         configureArtworksGrid(artworks)
-                        binding
-                            .root
-                            .findViewById<GridView>(R.id.gv_rateFragment)
-                            .apply {
-                                adapter = ArtworkGridAdapter(
-                                    artworks = artworkListByRating,
-                                    context = context
-                                )
-                            }
                     }
+                    configure.await()
+                    sortAndConfigureArtworks(binding)
                 }
             }
         }
@@ -219,7 +177,7 @@ class RateFragment : Fragment() {
         viewModel.setSortedArtworkListByRating(artworkListByRating)
     }
 
-    // TODO: fix lag on rate tab (slow every time it loads)
+    // TODO: fix lag on rate tab (slow every time list by rating recyclerView loads)
     private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
 
         // sort artworks by descending rating and update view model
@@ -472,5 +430,58 @@ class RateFragment : Fragment() {
 
     private fun getZoomSliderVisibility(): Boolean {
         return sharedPreferences.getBoolean("show_zoom_slider", false)
+    }
+
+    private fun sortAndConfigureArtworks(binding: FragmentRateBinding) {
+        when (getDisplayTypeState()) {
+            "list" -> {
+                binding
+                    .root
+                    .findViewById<RecyclerView>(R.id.rv_rateFragment)
+                    .apply {
+                        setHasFixedSize(true)
+                        isNestedScrollingEnabled = false
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = when (getRvListOrderState()) {
+                            "show_id" -> ArtworkAdapter(
+                                artworkClickListener = object : ArtworkClickListener {
+                                    override fun onArtworkClicked(
+                                        sectionPosition: Int, view: View
+                                    ) { showArtworkFragment(sectionPosition) }
+                                },
+                                artworks = artworkListByShowId
+                            )
+                            "artist" -> ArtworkAdapter(
+                                artworkClickListener = object : ArtworkClickListener {
+                                    override fun onArtworkClicked(
+                                        sectionPosition: Int, view: View
+                                    ) { showArtworkFragment(sectionPosition) }
+                                },
+                                artworks = artworkListByArtist
+                            )
+                            else -> RatingSectionAdapter(
+                                context = context,
+                                artworkClickListener = object : ArtworkClickListener {
+                                    override fun onArtworkClicked(
+                                        sectionPosition: Int, view: View
+                                    ) { showArtworkFragment(sectionPosition) }
+                                },
+                                sections = artworkRatingSections
+                            )
+                        }
+                    }
+            }
+            "grid" -> {
+                binding
+                    .root
+                    .findViewById<GridView>(R.id.gv_rateFragment)
+                    .apply {
+                        adapter = ArtworkGridAdapter(
+                            artworks = artworkListByRating,
+                            context = context
+                        )
+                    }
+            }
+        }
     }
 }
