@@ -9,10 +9,7 @@ import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
@@ -21,11 +18,10 @@ import com.example.artthief.ui.rate.adapter.ArtworkAdapter
 import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
-import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
-import kotlinx.coroutines.*
 
+// TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
 class RateFragment : Fragment() {
 
     private val gridView by lazy {
@@ -43,18 +39,23 @@ class RateFragment : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
-    private val artworkRatingSections: MutableList<RecyclerViewSection> = mutableListOf()
-    private var artworkListByRating: List<ArtThiefArtwork> = emptyList()
-    private var artworkListByShowId: List<ArtThiefArtwork> = emptyList()
-    private var artworkListByArtist: List<ArtThiefArtwork> = emptyList()
+    private var artworkList: List<ArtThiefArtwork> = emptyList()
+
+    private val artworkAdapter = ArtworkAdapter(
+        artworkClickListener = object : ArtworkClickListener {
+            override fun onArtworkClicked(
+                sectionPosition: Int, view: View
+            ) { showArtworkFragment(sectionPosition) }
+        }
+    )
+    private lateinit var ratingSectionAdapter: RatingSectionAdapter
+    private lateinit var artworkGridAdapter: ArtworkGridAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        Log.i("howdy", "onCreateView")
 
         // Set the lifecycleOwner so DataBinding can observe LiveData
         val binding: FragmentRateBinding = DataBindingUtil.inflate(
@@ -66,26 +67,75 @@ class RateFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.artworkList.observe(viewLifecycleOwner) { artworks ->
-            // TODO: depending on taken/deleted artworks options selected, filter out here
-            artworks?.apply {
-                lifecycleScope.launch {
-                    val configure = async(Dispatchers.Default) {
-                        configureArtworksList(artworks)
-                        configureArtworksGrid(artworks)
+        val displayTypeState = getDisplayTypeState()
+        val rvListOrderState = getRvListOrderState()
+
+        if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
+            viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
+                artworks?.apply {
+                    if (displayTypeState == "grid") {
+                        binding
+                            .root
+                            .findViewById<GridView>(R.id.gv_rateFragment)
+                            .apply {
+                                artworkGridAdapter = ArtworkGridAdapter(
+                                    context = context
+                                )
+                                artworkGridAdapter.artworks = artworks
+                                adapter = artworkGridAdapter
+                            }
                     }
-                    configure.await()
-                    sortAndConfigureArtworks(binding)
+                    viewModel.setSortedArtworkListByRating(artworks)
+                }
+            }
+            if (displayTypeState != "grid" && rvListOrderState == "rating") {
+                viewModel.ratingSections.observe(viewLifecycleOwner) { sections ->
+                    sections?.apply {
+                        binding
+                            .root
+                            .findViewById<RecyclerView>(R.id.rv_rateFragment)
+                            .apply {
+                                ratingSectionAdapter = RatingSectionAdapter(
+                                    artworkClickListener = object : ArtworkClickListener {
+                                        override fun onArtworkClicked(
+                                            sectionPosition: Int, view: View
+                                        ) { showArtworkFragment(sectionPosition) }
+                                    },
+                                    context = context
+                                )
+                                ratingSectionAdapter.sections = sections
+                                adapter = ratingSectionAdapter
+                            }
+                    }
+                }
+            }
+        } else if (rvListOrderState == "show_id" && displayTypeState != "grid") {
+            viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
+                artworks?.apply {
+                    binding
+                        .root
+                        .findViewById<RecyclerView>(R.id.rv_rateFragment)
+                        .apply {
+                            artworkAdapter.artworks = artworks
+                            adapter = artworkAdapter
+                        }
+                    viewModel.setSortedArtworkListByShowId(artworks)
+                }
+            }
+        } else if (rvListOrderState == "artist" && displayTypeState != "grid") {
+            viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
+                artworks?.apply {
+                    binding
+                        .root
+                        .findViewById<RecyclerView>(R.id.rv_rateFragment)
+                        .apply {
+                            artworkAdapter.artworks = artworks
+                            adapter = artworkAdapter
+                        }
+                    viewModel.setSortedArtworkListByArtist(artworks)
                 }
             }
         }
-
-        // Observer for the network error.
-        viewModel
-            .eventNetworkError
-            .observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
-                if (isNetworkError) onNetworkError()
-            })
 
         return binding.root
     }
@@ -163,55 +213,6 @@ class RateFragment : Fragment() {
         setZoomSliderCancelButtonListener()
 
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun configureArtworksList(artworks: List<ArtThiefArtwork>) {
-        when (getRvListOrderState()) {
-            "rating" -> configureArtworksByRating(artworks)
-            "show_id" -> configureArtworksByShowId(artworks)
-            "artist" -> configureArtworksByArtist(artworks)
-        }
-    }
-
-    private fun configureArtworksGrid(artworks: List<ArtThiefArtwork>) {
-        artworkListByRating = artworks.sortedByDescending { it.rating }
-        viewModel.setSortedArtworkListByRating(artworkListByRating)
-    }
-
-    // TODO: fix lag on rate tab (slow every time list by rating recyclerView loads)
-    private fun configureArtworksByRating(artworks: List<ArtThiefArtwork>) {
-
-        // sort artworks by descending rating and update view model
-        artworkListByRating = artworks.sortedByDescending { it.rating }
-        viewModel.setSortedArtworkListByRating(artworkListByRating)
-
-        // partition artworks by rating then assign to rv's sections
-        val artworkRatingMap = artworkListByRating.groupBy { it.rating }
-        for (i in 5 downTo 0) {
-            artworkRatingMap[i]?.let {
-                artworkRatingSections.add(RecyclerViewSection(i, it))
-            }
-        }
-    }
-
-    private fun configureArtworksByShowId(artworks: List<ArtThiefArtwork>) {
-        artworkListByShowId = artworks.sortedBy { it.showID.toInt() }
-        viewModel.setSortedArtworkListByShowId(artworkListByShowId)
-    }
-
-    private fun configureArtworksByArtist(artworks: List<ArtThiefArtwork>) {
-        artworkListByArtist = artworks.sortedBy { it.artist }
-        viewModel.setSortedArtworkListByArtist(artworkListByArtist)
-    }
-
-    // TODO: get rid of onNetworkError functions? - check to see if ever reached
-    private fun onNetworkError() {
-        if (!viewModel.isNetworkErrorShown.value!!) {
-            Toast
-                .makeText(activity, "Network Error", Toast.LENGTH_LONG)
-                .show()
-            viewModel.onNetworkErrorShown()
-        }
     }
 
     fun showArtworkFragment(position: Int) {
@@ -430,58 +431,5 @@ class RateFragment : Fragment() {
 
     private fun getZoomSliderVisibility(): Boolean {
         return sharedPreferences.getBoolean("show_zoom_slider", false)
-    }
-
-    private fun sortAndConfigureArtworks(binding: FragmentRateBinding) {
-        when (getDisplayTypeState()) {
-            "list" -> {
-                binding
-                    .root
-                    .findViewById<RecyclerView>(R.id.rv_rateFragment)
-                    .apply {
-                        setHasFixedSize(true)
-                        isNestedScrollingEnabled = false
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = when (getRvListOrderState()) {
-                            "show_id" -> ArtworkAdapter(
-                                artworkClickListener = object : ArtworkClickListener {
-                                    override fun onArtworkClicked(
-                                        sectionPosition: Int, view: View
-                                    ) { showArtworkFragment(sectionPosition) }
-                                },
-                                artworks = artworkListByShowId
-                            )
-                            "artist" -> ArtworkAdapter(
-                                artworkClickListener = object : ArtworkClickListener {
-                                    override fun onArtworkClicked(
-                                        sectionPosition: Int, view: View
-                                    ) { showArtworkFragment(sectionPosition) }
-                                },
-                                artworks = artworkListByArtist
-                            )
-                            else -> RatingSectionAdapter(
-                                context = context,
-                                artworkClickListener = object : ArtworkClickListener {
-                                    override fun onArtworkClicked(
-                                        sectionPosition: Int, view: View
-                                    ) { showArtworkFragment(sectionPosition) }
-                                },
-                                sections = artworkRatingSections
-                            )
-                        }
-                    }
-            }
-            "grid" -> {
-                binding
-                    .root
-                    .findViewById<GridView>(R.id.gv_rateFragment)
-                    .apply {
-                        adapter = ArtworkGridAdapter(
-                            artworks = artworkListByRating,
-                            context = context
-                        )
-                    }
-            }
-        }
     }
 }

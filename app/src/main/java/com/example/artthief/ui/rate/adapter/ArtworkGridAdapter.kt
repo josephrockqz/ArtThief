@@ -1,5 +1,6 @@
 package com.example.artthief.ui.rate.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,18 @@ import com.example.artthief.domain.ArtThiefArtwork
 import com.squareup.picasso.Picasso
 
 internal class ArtworkGridAdapter(
-    private val artworks: List<ArtThiefArtwork>,
-    private val context: Context,
+    private val context: Context
 ) : BaseAdapter() {
+
+    // TODO: implement this:
+    var artworks: List<ArtThiefArtwork> = emptyList()
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            // Notify any registered observers that the data set has changed. This will cause every
+            // element in our RecyclerView to be invalidated.
+            notifyDataSetChanged()
+        }
 
     private var layoutInflater: LayoutInflater? = null
     private lateinit var itemBinding: GridviewItemBinding

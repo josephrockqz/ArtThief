@@ -14,6 +14,10 @@ import com.example.artthief.viewmodels.ArtworksViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    // TODO: load view model with factory
+    // private val flowersListViewModel by viewModels<FlowersListViewModel> {
+    //        FlowersListViewModelFactory(this)
+    //    }
     private val viewModel: ArtworksViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding

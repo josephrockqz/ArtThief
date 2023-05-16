@@ -6,6 +6,7 @@ import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.repository.ArtworksRepo
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -27,10 +28,17 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private val artworksRepo = ArtworksRepo(getDatabase(application))
 
     /**
-     * A list of artworks displayed on the screen.
+     * A list of artworks displayed on the screen and different ways of sorting
      */
-    val artworkList = artworksRepo.artworks
-    private val _artworkList = MutableLiveData<List<ArtThiefArtwork>>()
+    private val artworkList = artworksRepo.artworks
+
+    val artworkListByRatingLive = artworksRepo.artworksByRating
+
+    val artworkListByShowIdLive = artworksRepo.artworksByShowId
+
+    val artworkListByArtistLive = artworksRepo.artworksByArtist
+
+    val ratingSections = artworksRepo.ratingSections
 
     /**
      * Integer to represent current artwork selected to display the
@@ -60,21 +68,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         get() = _artworkListByArtist
 
     /**
-     * Event triggered for network error.
-     */
-    private var _eventNetworkError = MutableLiveData(false)
-    val eventNetworkError: LiveData<Boolean>
-        get() = _eventNetworkError
-
-    /**
-     * Flag to display the error message. Views should use this to get access
-     * to the data.
-     */
-    private var _isNetworkErrorShown = MutableLiveData(false)
-    val isNetworkErrorShown: LiveData<Boolean>
-        get() = _isNetworkErrorShown
-
-    /**
      * init{} is called immediately when this ViewModel is created.
      */
     init {}
@@ -87,13 +80,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Resets the network error flag.
-     */
-    fun onNetworkErrorShown() {
-        _isNetworkErrorShown.value = true
-    }
-
-    /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
@@ -101,14 +87,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             try {
                 artworksRepo.refreshArtworks()
-                _eventNetworkError.value = false
-                _isNetworkErrorShown.value = false
 
-            } catch (networkError: IOException) {
-                // Show a Toast error message and hide the progress bar.
-                if(artworkList.value.isNullOrEmpty())
-                    _eventNetworkError.value = true
-            }
+            } catch (_: IOException) { }
         }
     }
 
