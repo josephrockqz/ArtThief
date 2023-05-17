@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
 import com.example.artthief.ui.rate.adapter.ArtworkAdapter
@@ -18,9 +17,8 @@ import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.viewmodels.ArtworksViewModel
-import com.google.android.material.appbar.MaterialToolbar
 
-// TODO: fix bug where returning to RateFragment from [ArtworkFragment] breaks everything - could be memory leaks due to gettingDrawables
+// TODO: fix bug where returning to RateFragment from [ArtworkFragment] breaks everything
 // TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
 class RateFragment : Fragment() {
 
@@ -30,23 +28,14 @@ class RateFragment : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
-    private val gridView by lazy {
-        binding
-            .root
-            .findViewById<GridView>(R.id.gv_rateFragment)
-    }
-    private val recyclerView by lazy {
-        binding
-            .root
-            .findViewById<RecyclerView>(R.id.rv_rateFragment)
-    }
+    private val gridView by lazy { binding.gvRateFragment }
+    private val recyclerView by lazy { binding.rvRateFragment }
+    private val toolbar by lazy { binding.rateFragmentAppBar }
+    private val zoomSliderCancelButton by lazy { binding.ivSliderXButton }
+    private val zoomSliderContainer by lazy { binding.llZoomSliderContainer }
+    private val zoomSliderSeekBar by lazy { binding.sbZoomSlider }
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
-    }
-    private val toolbar by lazy {
-        binding
-            .root
-            .findViewById<MaterialToolbar>(R.id.rateFragmentAppBar)
     }
 
     private lateinit var artworkAdapter: ArtworkAdapter
@@ -76,16 +65,13 @@ class RateFragment : Fragment() {
                 artworks?.apply {
                     if (displayTypeState == "grid") {
                         Log.i("howdy", "conditional 2")
-                        binding
-                            .root
-                            .findViewById<GridView>(R.id.gv_rateFragment)
-                            .apply {
-                                artworkGridAdapter = ArtworkGridAdapter(
-                                    context = context,
-                                    artworks = artworks
-                                )
-                                adapter = artworkGridAdapter
-                            }
+                        gridView.apply {
+                            artworkGridAdapter = ArtworkGridAdapter(
+                                context = context,
+                                artworks = artworks
+                            )
+                            adapter = artworkGridAdapter
+                        }
                     }
                     viewModel.setSortedArtworkListByRating(artworks)
                 }
@@ -94,21 +80,18 @@ class RateFragment : Fragment() {
                 Log.i("howdy", "conditional 3")
                 viewModel.ratingSections.observe(viewLifecycleOwner) { sections ->
                     sections?.apply {
-                        binding
-                            .root
-                            .findViewById<RecyclerView>(R.id.rv_rateFragment)
-                            .apply {
-                                ratingSectionAdapter = RatingSectionAdapter(
-                                    artworkClickListener = object : ArtworkClickListener {
-                                        override fun onArtworkClicked(
-                                            sectionPosition: Int, view: View
-                                        ) { showArtworkFragment(sectionPosition) }
-                                    },
-                                    context = context,
-                                    sections = sections
-                                )
-                                adapter = ratingSectionAdapter
-                            }
+                        recyclerView.apply {
+                            ratingSectionAdapter = RatingSectionAdapter(
+                                artworkClickListener = object : ArtworkClickListener {
+                                    override fun onArtworkClicked(
+                                        sectionPosition: Int, view: View
+                                    ) { showArtworkFragment(sectionPosition) }
+                                },
+                                context = context,
+                                sections = sections
+                            )
+                            adapter = ratingSectionAdapter
+                        }
                     }
                 }
             }
@@ -116,20 +99,17 @@ class RateFragment : Fragment() {
             Log.i("howdy", "conditional 4")
             viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
-                    binding
-                        .root
-                        .findViewById<RecyclerView>(R.id.rv_rateFragment)
-                        .apply {
-                            artworkAdapter = ArtworkAdapter(
-                                artworkClickListener = object : ArtworkClickListener {
-                                    override fun onArtworkClicked(
-                                        sectionPosition: Int, view: View
-                                    ) { showArtworkFragment(sectionPosition) }
-                                },
-                                artworks = artworks
-                            )
-                            adapter = artworkAdapter
-                        }
+                    recyclerView.apply {
+                        artworkAdapter = ArtworkAdapter(
+                            artworkClickListener = object : ArtworkClickListener {
+                                override fun onArtworkClicked(
+                                    sectionPosition: Int, view: View
+                                ) { showArtworkFragment(sectionPosition) }
+                            },
+                            artworks = artworks
+                        )
+                        adapter = artworkAdapter
+                    }
                     viewModel.setSortedArtworkListByShowId(artworks)
                 }
             }
@@ -137,20 +117,17 @@ class RateFragment : Fragment() {
             Log.i("howdy", "conditional 5")
             viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
-                    binding
-                        .root
-                        .findViewById<RecyclerView>(R.id.rv_rateFragment)
-                        .apply {
-                            artworkAdapter = ArtworkAdapter(
-                                artworkClickListener = object : ArtworkClickListener {
-                                    override fun onArtworkClicked(
-                                        sectionPosition: Int, view: View
-                                    ) { showArtworkFragment(sectionPosition) }
-                                },
-                                artworks = artworks
-                            )
-                            adapter = artworkAdapter
-                        }
+                    recyclerView.apply {
+                        artworkAdapter = ArtworkAdapter(
+                            artworkClickListener = object : ArtworkClickListener {
+                                override fun onArtworkClicked(
+                                    sectionPosition: Int, view: View
+                                ) { showArtworkFragment(sectionPosition) }
+                            },
+                            artworks = artworks
+                        )
+                        adapter = artworkAdapter
+                    }
                     viewModel.setSortedArtworkListByArtist(artworks)
                 }
             }
@@ -160,8 +137,6 @@ class RateFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val zoomSlider = binding.root.findViewById<LinearLayout>(R.id.ll_zoomSliderContainer)
 
         when (getDisplayTypeState()) {
             "list" -> {
@@ -175,7 +150,7 @@ class RateFragment : Fragment() {
                 toolbar.menu[3].isVisible = false
                 toolbar.menu[5].isVisible = true
 
-                zoomSlider.visibility = View.INVISIBLE
+                zoomSliderContainer.visibility = View.INVISIBLE
             }
             "grid" -> {
                 recyclerView.visibility = View.GONE
@@ -190,12 +165,12 @@ class RateFragment : Fragment() {
 
                 val zoomSliderVisibilityState = getZoomSliderVisibility()
                 if (zoomSliderVisibilityState) {
-                    zoomSlider.bringToFront()
-                    zoomSlider.visibility = View.VISIBLE
-                } else zoomSlider.visibility = View.INVISIBLE
+                    zoomSliderContainer.bringToFront()
+                    zoomSliderContainer.visibility = View.VISIBLE
+                } else zoomSliderContainer.visibility = View.INVISIBLE
                 val zoomLevel = getZoomLevel()
                 gridView.numColumns = zoomLevel + 1
-                binding.root.findViewById<SeekBar>(R.id.sb_zoomSlider).progress = zoomLevel
+                zoomSliderSeekBar.progress = zoomLevel
             }
         }
 
@@ -267,46 +242,35 @@ class RateFragment : Fragment() {
     }
 
     private fun setZoomSliderChangeListener() {
-        binding
-            .root
-            .findViewById<SeekBar>(R.id.sb_zoomSlider)
-            .setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(
-                    seekBar: SeekBar?,
-                    progress: Int,
-                    fromUser: Boolean
-                ) {
-                    gridView.numColumns = progress + 1
-                    with (sharedPreferences.edit()) {
-                        putInt("zoom_level", progress)
-                        apply()
-                    }
+        zoomSliderSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seekBar: SeekBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+                gridView.numColumns = progress + 1
+                with (sharedPreferences.edit()) {
+                    putInt("zoom_level", progress)
+                    apply()
                 }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                    // No-Op
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    // No-Op
-                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // No-Op
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                // No-Op
+            }
         })
     }
 
     private fun setZoomSliderCancelButtonListener() {
-        binding
-            .root
-            .findViewById<ImageView>(R.id.iv_sliderXButton)
-            .setOnClickListener {
-                binding
-                    .root
-                    .findViewById<LinearLayout>(R.id.ll_zoomSliderContainer)
-                    .visibility = View.INVISIBLE
-                with (sharedPreferences.edit()) {
-                    putBoolean("show_zoom_slider", false)
-                    apply()
-                }
+        zoomSliderCancelButton.setOnClickListener {
+            zoomSliderContainer.visibility = View.INVISIBLE
+            with (sharedPreferences.edit()) {
+                putBoolean("show_zoom_slider", false)
+                apply()
             }
+        }
     }
 
     private fun displayList(): Boolean {
@@ -421,19 +385,10 @@ class RateFragment : Fragment() {
     private fun toggleGridZoomSlider(): Boolean {
         val zoomSliderVisibilityState = getZoomSliderVisibility()
         if (zoomSliderVisibilityState) {
-            binding
-                .root
-                .findViewById<LinearLayout>(R.id.ll_zoomSliderContainer)
-                .visibility = View.INVISIBLE
+            zoomSliderContainer.visibility = View.INVISIBLE
         } else {
-            binding
-                .root
-                .findViewById<LinearLayout>(R.id.ll_zoomSliderContainer)
-                .bringToFront()
-            binding
-                .root
-                .findViewById<LinearLayout>(R.id.ll_zoomSliderContainer)
-                .visibility = View.VISIBLE
+            zoomSliderContainer.bringToFront()
+            zoomSliderContainer.visibility = View.VISIBLE
         }
         with (sharedPreferences.edit()) {
             putBoolean("show_zoom_slider", !zoomSliderVisibilityState)
