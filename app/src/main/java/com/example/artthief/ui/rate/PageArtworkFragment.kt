@@ -70,8 +70,7 @@ class PageArtworkFragment(
         val artworkPageImage = view.findViewById<ImageView>(R.id.iv_artworkPageImage)
         Picasso
             .get()
-//            .load(artworks[i].image_small)
-            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
+            .load(artwork.image_large)
             .into(artworkPageImage)
 
         /**

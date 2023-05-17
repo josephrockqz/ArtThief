@@ -29,7 +29,6 @@ class Page4OverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it1 ->
-            Log.i("howdy", it1)
             if (it1 != "") {
                 view.findViewById<ImageView>(R.id.iv_highestRatedArtwork)?.let { it2 ->
                     Picasso

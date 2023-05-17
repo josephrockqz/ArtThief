@@ -92,11 +92,13 @@
 
     </LinearLayout>
 
+    <!--TODO: style better-->
     <ImageView
+        android:id="@+id/iv_augmentedHighestRatedArtwork"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/my_image"/>
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"/>
 
 </RelativeLayout>

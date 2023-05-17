@@ -76,8 +76,7 @@ class ArtworkAdapter(
 
         Picasso
             .get()
-//            .load(artworks[i].image_small)
-            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
+            .load(artworks[i].image_small)
             .into(viewHolder.artworkImage)
 
         viewHolder.artworkTitle.text = artworks[i].title

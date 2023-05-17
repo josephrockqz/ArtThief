@@ -12,12 +12,10 @@ import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
+// TODO: remove `my_image` from project
 class MainActivity : AppCompatActivity() {
 
     // TODO: load view model with factory
-    // private val flowersListViewModel by viewModels<FlowersListViewModel> {
-    //        FlowersListViewModelFactory(this)
-    //    }
     private val viewModel: ArtworksViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding

@@ -44,8 +44,7 @@ internal class ArtworkGridAdapter(
         val artworkImageView = convertView!!.findViewById<ImageView>(R.id.iv_artImageGridView)
         Picasso
             .get()
-//            .load(artworks[position].image_large)
-            .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
+            .load(artworks[position].image_small)
             .into(artworkImageView)
 
         return convertView
