@@ -6,12 +6,6 @@
     tools:context=".ui.rate.RateFragment"
     android:background="@color/white">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.artthief.viewmodels.ArtworksViewModel" />
-    </data>
-
     <RelativeLayout
         android:id="@+id/rl_rateFragment"
         android:layout_width="match_parent"

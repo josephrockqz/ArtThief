@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.artthief.R
+import com.example.artthief.databinding.FragmentAugmentedBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.squareup.picasso.Picasso
 
 class AugmentedFragment : Fragment() {
+
+    private var _binding: FragmentAugmentedBinding? = null
+    private val binding
+        get() = _binding!!
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
@@ -20,22 +23,25 @@ class AugmentedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_augmented, container, false)
+
+        _binding = FragmentAugmentedBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it1 ->
+            Picasso
+                .get()
+                .load(it1)
+                .into(binding.ivAugmentedHighestRatedArtwork)
+        }
+
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // TODO: rename all it1, it2 etc. usages to be more descriptive
-        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it1 ->
-            if (it1 != "") {
-                view.findViewById<ImageView>(R.id.iv_augmentedHighestRatedArtwork)?.let { it2 ->
-                    Picasso
-                        .get()
-                        .load(it1)
-                        .into(it2)
-                }
-            }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

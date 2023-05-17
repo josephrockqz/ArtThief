@@ -28,6 +28,7 @@ class ArtworksRepo(private val database: ArtworksDatabase) {
         it.asDomainModel()
     }
 
+    // TODO: rename all it1, it2 etc. usages to be more descriptive
     val artworksByRating: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
     ) { it1 ->
