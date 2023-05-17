@@ -1,6 +1,5 @@
 package com.example.artthief.ui.rate.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.squareup.picasso.Picasso
 
 class ArtworkAdapter(
     private val artworkClickListener: ArtworkClickListener,
+    private val artworks: List<ArtThiefArtwork>,
     private val numPriorArtworks: Int = 0
 ) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
@@ -35,16 +35,6 @@ class ArtworkAdapter(
             ...
         ]
      */
-
-    // TODO: re-implement this:
-    var artworks: List<ArtThiefArtwork> = emptyList()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            // Notify any registered observers that the data set has changed. This will cause every
-            // element in our RecyclerView to be invalidated.
-            notifyDataSetChanged()
-        }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

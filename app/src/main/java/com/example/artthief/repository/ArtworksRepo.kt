@@ -74,6 +74,14 @@ class ArtworksRepo(private val database: ArtworksDatabase) {
         artworkRatingSections
     }
 
+    val highestRatedArtworkUrl: LiveData<String> = Transformations.map(
+        database.artworkDao.getArtworks()
+    ) { it1 ->
+        it1.asDomainModel().sortedByDescending { it2 ->
+            it2.rating
+        }[0].image_small
+    }
+
     suspend fun refreshArtworks() {
         withContext(Dispatchers.IO) {
             // TODO: get rid of hardcoded passkey

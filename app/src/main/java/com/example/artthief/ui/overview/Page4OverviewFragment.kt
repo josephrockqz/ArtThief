@@ -1,6 +1,7 @@
 package com.example.artthief.ui.overview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,15 +28,15 @@ class Page4OverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val imageUrlHighestRatedArtwork: String = viewModel.getHighestRatedArtworkImageUrl()
-
-        if (imageUrlHighestRatedArtwork != "") {
-            view.findViewById<ImageView>(R.id.iv_highestRatedArtwork)?.let {
-                Picasso
-                    .get()
-//                    .load(imageUrlHighestRatedArtwork)
-                    .load("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png")
-                    .into(it)
+        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it1 ->
+            Log.i("howdy", it1)
+            if (it1 != "") {
+                view.findViewById<ImageView>(R.id.iv_highestRatedArtwork)?.let { it2 ->
+                    Picasso
+                        .get()
+                        .load(it1)
+                        .into(it2)
+                }
             }
         }
     }

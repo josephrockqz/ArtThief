@@ -1,6 +1,5 @@
 package com.example.artthief.ui.rate.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,21 +16,9 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 
 class RatingSectionAdapter(
     private val context: Context,
-    private val artworkClickListener: ArtworkClickListener
+    private val artworkClickListener: ArtworkClickListener,
+    private val sections: List<RecyclerViewSection>
 ) : RecyclerView.Adapter<RatingSectionAdapter.ViewHolder>() {
-
-    // TODO: implement this:
-    var sections: List<RecyclerViewSection> = emptyList()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            Log.i("field", field.toString())
-            Log.i("value", value.toString())
-            field = value
-            // Notify any registered observers that the data set has changed. This will cause every
-            // element in our RecyclerView to be invalidated.
-            Log.i("howdy", "section listener")
-            notifyDataSetChanged()
-        }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -99,9 +86,9 @@ class RatingSectionAdapter(
 
             val adapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
+                artworks = section.artworks,
                 numPriorArtworks = sectionAmounts[section.rating]
             )
-            adapter.artworks = section.artworks
             recyclerView.adapter = adapter
         }
     }
