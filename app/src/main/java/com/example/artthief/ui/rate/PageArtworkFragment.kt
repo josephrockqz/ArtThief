@@ -67,6 +67,7 @@ class PageArtworkFragment(
         /**
          * dynamically set artwork's image view source
          */
+        // TODO: fix app crash when artwork fragment it returned to from different tab
         val artworkPageImage = view.findViewById<ImageView>(R.id.iv_artworkPageImage)
         Picasso
             .get()

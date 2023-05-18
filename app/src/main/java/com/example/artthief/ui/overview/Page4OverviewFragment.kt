@@ -34,7 +34,7 @@ class Page4OverviewFragment : Fragment() {
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
             Picasso
                 .get()
-                .load(it)
+                .load(it.image_large)
                 .into(binding.ivHighestRatedArtwork)
         }
 

@@ -30,10 +30,10 @@ class AugmentedFragment : Fragment() {
             false
         )
 
-        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it1 ->
+        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it ->
             Picasso
                 .get()
-                .load(it1)
+                .load(it.image_small)
                 .into(binding.ivAugmentedHighestRatedArtwork)
         }
 

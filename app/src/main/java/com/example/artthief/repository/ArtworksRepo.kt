@@ -75,12 +75,12 @@ class ArtworksRepo(private val database: ArtworksDatabase) {
         artworkRatingSections
     }
 
-    val highestRatedArtworkUrl: LiveData<String> = Transformations.map(
+    val highestRatedArtwork: LiveData<ArtThiefArtwork> = Transformations.map(
         database.artworkDao.getArtworks()
     ) { it1 ->
         it1.asDomainModel().sortedByDescending { it2 ->
             it2.rating
-        }[0].image_small
+        }[0]
     }
 
     suspend fun refreshArtworks() {

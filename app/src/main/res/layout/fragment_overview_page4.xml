@@ -102,12 +102,15 @@
 
     <ImageView
         android:id="@+id/iv_highestRatedArtwork"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/my_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="150dp"
+        android:maxWidth="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@id/easel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/easel"

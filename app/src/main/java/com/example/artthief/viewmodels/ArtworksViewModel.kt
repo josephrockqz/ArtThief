@@ -40,7 +40,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     val ratingSections = artworksRepo.ratingSections
 
-    val highestRatedArtworkUrl = artworksRepo.highestRatedArtworkUrl
+    val highestRatedArtworkUrl = artworksRepo.highestRatedArtwork
 
     /**
      * Integer to represent current artwork selected to display the
