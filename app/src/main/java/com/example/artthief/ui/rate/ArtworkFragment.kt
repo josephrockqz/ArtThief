@@ -91,11 +91,9 @@ class ArtworkFragment : Fragment() {
         val toolbar = binding.artworkFragmentAppBar
         toolbar.isTitleCentered = true
         toolbar[1].setOnClickListener {
-            it.findNavController().popBackStack()
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.rl_rateFragment, RateFragment())
-                ?.commit()
+            activity
+                ?.findNavController(R.id.nav_host_fragment_activity_main)
+                ?.navigate(R.id.action_artworkToRate)
         }
 
         // TODO: have on click listener launch augmented activity

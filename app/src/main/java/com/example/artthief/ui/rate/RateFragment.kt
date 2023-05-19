@@ -18,7 +18,6 @@ import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-// TODO: fix bug where returning to RateFragment from [ArtworkFragment] breaks everything
 // TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
 class RateFragment : Fragment() {
 
@@ -54,6 +53,8 @@ class RateFragment : Fragment() {
             container,
             false
         )
+        Log.i("howdy", "rate fragment on create")
+        Log.i("howdy", binding.toString())
         binding.lifecycleOwner = viewLifecycleOwner
 
         val displayTypeState = getDisplayTypeState()

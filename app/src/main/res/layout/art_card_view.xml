@@ -18,6 +18,7 @@
         android:paddingTop="20dp">
 
         <!--Artwork image-->
+        <!--TODO: fix image widths-->
         <ImageView
             android:id="@+id/iv_artImage"
             android:layout_width="wrap_content"

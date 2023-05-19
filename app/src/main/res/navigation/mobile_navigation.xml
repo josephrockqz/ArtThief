@@ -28,7 +28,13 @@
         android:id="@+id/navigation_artwork"
         android:name="com.example.artthief.ui.rate.ArtworkFragment"
         android:label="@string/title_artwork"
-        tools:layout="@layout/fragment_artwork"/>
+        tools:layout="@layout/fragment_artwork">
+
+        <action
+            android:id="@+id/action_artworkToRate"
+            app:destination="@+id/navigation_rate"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_augmented"

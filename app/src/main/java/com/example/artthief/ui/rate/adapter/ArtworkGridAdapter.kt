@@ -1,6 +1,5 @@
 package com.example.artthief.ui.rate.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,6 @@ internal class ArtworkGridAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
-        Log.i("howdy", "getView")
         if (convertView == null) {
             itemBinding = GridviewItemBinding.inflate(
                 LayoutInflater.from(parent!!.context),
