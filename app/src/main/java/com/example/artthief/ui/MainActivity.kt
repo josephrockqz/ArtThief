@@ -12,10 +12,9 @@ import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-// TODO: cache images
+// TODO: cache images so they load in airplane mode, add bitmap field to [ArtThiefArtwork]
 class MainActivity : AppCompatActivity() {
 
-    // TODO: load view model with factory
     private val viewModel: ArtworksViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding

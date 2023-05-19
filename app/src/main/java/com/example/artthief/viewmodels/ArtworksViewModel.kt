@@ -5,8 +5,7 @@ import androidx.lifecycle.*
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
-import com.example.artthief.repository.ArtworksRepo
-import kotlinx.coroutines.coroutineScope
+import com.example.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -25,19 +24,14 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     /**
      * The data source this ViewModel will fetch results from
      */
-    private val artworksRepo = ArtworksRepo(getDatabase(application))
+    private val artworksRepo = ArtworksRepoImpl(getDatabase(application))
 
     /**
-     * A list of artworks displayed on the screen and different ways of sorting
+     * Lists of artwork with different ways of sorting
      */
-    private val artworkList = artworksRepo.artworks
-
     val artworkListByRatingLive = artworksRepo.artworksByRating
-
     val artworkListByShowIdLive = artworksRepo.artworksByShowId
-
     val artworkListByArtistLive = artworksRepo.artworksByArtist
-
     val ratingSections = artworksRepo.ratingSections
 
     val highestRatedArtworkUrl = artworksRepo.highestRatedArtwork
@@ -68,11 +62,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private var _artworkListByArtist = emptyList<ArtThiefArtwork>()
     val artworkListByArtist: List<ArtThiefArtwork>
         get() = _artworkListByArtist
-
-    /**
-     * init{} is called immediately when this ViewModel is created.
-     */
-    init {}
 
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
@@ -108,6 +97,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     /**
      * Factory for constructing ArtworksViewModel with parameter
      */
+    // TODO: load view models with factory?
     class Factory(val app: Application) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
