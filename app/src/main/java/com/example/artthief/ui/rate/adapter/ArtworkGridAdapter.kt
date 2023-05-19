@@ -1,20 +1,21 @@
 package com.example.artthief.ui.rate.adapter
 
-import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import com.example.artthief.databinding.GridviewItemBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.squareup.picasso.Picasso
 
 // TODO: fix bug where zoom slider doesn't work sometimes
-// TODO: standardize gridview item max height and width
 // TODO: be able to drag and drop artworks in grid view
 // TODO: dynamically update artwork rating based on dragging and dropping
 internal class ArtworkGridAdapter(
-    private val artworks: List<ArtThiefArtwork>
+    private val artworks: List<ArtThiefArtwork>,
+    private val artworkImageSize: Int
 ) : BaseAdapter() {
 
     private lateinit var itemBinding: GridviewItemBinding
@@ -24,12 +25,12 @@ internal class ArtworkGridAdapter(
         return artworks.size
     }
 
-    override fun getItem(position: Int): Any? {
-        return null
+    override fun getItem(position: Int): Any {
+        return artworks[position]
     }
 
     override fun getItemId(position: Int): Long {
-        return 0
+        return position.toLong()
     }
 
     override fun areAllItemsEnabled(): Boolean = false
@@ -38,6 +39,7 @@ internal class ArtworkGridAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
+        Log.i("howdy", "getView")
         if (convertView == null) {
             itemBinding = GridviewItemBinding.inflate(
                 LayoutInflater.from(parent!!.context),
@@ -50,6 +52,12 @@ internal class ArtworkGridAdapter(
         } else {
             holder = convertView.tag as ViewHolder
         }
+
+        holder.view.layoutParams = LinearLayout.LayoutParams(
+            artworkImageSize,
+            artworkImageSize
+        )
+        holder.view.setPadding(20, 20, 20, 20)
 
         Picasso
             .get()

@@ -43,15 +43,14 @@
             app:layoutManager="LinearLayoutManager" />
 
         <!--Artwork grid view-->
-        <!--TODO: adjust image ratio based on numColumns-->
         <GridView
             android:id="@+id/gv_rateFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingHorizontal="10dp"
             android:numColumns="3"
             android:horizontalSpacing="10dp"
             android:verticalSpacing="10dp"

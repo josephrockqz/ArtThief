@@ -60,13 +60,14 @@ class RateFragment : Fragment() {
         val rvListOrderState = getRvListOrderState()
 
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
-            Log.i("howdy", "conditional 1")
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
                     if (displayTypeState == "grid") {
-                        Log.i("howdy", "conditional 2")
                         gridView.apply {
-                            artworkGridAdapter = ArtworkGridAdapter(artworks = artworks)
+                            artworkGridAdapter = ArtworkGridAdapter(
+                                artworks = artworks,
+                                artworkImageSize = calculateGridViewImageSize(numColumns)
+                            )
                             adapter = artworkGridAdapter
                         }
                     }
@@ -74,7 +75,6 @@ class RateFragment : Fragment() {
                 }
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
-                Log.i("howdy", "conditional 3")
                 viewModel.ratingSections.observe(viewLifecycleOwner) { sections ->
                     sections?.apply {
                         recyclerView.apply {
@@ -93,7 +93,6 @@ class RateFragment : Fragment() {
                 }
             }
         } else if (rvListOrderState == "show_id") {
-            Log.i("howdy", "conditional 4")
             viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
                     recyclerView.apply {
@@ -111,7 +110,6 @@ class RateFragment : Fragment() {
                 }
             }
         } else {
-            Log.i("howdy", "conditional 5")
             viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
                     recyclerView.apply {
@@ -208,7 +206,6 @@ class RateFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.i("howdy", "reate fragment on destroy")
         _binding = null
     }
 
@@ -245,7 +242,20 @@ class RateFragment : Fragment() {
                 progress: Int,
                 fromUser: Boolean
             ) {
-                gridView.numColumns = progress + 1
+                val updatedNumColumns = progress + 1
+                viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
+                    artworks?.apply {
+                        gridView.apply {
+                            artworkGridAdapter = ArtworkGridAdapter(
+                                artworks = artworks,
+                                artworkImageSize = calculateGridViewImageSize(updatedNumColumns)
+                            )
+                            adapter = artworkGridAdapter
+                            numColumns = updatedNumColumns
+                        }
+                        viewModel.setSortedArtworkListByRating(artworks)
+                    }
+                }
                 with (sharedPreferences.edit()) {
                     putInt("zoom_level", progress)
                     apply()
@@ -400,11 +410,17 @@ class RateFragment : Fragment() {
     }
 
     private fun refreshRateFragment() {
-        // TODO: call viewModel.refreshDataFromRepository so that e.g. TAKEN artwork can be updated during the show
+        viewModel.refreshDataFromRepository()
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.replace(R.id.rl_rateFragment, RateFragment())
             ?.commit()
+    }
+
+    private fun calculateGridViewImageSize(numColumns: Int): Int {
+        val screenWidth = resources.displayMetrics.widthPixels
+        val artworkImageSideLength = screenWidth / numColumns
+        return kotlin.math.floor(artworkImageSideLength.toDouble()).toInt()
     }
 
     // TODO: implement search bar functionality

@@ -8,14 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentArtworkPageBinding
-import com.example.artthief.databinding.FragmentOverviewBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.domain.defaultArtThiefArtwork
@@ -70,21 +68,13 @@ class PageArtworkFragment(
             activity
                 ?.findNavController(R.id.nav_host_fragment_activity_main)
                 ?.popBackStack(R.id.navigation_rate, false)
+        } else {
+            Picasso
+                .get()
+                .load(artwork.image_large)
+                .into(binding.ivArtworkPageImage)
         }
 
-        /**
-         * dynamically set artwork's image view source
-         */
-        // TODO: fix app crash when artwork fragment it returned to from different tab
-        Picasso
-            .get()
-            .load(artwork.image_large)
-            .into(binding.ivArtworkPageImage)
-
-        /**
-         * set app bar title to the current artwork's title only if
-         *
-         */
         val currentViewPagerIndex = parentFragment
             ?.view
             ?.findViewById<ViewPager>(R.id.pager_artwork)
@@ -102,10 +92,6 @@ class PageArtworkFragment(
             ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
             ?.title = currentArtworkTitle
 
-        /**
-         * set artwork card information to current artwork's:
-         * artist, media, dimensions, show ID
-         */
         binding
             .tvArtworkArtist
             .text = artwork.artist
@@ -119,9 +105,6 @@ class PageArtworkFragment(
             .tvArtworkShowId
             .text = artwork.showID
 
-        /**
-         * Set star click listeners
-         */
         star1 = binding.ivArtworkPageStar1
         star1.setOnClickListener { handleStarClick(1) }
         star2 = binding.ivArtworkPageStar2

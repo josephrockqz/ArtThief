@@ -41,36 +41,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
 
-        <!--TODO: remove zurka interactive logo-->
-        <!--TODO: put my own logo here-->
-        <TextView
-            android:id="@+id/tv_zurka"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="14dp"
-            android:text="@string/overview_fragment_4_zurka"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="44sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_created_by" />
-
-        <TextView
-            android:id="@+id/tv_interactive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="-15dp"
-            android:text="@string/overview_fragment_4_interactive"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_zurka" />
-
         <TextView
             android:id="@+id/tv_reach_out"
             android:layout_width="wrap_content"

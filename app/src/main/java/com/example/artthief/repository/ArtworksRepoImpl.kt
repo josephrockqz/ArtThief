@@ -15,7 +15,6 @@ import kotlinx.coroutines.withContext
 /**
  * Repository for fetching Art Thief artwork from the network and storing them on disk
  */
-// TODO: Separate Model class into interfaces as well
 class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
 
     override val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(

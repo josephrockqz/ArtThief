@@ -10,7 +10,7 @@ import com.example.artthief.databinding.FragmentOverviewPage4Binding
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.squareup.picasso.Picasso
 
-// TODO: display artwork image on top of easel correctly
+// TODO: display artwork image on top of easel correctly, change size of easel
 class Page4OverviewFragment : Fragment() {
 
     private var _binding: FragmentOverviewPage4Binding? = null
