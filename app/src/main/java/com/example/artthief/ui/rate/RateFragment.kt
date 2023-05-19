@@ -66,10 +66,7 @@ class RateFragment : Fragment() {
                     if (displayTypeState == "grid") {
                         Log.i("howdy", "conditional 2")
                         gridView.apply {
-                            artworkGridAdapter = ArtworkGridAdapter(
-                                context = context,
-                                artworks = artworks
-                            )
+                            artworkGridAdapter = ArtworkGridAdapter(artworks = artworks)
                             adapter = artworkGridAdapter
                         }
                     }
@@ -403,6 +400,7 @@ class RateFragment : Fragment() {
     }
 
     private fun refreshRateFragment() {
+        // TODO: call viewModel.refreshDataFromRepository so that e.g. TAKEN artwork can be updated during the show
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.replace(R.id.rl_rateFragment, RateFragment())

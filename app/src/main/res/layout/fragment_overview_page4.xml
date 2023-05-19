@@ -41,6 +41,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
 
+        <!--TODO: remove zurka interactive logo-->
+        <!--TODO: put my own logo here-->
         <TextView
             android:id="@+id/tv_zurka"
             android:layout_width="wrap_content"

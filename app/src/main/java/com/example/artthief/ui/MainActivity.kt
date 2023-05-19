@@ -13,7 +13,6 @@ import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
 // TODO: cache images
-// TODO: replace all `findViewByID` with binding
 class MainActivity : AppCompatActivity() {
 
     // TODO: load view model with factory

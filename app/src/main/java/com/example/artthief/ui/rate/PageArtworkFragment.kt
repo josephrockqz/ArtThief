@@ -14,6 +14,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
+import com.example.artthief.databinding.FragmentArtworkPageBinding
+import com.example.artthief.databinding.FragmentOverviewBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.domain.defaultArtThiefArtwork
@@ -25,6 +27,10 @@ import com.squareup.picasso.Picasso
 class PageArtworkFragment(
     private val artwork: ArtThiefArtwork = defaultArtThiefArtwork
 ) : Fragment() {
+
+    private var _binding: FragmentArtworkPageBinding? = null
+    private val binding
+        get() = _binding!!
 
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
@@ -49,10 +55,12 @@ class PageArtworkFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_artwork_page, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        _binding = FragmentArtworkPageBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         /**
          * navigate back to rate fragment if artwork fragment is being opened
@@ -68,11 +76,10 @@ class PageArtworkFragment(
          * dynamically set artwork's image view source
          */
         // TODO: fix app crash when artwork fragment it returned to from different tab
-        val artworkPageImage = view.findViewById<ImageView>(R.id.iv_artworkPageImage)
         Picasso
             .get()
             .load(artwork.image_large)
-            .into(artworkPageImage)
+            .into(binding.ivArtworkPageImage)
 
         /**
          * set app bar title to the current artwork's title only if
@@ -99,27 +106,35 @@ class PageArtworkFragment(
          * set artwork card information to current artwork's:
          * artist, media, dimensions, show ID
          */
-        view.findViewById<TextView>(R.id.tv_artworkArtist).text = artwork.artist
-        view.findViewById<TextView>(R.id.tv_artworkMedia).text = artwork.media
-        view.findViewById<TextView>(R.id.tv_artworkDimensions).text = artwork.dimensions
-        view.findViewById<TextView>(R.id.tv_artworkShowId).text = artwork.showID
+        binding
+            .tvArtworkArtist
+            .text = artwork.artist
+        binding
+            .tvArtworkMedia
+            .text = artwork.media
+        binding
+            .tvArtworkDimensions
+            .text = artwork.dimensions
+        binding
+            .tvArtworkShowId
+            .text = artwork.showID
 
         /**
          * Set star click listeners
          */
-        star1 = view.findViewById(R.id.iv_artworkPageStar1)
+        star1 = binding.ivArtworkPageStar1
         star1.setOnClickListener { handleStarClick(1) }
-        star2 = view.findViewById(R.id.iv_artworkPageStar2)
+        star2 = binding.ivArtworkPageStar2
         star2.setOnClickListener { handleStarClick(2) }
-        star3 = view.findViewById(R.id.iv_artworkPageStar3)
+        star3 = binding.ivArtworkPageStar3
         star3.setOnClickListener { handleStarClick(3) }
-        star4 = view.findViewById(R.id.iv_artworkPageStar4)
+        star4 = binding.ivArtworkPageStar4
         star4.setOnClickListener { handleStarClick(4) }
-        star5 = view.findViewById(R.id.iv_artworkPageStar5)
+        star5 = binding.ivArtworkPageStar5
         star5.setOnClickListener { handleStarClick(5) }
         setStarDrawables(artwork.rating)
 
-        super.onViewCreated(view, savedInstanceState)
+        return binding.root
     }
 
     private fun handleStarClick(rating: Int) {
@@ -148,5 +163,10 @@ class PageArtworkFragment(
                 .copy(rating = rating)
                 .asDatabaseModel()
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

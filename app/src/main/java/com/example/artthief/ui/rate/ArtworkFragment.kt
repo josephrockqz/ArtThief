@@ -12,12 +12,15 @@ import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.artthief.R
-import com.example.artthief.ui.MainActivity
+import com.example.artthief.databinding.FragmentArtworkBinding
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
-import com.google.android.material.appbar.MaterialToolbar
 
 class ArtworkFragment : Fragment() {
+
+    private var _binding: FragmentArtworkBinding? = null
+    private val binding
+        get() = _binding!!
 
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
@@ -32,14 +35,16 @@ class ArtworkFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_artwork, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        _binding = FragmentArtworkBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         // configure pager adapter
         artworkPagerAdapter = ArtworkPagerAdapter(childFragmentManager)
-        viewPager = view.findViewById(R.id.pager_artwork)
+        viewPager = binding.pagerArtwork
         viewPager.adapter = artworkPagerAdapter
 
         artworkPagerAdapter.artworks = when (
@@ -66,31 +71,27 @@ class ArtworkFragment : Fragment() {
                 ) {
                     // No-Op
                 }
-
                 override fun onPageSelected(position: Int) {
-                    view
-                        .findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
+                    binding
+                        .artworkFragmentAppBar
                         .title = when (
-                            sharedPreferences.getString("rv_list_order", "rating")
-                        ) {
-                            "rating" -> viewModel.artworkListByRating[position].title
-                            "show_id" -> viewModel.artworkListByShowId[position].title
-                            else -> viewModel.artworkListByArtist[position].title
-                        }
+                        sharedPreferences.getString("rv_list_order", "rating")
+                    ) {
+                        "rating" -> viewModel.artworkListByRating[position].title
+                        "show_id" -> viewModel.artworkListByShowId[position].title
+                        else -> viewModel.artworkListByArtist[position].title
+                    }
                 }
-
                 override fun onPageScrollStateChanged(state: Int) {
                     // No-Op
                 }
             }
         )
 
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
-        // make title centered
+        val toolbar = binding.artworkFragmentAppBar
         toolbar.isTitleCentered = true
-        // back button on click listener
         toolbar[1].setOnClickListener {
-            view.findNavController().popBackStack()
+            it.findNavController().popBackStack()
             activity?.supportFragmentManager
                 ?.beginTransaction()
                 ?.replace(R.id.rl_rateFragment, RateFragment())
@@ -98,10 +99,15 @@ class ArtworkFragment : Fragment() {
         }
 
         // TODO: have on click listener launch augmented activity
-        view.findViewById<View>(R.id.mi_augmented).setOnClickListener {
-
+        toolbar.menu[0].setOnMenuItemClickListener {
+            true
         }
 
-        super.onViewCreated(view, savedInstanceState)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

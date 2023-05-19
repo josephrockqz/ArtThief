@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
+import com.example.artthief.databinding.ArtCardViewBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.squareup.picasso.Picasso
@@ -36,27 +37,14 @@ class ArtworkAdapter(
         ]
      */
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var artworkImage: ImageView
-        var artworkTitle: TextView
-        var artworkArtist: TextView
-        var artworkMedia: TextView
-        var artworkDimensions: TextView
-        var artworkShowId: TextView
+    inner class ViewHolder(
+        viewBinding: ArtCardViewBinding
+    ) : RecyclerView.ViewHolder(viewBinding.root) {
 
         init {
-            artworkImage = itemView.findViewById(R.id.iv_artImage)
-            artworkTitle = itemView.findViewById(R.id.tv_artTitle)
-            artworkArtist = itemView.findViewById(R.id.tv_artArtist)
-            artworkMedia = itemView.findViewById(R.id.tv_artMedia)
-            artworkDimensions = itemView.findViewById(R.id.tv_artDimensions)
-            artworkShowId = itemView.findViewById(R.id.tv_artShowId)
-
             itemView.setOnClickListener {
-                val sectionPosition: Int = adapterPosition
                 artworkClickListener.onArtworkClicked(
-                    sectionPosition + numPriorArtworks,
+                    adapterPosition + numPriorArtworks,
                     itemView
                 )
             }
@@ -64,26 +52,30 @@ class ArtworkAdapter(
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-
-        val v = LayoutInflater
-            .from(viewGroup.context)
-            .inflate(R.layout.art_card_view, viewGroup, false)
-
-        return ViewHolder(v)
+        return ViewHolder(
+            ArtCardViewBinding
+                .inflate(
+                    LayoutInflater.from(viewGroup.context),
+                    viewGroup,
+                    false
+                )
+        )
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
 
-        Picasso
-            .get()
-            .load(artworks[i].image_small)
-            .into(viewHolder.artworkImage)
+        ArtCardViewBinding.bind(viewHolder.itemView).apply {
+            Picasso
+                .get()
+                .load(artworks[i].image_small)
+                .into(this.ivArtImage)
 
-        viewHolder.artworkTitle.text = artworks[i].title
-        viewHolder.artworkArtist.text = artworks[i].artist
-        viewHolder.artworkMedia.text = artworks[i].media
-        viewHolder.artworkDimensions.text = artworks[i].dimensions
-        viewHolder.artworkShowId.text = artworks[i].showID
+            this.tvArtTitle.text = artworks[i].title
+            this.tvArtArtist.text = artworks[i].artist
+            this.tvArtMedia.text = artworks[i].media
+            this.tvArtDimensions.text = artworks[i].dimensions
+            this.tvArtShowId.text = artworks[i].showID
+        }
     }
 
     override fun getItemCount() = artworks.size
