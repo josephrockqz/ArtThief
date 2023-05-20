@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--TODO: Allow drag and of cards when listed by rating-->
+<!--TODO: have drag and drop change artwork rating and order-->
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -13,81 +15,99 @@
     <!--TODO: implement ability to swipe left & right on artwork to delete & restore-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
         android:layout_marginStart="15dp"
+        android:orientation="horizontal"
         android:paddingTop="20dp">
 
         <!--Artwork image-->
-        <!--TODO: fix image widths-->
-        <ImageView
-            android:id="@+id/iv_artImage"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_weight="0"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
-            android:src="@drawable/burglar_1"
-            android:paddingBottom="20dp"/>
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
 
-        <!--Artwork info-->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/artwork_adapter_bottom_border">
-
-            <!--Title, artist, media, dimensions-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_artTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tv_artArtist"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Artist"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/tv_artMedia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Media"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/tv_artDimensions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dimensions"
-                    android:textColor="@color/black"/>
-
-            </LinearLayout>
-
-            <!--Show ID-->
-            <!--TODO: make vertically centered-->
-            <TextView
-                android:id="@+id/tv_artShowId"
+            <ImageView
+                android:id="@+id/iv_artImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="15dp"
-                android:text="Show ID"/>
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
 
-        </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!--Artwork info-->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp">
+
+                <!--Title, artist, media, dimensions-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_artTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Title"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_artArtist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Artist"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_artMedia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Media"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_artDimensions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dimensions"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <!--Show ID-->
+                <TextView
+                    android:id="@+id/tv_artShowId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:text="Show ID" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@drawable/artwork_adapter_bottom_border">
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

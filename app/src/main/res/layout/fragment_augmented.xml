@@ -25,6 +25,8 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <!--TODO: style better-->
+
     <!--Bottom border for toolbar-->
     <View
         android:id="@+id/toolbar_bottom_border"
@@ -92,7 +94,6 @@
 
     </LinearLayout>
 
-    <!--TODO: style better-->
     <ImageView
         android:id="@+id/iv_augmentedHighestRatedArtwork"
         android:layout_width="80dp"
