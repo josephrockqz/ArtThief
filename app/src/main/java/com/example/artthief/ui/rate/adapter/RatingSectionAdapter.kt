@@ -98,6 +98,7 @@ class RatingSectionAdapter(
             val adapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
                 artworks = section.artworks,
+                context = context,
                 numPriorArtworks = sectionAmounts[section.rating]
             )
             recyclerView.adapter = adapter

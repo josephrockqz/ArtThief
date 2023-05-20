@@ -1,10 +1,8 @@
 package com.example.artthief.ui.rate.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.ArtCardViewBinding
@@ -15,6 +13,7 @@ import com.squareup.picasso.Picasso
 class ArtworkAdapter(
     private val artworkClickListener: ArtworkClickListener,
     private val artworks: List<ArtThiefArtwork>,
+    private val context: Context,
     private val numPriorArtworks: Int = 0
 ) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
@@ -74,7 +73,19 @@ class ArtworkAdapter(
             this.tvArtArtist.text = artworks[i].artist
             this.tvArtMedia.text = artworks[i].media
             this.tvArtDimensions.text = artworks[i].dimensions
-            this.tvArtShowId.text = artworks[i].showID
+            /**
+             * Set far right text to either: show ID, Taken, or Deleted
+             * Note: if artwork is both taken & deleted, then display "Taken"
+             */
+            if (artworks[i].taken) {
+                this.tvArtShowId.text = context.getString(R.string.art_card_taken)
+                this.tvArtShowId.setTextColor(context.resources.getColor(R.color.red))
+            } else if (artworks[i].deleted) {
+                this.tvArtShowId.text = context.getString(R.string.art_card_deleted)
+                this.tvArtShowId.setTextColor(context.resources.getColor(R.color.red))
+            } else {
+                this.tvArtShowId.text = artworks[i].showID
+            }
         }
     }
 

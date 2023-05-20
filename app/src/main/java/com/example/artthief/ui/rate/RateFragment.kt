@@ -58,6 +58,8 @@ class RateFragment : Fragment() {
         val displayTypeState = getDisplayTypeState()
         val rvListOrderState = getRvListOrderState()
 
+        // TODO: filter out deleted/taken artworks if specified
+
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
@@ -101,7 +103,8 @@ class RateFragment : Fragment() {
                                     sectionPosition: Int, view: View
                                 ) { showArtworkFragment(sectionPosition) }
                             },
-                            artworks = artworks
+                            artworks = artworks,
+                            context = context
                         )
                         adapter = artworkAdapter
                     }
@@ -118,7 +121,8 @@ class RateFragment : Fragment() {
                                     sectionPosition: Int, view: View
                                 ) { showArtworkFragment(sectionPosition) }
                             },
-                            artworks = artworks
+                            artworks = artworks,
+                            context = context
                         )
                         adapter = artworkAdapter
                     }

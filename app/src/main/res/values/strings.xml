@@ -66,6 +66,8 @@
     <string name="mi_title_search">Search</string>
     <string name="rate_fragment_compare_button">Compare</string>
     <string name="rate_fragment_unrated">Unrated</string>
+    <string name="art_card_taken">Taken</string>
+    <string name="art_card_deleted">Deleted</string>
 
     <!--Artwork page strings-->
     <string name="mi_augmented">Augmented Reality</string>

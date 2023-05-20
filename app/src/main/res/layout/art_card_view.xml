@@ -10,6 +10,7 @@
     android:clickable="true"
     android:focusable="true">
 
+    <!--TODO: implement ability to swipe left & right on artwork to delete & restore-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,8 +78,6 @@
 
             <!--Show ID-->
             <!--TODO: make vertically centered-->
-            <!--TODO: make text "TAKEN" dynamically-->
-            <!--TODO: make text "DELETED" dynamically-->
             <TextView
                 android:id="@+id/tv_artShowId"
                 android:layout_width="wrap_content"
