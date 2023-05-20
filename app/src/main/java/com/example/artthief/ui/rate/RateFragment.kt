@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
+import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.ui.rate.adapter.ArtworkAdapter
 import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
@@ -65,24 +66,24 @@ class RateFragment : Fragment() {
         val displayTypeState = getDisplayTypeState()
         val rvListOrderState = getRvListOrderState()
 
-        // TODO: filter out deleted/taken artworks if specified
-
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
                     if (displayTypeState == "grid") {
                         gridView.apply {
                             artworkGridAdapter = ArtworkGridAdapter(
-                                artworks = artworks,
+                                artworks = artworksFilterTakenAndDeleted,
                                 artworkImageSize = calculateGridViewImageSize(numColumns)
                             )
                             adapter = artworkGridAdapter
                         }
                     }
-                    viewModel.setSortedArtworkListByRating(artworks)
+                    viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
                 }
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
+                // TODO: adjust so that section rating adapter filters taken and deleted artworks
                 viewModel.ratingSections.observe(viewLifecycleOwner) { sections ->
                     sections?.apply {
                         recyclerView.apply {
@@ -103,6 +104,7 @@ class RateFragment : Fragment() {
         } else if (rvListOrderState == "show_id") {
             viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
                     recyclerView.apply {
                         artworkAdapter = ArtworkAdapter(
                             artworkClickListener = object : ArtworkClickListener {
@@ -110,17 +112,18 @@ class RateFragment : Fragment() {
                                     sectionPosition: Int, view: View
                                 ) { showArtworkFragment(sectionPosition) }
                             },
-                            artworks = artworks,
+                            artworks = artworksFilterTakenAndDeleted,
                             context = context
                         )
                         adapter = artworkAdapter
                     }
-                    viewModel.setSortedArtworkListByShowId(artworks)
+                    viewModel.setSortedArtworkListByShowId(artworksFilterTakenAndDeleted)
                 }
             }
         } else {
             viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
                 artworks?.apply {
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
                     recyclerView.apply {
                         artworkAdapter = ArtworkAdapter(
                             artworkClickListener = object : ArtworkClickListener {
@@ -128,14 +131,12 @@ class RateFragment : Fragment() {
                                     sectionPosition: Int, view: View
                                 ) { showArtworkFragment(sectionPosition) }
                             },
-                            artworks = artworks,
+                            artworks = artworksFilterTakenAndDeleted,
                             context = context
                         )
-
-
                         adapter = artworkAdapter
                     }
-                    viewModel.setSortedArtworkListByArtist(artworks)
+                    viewModel.setSortedArtworkListByArtist(artworksFilterTakenAndDeleted)
                 }
             }
         }
@@ -570,6 +571,14 @@ class RateFragment : Fragment() {
                         .asDatabaseModel()
                 )
             }
+        }
+    }
+
+    private fun filterTakenAndDeletedArtworks(artworks: List<ArtThiefArtwork>): List<ArtThiefArtwork> {
+        val areTakenArtworksVisible = getShowTakenArtworkState()
+        val areDeletedArtworksVisible = getShowDeletedArtworkState()
+        return artworks.filter {
+            !(!areTakenArtworksVisible && it.taken) && !(!areDeletedArtworksVisible && it.deleted)
         }
     }
 }
