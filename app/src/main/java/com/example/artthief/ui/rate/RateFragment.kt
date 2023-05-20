@@ -53,8 +53,6 @@ class RateFragment : Fragment() {
             container,
             false
         )
-        Log.i("howdy", "rate fragment on create")
-        Log.i("howdy", binding.toString())
         binding.lifecycleOwner = viewLifecycleOwner
 
         val displayTypeState = getDisplayTypeState()
@@ -159,11 +157,7 @@ class RateFragment : Fragment() {
                 toolbar.menu[3].isVisible = true
                 toolbar.menu[5].isVisible = false
 
-                val zoomSliderVisibilityState = getZoomSliderVisibility()
-                if (zoomSliderVisibilityState) {
-                    zoomSliderContainer.bringToFront()
-                    zoomSliderContainer.visibility = View.VISIBLE
-                } else zoomSliderContainer.visibility = View.INVISIBLE
+                zoomSliderContainer.visibility = View.VISIBLE
                 val zoomLevel = getZoomLevel()
                 gridView.numColumns = zoomLevel + 1
                 zoomSliderSeekBar.progress = zoomLevel
@@ -237,13 +231,17 @@ class RateFragment : Fragment() {
     }
 
     private fun setZoomSliderChangeListener() {
+        Log.i("zoomSliderSeekBar", zoomSliderSeekBar.toString())
         zoomSliderSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
                 fromUser: Boolean
             ) {
+                Log.i("onProgressChanged", "on progress changed")
+                Log.i("progress", progress.toString())
                 val updatedNumColumns = progress + 1
+                Log.i("gridView", gridView.toString())
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                     artworks?.apply {
                         gridView.apply {
@@ -254,7 +252,6 @@ class RateFragment : Fragment() {
                             adapter = artworkGridAdapter
                             numColumns = updatedNumColumns
                         }
-                        viewModel.setSortedArtworkListByRating(artworks)
                     }
                 }
                 with (sharedPreferences.edit()) {
@@ -289,6 +286,7 @@ class RateFragment : Fragment() {
             }
             recyclerView.visibility = View.VISIBLE
             gridView.visibility = View.GONE
+            zoomSliderContainer.visibility = View.INVISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             toolbar.menu[1].isVisible = true
             toolbar.menu[2].isVisible = false
@@ -391,15 +389,15 @@ class RateFragment : Fragment() {
 
     // TODO: fix bug where toggle doesn't work temporarily
     private fun toggleGridZoomSlider(): Boolean {
-        val zoomSliderVisibilityState = getZoomSliderVisibility()
-        if (zoomSliderVisibilityState) {
+        val isZoomSliderVisible = getZoomSliderVisibility()
+        if (isZoomSliderVisible) {
             zoomSliderContainer.visibility = View.INVISIBLE
         } else {
             zoomSliderContainer.bringToFront()
             zoomSliderContainer.visibility = View.VISIBLE
         }
         with (sharedPreferences.edit()) {
-            putBoolean("show_zoom_slider", !zoomSliderVisibilityState)
+            putBoolean("show_zoom_slider", !isZoomSliderVisible)
             apply()
         }
         return true

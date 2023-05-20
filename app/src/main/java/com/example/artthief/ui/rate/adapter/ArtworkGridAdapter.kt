@@ -9,7 +9,6 @@ import com.example.artthief.databinding.GridviewItemBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.squareup.picasso.Picasso
 
-// TODO: fix bug where zoom slider doesn't work sometimes
 // TODO: be able to drag and drop artworks in grid view
 // TODO: dynamically update artwork rating based on dragging and dropping
 internal class ArtworkGridAdapter(
