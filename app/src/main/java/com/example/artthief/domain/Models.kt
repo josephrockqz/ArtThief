@@ -21,6 +21,7 @@ data class ArtThiefArtwork(
     val width: Float,
     val height: Float,
     val taken: Boolean,
+    val deleted: Boolean,
     var rating: Int
 ) {
     /**
@@ -49,6 +50,7 @@ fun ArtThiefArtwork.asDatabaseModel(): DatabaseArtwork {
         width = this.width,
         height = this.height,
         taken = this.taken,
+        deleted = this.deleted,
         rating = this.rating
     )
 }
@@ -67,5 +69,6 @@ val defaultArtThiefArtwork = ArtThiefArtwork(
     width = 1.toFloat(),
     height = 1.toFloat(),
     taken = true,
+    deleted = false, // an artwork is not hidden until the user deleted (hides) it
     rating = 0 // 0 stars represents that it's unrated
 )

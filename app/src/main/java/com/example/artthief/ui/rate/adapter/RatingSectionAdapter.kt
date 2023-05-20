@@ -75,6 +75,7 @@ class RatingSectionAdapter(
             }
 
             // TODO: implement compare button functionality
+            // TODO: change "Compare" text to "Sorted" after section has been completely compared
             val compareButton = this.bCompareButton
             if (section.rating > 0 && section.artworks.size > 1) {
                 compareButton.visibility = View.VISIBLE

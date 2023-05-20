@@ -79,7 +79,6 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
 
     override suspend fun refreshArtworks() {
         withContext(Dispatchers.IO) {
-            // TODO: get rid of hardcoded passkey
             val artworkList = ArtThiefNetwork.artThiefArtworks.getArtworkList("fb56a1e6-ee06-4911-ad33-c35c298fddbd")
             database.artworkDao.insertAll(artworkList.asDatabaseModel())
         }
