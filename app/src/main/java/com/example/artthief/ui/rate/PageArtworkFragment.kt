@@ -141,7 +141,7 @@ class PageArtworkFragment(
     }
 
     private fun updateArtworkRatingDatabase(rating: Int) {
-        viewModel.updateArtworkRating(
+        viewModel.updateArtwork(
             artwork
                 .copy(rating = rating)
                 .asDatabaseModel()

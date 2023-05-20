@@ -25,5 +25,5 @@ interface ArtworksRepo {
 
     suspend fun refreshArtworks()
 
-    suspend fun updateArtworkRating(artwork: DatabaseArtwork)
+    suspend fun updateArtwork(artwork: DatabaseArtwork)
 }

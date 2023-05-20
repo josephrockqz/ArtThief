@@ -1,6 +1,9 @@
 package com.example.artthief.ui.rate
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,13 +13,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentRateBinding
+import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.ui.rate.adapter.ArtworkAdapter
 import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.viewmodels.ArtworksViewModel
+import kotlin.math.roundToInt
 
 // TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
 class RateFragment : Fragment() {
@@ -124,12 +131,51 @@ class RateFragment : Fragment() {
                             artworks = artworks,
                             context = context
                         )
+
+
                         adapter = artworkAdapter
                     }
                     viewModel.setSortedArtworkListByArtist(artworks)
                 }
             }
         }
+
+        val swipeHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onArtworkSwiped(viewHolder, direction)
+            }
+
+            override fun onChildDraw(
+                canvas: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                onArtworkChildDraw(canvas, viewHolder, dX)
+
+                super.onChildDraw(
+                    canvas,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+            }
+        })
+        swipeHelper.attachToRecyclerView(recyclerView)
 
         return binding.root
     }
@@ -235,17 +281,13 @@ class RateFragment : Fragment() {
     }
 
     private fun setZoomSliderChangeListener() {
-        Log.i("zoomSliderSeekBar", zoomSliderSeekBar.toString())
         zoomSliderSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
                 fromUser: Boolean
             ) {
-                Log.i("onProgressChanged", "on progress changed")
-                Log.i("progress", progress.toString())
                 val updatedNumColumns = progress + 1
-                Log.i("gridView", gridView.toString())
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                     artworks?.apply {
                         gridView.apply {
@@ -450,5 +492,84 @@ class RateFragment : Fragment() {
 
     private fun getZoomSliderVisibility(): Boolean {
         return sharedPreferences.getBoolean("show_zoom_slider", false)
+    }
+
+    private fun onArtworkSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val pos = viewHolder.adapterPosition
+        // TODO: only notify removed when necessary - e.g. artwork is deleted and deleted artwork are hidden
+        artworkAdapter.notifyItemRemoved(pos)
+        if (direction == ItemTouchHelper.LEFT) {
+            updateArtworkDeletedDatabase(true, pos)
+        } else if (direction == ItemTouchHelper.RIGHT) {
+            updateArtworkDeletedDatabase(false, pos)
+        }
+    }
+
+    private fun onArtworkChildDraw(
+        canvas: Canvas,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float
+    ) {
+        val width = resources.displayMetrics.widthPixels
+
+        when {
+            kotlin.math.abs(dX) < width / 3 -> canvas.drawColor(Color.GRAY)
+            dX > width / 3 -> canvas.drawColor(Color.GREEN)
+            else -> canvas.drawColor(Color.RED)
+        }
+
+        val textMargin = resources
+            .getDimension(R.dimen.text_margin)
+            .roundToInt()
+
+        val deleteIcon = resources.getDrawable(R.drawable.ic_deleted_24dp)
+        deleteIcon.bounds = Rect(
+            width - textMargin - deleteIcon.intrinsicWidth,
+            viewHolder.itemView.top + textMargin + 8,
+            width - textMargin,
+            viewHolder.itemView.top + deleteIcon.intrinsicHeight + textMargin + 8
+        )
+
+        val archiveIcon = resources.getDrawable(R.drawable.ic_archive_24dp)
+        archiveIcon.bounds = Rect(
+            textMargin,
+            viewHolder.itemView.top + textMargin + 8,
+            textMargin + archiveIcon.intrinsicWidth,
+            viewHolder.itemView.top + archiveIcon.intrinsicHeight + textMargin + 8
+        )
+
+        if (dX > 0) archiveIcon.draw(canvas) else deleteIcon.draw(canvas)
+    }
+
+    private fun updateArtworkDeletedDatabase(
+        deleted: Boolean,
+        pos: Int
+    ) {
+        when (getRvListOrderState()) {
+            "rating" -> {
+                viewModel.updateArtwork(
+                    viewModel
+                        .artworkListByRating[pos]
+                        .copy(deleted = deleted)
+                        .asDatabaseModel()
+                )
+            }
+            "show_id" -> {
+                viewModel.updateArtwork(
+                    viewModel
+                        .artworkListByShowId[pos]
+                        .copy(deleted = deleted)
+                        .asDatabaseModel()
+                )
+            }
+            "artist" -> {
+                viewModel.updateArtwork(
+                    viewModel
+                        .artworkListByArtist[pos]
+                        .copy(deleted = deleted)
+                        .asDatabaseModel()
+                )
+            }
+        }
     }
 }

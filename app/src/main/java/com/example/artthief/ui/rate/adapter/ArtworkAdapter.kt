@@ -77,6 +77,7 @@ class ArtworkAdapter(
              * Set far right text to either: show ID, Taken, or Deleted
              * Note: if artwork is both taken & deleted, then display "Taken"
              */
+            // TODO: fix show ID being red - should not be red
             if (artworks[i].taken) {
                 this.tvArtShowId.text = context.getString(R.string.art_card_taken)
                 this.tvArtShowId.setTextColor(context.resources.getColor(R.color.red))

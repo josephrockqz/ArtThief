@@ -84,7 +84,7 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         }
     }
 
-    override suspend fun updateArtworkRating(artwork: DatabaseArtwork) {
+    override suspend fun updateArtwork(artwork: DatabaseArtwork) {
         withContext(Dispatchers.IO) {
             database.artworkDao.insert(artwork)
         }

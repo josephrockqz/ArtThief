@@ -66,6 +66,11 @@
     <string name="mi_title_search">Search</string>
     <string name="rate_fragment_compare_button">Compare</string>
     <string name="rate_fragment_unrated">Unrated</string>
+    <string name="art_card_title">Title</string>
+    <string name="art_card_artist">Artist</string>
+    <string name="art_card_media">Media</string>
+    <string name="art_card_dimensions">Dimensions</string>
+    <string name="art_card_show_id">Show ID</string>
     <string name="art_card_taken">Taken</string>
     <string name="art_card_deleted">Deleted</string>
 
