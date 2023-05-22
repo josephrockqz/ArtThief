@@ -23,6 +23,7 @@ import com.example.artthief.ui.rate.adapter.ArtworkAdapter
 import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
+import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.viewmodels.ArtworksViewModel
 import kotlin.math.roundToInt
 
@@ -68,115 +69,120 @@ class RateFragment : Fragment() {
 
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
-                artworks?.apply {
-                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                    if (displayTypeState == "grid") {
-                        gridView.apply {
-                            artworkGridAdapter = ArtworkGridAdapter(
-                                artworks = artworksFilterTakenAndDeleted,
-                                artworkImageSize = calculateGridViewImageSize(numColumns)
-                            )
-                            adapter = artworkGridAdapter
-                        }
+                val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                if (displayTypeState == "grid") {
+                    gridView.apply {
+                        artworkGridAdapter = ArtworkGridAdapter(
+                            artworks = artworksFilterTakenAndDeleted,
+                            artworkImageSize = calculateGridViewImageSize(numColumns)
+                        )
+                        adapter = artworkGridAdapter
                     }
-                    viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
                 }
+                viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
-                // TODO: adjust so that section rating adapter filters taken and deleted artworks
-                viewModel.ratingSections.observe(viewLifecycleOwner) { sections ->
-                    sections?.apply {
-                        recyclerView.apply {
-                            ratingSectionAdapter = RatingSectionAdapter(
-                                artworkClickListener = object : ArtworkClickListener {
-                                    override fun onArtworkClicked(
-                                        sectionPosition: Int, view: View
-                                    ) { showArtworkFragment(sectionPosition) }
-                                },
-                                context = context,
-                                sections = sections
-                            )
-                            adapter = ratingSectionAdapter
+                // TODO: implement swipe ItemTouchHelper for RatingSectionAdapter
+                viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                    // partition artworks by rating then assign to rv's sections
+                    val artworkRatingMap = artworksFilterTakenAndDeleted.groupBy { artwork ->
+                        artwork.rating
+                    }
+                    val artworkRatingSections = mutableListOf<RecyclerViewSection>()
+                    for (i in 5 downTo 0) {
+                        artworkRatingMap[i]?.let { list ->
+                            artworkRatingSections.add(RecyclerViewSection(i, list))
                         }
+                    }
+                    recyclerView.apply {
+                        ratingSectionAdapter = RatingSectionAdapter(
+                            artworkClickListener = object : ArtworkClickListener {
+                                override fun onArtworkClicked(
+                                    sectionPosition: Int, view: View
+                                ) { showArtworkFragment(sectionPosition) }
+                            },
+                            context = context,
+                            sections = artworkRatingSections
+                        )
+                        adapter = ratingSectionAdapter
                     }
                 }
             }
         } else if (rvListOrderState == "show_id") {
             viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
-                artworks?.apply {
-                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                    recyclerView.apply {
-                        artworkAdapter = ArtworkAdapter(
-                            artworkClickListener = object : ArtworkClickListener {
-                                override fun onArtworkClicked(
-                                    sectionPosition: Int, view: View
-                                ) { showArtworkFragment(sectionPosition) }
-                            },
-                            artworks = artworksFilterTakenAndDeleted,
-                            context = context
-                        )
-                        adapter = artworkAdapter
-                    }
-                    viewModel.setSortedArtworkListByShowId(artworksFilterTakenAndDeleted)
+                val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                recyclerView.apply {
+                    artworkAdapter = ArtworkAdapter(
+                        artworkClickListener = object : ArtworkClickListener {
+                            override fun onArtworkClicked(
+                                sectionPosition: Int, view: View
+                            ) { showArtworkFragment(sectionPosition) }
+                        },
+                        artworks = artworksFilterTakenAndDeleted,
+                        context = context
+                    )
+                    adapter = artworkAdapter
                 }
+                viewModel.setSortedArtworkListByShowId(artworksFilterTakenAndDeleted)
             }
         } else {
             viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
-                artworks?.apply {
-                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                    recyclerView.apply {
-                        artworkAdapter = ArtworkAdapter(
-                            artworkClickListener = object : ArtworkClickListener {
-                                override fun onArtworkClicked(
-                                    sectionPosition: Int, view: View
-                                ) { showArtworkFragment(sectionPosition) }
-                            },
-                            artworks = artworksFilterTakenAndDeleted,
-                            context = context
-                        )
-                        adapter = artworkAdapter
-                    }
-                    viewModel.setSortedArtworkListByArtist(artworksFilterTakenAndDeleted)
+                val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                recyclerView.apply {
+                    artworkAdapter = ArtworkAdapter(
+                        artworkClickListener = object : ArtworkClickListener {
+                            override fun onArtworkClicked(
+                                sectionPosition: Int, view: View
+                            ) { showArtworkFragment(sectionPosition) }
+                        },
+                        artworks = artworksFilterTakenAndDeleted,
+                        context = context
+                    )
+                    adapter = artworkAdapter
                 }
+                viewModel.setSortedArtworkListByArtist(artworksFilterTakenAndDeleted)
             }
         }
 
-        val swipeHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ) = true
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                onArtworkSwiped(viewHolder, direction)
-            }
-
-            override fun onChildDraw(
-                canvas: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
+        if (displayTypeState != "grid" && rvListOrderState != "rating") {
+            val swipeHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
-                onArtworkChildDraw(canvas, viewHolder, dX)
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ) = true
 
-                super.onChildDraw(
-                    canvas,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                )
-            }
-        })
-        swipeHelper.attachToRecyclerView(recyclerView)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    onArtworkSwiped(viewHolder, direction)
+                }
+
+                override fun onChildDraw(
+                    canvas: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+                    onArtworkChildDraw(canvas, viewHolder, dX)
+
+                    super.onChildDraw(
+                        canvas,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            })
+            swipeHelper.attachToRecyclerView(recyclerView)
+        }
 
         return binding.root
     }
@@ -547,30 +553,24 @@ class RateFragment : Fragment() {
         pos: Int
     ) {
         when (getRvListOrderState()) {
-            "rating" -> {
-                viewModel.updateArtwork(
-                    viewModel
-                        .artworkListByRating[pos]
-                        .copy(deleted = deleted)
-                        .asDatabaseModel()
-                )
-            }
-            "show_id" -> {
-                viewModel.updateArtwork(
-                    viewModel
-                        .artworkListByShowId[pos]
-                        .copy(deleted = deleted)
-                        .asDatabaseModel()
-                )
-            }
-            "artist" -> {
-                viewModel.updateArtwork(
-                    viewModel
-                        .artworkListByArtist[pos]
-                        .copy(deleted = deleted)
-                        .asDatabaseModel()
-                )
-            }
+            "rating" -> viewModel.updateArtwork(
+                            viewModel
+                                .artworkListByRating[pos]
+                                .copy(deleted = deleted)
+                                .asDatabaseModel()
+                        )
+            "show_id" -> viewModel.updateArtwork(
+                            viewModel
+                                .artworkListByShowId[pos]
+                                .copy(deleted = deleted)
+                                .asDatabaseModel()
+                        )
+            "artist" -> viewModel.updateArtwork(
+                            viewModel
+                                .artworkListByArtist[pos]
+                                .copy(deleted = deleted)
+                                .asDatabaseModel()
+                        )
         }
     }
 
