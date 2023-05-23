@@ -85,17 +85,25 @@ class RateFragment : Fragment() {
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                // TODO: sort based on gridview filter sharedPreferences value
+                val artworksFilterGridView = when (getGridViewDisplayFilter()) {
+                    5 -> artworksFilterTakenAndDeleted.filter { it.rating == 5 }
+                    4 -> artworksFilterTakenAndDeleted.filter { it.rating == 4 }
+                    3 -> artworksFilterTakenAndDeleted.filter { it.rating == 3 }
+                    2 -> artworksFilterTakenAndDeleted.filter { it.rating == 2 }
+                    1 -> artworksFilterTakenAndDeleted.filter { it.rating == 1 }
+                    0 -> artworksFilterTakenAndDeleted.filter { it.rating == 0 }
+                    else -> artworksFilterTakenAndDeleted
+                }
                 if (displayTypeState == "grid") {
                     gridView.apply {
                         artworkGridAdapter = ArtworkGridAdapter(
-                            artworks = artworksFilterTakenAndDeleted,
+                            artworks = artworksFilterGridView,
                             artworkImageSize = calculateGridViewImageSize(numColumns)
                         )
                         adapter = artworkGridAdapter
                     }
                 }
-                viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
+                viewModel.setSortedArtworkListByRating(artworksFilterGridView)
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
