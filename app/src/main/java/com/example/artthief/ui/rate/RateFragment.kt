@@ -85,6 +85,7 @@ class RateFragment : Fragment() {
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                // TODO: sort based on gridview filter sharedPreferences value
                 if (displayTypeState == "grid") {
                     gridView.apply {
                         artworkGridAdapter = ArtworkGridAdapter(
@@ -249,6 +250,13 @@ class RateFragment : Fragment() {
         toolbar.menu[1].subMenu?.get(3)?.setOnMenuItemClickListener { showDeletedArtwork() }
         toolbar.menu[1].subMenu?.get(4)?.setOnMenuItemClickListener { showTakenArtwork() }
 
+        toolbar.menu[2].subMenu?.get(0)?.setOnMenuItemClickListener { displayGridAfterFilter(6) }
+        toolbar.menu[2].subMenu?.get(1)?.setOnMenuItemClickListener { displayGridAfterFilter(5) }
+        toolbar.menu[2].subMenu?.get(2)?.setOnMenuItemClickListener { displayGridAfterFilter(4) }
+        toolbar.menu[2].subMenu?.get(3)?.setOnMenuItemClickListener { displayGridAfterFilter(3) }
+        toolbar.menu[2].subMenu?.get(4)?.setOnMenuItemClickListener { displayGridAfterFilter(2) }
+        toolbar.menu[2].subMenu?.get(5)?.setOnMenuItemClickListener { displayGridAfterFilter(1) }
+        toolbar.menu[2].subMenu?.get(6)?.setOnMenuItemClickListener { displayGridAfterFilter(0) }
         toolbar.menu[2].subMenu?.get(7)?.setOnMenuItemClickListener { showDeletedArtwork() }
         toolbar.menu[2].subMenu?.get(8)?.setOnMenuItemClickListener { showTakenArtwork() }
 
@@ -337,6 +345,24 @@ class RateFragment : Fragment() {
             toolbar.title = resources.getString(R.string.title_grid_sort)
             refreshRateFragment()
         }
+        return true
+    }
+
+    private fun displayGridAfterFilter(filter: Int): Boolean {
+        when (filter) {
+            6 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_filter_teal_24dp)
+            5 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_five_teal_24dp)
+            4 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_four_teal_24dp)
+            3 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_three_teal_24dp)
+            2 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_two_teal_24dp)
+            1 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_one_teal_24dp)
+            0 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_outline_circle_teal_24dp)
+        }
+        with (sharedPreferences.edit()) {
+            putInt("gv_filter", filter)
+            apply()
+        }
+        refreshRateFragment()
         return true
     }
 
@@ -455,6 +481,11 @@ class RateFragment : Fragment() {
         return sharedPreferences.getString("rv_list_order", "rating")!!
     }
 
+    private fun getGridViewDisplayFilter(): Int {
+        // 6 represents "Show All"
+        return sharedPreferences.getInt("gv_filter", 6)
+    }
+
     private fun getShowDeletedArtworkState(): Boolean {
         return sharedPreferences.getBoolean("show_deleted_artwork", false)
     }
@@ -471,10 +502,7 @@ class RateFragment : Fragment() {
         return sharedPreferences.getBoolean("show_zoom_slider", false)
     }
 
-    private fun updateArtworkDeletedDatabase(
-        deleted: Boolean,
-        pos: Int
-    ) {
+    private fun updateArtworkDeletedDatabase(deleted: Boolean, pos: Int) {
         when (getRvListOrderState()) {
             "rating" -> viewModel.updateArtwork(
                             viewModel
