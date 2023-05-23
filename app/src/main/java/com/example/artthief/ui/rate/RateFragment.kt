@@ -67,6 +67,36 @@ class RateFragment : Fragment() {
         )
         binding.lifecycleOwner = viewLifecycleOwner
 
+        configureDisplays()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        configureListAndGridView()
+        configureTakenAndDeletedArtworks()
+        setMenuItemOnClickListeners()
+        setZoomSliderChangeListener()
+        setZoomSliderCancelButtonListener()
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    fun showArtworkFragment(position: Int) {
+        viewModel.currentArtworkIndex = position
+        activity
+            ?.findNavController(R.id.nav_host_fragment_activity_main)
+            ?.navigate(R.id.action_rateToArtwork)
+    }
+
+    private fun configureDisplays() {
+
         val displayTypeState = getDisplayTypeState()
         val rvListOrderState = getRvListOrderState()
 
@@ -85,15 +115,7 @@ class RateFragment : Fragment() {
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                val artworksFilterGridView = when (getGridViewDisplayFilter()) {
-                    5 -> artworksFilterTakenAndDeleted.filter { it.rating == 5 }
-                    4 -> artworksFilterTakenAndDeleted.filter { it.rating == 4 }
-                    3 -> artworksFilterTakenAndDeleted.filter { it.rating == 3 }
-                    2 -> artworksFilterTakenAndDeleted.filter { it.rating == 2 }
-                    1 -> artworksFilterTakenAndDeleted.filter { it.rating == 1 }
-                    0 -> artworksFilterTakenAndDeleted.filter { it.rating == 0 }
-                    else -> artworksFilterTakenAndDeleted
-                }
+                val artworksFilterGridView = filterGridView(artworksFilterTakenAndDeleted)
                 if (displayTypeState == "grid") {
                     gridView.apply {
                         artworkGridAdapter = ArtworkGridAdapter(
@@ -162,11 +184,9 @@ class RateFragment : Fragment() {
         if (displayTypeState != "grid" && rvListOrderState != "rating") {
             swipeHelper.attachToRecyclerView(recyclerView)
         }
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private fun configureListAndGridView() {
 
         when (getDisplayTypeState()) {
             "list" -> {
@@ -205,6 +225,9 @@ class RateFragment : Fragment() {
             "show_id" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
             "artist" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
         }
+    }
+
+    private fun configureTakenAndDeletedArtworks() {
 
         when (getShowDeletedArtworkState()) {
             false -> {
@@ -227,24 +250,6 @@ class RateFragment : Fragment() {
                 toolbar.menu[2].subMenu?.get(8)?.title = resources.getString(R.string.mi_hide_taken_art_title)
             }
         }
-
-        setMenuItemOnClickListeners()
-        setZoomSliderChangeListener()
-        setZoomSliderCancelButtonListener()
-
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    fun showArtworkFragment(position: Int) {
-        viewModel.currentArtworkIndex = position
-        activity
-            ?.findNavController(R.id.nav_host_fragment_activity_main)
-            ?.navigate(R.id.action_rateToArtwork)
     }
 
     private fun setMenuItemOnClickListeners() {
@@ -444,7 +449,7 @@ class RateFragment : Fragment() {
         return true
     }
 
-    // TODO: fix bug where toggle doesn't work temporarily
+    // TODO: fix bug where toggle doesn't work, zoomSlider is duplicated
     private fun toggleGridZoomSlider(): Boolean {
         val isZoomSliderVisible = getZoomSliderVisibility()
         if (isZoomSliderVisible) {
@@ -538,6 +543,18 @@ class RateFragment : Fragment() {
         val areDeletedArtworksVisible = getShowDeletedArtworkState()
         return artworks.filter {
             !(!areTakenArtworksVisible && it.taken) && !(!areDeletedArtworksVisible && it.deleted)
+        }
+    }
+
+    private fun filterGridView(artworks: List<ArtThiefArtwork>): List<ArtThiefArtwork> {
+        return when (getGridViewDisplayFilter()) {
+            5 -> artworks.filter { it.rating == 5 }
+            4 -> artworks.filter { it.rating == 4 }
+            3 -> artworks.filter { it.rating == 3 }
+            2 -> artworks.filter { it.rating == 2 }
+            1 -> artworks.filter { it.rating == 1 }
+            0 -> artworks.filter { it.rating == 0 }
+            else -> artworks
         }
     }
 
