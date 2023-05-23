@@ -1,25 +1,32 @@
 package com.example.artthief.ui.rate.adapter
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.SectionRatingContainerBinding
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
+import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
+import kotlin.math.roundToInt
 
 class RatingSectionAdapter(
     private val context: Context,
     private val artworkClickListener: ArtworkClickListener,
-    private val sections: List<RecyclerViewSection>
+    private val sections: List<RecyclerViewSection>,
+    private val swipeUpdateArtworkDeleted: SwipeUpdateArtworkDeleted
 ) : RecyclerView.Adapter<RatingSectionAdapter.ViewHolder>() {
+
+    private lateinit var artworkAdapter: ArtworkAdapter
+    private lateinit var sectionAmounts: MutableList<Int>
 
     class ViewHolder(
         viewBinding: SectionRatingContainerBinding
@@ -48,7 +55,7 @@ class RatingSectionAdapter(
          * calculate number of artworks in prior sections
          * so [artworkClickListener] has correct index
          */
-        val sectionAmounts = mutableListOf(0, 0, 0, 0, 0, 0)
+        sectionAmounts = mutableListOf(0, 0, 0, 0, 0, 0)
         sections.forEach {
             if (it.rating != 0) sectionAmounts[it.rating - 1] = it.artworks.size
         }
@@ -95,15 +102,95 @@ class RatingSectionAdapter(
             )
             recyclerView.layoutManager = layoutManager
 
-            val adapter = ArtworkAdapter(
+            Log.i("howdy", "onBindViewHolder")
+            Log.i("rating", section.rating.toString())
+            artworkAdapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
                 artworks = section.artworks,
                 context = context,
                 numPriorArtworks = sectionAmounts[section.rating]
             )
-            recyclerView.adapter = adapter
+            Log.i("howdy", section.artworks.toString())
+            Log.i("adapter", artworkAdapter.toString())
+            recyclerView.apply {
+                adapter = artworkAdapter
+            }
+            val swipeHelper = configureSwipeHelper(sectionAmounts[section.rating])
+            swipeHelper.attachToRecyclerView(recyclerView)
         }
     }
 
     override fun getItemCount() = sections.size
+
+    private fun configureSwipeHelper(sectionAmount: Int): ItemTouchHelper {
+        return ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val pos = viewHolder.adapterPosition
+                artworkAdapter.notifyItemRemoved(pos)
+                swipeUpdateArtworkDeleted.updateArtworkDeleted(
+                    pos + sectionAmount,
+                    direction
+                )
+            }
+
+            override fun onChildDraw(
+                canvas: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val resources = context.resources
+                val width = resources.displayMetrics.widthPixels
+
+                when {
+                    kotlin.math.abs(dX) < width / 3 -> canvas.drawColor(Color.GRAY)
+                    dX > width / 3 -> canvas.drawColor(Color.GREEN)
+                    else -> canvas.drawColor(Color.RED)
+                }
+
+                val textMargin = resources
+                    .getDimension(R.dimen.text_margin)
+                    .roundToInt()
+
+                val deleteIcon = resources.getDrawable(R.drawable.ic_deleted_24dp)
+                deleteIcon.bounds = Rect(
+                    width - textMargin - deleteIcon.intrinsicWidth,
+                    viewHolder.itemView.top + textMargin + 8,
+                    width - textMargin,
+                    viewHolder.itemView.top + deleteIcon.intrinsicHeight + textMargin + 8
+                )
+
+                val archiveIcon = resources.getDrawable(R.drawable.ic_archive_24dp)
+                archiveIcon.bounds = Rect(
+                    textMargin,
+                    viewHolder.itemView.top + textMargin + 8,
+                    textMargin + archiveIcon.intrinsicWidth,
+                    viewHolder.itemView.top + archiveIcon.intrinsicHeight + textMargin + 8
+                )
+
+                if (dX > 0) archiveIcon.draw(canvas) else deleteIcon.draw(canvas)
+
+                super.onChildDraw(
+                    canvas,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+            }
+        })
+    }
 }

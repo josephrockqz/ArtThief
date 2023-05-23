@@ -24,6 +24,7 @@ import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
+import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import com.example.artthief.viewmodels.ArtworksViewModel
 import kotlin.math.roundToInt
 
@@ -49,6 +50,8 @@ class RateFragment : Fragment() {
     private lateinit var artworkAdapter: ArtworkAdapter
     private lateinit var ratingSectionAdapter: RatingSectionAdapter
     private lateinit var artworkGridAdapter: ArtworkGridAdapter
+    private lateinit var artworkClickListener: ArtworkClickListener
+    private lateinit var swipeHelper: ItemTouchHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +70,18 @@ class RateFragment : Fragment() {
         val displayTypeState = getDisplayTypeState()
         val rvListOrderState = getRvListOrderState()
 
+        artworkClickListener = object : ArtworkClickListener {
+            override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                showArtworkFragment(sectionPosition)
+            }
+        }
+        swipeHelper = configureSwipeHelper()
+        val swipeUpdateArtworkDeleted = object: SwipeUpdateArtworkDeleted {
+            override fun updateArtworkDeleted(pos: Int, direction: Int) {
+                updateArtworkDeletedState(pos, direction)
+            }
+        }
+
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
@@ -82,9 +97,9 @@ class RateFragment : Fragment() {
                 viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
-                // TODO: implement swipe ItemTouchHelper for RatingSectionAdapter
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                     val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+
                     // partition artworks by rating then assign to rv's sections
                     val artworkRatingMap = artworksFilterTakenAndDeleted.groupBy { artwork ->
                         artwork.rating
@@ -95,15 +110,13 @@ class RateFragment : Fragment() {
                             artworkRatingSections.add(RecyclerViewSection(i, list))
                         }
                     }
+
                     recyclerView.apply {
                         ratingSectionAdapter = RatingSectionAdapter(
-                            artworkClickListener = object : ArtworkClickListener {
-                                override fun onArtworkClicked(
-                                    sectionPosition: Int, view: View
-                                ) { showArtworkFragment(sectionPosition) }
-                            },
+                            artworkClickListener = artworkClickListener,
                             context = context,
-                            sections = artworkRatingSections
+                            sections = artworkRatingSections,
+                            swipeUpdateArtworkDeleted = swipeUpdateArtworkDeleted
                         )
                         adapter = ratingSectionAdapter
                     }
@@ -114,11 +127,7 @@ class RateFragment : Fragment() {
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
                 recyclerView.apply {
                     artworkAdapter = ArtworkAdapter(
-                        artworkClickListener = object : ArtworkClickListener {
-                            override fun onArtworkClicked(
-                                sectionPosition: Int, view: View
-                            ) { showArtworkFragment(sectionPosition) }
-                        },
+                        artworkClickListener = artworkClickListener,
                         artworks = artworksFilterTakenAndDeleted,
                         context = context
                     )
@@ -131,11 +140,7 @@ class RateFragment : Fragment() {
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
                 recyclerView.apply {
                     artworkAdapter = ArtworkAdapter(
-                        artworkClickListener = object : ArtworkClickListener {
-                            override fun onArtworkClicked(
-                                sectionPosition: Int, view: View
-                            ) { showArtworkFragment(sectionPosition) }
-                        },
+                        artworkClickListener = artworkClickListener,
                         artworks = artworksFilterTakenAndDeleted,
                         context = context
                     )
@@ -146,41 +151,6 @@ class RateFragment : Fragment() {
         }
 
         if (displayTypeState != "grid" && rvListOrderState != "rating") {
-            val swipeHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
-                0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ) = true
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    onArtworkSwiped(viewHolder, direction)
-                }
-
-                override fun onChildDraw(
-                    canvas: Canvas,
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    dX: Float,
-                    dY: Float,
-                    actionState: Int,
-                    isCurrentlyActive: Boolean
-                ) {
-                    onArtworkChildDraw(canvas, viewHolder, dX)
-
-                    super.onChildDraw(
-                        canvas,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive
-                    )
-                }
-            })
             swipeHelper.attachToRecyclerView(recyclerView)
         }
 
@@ -501,53 +471,6 @@ class RateFragment : Fragment() {
         return sharedPreferences.getBoolean("show_zoom_slider", false)
     }
 
-    private fun onArtworkSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val pos = viewHolder.adapterPosition
-        // TODO: only notify removed when necessary - e.g. artwork is deleted and deleted artwork are hidden
-        artworkAdapter.notifyItemRemoved(pos)
-        if (direction == ItemTouchHelper.LEFT) {
-            updateArtworkDeletedDatabase(true, pos)
-        } else if (direction == ItemTouchHelper.RIGHT) {
-            updateArtworkDeletedDatabase(false, pos)
-        }
-    }
-
-    private fun onArtworkChildDraw(
-        canvas: Canvas,
-        viewHolder: RecyclerView.ViewHolder,
-        dX: Float
-    ) {
-        val width = resources.displayMetrics.widthPixels
-
-        when {
-            kotlin.math.abs(dX) < width / 3 -> canvas.drawColor(Color.GRAY)
-            dX > width / 3 -> canvas.drawColor(Color.GREEN)
-            else -> canvas.drawColor(Color.RED)
-        }
-
-        val textMargin = resources
-            .getDimension(R.dimen.text_margin)
-            .roundToInt()
-
-        val deleteIcon = resources.getDrawable(R.drawable.ic_deleted_24dp)
-        deleteIcon.bounds = Rect(
-            width - textMargin - deleteIcon.intrinsicWidth,
-            viewHolder.itemView.top + textMargin + 8,
-            width - textMargin,
-            viewHolder.itemView.top + deleteIcon.intrinsicHeight + textMargin + 8
-        )
-
-        val archiveIcon = resources.getDrawable(R.drawable.ic_archive_24dp)
-        archiveIcon.bounds = Rect(
-            textMargin,
-            viewHolder.itemView.top + textMargin + 8,
-            textMargin + archiveIcon.intrinsicWidth,
-            viewHolder.itemView.top + archiveIcon.intrinsicHeight + textMargin + 8
-        )
-
-        if (dX > 0) archiveIcon.draw(canvas) else deleteIcon.draw(canvas)
-    }
-
     private fun updateArtworkDeletedDatabase(
         deleted: Boolean,
         pos: Int
@@ -579,6 +502,82 @@ class RateFragment : Fragment() {
         val areDeletedArtworksVisible = getShowDeletedArtworkState()
         return artworks.filter {
             !(!areTakenArtworksVisible && it.taken) && !(!areDeletedArtworksVisible && it.deleted)
+        }
+    }
+
+    private fun configureSwipeHelper(): ItemTouchHelper {
+        return ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val pos = viewHolder.adapterPosition
+                artworkAdapter.notifyItemRemoved(pos)
+                updateArtworkDeletedState(pos, direction)
+            }
+
+            override fun onChildDraw(
+                canvas: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val width = resources.displayMetrics.widthPixels
+
+                when {
+                    kotlin.math.abs(dX) < width / 3 -> canvas.drawColor(Color.GRAY)
+                    dX > width / 3 -> canvas.drawColor(Color.GREEN)
+                    else -> canvas.drawColor(Color.RED)
+                }
+
+                val textMargin = resources
+                    .getDimension(R.dimen.text_margin)
+                    .roundToInt()
+
+                val deleteIcon = resources.getDrawable(R.drawable.ic_deleted_24dp)
+                deleteIcon.bounds = Rect(
+                    width - textMargin - deleteIcon.intrinsicWidth,
+                    viewHolder.itemView.top + textMargin + 8,
+                    width - textMargin,
+                    viewHolder.itemView.top + deleteIcon.intrinsicHeight + textMargin + 8
+                )
+
+                val archiveIcon = resources.getDrawable(R.drawable.ic_archive_24dp)
+                archiveIcon.bounds = Rect(
+                    textMargin,
+                    viewHolder.itemView.top + textMargin + 8,
+                    textMargin + archiveIcon.intrinsicWidth,
+                    viewHolder.itemView.top + archiveIcon.intrinsicHeight + textMargin + 8
+                )
+
+                if (dX > 0) archiveIcon.draw(canvas) else deleteIcon.draw(canvas)
+
+                super.onChildDraw(
+                    canvas,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+            }
+        })
+    }
+
+    private fun updateArtworkDeletedState(pos: Int, direction: Int) {
+        if (direction == ItemTouchHelper.LEFT) {
+            updateArtworkDeletedDatabase(true, pos)
+        } else if (direction == ItemTouchHelper.RIGHT) {
+            updateArtworkDeletedDatabase(false, pos)
         }
     }
 }
