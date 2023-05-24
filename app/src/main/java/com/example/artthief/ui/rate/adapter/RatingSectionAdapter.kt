@@ -102,16 +102,12 @@ class RatingSectionAdapter(
             )
             recyclerView.layoutManager = layoutManager
 
-            Log.i("howdy", "onBindViewHolder")
-            Log.i("rating", section.rating.toString())
             artworkAdapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
                 artworks = section.artworks,
                 context = context,
                 numPriorArtworks = sectionAmounts[section.rating]
             )
-            Log.i("howdy", section.artworks.toString())
-            Log.i("adapter", artworkAdapter.toString())
             recyclerView.apply {
                 adapter = artworkAdapter
             }

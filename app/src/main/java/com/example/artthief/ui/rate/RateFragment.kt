@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.view.get
@@ -75,6 +74,8 @@ class RateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         configureListAndGridView()
+        configureToolbar()
+        configureZoomSlider()
         configureTakenAndDeletedArtworks()
         setMenuItemOnClickListeners()
         setZoomSliderChangeListener()
@@ -187,36 +188,39 @@ class RateFragment : Fragment() {
     }
 
     private fun configureListAndGridView() {
-
         when (getDisplayTypeState()) {
             "list" -> {
                 recyclerView.visibility = View.VISIBLE
                 gridView.visibility = View.GONE
-
-                toolbar.title = resources.getString(R.string.title_rate)
-                toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
-                toolbar.menu[1].isVisible = true
-                toolbar.menu[2].isVisible = false
-                toolbar.menu[3].isVisible = false
-                toolbar.menu[5].isVisible = true
-
-                zoomSliderContainer.visibility = View.INVISIBLE
+                updateListFilterChecks()
             }
             "grid" -> {
                 recyclerView.visibility = View.GONE
                 gridView.visibility = View.VISIBLE
+                updateGridFilterChecks()
+            }
+        }
+    }
 
+    private fun configureToolbar() {
+        when (getDisplayTypeState()) {
+            "list" -> {
+                toolbar.title = resources.getString(R.string.title_rate)
+                toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+                toolbar.menu[0].subMenu?.get(0)?.isChecked = true
+                toolbar.menu[1].isVisible = true
+                toolbar.menu[2].isVisible = false
+                toolbar.menu[3].isVisible = false
+                toolbar.menu[5].isVisible = true
+            }
+            "grid" -> {
                 toolbar.title = resources.getString(R.string.title_grid_sort)
                 toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+                toolbar.menu[0].subMenu?.get(1)?.isChecked = true
                 toolbar.menu[1].isVisible = false
                 toolbar.menu[2].isVisible = true
                 toolbar.menu[3].isVisible = true
                 toolbar.menu[5].isVisible = false
-
-                zoomSliderContainer.visibility = View.VISIBLE
-                val zoomLevel = getZoomLevel()
-                gridView.numColumns = zoomLevel + 1
-                zoomSliderSeekBar.progress = zoomLevel
             }
         }
 
@@ -224,6 +228,18 @@ class RateFragment : Fragment() {
             "rating" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
             "show_id" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
             "artist" -> toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
+        }
+    }
+
+    private fun configureZoomSlider() {
+        when (getDisplayTypeState()) {
+            "list" -> zoomSliderContainer.visibility = View.INVISIBLE
+            "grid" -> {
+                zoomSliderContainer.visibility = View.VISIBLE
+                val zoomLevel = getZoomLevel()
+                gridView.numColumns = zoomLevel + 1
+                zoomSliderSeekBar.progress = zoomLevel
+            }
         }
     }
 
@@ -254,8 +270,8 @@ class RateFragment : Fragment() {
 
     private fun setMenuItemOnClickListeners() {
 
-        toolbar.menu[0].subMenu?.get(0)?.setOnMenuItemClickListener { displayList() }
-        toolbar.menu[0].subMenu?.get(1)?.setOnMenuItemClickListener { displayGrid() }
+        toolbar.menu[0].subMenu?.get(0)?.setOnMenuItemClickListener { displayRecyclerView() }
+        toolbar.menu[0].subMenu?.get(1)?.setOnMenuItemClickListener { displayGridView() }
 
         toolbar.menu[1].subMenu?.get(0)?.setOnMenuItemClickListener { listByRatingListener() }
         toolbar.menu[1].subMenu?.get(1)?.setOnMenuItemClickListener { listByShowIdListener() }
@@ -263,13 +279,14 @@ class RateFragment : Fragment() {
         toolbar.menu[1].subMenu?.get(3)?.setOnMenuItemClickListener { showDeletedArtwork() }
         toolbar.menu[1].subMenu?.get(4)?.setOnMenuItemClickListener { showTakenArtwork() }
 
-        toolbar.menu[2].subMenu?.get(0)?.setOnMenuItemClickListener { displayGridAfterFilter(6) }
-        toolbar.menu[2].subMenu?.get(1)?.setOnMenuItemClickListener { displayGridAfterFilter(5) }
-        toolbar.menu[2].subMenu?.get(2)?.setOnMenuItemClickListener { displayGridAfterFilter(4) }
+        // 0: show all; 1: 5 stars; ... 5: 1 stars; 6: unrated
+        toolbar.menu[2].subMenu?.get(0)?.setOnMenuItemClickListener { displayGridAfterFilter(0) }
+        toolbar.menu[2].subMenu?.get(1)?.setOnMenuItemClickListener { displayGridAfterFilter(1) }
+        toolbar.menu[2].subMenu?.get(2)?.setOnMenuItemClickListener { displayGridAfterFilter(2) }
         toolbar.menu[2].subMenu?.get(3)?.setOnMenuItemClickListener { displayGridAfterFilter(3) }
-        toolbar.menu[2].subMenu?.get(4)?.setOnMenuItemClickListener { displayGridAfterFilter(2) }
-        toolbar.menu[2].subMenu?.get(5)?.setOnMenuItemClickListener { displayGridAfterFilter(1) }
-        toolbar.menu[2].subMenu?.get(6)?.setOnMenuItemClickListener { displayGridAfterFilter(0) }
+        toolbar.menu[2].subMenu?.get(4)?.setOnMenuItemClickListener { displayGridAfterFilter(4) }
+        toolbar.menu[2].subMenu?.get(5)?.setOnMenuItemClickListener { displayGridAfterFilter(5) }
+        toolbar.menu[2].subMenu?.get(6)?.setOnMenuItemClickListener { displayGridAfterFilter(6) }
         toolbar.menu[2].subMenu?.get(7)?.setOnMenuItemClickListener { showDeletedArtwork() }
         toolbar.menu[2].subMenu?.get(8)?.setOnMenuItemClickListener { showTakenArtwork() }
 
@@ -322,7 +339,7 @@ class RateFragment : Fragment() {
         }
     }
 
-    private fun displayList(): Boolean {
+    private fun displayRecyclerView(): Boolean {
         if (getDisplayTypeState() != "list") {
             with (sharedPreferences.edit()) {
                 putString("display_type", "list")
@@ -332,6 +349,9 @@ class RateFragment : Fragment() {
             gridView.visibility = View.GONE
             zoomSliderContainer.visibility = View.INVISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
+            toolbar.menu[0].subMenu?.get(0)?.isChecked = true
+            toolbar.menu[0].subMenu?.get(1)?.isChecked = false
+            updateListFilterChecks()
             toolbar.menu[1].isVisible = true
             toolbar.menu[2].isVisible = false
             toolbar.menu[3].isVisible = false
@@ -342,7 +362,7 @@ class RateFragment : Fragment() {
         return true
     }
 
-    private fun displayGrid(): Boolean {
+    private fun displayGridView(): Boolean {
         if (getDisplayTypeState() != "grid") {
             with (sharedPreferences.edit()) {
                 putString("display_type", "grid")
@@ -351,6 +371,9 @@ class RateFragment : Fragment() {
             recyclerView.visibility = View.GONE
             gridView.visibility = View.VISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
+            toolbar.menu[0].subMenu?.get(0)?.isChecked = false
+            toolbar.menu[0].subMenu?.get(1)?.isChecked = true
+            updateGridFilterChecks()
             toolbar.menu[1].isVisible = false
             toolbar.menu[2].isVisible = true
             toolbar.menu[3].isVisible = true
@@ -363,18 +386,19 @@ class RateFragment : Fragment() {
 
     private fun displayGridAfterFilter(filter: Int): Boolean {
         when (filter) {
-            6 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_filter_teal_24dp)
-            5 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_five_teal_24dp)
-            4 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_four_teal_24dp)
+            0 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_filter_teal_24dp)
+            1 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_five_teal_24dp)
+            2 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_four_teal_24dp)
             3 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_three_teal_24dp)
-            2 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_two_teal_24dp)
-            1 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_one_teal_24dp)
-            0 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_outline_circle_teal_24dp)
+            4 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_two_teal_24dp)
+            5 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_one_teal_24dp)
+            6 -> toolbar.menu[2].icon = resources.getDrawable(R.drawable.ic_outline_circle_teal_24dp)
         }
         with (sharedPreferences.edit()) {
             putInt("gv_filter", filter)
             apply()
         }
+        updateGridFilterChecks(filter)
         refreshRateFragment()
         return true
     }
@@ -386,6 +410,9 @@ class RateFragment : Fragment() {
                 apply()
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_rate_outline_teal_24dp)
+            toolbar.menu[1].subMenu?.get(0)?.isChecked = true
+            toolbar.menu[1].subMenu?.get(1)?.isChecked = false
+            toolbar.menu[1].subMenu?.get(2)?.isChecked = false
             refreshRateFragment()
         }
         return true
@@ -398,6 +425,9 @@ class RateFragment : Fragment() {
                 apply()
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_123_teal_24dp)
+            toolbar.menu[1].subMenu?.get(0)?.isChecked = false
+            toolbar.menu[1].subMenu?.get(1)?.isChecked = true
+            toolbar.menu[1].subMenu?.get(2)?.isChecked = false
             refreshRateFragment()
         }
         return true
@@ -410,6 +440,9 @@ class RateFragment : Fragment() {
                 apply()
             }
             toolbar.menu[1].icon = resources.getDrawable(R.drawable.ic_artist_teal_24dp)
+            toolbar.menu[1].subMenu?.get(0)?.isChecked = false
+            toolbar.menu[1].subMenu?.get(1)?.isChecked = false
+            toolbar.menu[1].subMenu?.get(2)?.isChecked = true
             refreshRateFragment()
         }
         return true
@@ -495,7 +528,7 @@ class RateFragment : Fragment() {
     }
 
     private fun getGridViewDisplayFilter(): Int {
-        // 6 represents "Show All"
+        // 0 represents "Show All", 1 represents "5 Stars"
         return sharedPreferences.getInt("gv_filter", 6)
     }
 
@@ -548,12 +581,12 @@ class RateFragment : Fragment() {
 
     private fun filterGridView(artworks: List<ArtThiefArtwork>): List<ArtThiefArtwork> {
         return when (getGridViewDisplayFilter()) {
-            5 -> artworks.filter { it.rating == 5 }
-            4 -> artworks.filter { it.rating == 4 }
+            1 -> artworks.filter { it.rating == 5 }
+            2 -> artworks.filter { it.rating == 4 }
             3 -> artworks.filter { it.rating == 3 }
-            2 -> artworks.filter { it.rating == 2 }
-            1 -> artworks.filter { it.rating == 1 }
-            0 -> artworks.filter { it.rating == 0 }
+            4 -> artworks.filter { it.rating == 2 }
+            5 -> artworks.filter { it.rating == 1 }
+            6 -> artworks.filter { it.rating == 0 }
             else -> artworks
         }
     }
@@ -631,6 +664,32 @@ class RateFragment : Fragment() {
             updateArtworkDeletedDatabase(true, pos)
         } else if (direction == ItemTouchHelper.RIGHT) {
             updateArtworkDeletedDatabase(false, pos)
+        }
+    }
+
+    private fun updateListFilterChecks() {
+        when (getRvListOrderState()) {
+            "rating" -> {
+                toolbar.menu[1].subMenu?.get(0)?.isChecked = true
+                toolbar.menu[1].subMenu?.get(1)?.isChecked = false
+                toolbar.menu[1].subMenu?.get(2)?.isChecked = false
+            }
+            "show_id" -> {
+                toolbar.menu[1].subMenu?.get(0)?.isChecked = false
+                toolbar.menu[1].subMenu?.get(1)?.isChecked = true
+                toolbar.menu[1].subMenu?.get(2)?.isChecked = false
+            }
+            "artist" -> {
+                toolbar.menu[1].subMenu?.get(0)?.isChecked = false
+                toolbar.menu[1].subMenu?.get(1)?.isChecked = false
+                toolbar.menu[1].subMenu?.get(2)?.isChecked = true
+            }
+        }
+    }
+
+    private fun updateGridFilterChecks(filter: Int = getGridViewDisplayFilter()) {
+        for (i in 0..6) {
+            toolbar.menu[2].subMenu?.get(i)?.isChecked = i == filter
         }
     }
 }
