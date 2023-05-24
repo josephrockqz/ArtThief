@@ -95,7 +95,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="@string/art_card_show_id" />
+                    android:text="@string/art_card_show_id"
+                    android:textColor="@color/artwork_card_right_text"/>
 
             </RelativeLayout>
 

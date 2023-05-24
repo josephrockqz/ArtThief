@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO: style dropdown menus so icons are aligned right-->
 <menu
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -57,7 +56,6 @@
                 android:icon="@drawable/ic_artist_24dp"
                 android:title="@string/mi_artist_title"/>
 
-            <!--TODO: add a gap here in dropdown menu-->
             <item
                 android:id="@+id/mi_deletedArtDropdown"
                 android:icon="@drawable/ic_deleted_24dp"
@@ -124,7 +122,6 @@
                 android:icon="@drawable/ic_outline_circle_24dp"
                 android:title="@string/mi_unrated_title"/>
 
-            <!--TODO: add a gap here in dropdown menu-->
             <item
                 android:id="@+id/mi_deletedArtDropdown2"
                 android:icon="@drawable/ic_deleted_24dp"

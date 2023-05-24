@@ -93,19 +93,4 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
             artworksRepo.updateArtwork(artwork)
         }
     }
-
-    /**
-     * Factory for constructing ArtworksViewModel with parameter
-     */
-    // TODO: load view models with factory?
-    class Factory(val app: Application) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ArtworksViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return ArtworksViewModel(app) as T
-            }
-            throw IllegalArgumentException("Unable to construct view model")
-        }
-    }
 }
