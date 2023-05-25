@@ -47,28 +47,6 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         }
     }
 
-    override val ratingSections: LiveData<List<RecyclerViewSection>> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        // sort artworks by descending rating and update view model
-        val artworkListByRating = list.asDomainModel().sortedByDescending { artwork ->
-            artwork.rating
-        }
-
-        // partition artworks by rating then assign to rv's sections
-        val artworkRatingMap = artworkListByRating.groupBy { artwork ->
-            artwork.rating
-        }
-
-        val artworkRatingSections = mutableListOf<RecyclerViewSection>()
-        for (i in 5 downTo 0) {
-            artworkRatingMap[i]?.let { list ->
-                artworkRatingSections.add(RecyclerViewSection(i, list))
-            }
-        }
-        artworkRatingSections
-    }
-
     override val highestRatedArtwork: LiveData<ArtThiefArtwork> = Transformations.map(
         database.artworkDao.getArtworks()
     ) { list ->

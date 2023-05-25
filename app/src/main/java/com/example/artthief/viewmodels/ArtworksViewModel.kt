@@ -32,7 +32,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     val artworkListByRatingLive = artworksRepo.artworksByRating
     val artworkListByShowIdLive = artworksRepo.artworksByShowId
     val artworkListByArtistLive = artworksRepo.artworksByArtist
-    val ratingSections = artworksRepo.ratingSections
 
     val highestRatedArtworkUrl = artworksRepo.highestRatedArtwork
 
@@ -48,6 +47,13 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private var _artworkListByRating = emptyList<ArtThiefArtwork>()
     val artworkListByRating: List<ArtThiefArtwork>
         get() = _artworkListByRating
+
+    /**
+     * A list of artworks sorted by their ratings filter by grid specs
+     */
+    private var _artworkListByRatingGrid = emptyList<ArtThiefArtwork>()
+    val artworkListByRatingGrid: List<ArtThiefArtwork>
+        get() = _artworkListByRatingGrid
 
     /**
      * A list of artworks sorted by their show IDs.
@@ -78,6 +84,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     fun setSortedArtworkListByRating(sortedArtworks: List<ArtThiefArtwork>) {
         _artworkListByRating = sortedArtworks
+    }
+
+    fun setSortedArtworkListByRatingGrid(sortedArtworks: List<ArtThiefArtwork>) {
+        _artworkListByRatingGrid = sortedArtworks
     }
 
     fun setSortedArtworkListByShowId(sortedArtworks: List<ArtThiefArtwork>) {

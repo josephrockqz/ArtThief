@@ -3,10 +3,14 @@ package com.example.artthief.ui.send
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.artthief.databinding.FragmentSendBinding
+import com.example.artthief.viewmodels.ArtworksViewModel
 
 // TODO: implement send functionality
 class SendFragment : Fragment() {
+
+    private val viewModel: ArtworksViewModel by activityViewModels()
 
     private var _binding: FragmentSendBinding? = null
     private val binding
@@ -29,12 +33,16 @@ class SendFragment : Fragment() {
             .sendFragmentAppBar
             .isTitleCentered = true
 
-        // TODO: change dynamically - do not include unrated, deleted, or taken artworks
-        val numArtworks = 56
-        val buttonText = "Send $numArtworks Artworks"
-        binding
-            .bSendButton
-            .text = buttonText
+        viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
+            val artworksWithoutUnratedDeletedTaken = artworks.filter { artwork ->
+                artwork.rating != 0 && !artwork.taken && !artwork.deleted
+            }
+            val numArtworks = artworksWithoutUnratedDeletedTaken.size
+            val buttonText = "Send $numArtworks Artworks"
+            binding
+                .bSendButton
+                .text = buttonText
+        }
 
         return binding.root
     }

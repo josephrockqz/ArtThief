@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.view.get
@@ -125,8 +126,9 @@ class RateFragment : Fragment() {
                         )
                         adapter = artworkGridAdapter
                     }
+                    viewModel.setSortedArtworkListByRatingGrid(artworksFilterGridView)
                 }
-                viewModel.setSortedArtworkListByRating(artworksFilterGridView)
+                viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->

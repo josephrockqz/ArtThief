@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.SectionRatingContainerBinding
+import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
+import java.util.*
 import kotlin.math.roundToInt
 
 class RatingSectionAdapter(
@@ -111,6 +113,7 @@ class RatingSectionAdapter(
             recyclerView.apply {
                 adapter = artworkAdapter
             }
+
             val swipeHelper = configureSwipeHelper(sectionAmounts[section.rating])
             swipeHelper.attachToRecyclerView(recyclerView)
         }
