@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.view.get
@@ -13,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
@@ -26,6 +26,7 @@ import com.example.artthief.ui.rate.data.ArtworkClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import com.example.artthief.viewmodels.ArtworksViewModel
+import java.util.*
 import kotlin.math.roundToInt
 
 // TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
@@ -37,7 +38,7 @@ class RateFragment : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
-    private val gridView by lazy { binding.gvRateFragment }
+    private val gridView by lazy { binding.rvGridRateFragment }
     private val recyclerView by lazy { binding.rvRateFragment }
     private val toolbar by lazy { binding.rateFragmentAppBar }
     private val zoomSliderCancelButton by lazy { binding.ivSliderXButton }
@@ -122,10 +123,13 @@ class RateFragment : Fragment() {
                     gridView.apply {
                         artworkGridAdapter = ArtworkGridAdapter(
                             artworks = artworksFilterGridView,
-                            artworkImageSize = calculateGridViewImageSize(numColumns)
+                            artworkImageSize = 3 // TODO: do I need this parameter?
                         )
                         adapter = artworkGridAdapter
+                        layoutManager = GridLayoutManager(context, getZoomLevel())
                     }
+                    val itemTouchHelper = configureDragHelper(artworksFilterGridView)
+                    itemTouchHelper.attachToRecyclerView(gridView)
                     viewModel.setSortedArtworkListByRatingGrid(artworksFilterGridView)
                 }
                 viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
@@ -239,7 +243,7 @@ class RateFragment : Fragment() {
             "grid" -> {
                 zoomSliderContainer.visibility = View.VISIBLE
                 val zoomLevel = getZoomLevel()
-                gridView.numColumns = zoomLevel + 1
+                // TODO: gridView.numColumns = zoomLevel + 1
                 zoomSliderSeekBar.progress = zoomLevel
             }
         }
@@ -307,14 +311,18 @@ class RateFragment : Fragment() {
                 val updatedNumColumns = progress + 1
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                     artworks?.apply {
+                        val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                        val artworksFilterGridView = filterGridView(artworksFilterTakenAndDeleted)
                         gridView.apply {
                             artworkGridAdapter = ArtworkGridAdapter(
                                 artworks = artworks,
                                 artworkImageSize = calculateGridViewImageSize(updatedNumColumns)
                             )
                             adapter = artworkGridAdapter
-                            numColumns = updatedNumColumns
+                            layoutManager = GridLayoutManager(context, updatedNumColumns)
                         }
+                        val itemTouchHelper = configureDragHelper(artworksFilterGridView)
+                        itemTouchHelper.attachToRecyclerView(gridView)
                     }
                 }
                 with (sharedPreferences.edit()) {
@@ -591,6 +599,42 @@ class RateFragment : Fragment() {
             6 -> artworks.filter { it.rating == 0 }
             else -> artworks
         }
+    }
+
+    private fun configureDragHelper(artworksFilterGridView: List<ArtThiefArtwork>): ItemTouchHelper {
+        return ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                return makeFlag(
+                    ItemTouchHelper.ACTION_STATE_DRAG,
+                    ItemTouchHelper.DOWN or ItemTouchHelper.UP or ItemTouchHelper.START or ItemTouchHelper.END
+                )
+            }
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                if (viewHolder.adapterPosition < target.adapterPosition) {
+                    for (i in viewHolder.adapterPosition until target.adapterPosition) {
+                        Collections.swap(artworksFilterGridView, i, i + 1)
+                    }
+                } else {
+                    for (i in viewHolder.adapterPosition downTo target.adapterPosition + 1) {
+                        Collections.swap(artworksFilterGridView, i, i - 1)
+                    }
+                }
+                artworkGridAdapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+                return true
+            }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // No-Op
+            }
+            override fun isLongPressDragEnabled(): Boolean = true
+            override fun isItemViewSwipeEnabled(): Boolean = false
+        })
     }
 
     private fun configureSwipeHelper(): ItemTouchHelper {
