@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.view.get
@@ -242,9 +243,7 @@ class RateFragment : Fragment() {
             "list" -> zoomSliderContainer.visibility = View.INVISIBLE
             "grid" -> {
                 zoomSliderContainer.visibility = View.VISIBLE
-                val zoomLevel = getZoomLevel()
-                // TODO: gridView.numColumns = zoomLevel + 1
-                zoomSliderSeekBar.progress = zoomLevel
+                zoomSliderSeekBar.progress = getZoomLevel() - 1
             }
         }
     }
@@ -309,6 +308,11 @@ class RateFragment : Fragment() {
                 fromUser: Boolean
             ) {
                 val updatedNumColumns = progress + 1
+                Log.i("howdy", updatedNumColumns.toString())
+                with (sharedPreferences.edit()) {
+                    putInt("zoom_level", updatedNumColumns)
+                    apply()
+                }
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                     artworks?.apply {
                         val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
@@ -324,10 +328,6 @@ class RateFragment : Fragment() {
                         val itemTouchHelper = configureDragHelper(artworksFilterGridView)
                         itemTouchHelper.attachToRecyclerView(gridView)
                     }
-                }
-                with (sharedPreferences.edit()) {
-                    putInt("zoom_level", progress)
-                    apply()
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

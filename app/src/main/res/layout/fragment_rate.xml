@@ -38,6 +38,7 @@
             android:id="@+id/rv_rateFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager" />
 
@@ -51,7 +52,6 @@
             android:scrollbars="vertical"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
-
 
         <!--Grid view zoom slider-->
         <LinearLayout
