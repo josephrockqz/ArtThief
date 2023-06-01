@@ -124,7 +124,7 @@ class RateFragment : Fragment() {
                     gridView.apply {
                         artworkGridAdapter = ArtworkGridAdapter(
                             artworks = artworksFilterGridView,
-                            artworkImageSize = 3 // TODO: do I need this parameter?
+                            artworkImageSize = calculateGridViewImageSize(getZoomLevel())
                         )
                         adapter = artworkGridAdapter
                         layoutManager = GridLayoutManager(context, getZoomLevel())
@@ -307,8 +307,8 @@ class RateFragment : Fragment() {
                 progress: Int,
                 fromUser: Boolean
             ) {
+                // TODO: fix numColumns stuff - maybe try viewModel instead of sharedPreferences
                 val updatedNumColumns = progress + 1
-                Log.i("howdy", updatedNumColumns.toString())
                 with (sharedPreferences.edit()) {
                     putInt("zoom_level", updatedNumColumns)
                     apply()
