@@ -31,8 +31,10 @@ internal class ArtworkGridAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.itemImageView.maxWidth = artworkImageSize
         holder.itemImageView.maxHeight = artworkImageSize
+        holder.itemImageView.adjustViewBounds = true
 
         Picasso
             .get()

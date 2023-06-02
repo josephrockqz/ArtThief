@@ -50,7 +50,7 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:padding="10dp"
             android:scrollbars="vertical"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
         <!--Grid view zoom slider-->

@@ -42,9 +42,6 @@ class RateFragment : Fragment() {
     private val gridView by lazy { binding.rvGridRateFragment }
     private val recyclerView by lazy { binding.rvRateFragment }
     private val toolbar by lazy { binding.rateFragmentAppBar }
-    private val zoomSliderCancelButton by lazy { binding.ivSliderXButton }
-    private val zoomSliderContainer by lazy { binding.llZoomSliderContainer }
-    private val zoomSliderSeekBar by lazy { binding.sbZoomSlider }
     private val sharedPreferences by lazy {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
@@ -198,11 +195,11 @@ class RateFragment : Fragment() {
         when (getDisplayTypeState()) {
             "list" -> {
                 recyclerView.visibility = View.VISIBLE
-                gridView.visibility = View.GONE
+                gridView.visibility = View.INVISIBLE
                 updateListFilterChecks()
             }
             "grid" -> {
-                recyclerView.visibility = View.GONE
+                recyclerView.visibility = View.INVISIBLE
                 gridView.visibility = View.VISIBLE
                 updateGridFilterChecks()
             }
@@ -240,10 +237,19 @@ class RateFragment : Fragment() {
 
     private fun configureZoomSlider() {
         when (getDisplayTypeState()) {
-            "list" -> zoomSliderContainer.visibility = View.INVISIBLE
+            "list" -> {
+//                binding.llZoomSliderContainer.visibility = View.INVISIBLE
+                toggleGridZoomSlider(false)
+            }
             "grid" -> {
-                zoomSliderContainer.visibility = View.VISIBLE
-                zoomSliderSeekBar.progress = getZoomLevel() - 1
+                if (getZoomSliderVisibility()) {
+                    toggleGridZoomSlider(true)
+//                    binding.llZoomSliderContainer.visibility = View.VISIBLE
+                } else {
+                    toggleGridZoomSlider(false)
+//                    binding.llZoomSliderContainer.visibility = View.INVISIBLE
+                }
+                binding.sbZoomSlider.progress = getZoomLevel() - 1 // TODO: move this line
             }
         }
     }
@@ -295,19 +301,21 @@ class RateFragment : Fragment() {
         toolbar.menu[2].subMenu?.get(7)?.setOnMenuItemClickListener { showDeletedArtwork() }
         toolbar.menu[2].subMenu?.get(8)?.setOnMenuItemClickListener { showTakenArtwork() }
 
-        toolbar.menu[3].setOnMenuItemClickListener { toggleGridZoomSlider() }
+        toolbar.menu[3].setOnMenuItemClickListener {
+            val currentZoomSliderVisibility = getZoomSliderVisibility()
+            toggleGridZoomSlider(!currentZoomSliderVisibility)
+        }
 
         toolbar.menu[4].setOnMenuItemClickListener { refreshRateFragmentFromIcon() }
     }
 
     private fun setZoomSliderChangeListener() {
-        zoomSliderSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+        binding.sbZoomSlider.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
                 fromUser: Boolean
             ) {
-                // TODO: fix numColumns stuff - maybe try viewModel instead of sharedPreferences
                 val updatedNumColumns = progress + 1
                 with (sharedPreferences.edit()) {
                     putInt("zoom_level", updatedNumColumns)
@@ -340,12 +348,13 @@ class RateFragment : Fragment() {
     }
 
     private fun setZoomSliderCancelButtonListener() {
-        zoomSliderCancelButton.setOnClickListener {
-            zoomSliderContainer.visibility = View.INVISIBLE
-            with (sharedPreferences.edit()) {
-                putBoolean("show_zoom_slider", false)
-                apply()
-            }
+        binding.ivSliderXButton.setOnClickListener {
+            toggleGridZoomSlider(false)
+//            binding.llZoomSliderContainer.visibility = View.INVISIBLE
+//            with (sharedPreferences.edit()) {
+//                putBoolean("show_zoom_slider", false)
+//                apply()
+//            }
         }
     }
 
@@ -356,8 +365,9 @@ class RateFragment : Fragment() {
                 apply()
             }
             recyclerView.visibility = View.VISIBLE
-            gridView.visibility = View.GONE
-            zoomSliderContainer.visibility = View.INVISIBLE
+            gridView.visibility = View.INVISIBLE
+            toggleGridZoomSlider(false)
+//            binding.llZoomSliderContainer.visibility = View.INVISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             toolbar.menu[0].subMenu?.get(0)?.isChecked = true
             toolbar.menu[0].subMenu?.get(1)?.isChecked = false
@@ -378,7 +388,7 @@ class RateFragment : Fragment() {
                 putString("display_type", "grid")
                 apply()
             }
-            recyclerView.visibility = View.GONE
+            recyclerView.visibility = View.INVISIBLE
             gridView.visibility = View.VISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_grid_teal_24dp)
             toolbar.menu[0].subMenu?.get(0)?.isChecked = false
@@ -492,17 +502,17 @@ class RateFragment : Fragment() {
         return true
     }
 
-    // TODO: fix bug where toggle doesn't work, zoomSlider is duplicated
-    private fun toggleGridZoomSlider(): Boolean {
-        val isZoomSliderVisible = getZoomSliderVisibility()
-        if (isZoomSliderVisible) {
-            zoomSliderContainer.visibility = View.INVISIBLE
+    private fun toggleGridZoomSlider(enable: Boolean): Boolean {
+        if (enable) {
+            binding.llZoomSliderContainer.bringToFront()
+            binding.llZoomSliderContainer.visibility = View.VISIBLE
+            setZoomSliderCancelButtonListener()
+            setZoomSliderChangeListener()
         } else {
-            zoomSliderContainer.bringToFront()
-            zoomSliderContainer.visibility = View.VISIBLE
+            binding.llZoomSliderContainer.visibility = View.INVISIBLE
         }
         with (sharedPreferences.edit()) {
-            putBoolean("show_zoom_slider", !isZoomSliderVisible)
+            putBoolean("show_zoom_slider", enable)
             apply()
         }
         return true
