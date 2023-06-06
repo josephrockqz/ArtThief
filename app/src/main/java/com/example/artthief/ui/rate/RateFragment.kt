@@ -104,6 +104,10 @@ class RateFragment : Fragment() {
 
         artworkClickListener = object : ArtworkClickListener {
             override fun onArtworkClicked(sectionPosition: Int, view: View) {
+                with (sharedPreferences.edit()) {
+                    putString("query_text", String())
+                    apply()
+                }
                 showArtworkFragment(sectionPosition)
             }
         }
@@ -136,9 +140,9 @@ class RateFragment : Fragment() {
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
                     val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-
+                    val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
                     // partition artworks by rating then assign to rv's sections
-                    val artworkRatingMap = artworksFilterTakenAndDeleted.groupBy { artwork ->
+                    val artworkRatingMap = artworksFilterSearchBar.groupBy { artwork ->
                         artwork.rating
                     }
                     val artworkRatingSections = mutableListOf<RecyclerViewSection>()
@@ -157,33 +161,36 @@ class RateFragment : Fragment() {
                         )
                         adapter = ratingSectionAdapter
                     }
+                    viewModel.setSortedArtworkListByRating(artworksFilterSearchBar)
                 }
             }
         } else if (rvListOrderState == "show_id") {
             viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
                 recyclerView.apply {
                     artworkAdapter = ArtworkAdapter(
                         artworkClickListener = artworkClickListener,
-                        artworks = artworksFilterTakenAndDeleted,
+                        artworks = artworksFilterSearchBar,
                         context = context
                     )
                     adapter = artworkAdapter
                 }
-                viewModel.setSortedArtworkListByShowId(artworksFilterTakenAndDeleted)
+                viewModel.setSortedArtworkListByShowId(artworksFilterSearchBar)
             }
         } else {
             viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
                 recyclerView.apply {
                     artworkAdapter = ArtworkAdapter(
                         artworkClickListener = artworkClickListener,
-                        artworks = artworksFilterTakenAndDeleted,
+                        artworks = artworksFilterSearchBar,
                         context = context
                     )
                     adapter = artworkAdapter
                 }
-                viewModel.setSortedArtworkListByArtist(artworksFilterTakenAndDeleted)
+                viewModel.setSortedArtworkListByArtist(artworksFilterSearchBar)
             }
         }
 
@@ -250,7 +257,7 @@ class RateFragment : Fragment() {
                     toggleGridZoomSlider(false)
 //                    binding.llZoomSliderContainer.visibility = View.INVISIBLE
                 }
-                binding.sbZoomSlider.progress = getZoomLevel() - 1 // TODO: move this line
+                binding.sbZoomSlider.progress = getZoomLevel() - 1
             }
         }
     }
@@ -308,6 +315,8 @@ class RateFragment : Fragment() {
         }
 
         toolbar.menu[4].setOnMenuItemClickListener { refreshRateFragmentFromIcon() }
+
+        configureSearchBarQueryTextListener()
     }
 
     private fun setZoomSliderChangeListener() {
@@ -538,8 +547,6 @@ class RateFragment : Fragment() {
         return kotlin.math.floor(artworkImageSideLength.toDouble()).toInt()
     }
 
-    // TODO: implement search bar functionality
-
     private fun getDisplayTypeState(): String {
         return sharedPreferences.getString("display_type", "list")!!
     }
@@ -559,6 +566,10 @@ class RateFragment : Fragment() {
 
     private fun getShowTakenArtworkState(): Boolean {
         return sharedPreferences.getBoolean("show_taken_artwork", false)
+    }
+
+    private fun getSearchBarQueryText(): String {
+        return sharedPreferences.getString("query_text", String())!!
     }
 
     private fun getZoomLevel(): Int {
@@ -610,6 +621,31 @@ class RateFragment : Fragment() {
             6 -> artworks.filter { it.rating == 0 }
             else -> artworks
         }
+    }
+
+    private fun filterQueryText(artworks: List<ArtThiefArtwork>): List<ArtThiefArtwork> {
+        val queryText = getSearchBarQueryText()
+        return artworks.filter {
+            it.title.lowercase(Locale.ROOT).contains(queryText)
+        }
+    }
+
+    private fun configureSearchBarQueryTextListener() {
+        val search = toolbar.menu.findItem(R.id.mi_search)
+        val searchView = search.actionView as SearchView
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    with (sharedPreferences.edit()) {
+                        putString("query_text", newText.lowercase(Locale.ROOT))
+                        apply()
+                    }
+                    refreshRateFragment()
+                }
+                return true
+            }
+        })
     }
 
     private fun configureDragHelper(artworksFilterGridView: List<ArtThiefArtwork>): ItemTouchHelper {
