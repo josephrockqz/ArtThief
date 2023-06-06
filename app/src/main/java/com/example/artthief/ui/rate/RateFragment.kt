@@ -31,6 +31,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 // TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
+// TODO: fix zoom slider not working sometimes
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null

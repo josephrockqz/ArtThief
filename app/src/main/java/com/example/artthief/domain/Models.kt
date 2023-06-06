@@ -1,7 +1,6 @@
 package com.example.artthief.domain
 
 import com.example.artthief.database.DatabaseArtwork
-import com.example.artthief.network.NetworkArtwork
 
 /**
  * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
@@ -60,12 +59,12 @@ fun ArtThiefArtwork.asDatabaseModel(): DatabaseArtwork {
  */
 val defaultArtThiefArtwork = ArtThiefArtwork(
     artThiefID = 0,
-    showID = "",
-    title = "",
-    artist = "",
-    media = "",
-    image_large = "",
-    image_small = "",
+    showID = String(),
+    title = String(),
+    artist = String(),
+    media = String(),
+    image_large = String(),
+    image_small = String(),
     width = 1.toFloat(),
     height = 1.toFloat(),
     taken = true,

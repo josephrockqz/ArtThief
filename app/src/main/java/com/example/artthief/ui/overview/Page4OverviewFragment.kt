@@ -32,10 +32,12 @@ class Page4OverviewFragment : Fragment() {
         )
 
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
-            Picasso
-                .get()
-                .load(it.image_large)
-                .into(binding.ivHighestRatedArtwork)
+            if (it.image_large != String()) {
+                Picasso
+                    .get()
+                    .load(it.image_large)
+                    .into(binding.ivHighestRatedArtwork)
+            }
         }
 
         return binding.root

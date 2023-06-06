@@ -30,11 +30,13 @@ class AugmentedFragment : Fragment() {
             false
         )
 
-        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) { it ->
-            Picasso
-                .get()
-                .load(it.image_small)
-                .into(binding.ivAugmentedHighestRatedArtwork)
+        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
+            if (it.image_small != String()) {
+                Picasso
+                    .get()
+                    .load(it.image_small)
+                    .into(binding.ivAugmentedHighestRatedArtwork)
+            }
         }
 
         return binding.root

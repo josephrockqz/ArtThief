@@ -64,7 +64,7 @@ class PageArtworkFragment(
          * navigate back to rate fragment if artwork fragment is being opened
          * directly from a different tab - not from the rate fragment
          */
-        if (artwork.showID == "") {
+        if (artwork.showID == String()) {
             activity
                 ?.findNavController(R.id.nav_host_fragment_activity_main)
                 ?.popBackStack(R.id.navigation_rate, false)

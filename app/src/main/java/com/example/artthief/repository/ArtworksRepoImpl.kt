@@ -6,9 +6,9 @@ import com.example.artthief.database.ArtworksDatabase
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.asDomainModel
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.domain.defaultArtThiefArtwork
 import com.example.artthief.network.ArtThiefNetwork
 import com.example.artthief.network.asDatabaseModel
-import com.example.artthief.ui.rate.data.RecyclerViewSection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,12 +16,6 @@ import kotlinx.coroutines.withContext
  * Repository for fetching Art Thief artwork from the network and storing them on disk
  */
 class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
-
-//    override val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
-//        database.artworkDao.getArtworks()
-//    ) {
-//        it.asDomainModel()
-//    }
 
     override val artworksByRating: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
@@ -53,9 +47,11 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         val filterTakenAndDeletedArtworks = list.filter {
             !it.taken && !it.deleted
         }
-        filterTakenAndDeletedArtworks.asDomainModel().sortedByDescending { artwork ->
+        val listByRating = filterTakenAndDeletedArtworks.asDomainModel().sortedByDescending { artwork ->
             artwork.rating
-        }[0]
+        }
+        if (listByRating.isNotEmpty()) listByRating[0]
+        else defaultArtThiefArtwork
     }
 
     override suspend fun refreshArtworks() {
