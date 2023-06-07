@@ -624,9 +624,14 @@ class RateFragment : Fragment() {
     }
 
     private fun filterQueryText(artworks: List<ArtThiefArtwork>): List<ArtThiefArtwork> {
-        val queryText = getSearchBarQueryText()
-        return artworks.filter {
-            it.title.lowercase(Locale.ROOT).contains(queryText)
+        return when (val queryText = getSearchBarQueryText()) {
+            String() -> artworks
+            else -> artworks.filter {
+                it.title.lowercase(Locale.ROOT).contains(queryText) ||
+                    it.artist.lowercase(Locale.ROOT).contains(queryText) ||
+                        it.showID.lowercase(Locale.ROOT).contains(queryText) ||
+                            it.media.lowercase(Locale.ROOT).contains(queryText)
+            }
         }
     }
 
