@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.artthief.databinding.FragmentOverviewPage1Binding
+import com.example.artthief.ui.overview.OverviewFragment.Companion.burglarBottomMargin
 
 class Page1OverviewFragment : Fragment() {
 
@@ -26,15 +27,23 @@ class Page1OverviewFragment : Fragment() {
         )
 
         // set burglar vector's relative layout bottom margin
-        val burglarLayout = binding.rlBurglar
-        val burglarLayoutParams = burglarLayout.layoutParams as ViewGroup.MarginLayoutParams
+        val burglarImage = binding.ivBurglar
+        val burglarLayoutParams = burglarImage.layoutParams as ViewGroup.MarginLayoutParams
         burglarLayoutParams.setMargins(
             0,
             0,
             0,
-            -160
+            burglarBottomMargin
         )
-        burglarLayout.layoutParams = burglarLayoutParams
+        burglarImage.layoutParams = burglarLayoutParams
+        val burglarBackground = binding.llBurglarBackground
+        val burglarBackgroundLayoutParams = burglarBackground.layoutParams as ViewGroup.MarginLayoutParams
+        burglarBackgroundLayoutParams.setMargins(
+            0,
+            0,
+            0,
+            burglarBottomMargin
+        )
 
         return binding.root
     }

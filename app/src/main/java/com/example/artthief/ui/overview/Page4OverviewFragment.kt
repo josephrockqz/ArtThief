@@ -31,6 +31,15 @@ class Page4OverviewFragment : Fragment() {
             false
         )
 
+        val burglarBackground = binding.ivBurglarBackgroundP4
+        val burglarBackgroundLayoutParams = burglarBackground.layoutParams as ViewGroup.MarginLayoutParams
+        burglarBackgroundLayoutParams.setMargins(
+            0,
+            0,
+            0,
+            OverviewFragment.burglarBottomMargin
+        )
+
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
             if (it.image_large != String()) {
                 Picasso

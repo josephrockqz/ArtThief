@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.overview.OverviewFragment">
 
+    <!--Burglar background-->
+    <ImageView
+        android:id="@+id/iv_burglarBackgroundP4"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/backgroundright_1"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

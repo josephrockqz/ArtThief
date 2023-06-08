@@ -8,6 +8,10 @@ import com.example.artthief.databinding.FragmentOverviewBinding
 
 class OverviewFragment : Fragment() {
 
+    companion object {
+        const val burglarBottomMargin = -100
+    }
+
     private var _binding: FragmentOverviewBinding? = null
     private val binding
         get() = _binding!!

@@ -41,4 +41,13 @@
 
     </LinearLayout>
 
+    <!--Burglar background-->
+    <ImageView
+        android:id="@+id/iv_burglarBackgroundP2"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/backgroundright_1"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

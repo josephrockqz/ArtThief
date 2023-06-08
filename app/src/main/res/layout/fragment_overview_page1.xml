@@ -29,37 +29,55 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
 
-    <!-- Width is calculated by:[burglar vector] width / height * 250dp -->
+    <!-- Width is calculated by:[burglar vector] width / height * 280dp -->
     <TextView
         android:id="@+id/tv_of1_instruction"
-        android:layout_width="218.6dp"
+        android:layout_width="244.7dp"
         android:layout_height="wrap_content"
         android:text="@string/overview_fragment_1_instruction"
         android:textAlignment="center"
         android:textColor="@color/teal_200"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/rl_burglar"
+        app:layout_constraintBottom_toTopOf="@+id/iv_burglar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--TODO: fix burglar vector styling-->
-    <RelativeLayout
-        android:id="@+id/rl_burglar"
+    <!--Burglar background vectors-->
+    <LinearLayout
+        android:id="@+id/ll_burglarBackground"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:gravity="center"
+        android:layout_height="280dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/iv_burglar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:adjustViewBounds="true"
-            android:cropToPadding="false"
+            android:layout_height="280dp"
+            android:layout_weight="1"
             android:scaleType="fitXY"
-            android:src="@drawable/burglar_1" />
+            android:src="@drawable/backgroundleft_1"/>
 
-    </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="280dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/backgroundright_1"/>
+
+    </LinearLayout>
+
+    <!--Burglar vector-->
+    <ImageView
+        android:id="@+id/iv_burglar"
+        android:layout_width="wrap_content"
+        android:layout_height="280dp"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/burglar_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

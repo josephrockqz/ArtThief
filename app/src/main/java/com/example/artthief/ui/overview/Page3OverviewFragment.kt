@@ -28,6 +28,15 @@ class Page3OverviewFragment : Fragment() {
 
         setupHyperlink()
 
+        val burglarBackground = binding.ivBurglarBackgroundP3
+        val burglarBackgroundLayoutParams = burglarBackground.layoutParams as ViewGroup.MarginLayoutParams
+        burglarBackgroundLayoutParams.setMargins(
+            0,
+            0,
+            0,
+            OverviewFragment.burglarBottomMargin
+        )
+
         return binding.root
     }
 
