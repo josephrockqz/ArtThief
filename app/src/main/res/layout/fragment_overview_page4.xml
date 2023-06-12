@@ -82,25 +82,22 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/easel"
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/easel" />
+
+    <ImageView
         android:id="@+id/iv_highestRatedArtwork"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="150dp"
-        android:maxWidth="200dp"
+        android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@id/easel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:id="@+id/easel"
-        android:layout_width="188dp"
-        android:layout_height="298dp"
-        android:layout_centerHorizontal="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/easel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

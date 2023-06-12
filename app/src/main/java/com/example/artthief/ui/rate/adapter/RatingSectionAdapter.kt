@@ -93,7 +93,6 @@ class RatingSectionAdapter(
                 compareButton.visibility = View.INVISIBLE
             }
 
-            // TODO: fix scroll bar positioning
             val recyclerView = this.rvRatingSection
             recyclerView.setHasFixedSize(true)
             recyclerView.isNestedScrollingEnabled = false

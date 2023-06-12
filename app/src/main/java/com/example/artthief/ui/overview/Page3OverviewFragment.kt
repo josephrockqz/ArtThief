@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.artthief.databinding.FragmentOverviewPage3Binding
+import com.example.artthief.ui.overview.OverviewFragment.Companion.BURGLAR_BOTTOM_MARGIN
+import com.example.artthief.utils.dpToPixels
 
 class Page3OverviewFragment : Fragment() {
 
@@ -34,7 +36,7 @@ class Page3OverviewFragment : Fragment() {
             0,
             0,
             0,
-            OverviewFragment.burglarBottomMargin
+            dpToPixels(resources.displayMetrics.density, BURGLAR_BOTTOM_MARGIN)
         )
 
         return binding.root
