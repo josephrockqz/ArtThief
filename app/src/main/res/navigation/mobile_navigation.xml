@@ -21,6 +21,10 @@
             android:id="@+id/action_rateToArtwork"
             app:destination="@+id/navigation_artwork"/>
 
+        <action
+            android:id="@+id/action_rateToCompare"
+            app:destination="@+id/navigation_compare"/>
+
     </fragment>
 
     <!--Artwork fragment: NOT part of app bar configuration-->
@@ -32,6 +36,19 @@
 
         <action
             android:id="@+id/action_artworkToRate"
+            app:destination="@+id/navigation_rate"/>
+
+    </fragment>
+
+    <!--Compare fragment: NOT part of app bar configuration-->
+    <fragment
+        android:id="@+id/navigation_compare"
+        android:name="com.example.artthief.ui.rate.CompareFragment"
+        android:label="@string/title_compare"
+        tools:layout="@layout/fragment_compare">
+
+        <action
+            android:id="@+id/action_compareToRate"
             app:destination="@+id/navigation_rate"/>
 
     </fragment>

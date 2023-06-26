@@ -22,6 +22,7 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
+        <!--TODO: figure out what I want to say for credits page-->
         <TextView
             android:id="@+id/tv_appName"
             android:layout_width="wrap_content"

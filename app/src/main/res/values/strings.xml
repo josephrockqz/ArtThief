@@ -7,6 +7,7 @@
     <string name="title_rate">Rate Art</string>
     <string name="title_artwork">Artwork</string>
     <string name="title_augmented">Augmented Reality</string>
+    <string name="title_compare">Compare</string>
     <string name="title_send">Send Your List</string>
 
     <!--Tabbed -->

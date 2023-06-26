@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.artthief.R
 import com.example.artthief.databinding.SectionRatingContainerBinding
-import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.ui.rate.data.ArtworkClickListener
+import com.example.artthief.ui.rate.data.CompareClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
-import java.util.*
 import kotlin.math.roundToInt
 
 class RatingSectionAdapter(
     private val context: Context,
     private val artworkClickListener: ArtworkClickListener,
+    private val compareClickListener: CompareClickListener,
     private val sections: List<RecyclerViewSection>,
     private val swipeUpdateArtworkDeleted: SwipeUpdateArtworkDeleted
 ) : RecyclerView.Adapter<RatingSectionAdapter.ViewHolder>() {
@@ -89,6 +89,9 @@ class RatingSectionAdapter(
             val compareButton = this.bCompareButton
             if (section.rating > 0 && section.artworks.size > 1) {
                 compareButton.visibility = View.VISIBLE
+                compareButton.setOnClickListener {
+                    compareClickListener.onCompareClicked()
+                }
             } else {
                 compareButton.visibility = View.INVISIBLE
             }

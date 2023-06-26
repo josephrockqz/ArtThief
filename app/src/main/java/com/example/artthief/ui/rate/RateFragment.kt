@@ -24,13 +24,13 @@ import com.example.artthief.ui.rate.adapter.ArtworkAdapter
 import com.example.artthief.ui.rate.adapter.ArtworkGridAdapter
 import com.example.artthief.ui.rate.adapter.RatingSectionAdapter
 import com.example.artthief.ui.rate.data.ArtworkClickListener
+import com.example.artthief.ui.rate.data.CompareClickListener
 import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import com.example.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
 
-// TODO: fix lag whenever RateFragment is loaded when set to `listByRating`
 // TODO: fix zoom slider not working sometimes
 class RateFragment : Fragment() {
 
@@ -51,6 +51,7 @@ class RateFragment : Fragment() {
     private lateinit var ratingSectionAdapter: RatingSectionAdapter
     private lateinit var artworkGridAdapter: ArtworkGridAdapter
     private lateinit var artworkClickListener: ArtworkClickListener
+    private lateinit var compareClickListener: CompareClickListener
     private lateinit var swipeHelper: ItemTouchHelper
 
     override fun onCreateView(
@@ -97,6 +98,12 @@ class RateFragment : Fragment() {
             ?.navigate(R.id.action_rateToArtwork)
     }
 
+    fun showCompareFragment() {
+        activity
+            ?.findNavController(R.id.nav_host_fragment_activity_main)
+            ?.navigate(R.id.action_rateToCompare)
+    }
+
     private fun configureDisplays() {
 
         val displayTypeState = getDisplayTypeState()
@@ -109,6 +116,11 @@ class RateFragment : Fragment() {
                     apply()
                 }
                 showArtworkFragment(sectionPosition)
+            }
+        }
+        compareClickListener = object : CompareClickListener {
+            override fun onCompareClicked() {
+                showCompareFragment()
             }
         }
         swipeHelper = configureSwipeHelper()
@@ -155,6 +167,7 @@ class RateFragment : Fragment() {
                     recyclerView.apply {
                         ratingSectionAdapter = RatingSectionAdapter(
                             artworkClickListener = artworkClickListener,
+                            compareClickListener = compareClickListener,
                             context = context,
                             sections = artworkRatingSections,
                             swipeUpdateArtworkDeleted = swipeUpdateArtworkDeleted
