@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mi_ellipses"
+        android:icon="@drawable/ic_ellipses_24dp"
+        android:title="@string/mi_ellipses"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/mi_instructionsDropdown"
+                android:icon="@drawable/ic_overview_24dp"
+                android:title="@string/mi_instructions"/>
+
+            <item
+                android:id="@+id/mi_gridDropdown"
+                android:icon="@drawable/ic_settings_24dp"
+                android:title="@string/mi_settings"/>
+
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/mi_close"
+        android:icon="@drawable/ic_close_24dp"
+        android:title="@string/mi_close"
+        app:showAsAction="always" />
+
+</menu>

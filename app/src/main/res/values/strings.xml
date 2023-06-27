@@ -7,7 +7,7 @@
     <string name="title_rate">Rate Art</string>
     <string name="title_artwork">Artwork</string>
     <string name="title_augmented">Augmented Reality</string>
-    <string name="title_compare">Compare</string>
+    <string name="title_compare">Which do you prefer?</string>
     <string name="title_send">Send Your List</string>
 
     <!--Tabbed -->
@@ -81,6 +81,12 @@
     <string name="artwork_default_media">Media</string>
     <string name="artwork_default_dimensions">X.Y" by A.B"</string>
     <string name="artwork_default_show_id">542</string>
+
+    <!--Compare page strings-->
+    <string name="mi_close">Close</string>
+    <string name="mi_ellipses">More</string>
+    <string name="mi_instructions">Instructions</string>
+    <string name="mi_settings">Settings</string>
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>
