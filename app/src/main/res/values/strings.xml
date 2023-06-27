@@ -88,9 +88,11 @@
     <string name="mi_instructions">Instructions</string>
     <string name="mi_settings">Settings</string>
     <string name="instructions_ok">OK</string>
-    <string name="compare_art_title">Compare Art</string>
-    <string name="compare_art_message">Fine tune your list by comparing all the art rated with the same number of stars. You\'ll be shown two artworks at the same time. By simply tapping on the artwork you prefer, the list will be sorted from most to least favorite. Even though Art Thief pays close attention to your selections to minimize the number of comparisons required, this process can take some time if a lot of art has the same rating.</string>
-    <string name="compare_settings_message">By default, you\'re only shown photos of the art but you can configure it to show you other information like the artist or the size of the art. Choose "Settings" from the menu in the upper right-hand corner</string>
+    <string name="compare_art_instructions_title">Compare Art</string>
+    <string name="compare_art_instructions_message">Fine tune your list by comparing all art rated with the same number of stars. You\'ll be shown two artworks at the same time. By simply tapping on the artwork you prefer, the list will be sorted from most to least favorite. Even though Art Thief pays close attention to your selections to minimize the number of comparisons required, this process can take some time if a lot of art has the same rating.</string>
+    <string name="compare_art_settings_title">Comparison Settings</string>
+    <string name="compare_art_settings_message">By default, you\'re only shown photos of the art, but you can configure it to show other information like the artist or size of the art. Choose "Settings" from the menu in the upper right-hand corner</string>
+    <string name="compare_settings_message">You can toggle what art information to display on the comparison screen.</string>
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>

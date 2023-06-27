@@ -13,7 +13,6 @@ import com.example.artthief.R
 import com.example.artthief.databinding.FragmentCompareBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-
 class CompareFragment : Fragment() {
 
     private var _binding: FragmentCompareBinding? = null
@@ -58,17 +57,34 @@ class CompareFragment : Fragment() {
         toolbar.menu[0].subMenu?.get(0)?.setOnMenuItemClickListener {
             showInstructionsDialog(inflater)
         }
+        toolbar.menu[0].subMenu?.get(1)?.setOnMenuItemClickListener {
+            showSettingsDialog(inflater)
+        }
     }
 
     private fun showInstructionsDialog(inflater: LayoutInflater): Boolean {
-
         activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.apply {
-                val view: View = inflater.inflate(R.layout.compare_dialog_title, null)
+                val view: View = inflater.inflate(R.layout.compare_instructions_dialog_title, null)
                 setCustomTitle(view)
-//                setTitle(R.string.mi_instructions)
-                setView(R.layout.compare_dialog_instructions)
+                setView(R.layout.compare_instructions_dialog_content)
+                setPositiveButton(R.string.instructions_ok) { _, _ -> }
+            }
+            builder.create()
+            builder.show()
+        }
+
+        return true
+    }
+
+    private fun showSettingsDialog(inflater: LayoutInflater): Boolean {
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                val view: View = inflater.inflate(R.layout.compare_settings_dialog_title, null)
+                setCustomTitle(view)
+                setView(R.layout.compare_settings_dialog_content)
                 setPositiveButton(R.string.instructions_ok) { _, _ -> }
             }
             builder.create()

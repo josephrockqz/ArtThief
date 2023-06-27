@@ -5,6 +5,6 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:paddingTop="15dp"
-    android:text="@string/compare_art_title"
+    android:text="@string/compare_art_instructions_title"
     android:textColor="@color/black"
     android:textSize="28sp" />
