@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentCompareBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
+import com.squareup.picasso.Picasso
 
 class CompareFragment : Fragment() {
 
@@ -36,6 +37,19 @@ class CompareFragment : Fragment() {
         )
 
         setMenuItemOnClickListeners(inflater)
+
+        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
+            if (it.image_large != String()) {
+                Picasso
+                    .get()
+                    .load(it.image_large)
+                    .into(binding.ivCompareImage1)
+                Picasso
+                    .get()
+                    .load(it.image_large)
+                    .into(binding.ivCompareImage2)
+            }
+        }
 
         return binding.root
     }

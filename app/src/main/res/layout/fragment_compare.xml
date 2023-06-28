@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
@@ -28,9 +29,40 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HOWDY"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/compare_image_background"
+        android:layout_marginTop="10dp">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_compareImage1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:margin="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/compare_image_background"
+        android:layout_marginVertical="10dp">
+
+        <ImageView
+            android:id="@+id/iv_compareImage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:margin="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+    </FrameLayout>
+
+</LinearLayout>
