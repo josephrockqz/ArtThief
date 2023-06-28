@@ -90,7 +90,7 @@ class RatingSectionAdapter(
             if (section.rating > 0 && section.artworks.size > 1) {
                 compareButton.visibility = View.VISIBLE
                 compareButton.setOnClickListener {
-                    compareClickListener.onCompareClicked()
+                    compareClickListener.onCompareClicked(section.rating)
                 }
             } else {
                 compareButton.visibility = View.INVISIBLE

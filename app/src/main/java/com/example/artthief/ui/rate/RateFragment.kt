@@ -12,7 +12,6 @@ import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -99,7 +98,11 @@ class RateFragment : Fragment() {
             ?.navigate(R.id.action_rateToArtwork)
     }
 
-    fun showCompareFragment() {
+    fun showCompareFragment(sectionRating: Int) {
+        with (sharedPreferences.edit()) {
+            putInt("section_rating", sectionRating)
+            apply()
+        }
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
             ?.navigate(R.id.action_rateToCompare)
@@ -120,8 +123,8 @@ class RateFragment : Fragment() {
             }
         }
         compareClickListener = object : CompareClickListener {
-            override fun onCompareClicked() {
-                showCompareFragment()
+            override fun onCompareClicked(sectionRating: Int) {
+                showCompareFragment(sectionRating)
             }
         }
         swipeHelper = configureSwipeHelper()

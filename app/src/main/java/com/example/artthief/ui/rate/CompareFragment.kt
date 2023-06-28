@@ -1,6 +1,8 @@
 package com.example.artthief.ui.rate
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +40,8 @@ class CompareFragment : Fragment() {
 
         setMenuItemOnClickListeners(inflater)
 
+        Log.i("howdy", getCompareSectionRating().toString())
+
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
             if (it.image_large != String()) {
                 Picasso
@@ -57,6 +61,12 @@ class CompareFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun getCompareSectionRating(): Int {
+        return requireActivity()
+            .getPreferences(Context.MODE_PRIVATE)
+            .getInt("section_rating", 5)
     }
 
     private fun setMenuItemOnClickListeners(inflater: LayoutInflater) {

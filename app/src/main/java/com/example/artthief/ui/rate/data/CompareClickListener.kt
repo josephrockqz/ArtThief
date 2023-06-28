@@ -1,5 +1,5 @@
 package com.example.artthief.ui.rate.data
 
 interface CompareClickListener {
-    fun onCompareClicked()
+    fun onCompareClicked(sectionRating: Int)
 }
