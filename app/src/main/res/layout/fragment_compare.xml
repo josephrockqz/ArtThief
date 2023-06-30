@@ -12,7 +12,6 @@
         android:id="@+id/toolbar_compareTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"

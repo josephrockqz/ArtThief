@@ -2,6 +2,7 @@
 
     <!--Main-->
     <string name="app_name">Art Thief</string>
+    <!--TODO: update version number-->
     <string name="app_version">Version 0.0.1</string>
     <string name="title_overview">Overview</string>
     <string name="title_rate">Rate Art</string>
@@ -36,9 +37,8 @@
 
     <!--Overview page 4 strings-->
     <string name="overview_fragment_4_title">Roll Credits</string>
-    <string name="overview_fragment_4_created_by">Art Thief was created by:</string>
-    <string name="overview_fragment_4_zurka">ZURKA</string>
-    <string name="overview_fragment_4_interactive">i n t e r a c t i v e</string>
+    <string name="overview_fragment_4_created_by">Art Thief on Android was created by:</string>
+    <string name="overview_fragment_4_author">Joseph Rock</string>
     <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\nsupport@zurka.com</string>
 
     <!--Rate page strings-->
