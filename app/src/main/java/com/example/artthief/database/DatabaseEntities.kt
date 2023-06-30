@@ -25,7 +25,8 @@ data class DatabaseArtwork constructor(
     val height: Float,
     val taken: Boolean,
     val deleted: Boolean,
-    val rating: Int
+    val rating: Int,
+    val order: Int
 )
 
 /**
@@ -45,7 +46,8 @@ fun List<DatabaseArtwork>.asDomainModel(): List<ArtThiefArtwork> {
             height = it.height,
             taken = it.taken,
             deleted = it.deleted,
-            rating = it.rating
+            rating = it.rating,
+            order = it.order
         )
     }
 }

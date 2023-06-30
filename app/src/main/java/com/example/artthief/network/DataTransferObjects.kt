@@ -63,7 +63,8 @@ fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
             height = it.height,
             taken = it.taken,
             deleted = false, // an artwork is not hidden until the user deleted (hides) it
-            rating = 0 // 0 stars represents that it's unrated
+            rating = 0, // 0 stars represents that it's unrated
+            order = 0
         )
     }
 }

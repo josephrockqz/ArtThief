@@ -21,7 +21,8 @@ data class ArtThiefArtwork(
     val height: Float,
     val taken: Boolean,
     val deleted: Boolean,
-    var rating: Int
+    var rating: Int,
+    var order: Int
 ) {
     /**
      * Dimensions is used for displaying artwork's 2 dimensions
@@ -50,7 +51,8 @@ fun ArtThiefArtwork.asDatabaseModel(): DatabaseArtwork {
         height = this.height,
         taken = this.taken,
         deleted = this.deleted,
-        rating = this.rating
+        rating = this.rating,
+        order = this.order
     )
 }
 
@@ -69,5 +71,6 @@ val defaultArtThiefArtwork = ArtThiefArtwork(
     height = 1.toFloat(),
     taken = true,
     deleted = false, // an artwork is not hidden until the user deleted (hides) it
-    rating = 0 // 0 stars represents that it's unrated
+    rating = 0, // 0 stars represents that it's unrated
+    order = 0
 )
