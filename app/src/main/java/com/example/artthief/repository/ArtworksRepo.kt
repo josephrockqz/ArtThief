@@ -19,6 +19,8 @@ interface ArtworksRepo {
 
     val highestRatedArtwork: LiveData<ArtThiefArtwork>
 
+    fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>>
+
     suspend fun refreshArtworks()
 
     suspend fun updateArtwork(artwork: DatabaseArtwork)

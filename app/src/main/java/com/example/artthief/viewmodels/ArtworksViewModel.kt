@@ -69,6 +69,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     val artworkListByArtist: List<ArtThiefArtwork>
         get() = _artworkListByArtist
 
+    fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
+        return artworksRepo.getArtworksByRating(rating)
+    }
+
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.

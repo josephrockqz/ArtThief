@@ -40,7 +40,11 @@ class CompareFragment : Fragment() {
 
         setMenuItemOnClickListeners(inflater)
 
-        Log.i("howdy", getCompareSectionRating().toString())
+        val sectionRating = getCompareSectionRating()
+        Log.i("howdy", sectionRating.toString())
+        viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
+            Log.i("howdy", it.toString())
+        }
 
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
             if (it.image_large != String()) {

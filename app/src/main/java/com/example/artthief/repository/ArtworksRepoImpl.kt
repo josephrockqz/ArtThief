@@ -54,6 +54,17 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         else defaultArtThiefArtwork
     }
 
+    override fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> = Transformations.map(
+        database.artworkDao.getArtworks()
+    ) { list ->
+        val filterArtworksWithRating = list.filter {
+            it.rating == rating
+        }
+        filterArtworksWithRating.asDomainModel().sortedByDescending { artwork ->
+            artwork.order
+        }
+    }
+
     override suspend fun refreshArtworks() {
         withContext(Dispatchers.IO) {
             val artworkList = ArtThiefNetwork.artThiefArtworks.getArtworkList("fb56a1e6-ee06-4911-ad33-c35c298fddbd")
