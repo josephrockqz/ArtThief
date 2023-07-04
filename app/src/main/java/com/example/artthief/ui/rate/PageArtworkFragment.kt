@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,14 +122,15 @@ class PageArtworkFragment(
     }
 
     private fun handleStarClick(rating: Int) {
+        val oldRating = artwork.rating
         if (rating == artwork.rating) {
             artwork.rating = 0
             setStarDrawables(0)
-            updateArtworkRatingDatabase(0)
+            updateArtworkRatingsDatabase(0, oldRating)
         } else {
             artwork.rating = rating
             setStarDrawables(rating)
-            updateArtworkRatingDatabase(rating)
+            updateArtworkRatingsDatabase(rating, oldRating)
         }
     }
 
@@ -140,11 +142,11 @@ class PageArtworkFragment(
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
     }
 
-    private fun updateArtworkRatingDatabase(rating: Int) {
-        viewModel.updateArtwork(
-            artwork
-                .copy(rating = rating)
-                .asDatabaseModel()
+    private fun updateArtworkRatingsDatabase(newRating: Int, oldRating: Int) {
+        viewModel.updateArtworkRatings(
+            artwork,
+            newRating,
+            oldRating
         )
     }
 

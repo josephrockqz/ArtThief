@@ -41,22 +41,16 @@ class CompareFragment : Fragment() {
         setMenuItemOnClickListeners(inflater)
 
         val sectionRating = getCompareSectionRating()
-        Log.i("howdy", sectionRating.toString())
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
-            Log.i("howdy", it.toString())
-        }
-
-        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
-            if (it.image_large != String()) {
-                Picasso
-                    .get()
-                    .load(it.image_large)
-                    .into(binding.ivCompareImage1)
-                Picasso
-                    .get()
-                    .load(it.image_large)
-                    .into(binding.ivCompareImage2)
-            }
+            Log.i("howdy - section artworks: ", it.toString())
+            Picasso
+                .get()
+                .load(it[0].image_large)
+                .into(binding.ivCompareImage1)
+            Picasso
+                .get()
+                .load(it[1].image_large)
+                .into(binding.ivCompareImage2)
         }
 
         return binding.root

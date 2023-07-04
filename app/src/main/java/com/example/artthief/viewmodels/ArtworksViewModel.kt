@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -105,6 +106,34 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     fun updateArtwork(artwork: DatabaseArtwork) {
         viewModelScope.launch {
             artworksRepo.updateArtwork(artwork)
+        }
+    }
+
+    fun updateArtworkRatings(
+        artwork: ArtThiefArtwork,
+        newRating: Int,
+        oldRating: Int
+    ) {
+        // TODO: conditional logic for artwork order based on whether old rating is higher or lower than new rating
+        if (newRating == 0) {
+            updateArtwork(
+                artwork
+                    .copy(rating = newRating, order = 0)
+                    .asDatabaseModel()
+            )
+        } else {
+            // TODO: mark artwork list for new rating as not sorted (shared preferences)
+            // If new rating is higher than old rating, place artwork at end of order
+            if (newRating > oldRating) {
+                // TODO: get length of artwork list for new rating to assign correct order
+                // TODO: re-order artwork list for old rating to fill gap in order
+            }
+            // If new rating is lower than old rating, place artwork at beginning of order
+            else {
+                // TODO: get artwork list for new rating to bump order for each artwork by 1
+                // TODO: re-order artwork list for old rating to fill gap in order
+
+            }
         }
     }
 }
