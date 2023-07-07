@@ -10,6 +10,7 @@ import com.example.artthief.domain.ArtThiefArtwork
 import com.squareup.picasso.Picasso
 
 // TODO: dynamically update artwork rating based on dragging and dropping
+// TODO: make sure to accommodate for artwork ordering logic when changing rating
 internal class ArtworkGridAdapter(
     private val artworks: List<ArtThiefArtwork>,
     private val artworkImageSize: Int

@@ -1,6 +1,7 @@
 package com.example.artthief.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
@@ -22,14 +23,11 @@ import java.io.IOException
  */
 class ArtworksViewModel(application: Application) : AndroidViewModel(application) {
 
-    /**
-     * The data source this ViewModel will fetch results from
-     */
+
     private val artworksRepo = ArtworksRepoImpl(getDatabase(application))
 
-    /**
-     * Lists of artwork with different ways of sorting
-     */
+    val artworksLive = artworksRepo.artworks
+
     val artworkListByRatingLive = artworksRepo.artworksByRating
     val artworkListByShowIdLive = artworksRepo.artworksByShowId
     val artworkListByArtistLive = artworksRepo.artworksByArtist
@@ -42,30 +40,22 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
      */
     var currentArtworkIndex = 0
 
-    /**
-     * A list of artworks sorted by their ratings.
-     */
+    private var _artworkList = emptyList<ArtThiefArtwork>()
+    val artworkList: List<ArtThiefArtwork>
+        get() = _artworkList
+
     private var _artworkListByRating = emptyList<ArtThiefArtwork>()
     val artworkListByRating: List<ArtThiefArtwork>
         get() = _artworkListByRating
 
-    /**
-     * A list of artworks sorted by their ratings filter by grid specs
-     */
     private var _artworkListByRatingGrid = emptyList<ArtThiefArtwork>()
     val artworkListByRatingGrid: List<ArtThiefArtwork>
         get() = _artworkListByRatingGrid
 
-    /**
-     * A list of artworks sorted by their show IDs.
-     */
     private var _artworkListByShowId = emptyList<ArtThiefArtwork>()
     val artworkListByShowId: List<ArtThiefArtwork>
         get() = _artworkListByShowId
 
-    /**
-     * A list of artworks sorted by their show IDs.
-     */
     private var _artworkListByArtist = emptyList<ArtThiefArtwork>()
     val artworkListByArtist: List<ArtThiefArtwork>
         get() = _artworkListByArtist
@@ -74,10 +64,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         return artworksRepo.getArtworksByRating(rating)
     }
 
-    /**
-     * Refresh data from the repository. Use a coroutine launch to run in a
-     * background thread.
-     */
     fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
@@ -85,6 +71,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
             } catch (_: IOException) { }
         }
+    }
+
+    fun setArtworkList(artworks: List<ArtThiefArtwork>) {
+        _artworkList = artworks
     }
 
     fun setSortedArtworkListByRating(sortedArtworks: List<ArtThiefArtwork>) {
@@ -114,26 +104,57 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         newRating: Int,
         oldRating: Int
     ) {
-        // TODO: conditional logic for artwork order based on whether old rating is higher or lower than new rating
-        if (newRating == 0) {
+        val newRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
+        val oldRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
+        _artworkList.forEach {
+            if (it.rating == newRating) {
+                newRatingSectionArtworks += it
+            } else if (it.rating == oldRating) {
+                oldRatingSectionArtworks += it
+            }
+            newRatingSectionArtworks.sortedByDescending { newSectionArtwork ->
+                newSectionArtwork.order
+            }
+            oldRatingSectionArtworks.sortedByDescending { oldSectionArtwork ->
+                oldSectionArtwork.order
+            }
+        }
+        Log.i("new rating", newRating.toString())
+        Log.i("old rating", oldRating.toString())
+        Log.i("new 1", newRatingSectionArtworks.toString())
+        Log.i("old 1", oldRatingSectionArtworks.toString())
+
+        if (oldRating == 0) {
+            // TODO: mark artwork list for new rating as not sorted (shared preferences)
+            updateArtwork(
+                artwork
+                    .copy(rating = newRating, order = newRatingSectionArtworks.size)
+                    .asDatabaseModel()
+            )
+        }
+        // If new rating is higher than old rating, place artwork at end of order
+        else if (newRating > oldRating) {
+            // TODO: re-order artwork list for old rating to fill gap in order
+            updateArtwork(
+                artwork
+                    .copy(rating = newRating, order = newRatingSectionArtworks.size)
+                    .asDatabaseModel()
+            )
+        }
+        // If new rating is lower than old rating, place artwork at beginning of order
+        else {
+            // TODO: re-order artwork list for old rating to fill gap in order
             updateArtwork(
                 artwork
                     .copy(rating = newRating, order = 0)
                     .asDatabaseModel()
             )
-        } else {
-            // TODO: mark artwork list for new rating as not sorted (shared preferences)
-            // If new rating is higher than old rating, place artwork at end of order
-            if (newRating > oldRating) {
-                // TODO: get length of artwork list for new rating to assign correct order
-                // TODO: re-order artwork list for old rating to fill gap in order
-            }
-            // If new rating is lower than old rating, place artwork at beginning of order
-            else {
-                // TODO: get artwork list for new rating to bump order for each artwork by 1
-                // TODO: re-order artwork list for old rating to fill gap in order
-
-            }
+            // TODO: get artwork list for new rating to bump order for each artwork by 1
+//            newRatingSectionArtworks.forEach { artwork1 ->
+//                artwork
+//                    .copy(order = artwork1.order + 1)
+//                    .asDatabaseModel()
+//            }
         }
     }
 }

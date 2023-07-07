@@ -68,6 +68,7 @@ class RateFragment : Fragment() {
         )
         binding.lifecycleOwner = viewLifecycleOwner
 
+        setArtworkList()
         configureDisplays()
 
         return binding.root
@@ -106,6 +107,12 @@ class RateFragment : Fragment() {
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
             ?.navigate(R.id.action_rateToCompare)
+    }
+
+    private fun setArtworkList() {
+        viewModel.artworksLive.observe(viewLifecycleOwner) { artworks ->
+            viewModel.setArtworkList(artworks)
+        }
     }
 
     private fun configureDisplays() {

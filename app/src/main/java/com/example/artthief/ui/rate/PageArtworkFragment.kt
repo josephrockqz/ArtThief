@@ -11,9 +11,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.asFlow
 import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.artthief.R
+import com.example.artthief.database.asDomainModel
 import com.example.artthief.databinding.FragmentArtworkPageBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
@@ -126,11 +129,19 @@ class PageArtworkFragment(
         if (rating == artwork.rating) {
             artwork.rating = 0
             setStarDrawables(0)
-            updateArtworkRatingsDatabase(0, oldRating)
+            viewModel.updateArtworkRatings(
+                artwork,
+                0,
+                oldRating
+            )
         } else {
             artwork.rating = rating
             setStarDrawables(rating)
-            updateArtworkRatingsDatabase(rating, oldRating)
+            viewModel.updateArtworkRatings(
+                artwork,
+                rating,
+                oldRating
+            )
         }
     }
 
@@ -140,14 +151,6 @@ class PageArtworkFragment(
         if (rating > 2) star3.setImageDrawable(starFilledDrawable) else star3.setImageDrawable(starUnfilledDrawable)
         if (rating > 3) star4.setImageDrawable(starFilledDrawable) else star4.setImageDrawable(starUnfilledDrawable)
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
-    }
-
-    private fun updateArtworkRatingsDatabase(newRating: Int, oldRating: Int) {
-        viewModel.updateArtworkRatings(
-            artwork,
-            newRating,
-            oldRating
-        )
     }
 
     override fun onDestroyView() {

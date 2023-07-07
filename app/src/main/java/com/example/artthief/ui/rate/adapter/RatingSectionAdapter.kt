@@ -19,6 +19,7 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import kotlin.math.roundToInt
 
+// TODO: list artworks in order based on order field
 class RatingSectionAdapter(
     private val context: Context,
     private val artworkClickListener: ArtworkClickListener,
@@ -107,9 +108,13 @@ class RatingSectionAdapter(
             )
             recyclerView.layoutManager = layoutManager
 
+            val orderedSectionArtworks = section.artworks.sortedBy {
+                it.order
+            }
+
             artworkAdapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
-                artworks = section.artworks,
+                artworks = orderedSectionArtworks,
                 context = context,
                 numPriorArtworks = sectionAmounts[section.rating]
             )

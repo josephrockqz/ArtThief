@@ -17,6 +17,12 @@ import kotlinx.coroutines.withContext
  */
 class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
 
+    override val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
+        database.artworkDao.getArtworks()
+    ) { list ->
+        list.asDomainModel()
+    }
+
     override val artworksByRating: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
     ) { list ->
