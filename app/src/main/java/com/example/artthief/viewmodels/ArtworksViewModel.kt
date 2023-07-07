@@ -119,10 +119,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
                 oldSectionArtwork.order
             }
         }
-        Log.i("new rating", newRating.toString())
-        Log.i("old rating", oldRating.toString())
-        Log.i("new 1", newRatingSectionArtworks.toString())
-        Log.i("old 1", oldRatingSectionArtworks.toString())
 
         if (oldRating == 0) {
             // TODO: mark artwork list for new rating as not sorted (shared preferences)
@@ -134,7 +130,15 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
         // If new rating is higher than old rating, place artwork at end of order
         else if (newRating > oldRating) {
-            // TODO: re-order artwork list for old rating to fill gap in order
+            oldRatingSectionArtworks.forEach {
+                if (it.order > artwork.order) {
+                    updateArtwork(
+                        it
+                            .copy(order = it.order - 1)
+                            .asDatabaseModel()
+                    )
+                }
+            }
             updateArtwork(
                 artwork
                     .copy(rating = newRating, order = newRatingSectionArtworks.size)
@@ -143,18 +147,27 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
         // If new rating is lower than old rating, place artwork at beginning of order
         else {
-            // TODO: re-order artwork list for old rating to fill gap in order
+            oldRatingSectionArtworks.forEach {
+                if (it.order > artwork.order) {
+                    updateArtwork(
+                        it
+                            .copy(order = it.order - 1)
+                            .asDatabaseModel()
+                    )
+                }
+            }
+            newRatingSectionArtworks.forEach {
+                updateArtwork(
+                    it
+                        .copy(order = it.order + 1)
+                        .asDatabaseModel()
+                )
+            }
             updateArtwork(
                 artwork
                     .copy(rating = newRating, order = 0)
                     .asDatabaseModel()
             )
-            // TODO: get artwork list for new rating to bump order for each artwork by 1
-//            newRatingSectionArtworks.forEach { artwork1 ->
-//                artwork
-//                    .copy(order = artwork1.order + 1)
-//                    .asDatabaseModel()
-//            }
         }
     }
 }
