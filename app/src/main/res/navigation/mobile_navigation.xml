@@ -51,6 +51,23 @@
             android:id="@+id/action_compareToRate"
             app:destination="@+id/navigation_rate"/>
 
+        <action
+            android:id="@+id/action_compareToCompareSettings"
+            app:destination="@+id/navigation_compareSettings"/>
+
+    </fragment>
+
+    <!--Compare settings fragment: NOT part of app bar configuration-->
+    <fragment
+        android:id="@+id/navigation_compareSettings"
+        android:name="com.example.artthief.ui.rate.CompareSettingsFragment"
+        android:label="@string/compare_art_settings_title"
+        tools:layout="@layout/fragment_compare_settings">
+
+        <action
+            android:id="@+id/action_compareSettingsToCompare"
+            app:destination="@+id/navigation_compare"/>
+
     </fragment>
 
     <fragment

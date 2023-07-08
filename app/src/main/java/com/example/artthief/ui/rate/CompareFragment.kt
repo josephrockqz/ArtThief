@@ -22,6 +22,9 @@ class CompareFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    private val sharedPreferences by lazy {
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+    }
     private val toolbar by lazy { binding.compareFragmentAppBar }
 
     private val viewModel: ArtworksViewModel by activityViewModels()
@@ -39,6 +42,25 @@ class CompareFragment : Fragment() {
         )
 
         setMenuItemOnClickListeners(inflater)
+
+//        viewModel.compareSettingsBooleanArray.obs
+
+        val isCompareSettingIdNumberChecked = isCompareSettingIdNumberChecked()
+        val isCompareSettingTitleChecked = isCompareSettingTitleChecked()
+        val isCompareSettingArtistChecked = isCompareSettingArtistChecked()
+        val isCompareSettingMediaChecked = isCompareSettingMediaChecked()
+        val isCompareSettingDimensionsChecked = isCompareSettingDimensionsChecked()
+        // TODO: dynamically set visibilities of boxes to GONE & VISIBLE based on settings toggles
+        // TODO: use observe live data from view model
+        if (isCompareSettingIdNumberChecked || isCompareSettingTitleChecked || isCompareSettingArtistChecked
+            || isCompareSettingMediaChecked || isCompareSettingDimensionsChecked) {
+            binding.flCompareImage1Description.visibility = View.VISIBLE
+            binding.flCompareImage2Description.visibility = View.VISIBLE
+        } else {
+            binding.flCompareImage1Description.visibility = View.GONE
+            binding.flCompareImage2Description.visibility = View.GONE
+        }
+        // TODO: dynamically set visibilities of settings field to VISIBLE & INVISIBLE ...
 
         val sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
@@ -62,9 +84,27 @@ class CompareFragment : Fragment() {
     }
 
     private fun getCompareSectionRating(): Int {
-        return requireActivity()
-            .getPreferences(Context.MODE_PRIVATE)
-            .getInt("section_rating", 5)
+        return sharedPreferences.getInt("section_rating", 5)
+    }
+
+    private fun isCompareSettingIdNumberChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_id_number", false)
+    }
+
+    private fun isCompareSettingTitleChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_title", false)
+    }
+
+    private fun isCompareSettingArtistChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_artist", false)
+    }
+
+    private fun isCompareSettingMediaChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_media", false)
+    }
+
+    private fun isCompareSettingDimensionsChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_dimensions", false)
     }
 
     private fun setMenuItemOnClickListeners(inflater: LayoutInflater) {
@@ -101,17 +141,20 @@ class CompareFragment : Fragment() {
     }
 
     private fun showSettingsDialog(inflater: LayoutInflater): Boolean {
-        activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                val view: View = inflater.inflate(R.layout.compare_settings_dialog_title, null)
-                setCustomTitle(view)
-                setView(R.layout.compare_settings_dialog_content)
-                setPositiveButton(R.string.instructions_ok) { _, _ -> }
-            }
-            builder.create()
-            builder.show()
-        }
+        activity
+            ?.findNavController(R.id.nav_host_fragment_activity_main)
+            ?.navigate(R.id.action_compareToCompareSettings)
+//        activity?.let {
+//            val builder = AlertDialog.Builder(it)
+//            builder.apply {
+//                val view: View = inflater.inflate(R.layout.compare_settings_dialog_title, null)
+//                setCustomTitle(view)
+//                setView(R.layout.fragment_compare_settings)
+//                setPositiveButton(R.string.instructions_ok) { _, _ -> }
+//            }
+//            builder.create()
+//            builder.show()
+//        }
 
         return true
     }

@@ -1,9 +1,13 @@
 package com.example.artthief.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -18,6 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val sharedPreferences by lazy {
+        getPreferences(Context.MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -28,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar!!.hide()
+
+        // TODO: change the initialization to take shared preferences into account
+        viewModel.setCompareSettingsBooleanArray(mutableListOf(false, false, false, false, false))
 
         val navView: BottomNavigationView = binding.navView
 
@@ -45,4 +56,55 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
+    fun onCheckChangedIdNumber(v: View) {
+        val compareSettingsBooleanArray = viewModel.compareSettingsBooleanArray.value!!
+        Log.i("live data list", compareSettingsBooleanArray.toString())
+        compareSettingsBooleanArray[0] = (v as SwitchCompat).isChecked
+        viewModel.setCompareSettingsBooleanArray(compareSettingsBooleanArray)
+//        with (sharedPreferences.edit()) {
+//            putBoolean("compare_setting_id_number", (v as SwitchCompat).isChecked)
+//            apply()
+//        }
+    }
+
+//    fun onCheckChangedTitle(v: View) {
+//        val compareSettingsBooleanArray = viewModel.compareSettingsBooleanArray
+//        compareSettingsBooleanArray[1] = (v as SwitchCompat).isChecked
+//        viewModel.setCompareSettingsBooleanArray(compareSettingsBooleanArray)
+////        with (sharedPreferences.edit()) {
+////            putBoolean("compare_setting_title", (v as SwitchCompat).isChecked)
+////            apply()
+////        }
+//    }
+//
+//    fun onCheckChangedArtist(v: View) {
+//        val compareSettingsBooleanArray = viewModel.compareSettingsBooleanArray
+//        compareSettingsBooleanArray[2] = (v as SwitchCompat).isChecked
+//        viewModel.setCompareSettingsBooleanArray(compareSettingsBooleanArray)
+////        with (sharedPreferences.edit()) {
+////            putBoolean("compare_setting_artist", (v as SwitchCompat).isChecked)
+////            apply()
+////        }
+//    }
+//
+//    fun onCheckChangedMedia(v: View) {
+//        val compareSettingsBooleanArray = viewModel.compareSettingsBooleanArray
+//        compareSettingsBooleanArray[3] = (v as SwitchCompat).isChecked
+//        viewModel.setCompareSettingsBooleanArray(compareSettingsBooleanArray)
+////        with (sharedPreferences.edit()) {
+////            putBoolean("compare_setting_media", (v as SwitchCompat).isChecked)
+////            apply()
+////        }
+//    }
+//
+//    fun onCheckChangedDimensions(v: View) {
+//        val compareSettingsBooleanArray = viewModel.compareSettingsBooleanArray
+//        compareSettingsBooleanArray[4] = (v as SwitchCompat).isChecked
+//        viewModel.setCompareSettingsBooleanArray(compareSettingsBooleanArray)
+////        with (sharedPreferences.edit()) {
+////            putBoolean("compare_setting_dimensions", (v as SwitchCompat).isChecked)
+////            apply()
+////        }
+//    }
 }

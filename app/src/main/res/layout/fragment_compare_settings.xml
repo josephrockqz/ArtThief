@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <!--Toolbar-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_compareSettingsTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/compareFragmentAppBar"
+            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back_24dp"
+            app:title="@string/compare_art_settings_title"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -30,7 +53,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="ID Number" />
+            android:text="@string/compare_settings_id_number_toggle" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_idNumber"
@@ -38,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginEnd="15dp"
+            android:onClick="onCheckChangedIdNumber"/>
 
     </RelativeLayout>
 
@@ -59,7 +83,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="Title" />
+            android:text="@string/compare_settings_title_toggle"
+            android:onClick="onCheckChangedTitle" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_title"
@@ -88,7 +113,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="Artist" />
+            android:text="@string/compare_settings_artist_toggle" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_artist"
@@ -96,7 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginEnd="15dp"
+            android:onClick="onCheckChangedArtist" />
 
     </RelativeLayout>
 
@@ -117,7 +143,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="Media" />
+            android:text="@string/compare_settings_media_toggle" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_media"
@@ -125,7 +151,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginEnd="15dp"
+            android:onClick="onCheckChangedMedia" />
 
     </RelativeLayout>
 
@@ -146,7 +173,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="Size in Inches" />
+            android:text="@string/compare_settings_dimensions_toggle" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_sizeInInches"
@@ -154,7 +181,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginEnd="15dp"
+            android:onClick="onCheckChangedDimensions"/>
 
     </RelativeLayout>
 
