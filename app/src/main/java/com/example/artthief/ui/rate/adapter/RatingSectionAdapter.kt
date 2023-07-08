@@ -1,10 +1,11 @@
 package com.example.artthief.ui.rate.adapter
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,9 @@ class RatingSectionAdapter(
     private val context: Context,
     private val artworkClickListener: ArtworkClickListener,
     private val compareClickListener: CompareClickListener,
+    private val resources: Resources,
     private val sections: List<RecyclerViewSection>,
+    private val sharedPreferences: SharedPreferences,
     private val swipeUpdateArtworkDeleted: SwipeUpdateArtworkDeleted
 ) : RecyclerView.Adapter<RatingSectionAdapter.ViewHolder>() {
 
@@ -84,18 +87,7 @@ class RatingSectionAdapter(
                 unratedTitle.visibility = View.VISIBLE
             }
 
-            // TODO: implement compare button functionality
-            // TODO: change "Compare" text to "Sorted" after section has been completely compared (shared preferences - defaults to not sorted)
-            // TODO: once compare functionality is implemented, update all `update rating` call sites to adjust for changes
-            val compareButton = this.bCompareButton
-            if (section.rating > 0 && section.artworks.size > 1) {
-                compareButton.visibility = View.VISIBLE
-                compareButton.setOnClickListener {
-                    compareClickListener.onCompareClicked(section.rating)
-                }
-            } else {
-                compareButton.visibility = View.INVISIBLE
-            }
+            implementCompareButtonLogic(this, section)
 
             val recyclerView = this.rvRatingSection
             recyclerView.setHasFixedSize(true)
@@ -199,5 +191,96 @@ class RatingSectionAdapter(
                 )
             }
         })
+    }
+
+    private fun implementCompareButtonLogic(
+        sectionRatingContainerBinding: SectionRatingContainerBinding,
+        section: RecyclerViewSection
+    ) {
+        // TODO: implement compare button functionality
+        // TODO: change "Compare" text to "Sorted" after section has been completely compared (shared preferences)
+        val compareButton = sectionRatingContainerBinding.bCompareButton
+        if (section.rating > 0 && section.artworks.size > 1) {
+            when (section.rating) {
+                1 -> {
+                    val isOneStarSectionSorted = sharedPreferences.getBoolean("one_stars_sorted", false)
+                    if (isOneStarSectionSorted) {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button_sorted)
+                    } else {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button)
+                    }
+                }
+                2 -> {
+                    val isTwoStarSectionSorted = sharedPreferences.getBoolean("two_stars_sorted", false)
+                    if (isTwoStarSectionSorted) {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button_sorted)
+                    } else {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button)
+                    }
+                }
+                3 -> {
+                    val isThreeStarSectionSorted = sharedPreferences.getBoolean("three_stars_sorted", false)
+                    if (isThreeStarSectionSorted) {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button_sorted)
+                    } else {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button)
+                    }
+                }
+                4 -> {
+                    val isFourStarSectionSorted = sharedPreferences.getBoolean("four_stars_sorted", false)
+                    if (isFourStarSectionSorted) {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button_sorted)
+                    } else {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button)
+                    }
+                }
+                5 -> {
+                    val isFiveStarSectionSorted = sharedPreferences.getBoolean("five_stars_sorted", false)
+                    if (isFiveStarSectionSorted) {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button_sorted)
+                    } else {
+                        compareButton.text = resources.getString(R.string.rate_fragment_compare_button)
+                    }
+                }
+            }
+            compareButton.visibility = View.VISIBLE
+            compareButton.setOnClickListener {
+                compareClickListener.onCompareClicked(section.rating)
+                when (section.rating) {
+                    1 -> {
+                        with (sharedPreferences.edit()) {
+                            putBoolean("one_stars_sorted", false)
+                            apply()
+                        }
+                    }
+                    2 -> {
+                        with (sharedPreferences.edit()) {
+                            putBoolean("two_stars_sorted", false)
+                            apply()
+                        }
+                    }
+                    3 -> {
+                        with (sharedPreferences.edit()) {
+                            putBoolean("three_stars_sorted", false)
+                            apply()
+                        }
+                    }
+                    4 -> {
+                        with (sharedPreferences.edit()) {
+                            putBoolean("four_stars_sorted", false)
+                            apply()
+                        }
+                    }
+                    5 -> {
+                        with (sharedPreferences.edit()) {
+                            putBoolean("five_stars_sorted", false)
+                            apply()
+                        }
+                    }
+                }
+            }
+        } else {
+            compareButton.visibility = View.INVISIBLE
+        }
     }
 }

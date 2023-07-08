@@ -121,7 +121,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
 
         if (oldRating == 0) {
-            // TODO: mark artwork list for new rating as not sorted (shared preferences)
             updateArtwork(
                 artwork
                     .copy(rating = newRating, order = newRatingSectionArtworks.size)

@@ -180,7 +180,9 @@ class RateFragment : Fragment() {
                             artworkClickListener = artworkClickListener,
                             compareClickListener = compareClickListener,
                             context = context,
+                            resources = resources,
                             sections = artworkRatingSections,
+                            sharedPreferences = sharedPreferences,
                             swipeUpdateArtworkDeleted = swipeUpdateArtworkDeleted
                         )
                         adapter = ratingSectionAdapter
