@@ -78,6 +78,7 @@
 
     <!--Artwork page strings-->
     <string name="mi_augmented">Augmented Reality</string>
+    <string name="artwork_default_title">Title</string>
     <string name="artwork_default_author">Artist</string>
     <string name="artwork_default_media">Media</string>
     <string name="artwork_default_dimensions">X.Y" by A.B"</string>

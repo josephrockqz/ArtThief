@@ -133,6 +133,7 @@
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:background="@drawable/artwork_show_id_background"
                 android:gravity="center"
                 android:text="@string/artwork_default_show_id"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -28,40 +28,291 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/compare_image_background"
-        android:layout_marginTop="10dp">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_compareImage1"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="10dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY" />
+            android:layout_weight="2"
+            android:background="@drawable/compare_image_background"
+            android:layout_marginTop="10dp">
 
-    </FrameLayout>
+            <ImageView
+                android:id="@+id/iv_compareImage1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/compare_image_background"
-        android:layout_marginVertical="10dp">
+        </FrameLayout>
 
-        <ImageView
-            android:id="@+id/iv_compareImage2"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/fl_compareImage1Description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_margin="10dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY" />
+            android:minHeight="200dp"
+            android:layout_weight="1"
+            android:background="@drawable/compare_image_description_background"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp">
 
-    </FrameLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:paddingHorizontal="10dp">
 
-</LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_artworkTitle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_title"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_artworkArtist1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_author"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_artworkMedia1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_media"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_artworkDimensions1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_dimensions"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_artworkShowId1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/artwork_show_id_background"
+                    android:gravity="center"
+                    android:text="@string/artwork_default_show_id"
+                    android:textColor="@color/art_thief_primary"
+                    android:textSize="14sp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/compare_image_background"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/iv_compareImage2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_compareImage2Description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
+            android:layout_weight="1"
+            android:background="@drawable/compare_image_description_background"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_artworkTitle2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_title"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_artworkArtist2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_author"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_artworkMedia2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_media"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_artworkDimensions2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/artwork_default_dimensions"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_artworkShowId2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/artwork_show_id_background"
+                    android:gravity="center"
+                    android:text="@string/artwork_default_show_id"
+                    android:textColor="@color/art_thief_primary"
+                    android:textSize="14sp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="2"-->
+<!--            android:background="@drawable/compare_image_background">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/iv_compareImage1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical|center_horizontal"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:scaleType="fitXY" />-->
+
+<!--        </FrameLayout>-->
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:background="@drawable/compare_image_description_background">-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical|center_horizontal"-->
+<!--                android:paddingStart="10dp"-->
+<!--                android:paddingEnd="10dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_artworkArtist"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/artwork_default_author"-->
+<!--                        android:textColor="@color/black"/>-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_artworkMedia"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/artwork_default_media"-->
+<!--                        android:textColor="@color/black"/>-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_artworkDimensions"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/artwork_default_dimensions"-->
+<!--                        android:textColor="@color/black"/>-->
+
+<!--                </LinearLayout>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_artworkShowId"-->
+<!--                    android:layout_width="50dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    app:layout_constrainedWidth="true"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    android:background="@drawable/artwork_show_id_background"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/artwork_default_show_id"-->
+<!--                    android:textColor="@color/art_thief_primary"-->
+<!--                    android:textSize="14sp" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        </FrameLayout>-->
+
+    </LinearLayout>
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@drawable/compare_image_background"-->
+<!--        android:layout_marginVertical="10dp">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_compareImage2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_vertical|center_horizontal"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            android:scaleType="fitXY" />-->
+
+<!--    </FrameLayout>-->
+
+</RelativeLayout>
