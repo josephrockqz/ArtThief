@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -39,6 +41,8 @@ class CompareSettingsFragment : Fragment() {
             false
         )
 
+        configureToggleFunctionality()
+
         toolbar[0].setOnClickListener {
             activity
                 ?.findNavController(R.id.nav_host_fragment_activity_main)
@@ -51,5 +55,64 @@ class CompareSettingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun configureToggleFunctionality() {
+        binding.scIdNumber.isChecked = isCompareSettingIdNumberChecked()
+        binding.scTitle.isChecked = isCompareSettingTitleChecked()
+        binding.scArtist.isChecked = isCompareSettingArtistChecked()
+        binding.scMedia.isChecked = isCompareSettingMediaChecked()
+        binding.scSizeInInches.isChecked = isCompareSettingDimensionsChecked()
+
+        binding.scIdNumber.setOnClickListener {
+            with (sharedPreferences.edit()) {
+                putBoolean("compare_setting_id_number", (it as SwitchCompat).isChecked)
+                apply()
+            }
+        }
+        binding.scTitle.setOnClickListener {
+            with (sharedPreferences.edit()) {
+                putBoolean("compare_setting_title", (it as SwitchCompat).isChecked)
+                apply()
+            }
+        }
+        binding.scArtist.setOnClickListener {
+            with (sharedPreferences.edit()) {
+                putBoolean("compare_setting_artist", (it as SwitchCompat).isChecked)
+                apply()
+            }
+        }
+        binding.scMedia.setOnClickListener {
+            with (sharedPreferences.edit()) {
+                putBoolean("compare_setting_media", (it as SwitchCompat).isChecked)
+                apply()
+            }
+        }
+        binding.scSizeInInches.setOnClickListener {
+            with (sharedPreferences.edit()) {
+                putBoolean("compare_setting_dimensions", (it as SwitchCompat).isChecked)
+                apply()
+            }
+        }
+    }
+
+    private fun isCompareSettingIdNumberChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_id_number", false)
+    }
+
+    private fun isCompareSettingTitleChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_title", false)
+    }
+
+    private fun isCompareSettingArtistChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_artist", false)
+    }
+
+    private fun isCompareSettingMediaChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_media", false)
+    }
+
+    private fun isCompareSettingDimensionsChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_dimensions", false)
     }
 }

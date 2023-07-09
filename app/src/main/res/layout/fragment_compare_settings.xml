@@ -61,8 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:onClick="onCheckChangedIdNumber"/>
+            android:layout_marginEnd="15dp" />
 
     </RelativeLayout>
 
@@ -83,8 +82,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
-            android:text="@string/compare_settings_title_toggle"
-            android:onClick="onCheckChangedTitle" />
+            android:text="@string/compare_settings_title_toggle" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sc_title"
@@ -121,8 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:onClick="onCheckChangedArtist" />
+            android:layout_marginEnd="15dp" />
 
     </RelativeLayout>
 
@@ -151,8 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:onClick="onCheckChangedMedia" />
+            android:layout_marginEnd="15dp" />
 
     </RelativeLayout>
 
@@ -181,8 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:onClick="onCheckChangedDimensions"/>
+            android:layout_marginEnd="15dp" />
 
     </RelativeLayout>
 

@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -79,7 +80,9 @@ class CompareFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+
         super.onDestroyView()
+
         _binding = null
     }
 
@@ -120,7 +123,7 @@ class CompareFragment : Fragment() {
             showInstructionsDialog(inflater)
         }
         toolbar.menu[0].subMenu?.get(1)?.setOnMenuItemClickListener {
-            showSettingsDialog(inflater)
+            showSettingsDialog()
         }
     }
 
@@ -140,21 +143,11 @@ class CompareFragment : Fragment() {
         return true
     }
 
-    private fun showSettingsDialog(inflater: LayoutInflater): Boolean {
+    private fun showSettingsDialog(): Boolean {
+
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
             ?.navigate(R.id.action_compareToCompareSettings)
-//        activity?.let {
-//            val builder = AlertDialog.Builder(it)
-//            builder.apply {
-//                val view: View = inflater.inflate(R.layout.compare_settings_dialog_title, null)
-//                setCustomTitle(view)
-//                setView(R.layout.fragment_compare_settings)
-//                setPositiveButton(R.string.instructions_ok) { _, _ -> }
-//            }
-//            builder.create()
-//            builder.show()
-//        }
 
         return true
     }
