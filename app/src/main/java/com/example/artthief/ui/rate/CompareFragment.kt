@@ -15,6 +15,7 @@ import com.example.artthief.R
 import com.example.artthief.databinding.FragmentCompareBinding
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.viewmodels.ArtworksViewModel
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.squareup.picasso.Picasso
 
 class CompareFragment : Fragment() {
@@ -49,6 +50,12 @@ class CompareFragment : Fragment() {
         setMenuItemOnClickListeners(inflater)
         configureImageDescriptionUIBasedOnSettings()
 
+        val testMutableList = mutableListOf(0, 1, 2, 3)
+        Log.i("init tes", testMutableList.toString())
+        testMutableList.remove(3)
+        testMutableList.add(2, 3)
+        Log.i("init tes", testMutableList.toString())
+
         val sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
             Log.i("howdy - section artworks: ", it.toString())
@@ -63,20 +70,43 @@ class CompareFragment : Fragment() {
             Log.i("mapping", viewModel.artworkSectionCompareMapping.toString())
             Log.i("ordering list", viewModel.artworkSectionCompareOrdering.toString())
 
-            val nextArtworks = getNextCompareArtworks(it)
+            var nextArtworks = getNextCompareArtworks(it)
+            var topArtwork = nextArtworks[1]
+            var bottomArtwork = nextArtworks[0]
             // TODO: make sure artworks are displayed on top or bottom appropriately (accounting for previous winner's location) - can build this into get function
-            loadArtworkDataUI(nextArtworks[1], nextArtworks[0])
+            loadArtworkDataUI(topArtwork, bottomArtwork)
 
-            binding.flCompareArtwork1.setOnClickListener {
-                // TODO: update mapping with new completed comparison
-//                viewModel.artworkSectionCompareMapping[artwork1.artThiefID] += artwork2.artThiefID
-                // TODO: retrieve next 2 artworks to be displayed, update UI
-                // TODO: update ordering of artworks
+            binding.flCompareArtwork1.setOnClickListener { _ ->
+                viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
+                viewModel.artworkSectionCompareMapping[bottomArtwork.artThiefID]!! += topArtwork.artThiefID
+                if (topArtwork.order > bottomArtwork.order) {
+                    val indexOfLosingArtwork = viewModel.artworkSectionCompareOrdering.indexOf(bottomArtwork)
+                    viewModel.artworkSectionCompareOrdering.remove(topArtwork)
+                    viewModel.artworkSectionCompareOrdering.add(indexOfLosingArtwork, topArtwork)
+
+                    Log.i("after ordering list", viewModel.artworkSectionCompareOrdering.toString())
+                }
                 // TODO: increment running count of completed comparisons
                 // TODO: check to see if comparisons are done - if so, alert, mark section as sorted, update artwork database with ordering
+                nextArtworks = getNextCompareArtworks(it)
+                topArtwork = nextArtworks[1]
+                bottomArtwork = nextArtworks[0]
+                loadArtworkDataUI(topArtwork, bottomArtwork)
             }
-            binding.flCompareArtwork2.setOnClickListener {
-
+            binding.flCompareArtwork2.setOnClickListener { _ ->
+                viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
+                viewModel.artworkSectionCompareMapping[bottomArtwork.artThiefID]!! += topArtwork.artThiefID
+                if (bottomArtwork.order > topArtwork.order) {
+                    val indexOfLosingArtwork = viewModel.artworkSectionCompareOrdering.indexOf(topArtwork)
+                    viewModel.artworkSectionCompareOrdering.remove(bottomArtwork)
+                    viewModel.artworkSectionCompareOrdering.add(indexOfLosingArtwork, bottomArtwork)
+                }
+                // TODO: increment running count of completed comparisons
+                // TODO: check to see if comparisons are done - if so, alert, mark section as sorted, update artwork database with ordering
+                nextArtworks = getNextCompareArtworks(it)
+                topArtwork = nextArtworks[1]
+                bottomArtwork = nextArtworks[0]
+                loadArtworkDataUI(topArtwork, bottomArtwork)
             }
         }
 
