@@ -28,6 +28,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!--Change spacing of elements to be based on vertical percentages-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

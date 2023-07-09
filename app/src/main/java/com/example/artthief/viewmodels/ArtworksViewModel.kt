@@ -58,6 +58,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     val artworkSectionCompareOrdering = mutableListOf<ArtThiefArtwork>()
     val artworkSectionCompareMapping = mutableMapOf<Int, MutableList<Int>>()
+    var artworkSectionCompletedComparisonsCounter = 0
+    var artworkSectionCompareTotalNumComparisonsForCompletion = 0
 
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)
