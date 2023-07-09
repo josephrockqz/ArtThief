@@ -39,8 +39,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     var currentArtworkIndex = 0
 
     private var _artworkList = emptyList<ArtThiefArtwork>()
-    val artworkList: List<ArtThiefArtwork>
-        get() = _artworkList
 
     private var _artworkListByRating = emptyList<ArtThiefArtwork>()
     val artworkListByRating: List<ArtThiefArtwork>
@@ -57,6 +55,9 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private var _artworkListByArtist = emptyList<ArtThiefArtwork>()
     val artworkListByArtist: List<ArtThiefArtwork>
         get() = _artworkListByArtist
+
+    val artworkSectionCompareOrdering = mutableListOf<ArtThiefArtwork>()
+    val artworkSectionCompareMapping = mutableMapOf<Int, MutableList<Int>>()
 
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)

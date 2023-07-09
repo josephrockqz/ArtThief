@@ -66,7 +66,7 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         val filterArtworksWithRating = list.filter {
             it.rating == rating
         }
-        filterArtworksWithRating.asDomainModel().sortedByDescending { artwork ->
+        filterArtworksWithRating.asDomainModel().sortedBy { artwork ->
             artwork.order
         }
     }

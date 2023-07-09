@@ -1,7 +1,6 @@
 package com.example.artthief.ui.rate
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,6 +42,10 @@ class CompareFragment : Fragment() {
             false
         )
 
+        // TODO: dynamically decide whether to reset or continue compare process based on savedInstanceState or something
+        viewModel.artworkSectionCompareMapping.clear()
+        viewModel.artworkSectionCompareOrdering.clear()
+
         setMenuItemOnClickListeners(inflater)
         configureImageDescriptionUIBasedOnSettings()
 
@@ -50,7 +53,31 @@ class CompareFragment : Fragment() {
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
             Log.i("howdy - section artworks: ", it.toString())
 
-            loadArtworkDataUI(it[0], it[1])
+            var totalNumberOfComparisons = 0
+            for (i in it.indices) {
+                totalNumberOfComparisons += i
+                viewModel.artworkSectionCompareMapping[it[i].artThiefID] = mutableListOf()
+                viewModel.artworkSectionCompareOrdering += it[i]
+            }
+
+            Log.i("mapping", viewModel.artworkSectionCompareMapping.toString())
+            Log.i("ordering list", viewModel.artworkSectionCompareOrdering.toString())
+
+            val nextArtworks = getNextCompareArtworks(it)
+            // TODO: make sure artworks are displayed on top or bottom appropriately (accounting for previous winner's location) - can build this into get function
+            loadArtworkDataUI(nextArtworks[1], nextArtworks[0])
+
+            binding.flCompareArtwork1.setOnClickListener {
+                // TODO: update mapping with new completed comparison
+//                viewModel.artworkSectionCompareMapping[artwork1.artThiefID] += artwork2.artThiefID
+                // TODO: retrieve next 2 artworks to be displayed, update UI
+                // TODO: update ordering of artworks
+                // TODO: increment running count of completed comparisons
+                // TODO: check to see if comparisons are done - if so, alert, mark section as sorted, update artwork database with ordering
+            }
+            binding.flCompareArtwork2.setOnClickListener {
+
+            }
         }
 
         return binding.root
@@ -61,30 +88,6 @@ class CompareFragment : Fragment() {
         super.onDestroyView()
 
         _binding = null
-    }
-
-    private fun getCompareSectionRating(): Int {
-        return sharedPreferences.getInt("section_rating", 5)
-    }
-
-    private fun isCompareSettingIdNumberChecked(): Boolean {
-        return sharedPreferences.getBoolean("compare_setting_id_number", false)
-    }
-
-    private fun isCompareSettingTitleChecked(): Boolean {
-        return sharedPreferences.getBoolean("compare_setting_title", false)
-    }
-
-    private fun isCompareSettingArtistChecked(): Boolean {
-        return sharedPreferences.getBoolean("compare_setting_artist", false)
-    }
-
-    private fun isCompareSettingMediaChecked(): Boolean {
-        return sharedPreferences.getBoolean("compare_setting_media", false)
-    }
-
-    private fun isCompareSettingDimensionsChecked(): Boolean {
-        return sharedPreferences.getBoolean("compare_setting_dimensions", false)
     }
 
     private fun configureImageDescriptionUIBasedOnSettings() {
@@ -139,6 +142,29 @@ class CompareFragment : Fragment() {
             binding.flCompareImage1Description.visibility = View.GONE
             binding.flCompareImage2Description.visibility = View.GONE
         }
+    }
+
+    // TODO: add extra ArtThiefArtwork? parameter and dynamically pass in the previous winner
+    private fun getNextCompareArtworks(artworkSectionList: List<ArtThiefArtwork>): MutableList<ArtThiefArtwork> {
+        val nextArtworks = mutableListOf<ArtThiefArtwork>()
+
+        var parsingIndex = artworkSectionList.size - 1
+        while (nextArtworks.size < 2 && parsingIndex >= 0) {
+            val artwork = artworkSectionList[parsingIndex]
+            val artworkPreviousComparisonAmount = viewModel
+                .artworkSectionCompareMapping[artwork.artThiefID]!!
+                .size
+            if (nextArtworks.size == 0 && artworkPreviousComparisonAmount < artworkSectionList.size - 1) {
+                nextArtworks += artwork
+            } else if (nextArtworks.size == 1 &&
+                artworkPreviousComparisonAmount < artworkSectionList.size - 1 &&
+                !viewModel.artworkSectionCompareMapping[artwork.artThiefID]!!.contains(nextArtworks[0].artThiefID)
+            ) {
+                nextArtworks += artwork
+            }
+            parsingIndex -= 1
+        }
+        return nextArtworks
     }
 
     private fun loadArtworkDataUI(artwork1: ArtThiefArtwork, artwork2: ArtThiefArtwork) {
@@ -204,5 +230,29 @@ class CompareFragment : Fragment() {
             ?.navigate(R.id.action_compareToCompareSettings)
 
         return true
+    }
+
+    private fun getCompareSectionRating(): Int {
+        return sharedPreferences.getInt("section_rating", 5)
+    }
+
+    private fun isCompareSettingIdNumberChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_id_number", false)
+    }
+
+    private fun isCompareSettingTitleChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_title", false)
+    }
+
+    private fun isCompareSettingArtistChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_artist", false)
+    }
+
+    private fun isCompareSettingMediaChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_media", false)
+    }
+
+    private fun isCompareSettingDimensionsChecked(): Boolean {
+        return sharedPreferences.getBoolean("compare_setting_dimensions", false)
     }
 }
