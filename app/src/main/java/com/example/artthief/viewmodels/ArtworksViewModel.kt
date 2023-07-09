@@ -112,10 +112,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
             } else if (it.rating == oldRating) {
                 oldRatingSectionArtworks += it
             }
-            newRatingSectionArtworks.sortedByDescending { newSectionArtwork ->
+            newRatingSectionArtworks.sortedBy { newSectionArtwork ->
                 newSectionArtwork.order
             }
-            oldRatingSectionArtworks.sortedByDescending { oldSectionArtwork ->
+            oldRatingSectionArtworks.sortedBy { oldSectionArtwork ->
                 oldSectionArtwork.order
             }
         }

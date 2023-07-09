@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentCompareBinding
 import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.domain.asDatabaseModel
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.squareup.picasso.Picasso
 
@@ -29,6 +30,7 @@ class CompareFragment : Fragment() {
     private val toolbar by lazy { binding.compareFragmentAppBar }
     private val viewModel: ArtworksViewModel by activityViewModels()
 
+    private var sectionRating: Int = 0
     private lateinit var topArtwork: ArtThiefArtwork
     private lateinit var bottomArtwork: ArtThiefArtwork
 
@@ -53,7 +55,7 @@ class CompareFragment : Fragment() {
         setMenuItemOnClickListeners(inflater)
         configureImageDescriptionUIBasedOnSettings()
 
-        val sectionRating = getCompareSectionRating()
+        sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
             for (i in it.indices) {
                 viewModel.artworkSectionCompareTotalNumComparisonsForCompletion += i
@@ -105,7 +107,48 @@ class CompareFragment : Fragment() {
         viewModel.artworkSectionCompletedComparisonsCounter += 1
         if (viewModel.artworkSectionCompletedComparisonsCounter >= viewModel.artworkSectionCompareTotalNumComparisonsForCompletion) {
             Log.i("HOWDDDYYY", "COMPARE COMPLETED for section")
-            // TODO: alert dialog, remove observer, mark section as sorted, update artwork database with ordering
+
+            // TODO: alert dialog, update artwork database with ordering
+            viewModel.getArtworksByRating(sectionRating).removeObservers(viewLifecycleOwner)
+
+            when (sectionRating) {
+                1 -> {
+                    with (sharedPreferences.edit()) {
+                        putBoolean("one_stars_sorted", true)
+                        apply()
+                    }
+                }
+                2 -> {
+                    with (sharedPreferences.edit()) {
+                        putBoolean("two_stars_sorted", true)
+                        apply()
+                    }
+                }
+                3 -> {
+                    with (sharedPreferences.edit()) {
+                        putBoolean("three_stars_sorted", true)
+                        apply()
+                    }
+                }
+                4 -> {
+                    with (sharedPreferences.edit()) {
+                        putBoolean("four_stars_sorted", true)
+                        apply()
+                    }
+                }
+                5 -> {
+                    with (sharedPreferences.edit()) {
+                        putBoolean("five_stars_sorted", true)
+                        apply()
+                    }
+                }
+            }
+
+//            viewModel.updateArtwork(
+//                viewModel.artworkSectionCompareOrdering[0]
+//                    .copy(order = -1)
+//                    .asDatabaseModel()
+//            )
         } else {
             val nextArtworks = getNextCompareArtworks()
             topArtwork = nextArtworks[1]
