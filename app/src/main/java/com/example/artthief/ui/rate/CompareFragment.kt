@@ -43,25 +43,9 @@ class CompareFragment : Fragment() {
         )
 
         setMenuItemOnClickListeners(inflater)
+        configureImageDescriptionUIBasedOnSettings()
 
-//        viewModel.compareSettingsBooleanArray.obs
-
-        val isCompareSettingIdNumberChecked = isCompareSettingIdNumberChecked()
-        val isCompareSettingTitleChecked = isCompareSettingTitleChecked()
-        val isCompareSettingArtistChecked = isCompareSettingArtistChecked()
-        val isCompareSettingMediaChecked = isCompareSettingMediaChecked()
-        val isCompareSettingDimensionsChecked = isCompareSettingDimensionsChecked()
-        // TODO: dynamically set visibilities of boxes to GONE & VISIBLE based on settings toggles
-        // TODO: use observe live data from view model
-        if (isCompareSettingIdNumberChecked || isCompareSettingTitleChecked || isCompareSettingArtistChecked
-            || isCompareSettingMediaChecked || isCompareSettingDimensionsChecked) {
-            binding.flCompareImage1Description.visibility = View.VISIBLE
-            binding.flCompareImage2Description.visibility = View.VISIBLE
-        } else {
-            binding.flCompareImage1Description.visibility = View.GONE
-            binding.flCompareImage2Description.visibility = View.GONE
-        }
-        // TODO: dynamically set visibilities of settings field to VISIBLE & INVISIBLE ...
+        // TODO: dynamically set artwork description fields to match artwork being displayed
 
         val sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
@@ -108,6 +92,60 @@ class CompareFragment : Fragment() {
 
     private fun isCompareSettingDimensionsChecked(): Boolean {
         return sharedPreferences.getBoolean("compare_setting_dimensions", false)
+    }
+
+    private fun configureImageDescriptionUIBasedOnSettings() {
+        val isCompareSettingIdNumberChecked = isCompareSettingIdNumberChecked()
+        val isCompareSettingTitleChecked = isCompareSettingTitleChecked()
+        val isCompareSettingArtistChecked = isCompareSettingArtistChecked()
+        val isCompareSettingMediaChecked = isCompareSettingMediaChecked()
+        val isCompareSettingDimensionsChecked = isCompareSettingDimensionsChecked()
+        if (isCompareSettingIdNumberChecked || isCompareSettingTitleChecked ||
+            isCompareSettingArtistChecked || isCompareSettingMediaChecked ||
+            isCompareSettingDimensionsChecked) {
+
+            binding.flCompareImage1Description.visibility = View.VISIBLE
+            binding.flCompareImage2Description.visibility = View.VISIBLE
+
+            if (isCompareSettingIdNumberChecked) {
+                binding.tvArtworkShowId1.visibility = View.VISIBLE
+                binding.tvArtworkShowId2.visibility = View.VISIBLE
+            } else {
+                binding.tvArtworkShowId1.visibility = View.GONE
+                binding.tvArtworkShowId2.visibility = View.INVISIBLE
+            }
+            if (isCompareSettingTitleChecked) {
+                binding.tvArtworkTitle1.visibility = View.VISIBLE
+                binding.tvArtworkTitle2.visibility = View.VISIBLE
+            } else {
+                binding.tvArtworkTitle1.visibility = View.GONE
+                binding.tvArtworkTitle2.visibility = View.GONE
+            }
+            if (isCompareSettingArtistChecked) {
+                binding.tvArtworkArtist1.visibility = View.VISIBLE
+                binding.tvArtworkArtist2.visibility = View.VISIBLE
+            } else {
+                binding.tvArtworkArtist1.visibility = View.GONE
+                binding.tvArtworkArtist2.visibility = View.GONE
+            }
+            if (isCompareSettingMediaChecked) {
+                binding.tvArtworkMedia1.visibility = View.VISIBLE
+                binding.tvArtworkMedia2.visibility = View.VISIBLE
+            } else {
+                binding.tvArtworkMedia1.visibility = View.GONE
+                binding.tvArtworkMedia2.visibility = View.GONE
+            }
+            if (isCompareSettingDimensionsChecked) {
+                binding.tvArtworkDimensions1.visibility = View.VISIBLE
+                binding.tvArtworkDimensions2.visibility = View.VISIBLE
+            } else {
+                binding.tvArtworkDimensions1.visibility = View.GONE
+                binding.tvArtworkDimensions2.visibility = View.GONE
+            }
+        } else {
+            binding.flCompareImage1Description.visibility = View.GONE
+            binding.flCompareImage2Description.visibility = View.GONE
+        }
     }
 
     private fun setMenuItemOnClickListeners(inflater: LayoutInflater) {

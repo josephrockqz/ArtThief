@@ -42,12 +42,7 @@ class CompareSettingsFragment : Fragment() {
         )
 
         configureToggleFunctionality()
-
-        toolbar[0].setOnClickListener {
-            activity
-                ?.findNavController(R.id.nav_host_fragment_activity_main)
-                ?.navigate(R.id.action_compareSettingsToCompare)
-        }
+        setMenuItemOnClickListener()
 
         return binding.root
     }
@@ -93,6 +88,14 @@ class CompareSettingsFragment : Fragment() {
                 putBoolean("compare_setting_dimensions", (it as SwitchCompat).isChecked)
                 apply()
             }
+        }
+    }
+
+    private fun setMenuItemOnClickListener() {
+        toolbar[0].setOnClickListener {
+            activity
+                ?.findNavController(R.id.nav_host_fragment_activity_main)
+                ?.navigate(R.id.action_compareSettingsToCompare)
         }
     }
 
