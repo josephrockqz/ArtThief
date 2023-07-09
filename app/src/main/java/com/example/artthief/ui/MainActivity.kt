@@ -37,9 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.hide()
 
-        // TODO: change the initialization to take shared preferences into account
-        viewModel.setCompareSettingsBooleanArray(mutableListOf(false, false, false, false, false))
-
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)

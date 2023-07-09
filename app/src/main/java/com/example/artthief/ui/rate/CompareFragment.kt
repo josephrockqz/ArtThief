@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.example.artthief.R
 import com.example.artthief.databinding.FragmentCompareBinding
+import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.squareup.picasso.Picasso
 
@@ -45,19 +46,11 @@ class CompareFragment : Fragment() {
         setMenuItemOnClickListeners(inflater)
         configureImageDescriptionUIBasedOnSettings()
 
-        // TODO: dynamically set artwork description fields to match artwork being displayed
-
         val sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
             Log.i("howdy - section artworks: ", it.toString())
-            Picasso
-                .get()
-                .load(it[0].image_large)
-                .into(binding.ivCompareImage1)
-            Picasso
-                .get()
-                .load(it[1].image_large)
-                .into(binding.ivCompareImage2)
+
+            loadArtworkDataUI(it[0], it[1])
         }
 
         return binding.root
@@ -146,6 +139,29 @@ class CompareFragment : Fragment() {
             binding.flCompareImage1Description.visibility = View.GONE
             binding.flCompareImage2Description.visibility = View.GONE
         }
+    }
+
+    private fun loadArtworkDataUI(artwork1: ArtThiefArtwork, artwork2: ArtThiefArtwork) {
+        Picasso
+            .get()
+            .load(artwork1.image_large)
+            .into(binding.ivCompareImage1)
+        Picasso
+            .get()
+            .load(artwork2.image_large)
+            .into(binding.ivCompareImage2)
+
+        binding.tvArtworkShowId1.text = artwork1.showID
+        binding.tvArtworkTitle1.text = artwork1.title
+        binding.tvArtworkArtist1.text = artwork1.artist
+        binding.tvArtworkMedia1.text = artwork1.media
+        binding.tvArtworkDimensions1.text = artwork1.dimensions
+
+        binding.tvArtworkShowId2.text = artwork2.showID
+        binding.tvArtworkTitle2.text = artwork2.title
+        binding.tvArtworkArtist2.text = artwork2.artist
+        binding.tvArtworkMedia2.text = artwork2.media
+        binding.tvArtworkDimensions2.text = artwork2.dimensions
     }
 
     private fun setMenuItemOnClickListeners(inflater: LayoutInflater) {

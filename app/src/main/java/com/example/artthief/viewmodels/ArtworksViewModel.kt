@@ -1,7 +1,6 @@
 package com.example.artthief.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
@@ -59,10 +58,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     val artworkListByArtist: List<ArtThiefArtwork>
         get() = _artworkListByArtist
 
-    private var _compareSettingsBooleanArray = MutableLiveData<MutableList<Boolean>>()
-    val compareSettingsBooleanArray: LiveData<MutableList<Boolean>>
-        get() = _compareSettingsBooleanArray
-
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)
     }
@@ -93,10 +88,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     fun setSortedArtworkListByArtist(sortedArtworks: List<ArtThiefArtwork>) {
         _artworkListByArtist = sortedArtworks
-    }
-
-    fun setCompareSettingsBooleanArray(booleans: MutableList<Boolean>) {
-        _compareSettingsBooleanArray.value = booleans
     }
 
     fun updateArtwork(artwork: DatabaseArtwork) {
