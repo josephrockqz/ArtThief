@@ -57,14 +57,13 @@ class CompareFragment : Fragment() {
 
         sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
+            Log.i("section artworks", it.toString())
+
             for (i in it.indices) {
                 viewModel.artworkSectionCompareTotalNumComparisonsForCompletion += i
                 viewModel.artworkSectionCompareMapping[it[i].artThiefID] = mutableListOf()
                 viewModel.artworkSectionCompareOrdering += it[i]
             }
-
-            Log.i("mapping", viewModel.artworkSectionCompareMapping.toString())
-            Log.i("ordering list", viewModel.artworkSectionCompareOrdering.toString())
 
             val nextArtworks = getNextCompareArtworks()
             topArtwork = nextArtworks[1]
@@ -80,7 +79,7 @@ class CompareFragment : Fragment() {
                     viewModel.artworkSectionCompareOrdering.remove(topArtwork)
                     viewModel.artworkSectionCompareOrdering.add(indexOfLosingArtwork, topArtwork)
                 }
-                checkIfSectionCompareCompleted()
+                checkIfSectionCompareCompleted(inflater)
             }
             binding.flCompareArtwork2.setOnClickListener {
                 viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
@@ -90,7 +89,7 @@ class CompareFragment : Fragment() {
                     viewModel.artworkSectionCompareOrdering.remove(bottomArtwork)
                     viewModel.artworkSectionCompareOrdering.add(indexOfLosingArtwork, bottomArtwork)
                 }
-                checkIfSectionCompareCompleted()
+                checkIfSectionCompareCompleted(inflater)
             }
         }
 
@@ -103,52 +102,14 @@ class CompareFragment : Fragment() {
         _binding = null
     }
 
-    private fun checkIfSectionCompareCompleted() {
+    private fun checkIfSectionCompareCompleted(inflater: LayoutInflater) {
         viewModel.artworkSectionCompletedComparisonsCounter += 1
         if (viewModel.artworkSectionCompletedComparisonsCounter >= viewModel.artworkSectionCompareTotalNumComparisonsForCompletion) {
             Log.i("HOWDDDYYY", "COMPARE COMPLETED for section")
 
-            // TODO: alert dialog, update artwork database with ordering
-            viewModel.getArtworksByRating(sectionRating).removeObservers(viewLifecycleOwner)
-
-            when (sectionRating) {
-                1 -> {
-                    with (sharedPreferences.edit()) {
-                        putBoolean("one_stars_sorted", true)
-                        apply()
-                    }
-                }
-                2 -> {
-                    with (sharedPreferences.edit()) {
-                        putBoolean("two_stars_sorted", true)
-                        apply()
-                    }
-                }
-                3 -> {
-                    with (sharedPreferences.edit()) {
-                        putBoolean("three_stars_sorted", true)
-                        apply()
-                    }
-                }
-                4 -> {
-                    with (sharedPreferences.edit()) {
-                        putBoolean("four_stars_sorted", true)
-                        apply()
-                    }
-                }
-                5 -> {
-                    with (sharedPreferences.edit()) {
-                        putBoolean("five_stars_sorted", true)
-                        apply()
-                    }
-                }
-            }
-
-//            viewModel.updateArtwork(
-//                viewModel.artworkSectionCompareOrdering[0]
-//                    .copy(order = -1)
-//                    .asDatabaseModel()
-//            )
+            showCompareDoneDialog(inflater)
+            markSectionAsCompareCompleted()
+            updateArtworkOrderingDatabase()
         } else {
             val nextArtworks = getNextCompareArtworks()
             topArtwork = nextArtworks[1]
@@ -257,6 +218,41 @@ class CompareFragment : Fragment() {
         binding.tvArtworkDimensions2.text = artwork2.dimensions
     }
 
+    private fun markSectionAsCompareCompleted() {
+        when (sectionRating) {
+            1 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("one_stars_sorted", true)
+                    apply()
+                }
+            }
+            2 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("two_stars_sorted", true)
+                    apply()
+                }
+            }
+            3 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("three_stars_sorted", true)
+                    apply()
+                }
+            }
+            4 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("four_stars_sorted", true)
+                    apply()
+                }
+            }
+            5 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("five_stars_sorted", true)
+                    apply()
+                }
+            }
+        }
+    }
+
     private fun setMenuItemOnClickListeners(inflater: LayoutInflater) {
 
         toolbar.menu[1].setOnMenuItemClickListener {
@@ -270,7 +266,26 @@ class CompareFragment : Fragment() {
             showInstructionsDialog(inflater)
         }
         toolbar.menu[0].subMenu?.get(1)?.setOnMenuItemClickListener {
-            showSettingsDialog()
+            showSettingsFragment()
+        }
+    }
+
+    private fun showCompareDoneDialog(inflater: LayoutInflater) {
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                val view: View = inflater.inflate(R.layout.compare_finished_dialog_title, null)
+                setCustomTitle(view)
+                setView(R.layout.compare_finished_dialog_content)
+                setPositiveButton(R.string.instructions_ok) { _, _ ->
+                    activity
+                        ?.findNavController(R.id.nav_host_fragment_activity_main)
+                        ?.navigate(R.id.action_compareToRate)
+                }
+                setCancelable(false)
+            }
+            builder.create()
+            builder.show()
         }
     }
 
@@ -290,13 +305,28 @@ class CompareFragment : Fragment() {
         return true
     }
 
-    private fun showSettingsDialog(): Boolean {
+    private fun showSettingsFragment(): Boolean {
 
         activity
             ?.findNavController(R.id.nav_host_fragment_activity_main)
             ?.navigate(R.id.action_compareToCompareSettings)
 
         return true
+    }
+
+    private fun updateArtworkOrderingDatabase() {
+        // TODO: make sure this is working correctly
+        // TODO: need to update list artworks by order first
+        Log.i("artwork orderinggg", viewModel.artworkSectionCompareOrdering.toString())
+        for (i in viewModel.artworkSectionCompareOrdering.indices) {
+            Log.i("artwork order", i.toString())
+            Log.i("artwork title", viewModel.artworkSectionCompareOrdering[i].title)
+            viewModel.updateArtwork(
+                viewModel.artworkSectionCompareOrdering[i]
+                    .copy(order = i)
+                    .asDatabaseModel()
+            )
+        }
     }
 
     private fun getCompareSectionRating(): Int {

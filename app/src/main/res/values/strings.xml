@@ -39,7 +39,7 @@
     <string name="overview_fragment_4_title">Roll Credits</string>
     <string name="overview_fragment_4_created_by">Art Thief on Android was created by:</string>
     <string name="overview_fragment_4_author">Joseph Rock</string>
-    <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\nsupport@zurka.com</string>
+    <string name="overview_fragment_4_reach_out">Please feel free to reach out to us at:\njosephrockqz@gmail.com</string>
 
     <!--Rate page strings-->
     <string name="title_grid_sort">Sort Art</string>
@@ -100,6 +100,8 @@
     <string name="compare_settings_artist_toggle">Artist</string>
     <string name="compare_settings_media_toggle">Media</string>
     <string name="compare_settings_dimensions_toggle">Size in Inches</string>
+    <string name="compare_finished_title">Finished!</string>
+    <string name="compare_finished_explanation">All the artwork in this rating section are now in the correct order based on the preferences you indicated.</string>
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>
