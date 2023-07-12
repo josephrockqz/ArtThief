@@ -33,6 +33,8 @@ class CompareFragment : Fragment() {
     private var sectionRating: Int = 0
     private lateinit var topArtwork: ArtThiefArtwork
     private lateinit var bottomArtwork: ArtThiefArtwork
+    private lateinit var winningArtwork: ArtThiefArtwork
+    private var winningArtworkOnTopBool: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +48,6 @@ class CompareFragment : Fragment() {
             false
         )
 
-        // TODO: dynamically decide whether to reset or continue compare process based on savedInstanceState or something
         viewModel.artworkSectionCompareMapping.clear()
         viewModel.artworkSectionCompareOrdering.clear()
         viewModel.artworkSectionCompletedComparisonsCounter = 0
@@ -62,16 +63,17 @@ class CompareFragment : Fragment() {
             for (i in it.indices) {
                 viewModel.artworkSectionCompareTotalNumComparisonsForCompletion += i
                 viewModel.artworkSectionCompareMapping[it[i].artThiefID] = mutableListOf()
-                viewModel.artworkSectionCompareOrdering += it[i]
+                viewModel.artworkSectionCompareOrdering += it[i].copy()
             }
 
             val nextArtworks = getNextCompareArtworks()
             topArtwork = nextArtworks[1]
             bottomArtwork = nextArtworks[0]
-            // TODO: make sure artworks are displayed on top or bottom appropriately (accounting for previous winner's location) - can build this into get function
             loadArtworkDataUI(topArtwork, bottomArtwork)
 
             binding.flCompareArtwork1.setOnClickListener {
+                winningArtwork = topArtwork
+                winningArtworkOnTopBool = true
                 viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
                 viewModel.artworkSectionCompareMapping[bottomArtwork.artThiefID]!! += topArtwork.artThiefID
                 if (topArtwork.order > bottomArtwork.order) {
@@ -82,6 +84,8 @@ class CompareFragment : Fragment() {
                 checkIfSectionCompareCompleted(inflater)
             }
             binding.flCompareArtwork2.setOnClickListener {
+                winningArtwork = bottomArtwork
+                winningArtworkOnTopBool = false
                 viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
                 viewModel.artworkSectionCompareMapping[bottomArtwork.artThiefID]!! += topArtwork.artThiefID
                 if (bottomArtwork.order > topArtwork.order) {
@@ -105,13 +109,11 @@ class CompareFragment : Fragment() {
     private fun checkIfSectionCompareCompleted(inflater: LayoutInflater) {
         viewModel.artworkSectionCompletedComparisonsCounter += 1
         if (viewModel.artworkSectionCompletedComparisonsCounter >= viewModel.artworkSectionCompareTotalNumComparisonsForCompletion) {
-            Log.i("HOWDDDYYY", "COMPARE COMPLETED for section")
-
             showCompareDoneDialog(inflater)
             markSectionAsCompareCompleted()
             updateArtworkOrderingDatabase()
         } else {
-            val nextArtworks = getNextCompareArtworks()
+            val nextArtworks = getNextCompareArtworks(winningArtwork)
             topArtwork = nextArtworks[1]
             bottomArtwork = nextArtworks[0]
             loadArtworkDataUI(topArtwork, bottomArtwork)
@@ -172,23 +174,40 @@ class CompareFragment : Fragment() {
         }
     }
 
-    // TODO: add extra ArtThiefArtwork? parameter and dynamically pass in the previous winner (can also create new function)
-    private fun getNextCompareArtworks(): MutableList<ArtThiefArtwork> {
+    private fun getNextCompareArtworks(
+        winningArtwork: ArtThiefArtwork? = null
+    ): MutableList<ArtThiefArtwork> {
         val nextArtworks = mutableListOf<ArtThiefArtwork>()
+
+        if (winningArtwork != null) {
+            val winningArtworkPreviousComparisonAmount =
+                viewModel
+                    .artworkSectionCompareMapping[winningArtwork.artThiefID]!!
+                    .size
+            if (winningArtworkPreviousComparisonAmount < viewModel.artworkSectionCompareOrdering.size - 1) {
+                nextArtworks += winningArtwork.copy()
+            }
+        }
 
         var parsingIndex = viewModel.artworkSectionCompareOrdering.size - 1
         while (nextArtworks.size < 2 && parsingIndex >= 0) {
             val artwork = viewModel.artworkSectionCompareOrdering[parsingIndex]
-            val artworkPreviousComparisonAmount = viewModel
-                .artworkSectionCompareMapping[artwork.artThiefID]!!
-                .size
+            val artworkPreviousComparisonAmount =
+                viewModel
+                    .artworkSectionCompareMapping[artwork.artThiefID]!!
+                    .size
             if (nextArtworks.size == 0 && artworkPreviousComparisonAmount < viewModel.artworkSectionCompareOrdering.size - 1) {
-                nextArtworks += artwork
+                nextArtworks += artwork.copy()
             } else if (nextArtworks.size == 1 &&
                 artworkPreviousComparisonAmount < viewModel.artworkSectionCompareOrdering.size - 1 &&
-                !viewModel.artworkSectionCompareMapping[artwork.artThiefID]!!.contains(nextArtworks[0].artThiefID)
+                    !viewModel.artworkSectionCompareMapping[artwork.artThiefID]!!.contains(nextArtworks[0].artThiefID) &&
+                        nextArtworks[0].artThiefID != artwork.artThiefID
             ) {
-                nextArtworks += artwork
+                if (winningArtworkOnTopBool) {
+                    nextArtworks.add(0, artwork.copy())
+                } else {
+                    nextArtworks += artwork.copy()
+                }
             }
             parsingIndex -= 1
         }
@@ -315,14 +334,10 @@ class CompareFragment : Fragment() {
     }
 
     private fun updateArtworkOrderingDatabase() {
-        // TODO: make sure this is working correctly
-        // TODO: need to update list artworks by order first
-        Log.i("artwork orderinggg", viewModel.artworkSectionCompareOrdering.toString())
         for (i in viewModel.artworkSectionCompareOrdering.indices) {
-            Log.i("artwork order", i.toString())
-            Log.i("artwork title", viewModel.artworkSectionCompareOrdering[i].title)
             viewModel.updateArtwork(
-                viewModel.artworkSectionCompareOrdering[i]
+                viewModel
+                    .artworkSectionCompareOrdering[i]
                     .copy(order = i)
                     .asDatabaseModel()
             )

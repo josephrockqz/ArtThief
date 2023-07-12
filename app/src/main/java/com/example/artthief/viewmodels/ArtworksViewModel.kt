@@ -108,9 +108,9 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         val oldRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
         _artworkList.forEach {
             if (it.rating == newRating) {
-                newRatingSectionArtworks += it
+                newRatingSectionArtworks += it.copy()
             } else if (it.rating == oldRating) {
-                oldRatingSectionArtworks += it
+                oldRatingSectionArtworks += it.copy()
             }
             newRatingSectionArtworks.sortedBy { newSectionArtwork ->
                 newSectionArtwork.order

@@ -32,6 +32,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 // TODO: fix zoom slider not working sometimes
+// TODO: fix bug where artworks aren't assigned orders when PageArtworkFragment isn't exited after rating change
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null
@@ -143,6 +144,11 @@ class RateFragment : Fragment() {
 
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
+                for (i in artworks.indices) {
+                    if (artworks[i].rating == 3) {
+                        Log.i("art rating 3: ", artworks[i].toString())
+                    }
+                }
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
                 val artworksFilterGridView = filterGridView(artworksFilterTakenAndDeleted)
                 if (displayTypeState == "grid") {

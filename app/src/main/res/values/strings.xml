@@ -2,8 +2,7 @@
 
     <!--Main-->
     <string name="app_name">Art Thief</string>
-    <!--TODO: update version number-->
-    <string name="app_version">Version 0.0.1</string>
+    <string name="app_version">Version 1.0.0</string>
     <string name="title_overview">Overview</string>
     <string name="title_rate">Rate Art</string>
     <string name="title_artwork">Artwork</string>

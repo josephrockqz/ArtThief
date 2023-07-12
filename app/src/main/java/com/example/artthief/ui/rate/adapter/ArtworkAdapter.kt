@@ -17,25 +17,6 @@ class ArtworkAdapter(
     private val numPriorArtworks: Int = 0
 ) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
-    /**
-     * First level of our network result which looks like:
-        [
-            {
-                "artThiefID":2012345,
-                "showID":"259",
-                "title":"Math Class",
-                "artist":"Jeanne Garant",
-                "media":"Oil",
-                "image_large":"https://artthief.zurka.com/images/Large/12345L-22.jpg",
-                "image_small":"https://artthief.zurka.com/images/Small/12345S-22.jpg",
-                "width":38,
-                "height":38,
-                "taken":true
-            }
-            ...
-        ]
-     */
-
     inner class ViewHolder(
         viewBinding: ArtCardViewBinding
     ) : RecyclerView.ViewHolder(viewBinding.root) {

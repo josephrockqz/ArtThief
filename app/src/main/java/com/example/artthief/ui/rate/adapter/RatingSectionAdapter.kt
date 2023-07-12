@@ -20,7 +20,6 @@ import com.example.artthief.ui.rate.data.RecyclerViewSection
 import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import kotlin.math.roundToInt
 
-// TODO: list artworks in order based on order field
 class RatingSectionAdapter(
     private val context: Context,
     private val artworkClickListener: ArtworkClickListener,
@@ -197,8 +196,6 @@ class RatingSectionAdapter(
         sectionRatingContainerBinding: SectionRatingContainerBinding,
         section: RecyclerViewSection
     ) {
-        // TODO: implement compare button functionality
-        // TODO: change "Compare" text to "Sorted" after section has been completely compared (shared preferences)
         val compareButton = sectionRatingContainerBinding.bCompareButton
         if (section.rating > 0 && section.artworks.size > 1) {
             when (section.rating) {
