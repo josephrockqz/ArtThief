@@ -1,6 +1,7 @@
 package com.example.artthief.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
@@ -44,10 +45,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     val artworkListByRating: List<ArtThiefArtwork>
         get() = _artworkListByRating
 
-    private var _artworkListByRatingGrid = emptyList<ArtThiefArtwork>()
-    val artworkListByRatingGrid: List<ArtThiefArtwork>
-        get() = _artworkListByRatingGrid
-
     private var _artworkListByShowId = emptyList<ArtThiefArtwork>()
     val artworkListByShowId: List<ArtThiefArtwork>
         get() = _artworkListByShowId
@@ -81,10 +78,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         _artworkListByRating = sortedArtworks
     }
 
-    fun setSortedArtworkListByRatingGrid(sortedArtworks: List<ArtThiefArtwork>) {
-        _artworkListByRatingGrid = sortedArtworks
-    }
-
     fun setSortedArtworkListByShowId(sortedArtworks: List<ArtThiefArtwork>) {
         _artworkListByShowId = sortedArtworks
     }
@@ -104,6 +97,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         newRating: Int,
         oldRating: Int
     ) {
+        // TODO: make sure artwork updates are reflected in view model variables
         val newRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
         val oldRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
         _artworkList.forEach {
@@ -168,5 +162,14 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
                     .asDatabaseModel()
             )
         }
+    }
+
+    // TODO: finish implementing
+    fun updateArtworkRatingsDragAndDrop(
+        dragFrom: Int,
+        dragTo: Int
+    ) {
+        Log.i("drag from", dragFrom.toString())
+        Log.i("drag to", dragTo.toString())
     }
 }

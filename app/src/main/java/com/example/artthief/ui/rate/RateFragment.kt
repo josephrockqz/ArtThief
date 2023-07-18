@@ -30,6 +30,8 @@ import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import com.example.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
+import kotlin.reflect.jvm.internal.impl.builtins.StandardNames.FqNames
+
 
 // TODO: fix zoom slider not working sometimes
 // TODO: fix bug where artworks aren't assigned orders when PageArtworkFragment isn't exited after rating change
@@ -162,7 +164,7 @@ class RateFragment : Fragment() {
                     }
                     val itemTouchHelper = configureDragHelper(artworksFilterGridView)
                     itemTouchHelper.attachToRecyclerView(gridView)
-                    viewModel.setSortedArtworkListByRatingGrid(artworksFilterGridView)
+                    viewModel.setSortedArtworkListByRating(artworksFilterGridView)
                 }
                 viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
             }
@@ -687,6 +689,9 @@ class RateFragment : Fragment() {
 
     private fun configureDragHelper(artworksFilterGridView: List<ArtThiefArtwork>): ItemTouchHelper {
         return ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            var dragFrom = -1
+            var dragTo = -1
+
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
@@ -701,6 +706,15 @@ class RateFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                Log.i("on move", "on move")
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+
+                if(dragFrom == -1) {
+                    dragFrom =  fromPosition;
+                }
+                dragTo = toPosition;
+
                 if (viewHolder.adapterPosition < target.adapterPosition) {
                     for (i in viewHolder.adapterPosition until target.adapterPosition) {
                         Collections.swap(artworksFilterGridView, i, i + 1)
@@ -712,6 +726,23 @@ class RateFragment : Fragment() {
                 }
                 artworkGridAdapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
                 return true
+            }
+
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
+                super.clearView(recyclerView, viewHolder)
+
+                if (dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
+                    // TODO: dynamically update artwork rating based on dragging and dropping
+                    // TODO: make sure to accommodate for artwork ordering logic when changing rating
+                    Log.i("really moved", "really moved")
+                    viewModel.updateArtworkRatingsDragAndDrop(dragFrom, dragTo)
+                }
+
+                dragFrom = -1
+                dragTo = -1
             }
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No-Op

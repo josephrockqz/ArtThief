@@ -99,13 +99,9 @@ class RatingSectionAdapter(
             )
             recyclerView.layoutManager = layoutManager
 
-            val orderedSectionArtworks = section.artworks.sortedBy {
-                it.order
-            }
-
             artworkAdapter = ArtworkAdapter(
                 artworkClickListener = artworkClickListener,
-                artworks = orderedSectionArtworks,
+                artworks = section.artworks,
                 context = context,
                 numPriorArtworks = sectionAmounts[section.rating]
             )

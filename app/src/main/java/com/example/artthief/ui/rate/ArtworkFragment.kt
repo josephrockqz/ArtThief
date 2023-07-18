@@ -96,7 +96,7 @@ class ArtworkFragment : Fragment() {
                 ?.navigate(R.id.action_artworkToRate)
         }
 
-        // TODO: have on click listener launch augmented activity
+        // TODO: have on click listener launch augmented activity (when AR is available on device)
         toolbar.menu[0].setOnMenuItemClickListener {
             true
         }
