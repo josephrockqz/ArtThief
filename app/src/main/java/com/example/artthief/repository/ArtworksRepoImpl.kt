@@ -43,9 +43,10 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
     override val artworksByArtist: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
     ) { list ->
-        list.asDomainModel().sortedBy { artwork ->
-            artwork.artist
-        }
+        list.asDomainModel().sortedWith(
+            compareBy<ArtThiefArtwork> { it.artist }
+                .thenBy { it.title }
+        )
     }
 
     override val highestRatedArtwork: LiveData<ArtThiefArtwork> = Transformations.map(

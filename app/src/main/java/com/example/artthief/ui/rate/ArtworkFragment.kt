@@ -2,6 +2,7 @@ package com.example.artthief.ui.rate
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.artthief.R
 import com.example.artthief.databinding.FragmentArtworkBinding
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
+import com.google.ar.core.ArCoreApk
 
 class ArtworkFragment : Fragment() {
 
@@ -42,7 +44,19 @@ class ArtworkFragment : Fragment() {
             false
         )
 
-        // configure pager adapter
+        configureToolbar()
+        configurePagerAdapter()
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun configurePagerAdapter() {
+
         artworkPagerAdapter = ArtworkPagerAdapter(childFragmentManager)
         viewPager = binding.pagerArtwork
         viewPager.adapter = artworkPagerAdapter
@@ -87,6 +101,9 @@ class ArtworkFragment : Fragment() {
                 }
             }
         )
+    }
+
+    private fun configureToolbar() {
 
         val toolbar = binding.artworkFragmentAppBar
         toolbar.isTitleCentered = true
@@ -96,16 +113,20 @@ class ArtworkFragment : Fragment() {
                 ?.navigate(R.id.action_artworkToRate)
         }
 
-        // TODO: have on click listener launch augmented activity (when AR is available on device)
-        toolbar.menu[0].setOnMenuItemClickListener {
-            true
+        val availability = ArCoreApk.getInstance().checkAvailability(context)
+        Log.i("howdy", availability.toString())
+        Log.i("howdy", availability.isSupported.toString())
+        if (availability.isSupported) {
+            toolbar[2].visibility = View.VISIBLE
+            toolbar[2].isEnabled = true
+
+            // TODO: have on click listener launch augmented activity
+            toolbar.menu[0].setOnMenuItemClickListener {
+                true
+            }
+        } else {
+            toolbar[2].visibility = View.INVISIBLE
+            toolbar[2].isEnabled = false
         }
-
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
