@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.artthief"
-        minSdk 23
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -79,4 +79,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    // Google AR Core
+    implementation 'com.google.ar:core:1.38.0'
 }

@@ -97,7 +97,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         newRating: Int,
         oldRating: Int
     ) {
-        // TODO: make sure artwork updates are reflected in view model variables
         val newRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
         val oldRatingSectionArtworks: MutableList<ArtThiefArtwork> = mutableListOf()
         _artworkList.forEach {
@@ -164,7 +163,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    // TODO: finish implementing
+    // TODO: finish implementing artwork drag and drop method
     fun updateArtworkRatingsDragAndDrop(
         dragFrom: Int,
         dragTo: Int
