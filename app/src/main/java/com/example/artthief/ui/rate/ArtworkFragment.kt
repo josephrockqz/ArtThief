@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +18,8 @@ import com.example.artthief.databinding.FragmentArtworkBinding
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.ar.core.ArCoreApk
+import com.google.ar.core.Session
+import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException
 
 class ArtworkFragment : Fragment() {
 
@@ -114,14 +117,29 @@ class ArtworkFragment : Fragment() {
         }
 
         val availability = ArCoreApk.getInstance().checkAvailability(context)
-        Log.i("howdy", availability.toString())
-        Log.i("howdy", availability.isSupported.toString())
         if (availability.isSupported) {
             toolbar[2].visibility = View.VISIBLE
             toolbar[2].isEnabled = true
 
             // TODO: have on click listener launch augmented activity
             toolbar.menu[0].setOnMenuItemClickListener {
+//                var mUserRequestedInstall = true
+//                try {
+////                    if (mSession == null) {
+//                        when (ArCoreApk.getInstance().requestInstall(activity, mUserRequestedInstall)) {
+//                            ArCoreApk.InstallStatus.INSTALLED -> {
+////                                mSession = Session(context)
+//                            }
+//                            ArCoreApk.InstallStatus.INSTALL_REQUESTED -> {
+//                                mUserRequestedInstall = false
+//                            }
+//                        }
+////                    }
+//                } catch(e: UnavailableUserDeclinedInstallationException) {
+//                    Toast
+//                        .makeText(context, "User Declined Installation", Toast.LENGTH_LONG)
+//                        .show()
+//                }
                 true
             }
         } else {

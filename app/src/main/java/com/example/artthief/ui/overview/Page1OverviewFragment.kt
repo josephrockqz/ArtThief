@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.artthief.databinding.FragmentOverviewPage1Binding
 import com.example.artthief.ui.overview.OverviewFragment.Companion.BURGLAR_BOTTOM_MARGIN
-import com.example.artthief.utils.dpToPixels
+import com.example.artthief.common.dpToPixels
 
 class Page1OverviewFragment : Fragment() {
 

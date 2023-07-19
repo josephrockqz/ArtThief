@@ -3,11 +3,9 @@ package com.example.artthief.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,10 +19,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: ArtworksViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
-
-    private val sharedPreferences by lazy {
-        getPreferences(Context.MODE_PRIVATE)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
