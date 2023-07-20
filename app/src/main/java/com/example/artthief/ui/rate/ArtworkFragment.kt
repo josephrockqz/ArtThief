@@ -1,6 +1,7 @@
 package com.example.artthief.ui.rate
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.artthief.R
+import com.example.artthief.ar.ArActivity
 import com.example.artthief.databinding.FragmentArtworkBinding
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
@@ -123,6 +125,8 @@ class ArtworkFragment : Fragment() {
 
             // TODO: have on click listener launch augmented activity
             toolbar.menu[0].setOnMenuItemClickListener {
+                val intent = Intent(activity, ArActivity::class.java)
+                activity?.startActivity(intent)
 //                var mUserRequestedInstall = true
 //                try {
 ////                    if (mSession == null) {

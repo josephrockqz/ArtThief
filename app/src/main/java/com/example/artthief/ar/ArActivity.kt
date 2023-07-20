@@ -35,6 +35,7 @@ class ArActivity : AppCompatActivity() {
                         is CameraNotAvailableException -> "Camera not available. Try restarting the app."
                         else -> "Failed to create AR session: $exception"
                     }
+                Log.e(TAG, message)
                 Log.e(TAG, "ARCore threw an exception", exception)
             }
 
