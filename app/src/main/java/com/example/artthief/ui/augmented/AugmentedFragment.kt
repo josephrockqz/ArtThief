@@ -30,9 +30,9 @@ class AugmentedFragment : Fragment() {
             false
         )
 
-        // TODO: change text on wall when someone is unable to use AR mode
-        // TODO: change button to install when someone is unable to use AR mode
-        // TODO: have on click listener launch augmented activity (when AR is available on device)
+        // TODO: AR - change text on wall when someone is unable to use AR mode
+        // TODO: AR - change button to install when someone is unable to use AR mode
+        // TODO: AR - have on click listener launch augmented activity (when AR is available on device)
 
         viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
             if (it.image_small != String()) {

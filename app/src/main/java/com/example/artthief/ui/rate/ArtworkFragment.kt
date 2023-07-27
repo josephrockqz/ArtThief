@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,8 +19,6 @@ import com.example.artthief.databinding.FragmentArtworkBinding
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.google.ar.core.ArCoreApk
-import com.google.ar.core.Session
-import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException
 
 class ArtworkFragment : Fragment() {
 
@@ -37,6 +34,8 @@ class ArtworkFragment : Fragment() {
     private lateinit var artworkPagerAdapter: ArtworkPagerAdapter
     private lateinit var viewPager: ViewPager
 
+    private var artworkImageUrlForAugmented = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,10 +48,15 @@ class ArtworkFragment : Fragment() {
             false
         )
 
-        configureToolbar()
         configurePagerAdapter()
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        configureToolbar()
     }
 
     override fun onDestroyView() {
@@ -66,13 +70,15 @@ class ArtworkFragment : Fragment() {
         viewPager = binding.pagerArtwork
         viewPager.adapter = artworkPagerAdapter
 
-        artworkPagerAdapter.artworks = when (
+        val artworksRvListOrder = when (
             sharedPreferences.getString("rv_list_order", "rating")
         ) {
             "rating" -> viewModel.artworkListByRating
             "show_id" -> viewModel.artworkListByShowId
             else -> viewModel.artworkListByArtist
         }
+        artworkImageUrlForAugmented = artworksRvListOrder[viewModel.currentArtworkIndex].image_large
+        artworkPagerAdapter.artworks = artworksRvListOrder
         // Set view pager's artwork based on what row (artwork) is pressed
         viewPager.currentItem = viewModel.currentArtworkIndex
 
@@ -91,15 +97,17 @@ class ArtworkFragment : Fragment() {
                     // No-Op
                 }
                 override fun onPageSelected(position: Int) {
-                    binding
-                        .artworkFragmentAppBar
-                        .title = when (
+                    val artworkPageSelected = when (
                         sharedPreferences.getString("rv_list_order", "rating")
                     ) {
-                        "rating" -> viewModel.artworkListByRating[position].title
-                        "show_id" -> viewModel.artworkListByShowId[position].title
-                        else -> viewModel.artworkListByArtist[position].title
+                        "rating" -> viewModel.artworkListByRating[position]
+                        "show_id" -> viewModel.artworkListByShowId[position]
+                        else -> viewModel.artworkListByArtist[position]
                     }
+                    binding
+                        .artworkFragmentAppBar
+                        .title = artworkPageSelected.title
+                    artworkImageUrlForAugmented = artworkPageSelected.image_large
                 }
                 override fun onPageScrollStateChanged(state: Int) {
                     // No-Op
@@ -123,27 +131,10 @@ class ArtworkFragment : Fragment() {
             toolbar[2].visibility = View.VISIBLE
             toolbar[2].isEnabled = true
 
-            // TODO: have on click listener launch augmented activity
             toolbar.menu[0].setOnMenuItemClickListener {
                 val intent = Intent(activity, ArActivity::class.java)
+                intent.putExtra("artwork_image_url", artworkImageUrlForAugmented)
                 activity?.startActivity(intent)
-//                var mUserRequestedInstall = true
-//                try {
-////                    if (mSession == null) {
-//                        when (ArCoreApk.getInstance().requestInstall(activity, mUserRequestedInstall)) {
-//                            ArCoreApk.InstallStatus.INSTALLED -> {
-////                                mSession = Session(context)
-//                            }
-//                            ArCoreApk.InstallStatus.INSTALL_REQUESTED -> {
-//                                mUserRequestedInstall = false
-//                            }
-//                        }
-////                    }
-//                } catch(e: UnavailableUserDeclinedInstallationException) {
-//                    Toast
-//                        .makeText(context, "User Declined Installation", Toast.LENGTH_LONG)
-//                        .show()
-//                }
                 true
             }
         } else {
