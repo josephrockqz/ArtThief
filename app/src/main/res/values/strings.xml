@@ -113,4 +113,17 @@
     <string name="send_fragment_input_hint">Assigned to You</string>
     <string name="send_fragment_button_text">Send _ Artworks</string>
     <string name="send_fragment_disclaimer">Only artwork with one or more stars are sent. You can update and resend your list anytime.</string>
+
+    <!--AR activity strings-->
+    <string name="searching_planes">Searching for surfaces…</string>
+    <string name="waiting_taps">Tap on a surface to place an object.</string>
+    <string name="depth_api">Depth API</string>
+    <string-array translatable="false" name="depth_options_array">
+        <item>Enable depth</item>
+        <item>Show depth map</item>
+    </string-array>
+    <string name="instant_placement_settings">Instant Placement Settings</string>
+    <string-array translatable="false" name="instant_placement_options_array">
+        <item>Enable Instant Placement</item>
+    </string-array>
 </resources>

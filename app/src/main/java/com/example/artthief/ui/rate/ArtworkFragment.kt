@@ -3,7 +3,6 @@ package com.example.artthief.ui.rate
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.artthief.R
-import com.example.artthief.ar.ArActivity
+import com.example.artthief.ar.kotlin.ArActivity
 import com.example.artthief.databinding.FragmentArtworkBinding
 import com.example.artthief.ui.rate.adapter.ArtworkPagerAdapter
 import com.example.artthief.viewmodels.ArtworksViewModel
@@ -77,7 +76,7 @@ class ArtworkFragment : Fragment() {
             "show_id" -> viewModel.artworkListByShowId
             else -> viewModel.artworkListByArtist
         }
-        artworkImageUrlForAugmented = artworksRvListOrder[viewModel.currentArtworkIndex].image_large
+//        artworkImageUrlForAugmented = artworksRvListOrder[viewModel.currentArtworkIndex].image_large
         artworkPagerAdapter.artworks = artworksRvListOrder
         // Set view pager's artwork based on what row (artwork) is pressed
         viewPager.currentItem = viewModel.currentArtworkIndex
