@@ -1,21 +1,19 @@
 package com.example.artthief.ar.kotlin
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.ar.core.Config
-import com.google.ar.core.Config.InstantPlacementMode
-import com.google.ar.core.Session
 import com.example.artthief.ar.java.common.helpers.CameraPermissionHelper
 import com.example.artthief.ar.java.common.helpers.FullScreenHelper
 import com.example.artthief.ar.java.common.samplerender.SampleRender
 import com.example.artthief.ar.kotlin.common.helpers.ARCoreSessionLifecycleHelper
-import com.google.ar.core.exceptions.CameraNotAvailableException
-import com.google.ar.core.exceptions.UnavailableApkTooOldException
-import com.google.ar.core.exceptions.UnavailableDeviceNotCompatibleException
-import com.google.ar.core.exceptions.UnavailableSdkTooOldException
-import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException
+import com.google.ar.core.Config
+import com.google.ar.core.Config.InstantPlacementMode
+import com.google.ar.core.Session
+import com.google.ar.core.exceptions.*
 
 class ArActivity : AppCompatActivity() {
     companion object {
@@ -26,8 +24,18 @@ class ArActivity : AppCompatActivity() {
     lateinit var view: ArView
     lateinit var renderer: ArRenderer
 
+    private val SHARED_PREFERENCES_POINT_CLOUD_ENABLED = "point_cloud_enabled"
+    private var sharedPreferences: SharedPreferences? = null
+    private var pointCloudEnabled = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        pointCloudEnabled = getPreferences(Context.MODE_PRIVATE).getBoolean(
+            SHARED_PREFERENCES_POINT_CLOUD_ENABLED,
+            false
+        )
 
         arCoreSessionHelper = ARCoreSessionLifecycleHelper(this)
         arCoreSessionHelper.exceptionCallback =
@@ -101,5 +109,22 @@ class ArActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         FullScreenHelper.setFullScreenOnWindowFocusChanged(this, hasFocus)
+    }
+
+    fun isPointCloudEnabled(): Boolean {
+        return pointCloudEnabled
+    }
+
+    fun setPointCloudEnabled(enable: Boolean) {
+        if (enable == pointCloudEnabled) {
+            return  // No change.
+        }
+
+        // Updates the stored default settings.
+        pointCloudEnabled = enable
+        with (sharedPreferences!!.edit()) {
+            putBoolean("point_cloud_enabled", pointCloudEnabled)
+            apply()
+        }
     }
 }

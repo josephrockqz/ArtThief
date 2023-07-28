@@ -117,13 +117,14 @@
     <!--AR activity strings-->
     <string name="searching_planes">Searching for surfaces…</string>
     <string name="waiting_taps">Tap on a surface to place an object.</string>
-    <string name="depth_api">Depth API</string>
-    <string-array translatable="false" name="depth_options_array">
-        <item>Enable depth</item>
-        <item>Show depth map</item>
+    <string name="point_cloud">Point Cloud</string>
+    <string name="options_title_point_cloud">Point Cloud Options</string>
+    <string-array translatable="false" name="point_cloud_array">
+        <item>Enable Point Cloud</item>
     </string-array>
-    <string name="instant_placement_settings">Instant Placement Settings</string>
-    <string-array translatable="false" name="instant_placement_options_array">
-        <item>Enable Instant Placement</item>
-    </string-array>
+<!--    <string name="instant_placement_settings">Instant Placement Settings</string>-->
+<!--    <string-array translatable="false" name="instant_placement_options_array">-->
+<!--        <item>Enable Instant Placement</item>-->
+<!--    </string-array>-->
+    <string name="done">Done</string>
 </resources>

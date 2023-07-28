@@ -38,10 +38,8 @@ import java.nio.ByteBuffer
 class ArRenderer(val activity: ArActivity) :
     SampleRender.Renderer, DefaultLifecycleObserver {
     companion object {
-        val TAG = "ArRenderer"
+        const val TAG = "ArRenderer"
 
-        // See the definition of updateSphericalHarmonicsCoefficients for an explanation of these
-        // constants.
         private val sphericalHarmonicFactors =
             floatArrayOf(
                 0.282095f,
@@ -55,11 +53,11 @@ class ArRenderer(val activity: ArActivity) :
                 0.136569f
             )
 
-        private val Z_NEAR = 0.1f
-        private val Z_FAR = 100f
+        private const val Z_NEAR = 0.1f
+        private const val Z_FAR = 100f
 
-        val CUBEMAP_RESOLUTION = 16
-        val CUBEMAP_NUMBER_OF_IMPORTANCE_SAMPLES = 32
+        const val CUBEMAP_RESOLUTION = 16
+        const val CUBEMAP_NUMBER_OF_IMPORTANCE_SAMPLES = 32
     }
 
     lateinit var render: SampleRender
@@ -167,7 +165,7 @@ class ArRenderer(val activity: ArActivity) :
                     render,
                     "shaders/point_cloud.vert",
                     "shaders/point_cloud.frag",
-                    /*defines=*/ null
+                    null
                 )
                     .setVec4(
                         "u_Color",
@@ -182,7 +180,7 @@ class ArRenderer(val activity: ArActivity) :
             pointCloudMesh =
                 Mesh(
                     render,
-                    Mesh.PrimitiveMode.POINTS, /*indexBuffer=*/
+                    Mesh.PrimitiveMode.POINTS,
                     null,
                     pointCloudVertexBuffers
                 )
@@ -333,7 +331,9 @@ class ArRenderer(val activity: ArActivity) :
             }
             Matrix.multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
             pointCloudShader.setMat4("u_ModelViewProjection", modelViewProjectionMatrix)
-            render.draw(pointCloudMesh, pointCloudShader)
+            if (activity.isPointCloudEnabled()) {
+                render.draw(pointCloudMesh, pointCloudShader)
+            }
         }
 
         // -- Draw occluded virtual objects
@@ -343,7 +343,7 @@ class ArRenderer(val activity: ArActivity) :
 
         // Visualize anchors created by touch.
         render.clear(virtualSceneFramebuffer, 0f, 0f, 0f, 0f)
-        for ((anchor, trackable) in
+        for ((anchor, _) in
         wrappedAnchors.filter { it.anchor.trackingState == TrackingState.TRACKING }) {
             // Get the current pose of an Anchor in world space. The Anchor pose is updated
             // during calls to session.update() as ARCore refines its estimate of the world.

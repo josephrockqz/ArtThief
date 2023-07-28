@@ -2,14 +2,17 @@ package com.example.artthief.ar.kotlin
 
 import android.content.res.Resources
 import android.opengl.GLSurfaceView
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.artthief.R
 import com.example.artthief.ar.java.common.helpers.SnackbarHelper
 import com.example.artthief.ar.java.common.helpers.TapHelper
+import com.google.ar.core.Config
 
 class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
 
@@ -18,17 +21,21 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
     val settingsButton =
         root.findViewById<ImageButton>(R.id.ib_arInfoButton).apply {
             setOnClickListener { v ->
-//                PopupMenu(activity, v).apply {
-//                    setOnMenuItemClickListener { item ->
-//                        when (item.itemId) {
-//                            else -> null
-//                        } != null
-//                    }
-//                    inflate(R.menu.augmented_settings_menu)
-//                    show()
-//                }
+                PopupMenu(activity, v).apply {
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.point_cloud -> launchPointCloudSettingsMenuDialog()
+                            else -> null
+                        } != null
+                    }
+                    inflate(R.menu.augmented_settings_menu)
+                    show()
+                }
             }
         }
+
+    val session
+        get() = activity.arCoreSessionHelper.session
 
     val snackbarHelper = SnackbarHelper()
     val tapHelper = TapHelper(activity).also { surfaceView.setOnTouchListener(it) }
@@ -39,5 +46,22 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
 
     override fun onPause(owner: LifecycleOwner) {
         surfaceView.onPause()
+    }
+
+    private fun launchPointCloudSettingsMenuDialog() {
+        val resources = activity.resources
+        val strings = resources.getStringArray(R.array.point_cloud_array)
+        val checked = booleanArrayOf(activity.isPointCloudEnabled())
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.options_title_point_cloud)
+            .setMultiChoiceItems(strings, checked) { _, which, isChecked ->
+                checked[which] = isChecked
+            }
+            .setPositiveButton(R.string.done) { _, _ ->
+                val session = session ?: return@setPositiveButton
+                activity.setPointCloudEnabled(checked[0])
+                activity.configureSession(session)
+            }
+            .show()
     }
 }
