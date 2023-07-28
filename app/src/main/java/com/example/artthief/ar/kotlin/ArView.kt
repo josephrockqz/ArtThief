@@ -1,8 +1,6 @@
 package com.example.artthief.ar.kotlin
 
-import android.content.res.Resources
 import android.opengl.GLSurfaceView
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
@@ -12,7 +10,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.example.artthief.R
 import com.example.artthief.ar.java.common.helpers.SnackbarHelper
 import com.example.artthief.ar.java.common.helpers.TapHelper
-import com.google.ar.core.Config
 
 class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
 
@@ -25,6 +22,7 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.point_cloud -> launchPointCloudSettingsMenuDialog()
+                            R.id.vertical_plane_info -> launchVerticalPlaneDetectionInfoDialog()
                             else -> null
                         } != null
                     }
@@ -60,6 +58,17 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
             .setPositiveButton(R.string.done) { _, _ ->
                 val session = session ?: return@setPositiveButton
                 activity.setPointCloudEnabled(checked[0])
+                activity.configureSession(session)
+            }
+            .show()
+    }
+
+    private fun launchVerticalPlaneDetectionInfoDialog() {
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.vertical_plane_info)
+            .setMessage(R.string.vertical_plane_info_description)
+            .setPositiveButton(R.string.done) { _, _ ->
+                val session = session ?: return@setPositiveButton
                 activity.configureSession(session)
             }
             .show()

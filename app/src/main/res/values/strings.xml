@@ -122,9 +122,7 @@
     <string-array translatable="false" name="point_cloud_array">
         <item>Enable Point Cloud</item>
     </string-array>
-<!--    <string name="instant_placement_settings">Instant Placement Settings</string>-->
-<!--    <string-array translatable="false" name="instant_placement_options_array">-->
-<!--        <item>Enable Instant Placement</item>-->
-<!--    </string-array>-->
+    <string name="vertical_plane_info">Vertical Plane Detection Info</string>
+    <string name="vertical_plane_info_description">It is difficult to detect walls and other vertical surfaces with Android phones that don\'t have LiDAR scanners. As a result, you may find difficulty placing artwork in augmented reality mode.\n\nThe best experiences happen when using a wall with complex patterns such as a well-lit brick wall or a wall with pictures on it.</string>
     <string name="done">Done</string>
 </resources>

@@ -8,8 +8,8 @@
       android:id="@+id/point_cloud"
       android:title="@string/point_cloud"/>
 
-<!--  <item-->
-<!--      android:id="@+id/instant_placement_settings"-->
-<!--      android:title="@string/instant_placement_settings"/>-->
+  <item
+      android:id="@+id/vertical_plane_info"
+      android:title="@string/vertical_plane_info"/>
 
 </menu>

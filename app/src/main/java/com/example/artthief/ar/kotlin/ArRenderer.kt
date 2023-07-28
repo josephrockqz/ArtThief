@@ -35,8 +35,11 @@ import com.google.ar.core.exceptions.NotYetAvailableException
 import java.io.IOException
 import java.nio.ByteBuffer
 
-class ArRenderer(val activity: ArActivity) :
-    SampleRender.Renderer, DefaultLifecycleObserver {
+class ArRenderer(
+    val activity: ArActivity,
+    private val artworkImageUri: String
+) : SampleRender.Renderer, DefaultLifecycleObserver {
+
     companion object {
         const val TAG = "ArRenderer"
 
@@ -188,9 +191,9 @@ class ArRenderer(val activity: ArActivity) :
             // TODO: AR - change `createFromAsset` method to `createFromUri`
             // TODO: AR - delete pawn_albedo assets
             virtualObjectAlbedoTexture =
-                Texture.createFromAsset(
+                Texture.createFromUri(
                     render,
-                    "models/pawn_albedo.png",
+                    artworkImageUri,
                     Texture.WrapMode.CLAMP_TO_EDGE,
                     Texture.ColorFormat.SRGB
                 )

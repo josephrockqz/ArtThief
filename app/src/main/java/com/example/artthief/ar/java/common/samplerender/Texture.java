@@ -94,7 +94,7 @@ public class Texture implements Closeable {
      *
      * <p>Since {@link Texture}s created in this way are not populated with data, this method is
      * mostly only useful for creating textures. See {@link
-     * #createFromAsset} if you want a texture with data.
+     * #createFromUri} if you want a texture with data.
      */
     public Texture(SampleRender render, Target target, WrapMode wrapMode) {
         this(render, target, wrapMode, /*useMipmaps=*/ true);
@@ -127,21 +127,21 @@ public class Texture implements Closeable {
     }
 
     /**
-     * Create a texture from the given asset file name.
+     * Create a texture from the given URI
      */
-    public static Texture createFromAsset(
-            SampleRender render, String assetFileName, WrapMode wrapMode, ColorFormat colorFormat)
+    public static Texture createFromUri(
+            SampleRender render, String uri, WrapMode wrapMode, ColorFormat colorFormat)
             throws IOException {
         Texture texture = new Texture(render, Target.TEXTURE_2D, wrapMode);
         Bitmap bitmap = null;
         try {
-            URL url = new URL("https://artthief.zurka.com//images//Large//12345L-22.jpg");
+            URL url = new URL(uri);
             bitmap = BitmapFactory
-                    .decodeStream(
-                            url
-                                    .openConnection()
-                                    .getInputStream()
-                    );
+                .decodeStream(
+                    url
+                        .openConnection()
+                        .getInputStream()
+                );
             ByteBuffer buffer = ByteBuffer.allocateDirect(bitmap.getByteCount());
             bitmap.copyPixelsToBuffer(buffer);
             buffer.rewind();
