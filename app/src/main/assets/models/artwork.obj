@@ -1,11 +1,15 @@
-v 0.000000 0.100000 0.000000
+o artwork.obj
+# Vertices
+v 0.000000 1.00000 0.000000
 v 0.000000 0.000000 0.000000
-v 0.100000 0.000000 0.000000
-v 0.100000 0.100000 0.000000
+v 1.000000 0.000000 0.000000
+v 1.000000 1.00000 0.000000
 # Change order of vt's to match the top
 vt 0.0 0.0
 vt 1.0 0.0
 vt 1.0 1.0
 vt 1.0 1.0
+# Vertex normals define shading and brightness by indicating the direction of a light source
 vn 0.0 1.0 0.0
+# Face
 f 1/1/1 2/2/1 3/3/1 4/4/1
