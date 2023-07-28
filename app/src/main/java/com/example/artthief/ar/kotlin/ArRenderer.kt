@@ -178,7 +178,7 @@ class ArRenderer(
 
             // four entries per vertex: X, Y, Z, confidence
             pointCloudVertexBuffer =
-                VertexBuffer(render, /*numberOfEntriesPerVertex=*/ 4, /*entries=*/ null)
+                VertexBuffer(render, 4, null)
             val pointCloudVertexBuffers = arrayOf(pointCloudVertexBuffer)
             pointCloudMesh =
                 Mesh(
@@ -188,8 +188,6 @@ class ArRenderer(
                     pointCloudVertexBuffers
                 )
 
-            // TODO: AR - change `createFromAsset` method to `createFromUri`
-            // TODO: AR - delete pawn_albedo assets
             virtualObjectAlbedoTexture =
                 Texture.createFromUri(
                     render,

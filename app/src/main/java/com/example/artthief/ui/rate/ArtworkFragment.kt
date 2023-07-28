@@ -76,7 +76,7 @@ class ArtworkFragment : Fragment() {
             "show_id" -> viewModel.artworkListByShowId
             else -> viewModel.artworkListByArtist
         }
-//        artworkImageUrlForAugmented = artworksRvListOrder[viewModel.currentArtworkIndex].image_large
+        artworkImageUrlForAugmented = artworksRvListOrder[viewModel.currentArtworkIndex].image_large
         artworkPagerAdapter.artworks = artworksRvListOrder
         // Set view pager's artwork based on what row (artwork) is pressed
         viewPager.currentItem = viewModel.currentArtworkIndex

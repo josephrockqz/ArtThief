@@ -16,7 +16,9 @@ import com.google.ar.core.Session
 import com.google.ar.core.exceptions.*
 
 class ArActivity : AppCompatActivity() {
+
     companion object {
+        private const val SHARED_PREFERENCES_POINT_CLOUD_ENABLED = "point_cloud_enabled"
         private const val TAG = "ArActivity"
     }
 
@@ -24,7 +26,6 @@ class ArActivity : AppCompatActivity() {
     lateinit var view: ArView
     lateinit var renderer: ArRenderer
 
-    private val SHARED_PREFERENCES_POINT_CLOUD_ENABLED = "point_cloud_enabled"
     private var sharedPreferences: SharedPreferences? = null
     private var pointCloudEnabled = true
 
@@ -37,7 +38,7 @@ class ArActivity : AppCompatActivity() {
             false
         )
 
-        val artworkImageUri = intent.getStringExtra()
+        val artworkImageUri = intent.getStringExtra("artwork_image_url").toString()
 
         arCoreSessionHelper = ARCoreSessionLifecycleHelper(this)
         arCoreSessionHelper.exceptionCallback =
@@ -60,7 +61,7 @@ class ArActivity : AppCompatActivity() {
         arCoreSessionHelper.beforeSessionResume = ::configureSession
         lifecycle.addObserver(arCoreSessionHelper)
 
-        renderer = ArRenderer(this)
+        renderer = ArRenderer(this, artworkImageUri)
         lifecycle.addObserver(renderer)
 
         view = ArView(this)
@@ -113,16 +114,12 @@ class ArActivity : AppCompatActivity() {
         FullScreenHelper.setFullScreenOnWindowFocusChanged(this, hasFocus)
     }
 
-    fun isPointCloudEnabled(): Boolean {
-        return pointCloudEnabled
-    }
+    fun isPointCloudEnabled(): Boolean = pointCloudEnabled
 
     fun setPointCloudEnabled(enable: Boolean) {
         if (enable == pointCloudEnabled) {
-            return  // No change.
+            return
         }
-
-        // Updates the stored default settings.
         pointCloudEnabled = enable
         with (sharedPreferences!!.edit()) {
             putBoolean("point_cloud_enabled", pointCloudEnabled)
