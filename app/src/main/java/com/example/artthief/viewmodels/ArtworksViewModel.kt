@@ -7,6 +7,7 @@ import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
+import com.example.artthief.domain.defaultArtThiefArtwork
 import com.example.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -57,6 +58,10 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     val artworkSectionCompareMapping = mutableMapOf<Int, MutableList<Int>>()
     var artworkSectionCompletedComparisonsCounter = 0
     var artworkSectionCompareTotalNumComparisonsForCompletion = 0
+
+    private lateinit var _artworkSelectedGrid: ArtThiefArtwork
+    val artworkSelectedGrid: ArtThiefArtwork
+        get() = _artworkSelectedGrid
 
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)
@@ -163,12 +168,55 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    // TODO: finish implementing artwork drag and drop method
+    // TODO: D&D - dynamically update artwork rating based on dragging and dropping
+    // TODO: D&D - make sure to accommodate for artwork ordering logic when changing rating
     fun updateArtworkRatingsDragAndDrop(
+        artworksListGridView: List<ArtThiefArtwork>,
         dragFrom: Int,
-        dragTo: Int
+        dragTo: Int,
     ) {
         Log.i("drag from", dragFrom.toString())
         Log.i("drag to", dragTo.toString())
+        Log.i("selected artwork", _artworkSelectedGrid.toString())
+        Log.i("grid artworks", artworksListGridView.toString())
+
+        val selectedArtworkNewRating = if (dragTo == 0) {
+            artworksListGridView[1].rating
+        } else if (dragTo == artworksListGridView.size - 1) {
+            artworksListGridView[artworksListGridView.size - 2].rating
+        } else {
+            if (dragFrom > dragTo) {
+                artworksListGridView[dragTo + 1].rating
+            } else {
+                artworksListGridView[dragTo - 1].rating
+            }
+        }
+
+        val selectedArtworkOldRating = _artworkSelectedGrid.rating
+        if (selectedArtworkOldRating == selectedArtworkNewRating) {
+            val artworksInSection = mutableListOf<ArtThiefArtwork>()
+            for (i in artworksListGridView.indices) {
+                if (artworksListGridView[i].rating == selectedArtworkOldRating) {
+                    artworksInSection.add(artworksListGridView[i].copy())
+                }
+            }
+            for (i in artworksInSection.indices) {
+                updateArtwork(
+                    artworksInSection[i]
+                        .copy(order = i)
+                        .asDatabaseModel()
+                )
+            }
+        } else {
+            // TODO: update orders of artworks in old rating section
+            val selectedArtworkOldOrder = _artworkSelectedGrid.order
+            
+            // TODO: update moving artwork rating and order
+            // TODO: update orders of artworks in new rating section
+        }
+    }
+
+    fun updateSelectedGridArtwork(artwork: ArtThiefArtwork) {
+        _artworkSelectedGrid = artwork.copy()
     }
 }

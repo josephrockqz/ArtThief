@@ -351,6 +351,7 @@ class ArRenderer(
             // during calls to session.update() as ARCore refines its estimate of the world.
             anchor.pose.toMatrix(modelMatrix, 0)
 
+            // TODO: AR - figure out virtual artwork object placement: 1) change artwork2 vn values, 2) Matrix rotations
             // Calculate model/view/projection matrices
             Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0)
             Matrix.multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0)

@@ -53,6 +53,7 @@ class RateFragment : Fragment() {
     private lateinit var artworkAdapter: ArtworkAdapter
     private lateinit var ratingSectionAdapter: RatingSectionAdapter
     private lateinit var artworkGridAdapter: ArtworkGridAdapter
+    private lateinit var artworksListGridView: List<ArtThiefArtwork>
     private lateinit var artworkClickListener: ArtworkClickListener
     private lateinit var compareClickListener: CompareClickListener
     private lateinit var swipeHelper: ItemTouchHelper
@@ -146,25 +147,20 @@ class RateFragment : Fragment() {
 
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
-                for (i in artworks.indices) {
-                    if (artworks[i].rating == 3) {
-                        Log.i("art rating 3: ", artworks[i].toString())
-                    }
-                }
                 val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                val artworksFilterGridView = filterGridView(artworksFilterTakenAndDeleted)
+                artworksListGridView = filterGridView(artworksFilterTakenAndDeleted)
                 if (displayTypeState == "grid") {
                     gridView.apply {
                         artworkGridAdapter = ArtworkGridAdapter(
-                            artworks = artworksFilterGridView,
+                            artworks = artworksListGridView,
                             artworkImageSize = calculateGridViewImageSize(getZoomLevel())
                         )
                         adapter = artworkGridAdapter
                         layoutManager = GridLayoutManager(context, getZoomLevel())
                     }
-                    val itemTouchHelper = configureDragHelper(artworksFilterGridView)
+                    val itemTouchHelper = configureDragHelper(artworksListGridView)
                     itemTouchHelper.attachToRecyclerView(gridView)
-                    viewModel.setSortedArtworkListByRating(artworksFilterGridView)
+                    viewModel.setSortedArtworkListByRating(artworksListGridView)
                 }
                 viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
             }
@@ -706,14 +702,14 @@ class RateFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                Log.i("on move", "on move")
                 val fromPosition = viewHolder.adapterPosition
                 val toPosition = target.adapterPosition
 
-                if(dragFrom == -1) {
+                if (dragFrom == -1) {
                     dragFrom =  fromPosition;
                 }
-                dragTo = toPosition;
+                dragTo = toPosition
+                viewModel.updateSelectedGridArtwork(artworksFilterGridView[dragFrom])
 
                 if (viewHolder.adapterPosition < target.adapterPosition) {
                     for (i in viewHolder.adapterPosition until target.adapterPosition) {
@@ -735,10 +731,11 @@ class RateFragment : Fragment() {
                 super.clearView(recyclerView, viewHolder)
 
                 if (dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
-                    // TODO: dynamically update artwork rating based on dragging and dropping
-                    // TODO: make sure to accommodate for artwork ordering logic when changing rating
-                    Log.i("really moved", "really moved")
-                    viewModel.updateArtworkRatingsDragAndDrop(dragFrom, dragTo)
+                    viewModel.updateArtworkRatingsDragAndDrop(
+                        artworksListGridView,
+                        dragFrom,
+                        dragTo
+                    )
                 }
 
                 dragFrom = -1
