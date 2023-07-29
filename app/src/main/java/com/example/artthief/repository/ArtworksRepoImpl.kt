@@ -55,9 +55,10 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         val filterTakenAndDeletedArtworks = list.filter {
             !it.taken && !it.deleted
         }
-        val listByRating = filterTakenAndDeletedArtworks.asDomainModel().sortedByDescending { artwork ->
-            artwork.rating
-        }
+        val listByRating = filterTakenAndDeletedArtworks.asDomainModel().sortedWith(
+            compareByDescending<ArtThiefArtwork> { it.rating }
+                .thenBy { it.order }
+        )
         if (listByRating.isNotEmpty()) listByRating[0]
         else defaultArtThiefArtwork
     }

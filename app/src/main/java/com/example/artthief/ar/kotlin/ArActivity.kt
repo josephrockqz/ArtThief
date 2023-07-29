@@ -38,7 +38,9 @@ class ArActivity : AppCompatActivity() {
             false
         )
 
+
         val artworkImageUri = intent.getStringExtra("artwork_image_url").toString()
+        Log.i("artwork image uri ar activity", artworkImageUri)
 
         arCoreSessionHelper = ARCoreSessionLifecycleHelper(this)
         arCoreSessionHelper.exceptionCallback =

@@ -37,7 +37,7 @@ import java.nio.ByteBuffer
 
 class ArRenderer(
     val activity: ArActivity,
-    private val artworkImageUri: String
+    private val artworkImageUri: String?
 ) : SampleRender.Renderer, DefaultLifecycleObserver {
 
     companion object {

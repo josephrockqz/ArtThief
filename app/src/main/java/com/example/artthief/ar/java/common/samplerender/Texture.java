@@ -25,6 +25,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 /**
  * A GPU-side texture.
@@ -135,7 +136,12 @@ public class Texture implements Closeable {
         Texture texture = new Texture(render, Target.TEXTURE_2D, wrapMode);
         Bitmap bitmap = null;
         try {
-            URL url = new URL(uri);
+            URL url;
+            if (Objects.equals(uri, "")) {
+                url = new URL("https://artthief.zurka.com/images/Large/12345L-22.jpg");
+            } else {
+                url = new URL(uri);
+            }
             bitmap = BitmapFactory
                 .decodeStream(
                     url
