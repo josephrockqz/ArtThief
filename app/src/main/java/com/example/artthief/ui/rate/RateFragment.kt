@@ -586,7 +586,7 @@ class RateFragment : Fragment() {
 
     private fun getGridViewDisplayFilter(): Int {
         // 0 represents "Show All", 1 represents "5 Stars"
-        return sharedPreferences.getInt("gv_filter", 6)
+        return sharedPreferences.getInt("gv_filter", 0)
     }
 
     private fun getShowDeletedArtworkState(): Boolean {
