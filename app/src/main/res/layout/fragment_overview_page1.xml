@@ -1,48 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.overview.OverviewFragment">
 
-    <TextView
-        android:id="@+id/tv_appName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:text="@string/overview_fragment_1_subtitle"
-        android:textAlignment="center"
-        android:textColor="@color/teal_200"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
-
-    <!-- Width is calculated by:[burglar vector] width / height * 280dp -->
-    <TextView
-        android:id="@+id/tv_of1_instruction"
-        android:layout_width="244.7dp"
-        android:layout_height="wrap_content"
-        android:text="@string/overview_fragment_1_instruction"
-        android:textAlignment="center"
-        android:textColor="@color/teal_200"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/iv_burglar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!--Burglar background vectors-->
+    <!--Burglar background vectors portrait mode-->
     <LinearLayout
         android:id="@+id/ll_burglarBackground"
         android:layout_width="match_parent"
@@ -66,11 +31,74 @@
 
     </LinearLayout>
 
+    <!--Burglar background landscape mode-->
+    <ImageView
+        android:id="@+id/iv_burglarBackgroundLandscape"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/backgroundright_1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/overview_fragment_1_subtitle"
+                android:textAlignment="center"
+                android:textColor="@color/teal_200"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
+
+            <!-- Width is calculated by:[burglar vector] width / height * 280dp -->
+            <TextView
+                android:id="@+id/tv_of1_instruction"
+                android:layout_width="244.7dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/overview_fragment_1_instruction"
+                android:textAlignment="center"
+                android:textColor="@color/teal_200"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/iv_burglar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <!--Burglar vector-->
     <ImageView
         android:id="@+id/iv_burglar"
         android:layout_width="wrap_content"
         android:layout_height="280dp"
+        android:layout_gravity="center"
         android:layout_alignParentBottom="true"
         android:adjustViewBounds="true"
         android:cropToPadding="false"

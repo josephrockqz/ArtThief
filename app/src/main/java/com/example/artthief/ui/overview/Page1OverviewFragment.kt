@@ -27,15 +27,31 @@ class Page1OverviewFragment : Fragment() {
             false
         )
 
-        val burglarImage = binding.ivBurglar
-        val burglarLayoutParams = burglarImage.layoutParams as ViewGroup.MarginLayoutParams
-        burglarLayoutParams.setMargins(
-            0,
-            0,
-            0,
-            dpToPixels(resources.displayMetrics.density, BURGLAR_BOTTOM_MARGIN)
-        )
+        adjustUiBasedOnDeviceOrientation()
+        setBackgroundLayoutMarginParams()
 
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun adjustUiBasedOnDeviceOrientation() {
+        val orientation = activity?.resources?.configuration?.orientation
+        if (orientation == 1) {
+            binding.ivBurglar.visibility = View.VISIBLE
+            binding.llBurglarBackground.visibility = View.VISIBLE
+            binding.ivBurglarBackgroundLandscape.visibility = View.GONE
+        } else {
+            binding.ivBurglar.visibility = View.GONE
+            binding.llBurglarBackground.visibility = View.GONE
+            binding.ivBurglarBackgroundLandscape.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setBackgroundLayoutMarginParams() {
         val burglarBackground = binding.llBurglarBackground
         val burglarBackgroundLayoutParams = burglarBackground.layoutParams as ViewGroup.MarginLayoutParams
         burglarBackgroundLayoutParams.setMargins(
@@ -45,11 +61,22 @@ class Page1OverviewFragment : Fragment() {
             dpToPixels(resources.displayMetrics.density, BURGLAR_BOTTOM_MARGIN)
         )
 
-        return binding.root
-    }
+        val burglarBackgroundLandscape = binding.ivBurglarBackgroundLandscape
+        val burglarBackgroundLandscapeLayoutParams = burglarBackgroundLandscape.layoutParams as ViewGroup.MarginLayoutParams
+        burglarBackgroundLandscapeLayoutParams.setMargins(
+            0,
+            0,
+            0,
+            dpToPixels(resources.displayMetrics.density, BURGLAR_BOTTOM_MARGIN)
+        )
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        val burglarImage = binding.ivBurglar
+        val burglarLayoutParams = burglarImage.layoutParams as ViewGroup.MarginLayoutParams
+        burglarLayoutParams.setMargins(
+            0,
+            0,
+            0,
+            dpToPixels(resources.displayMetrics.density, BURGLAR_BOTTOM_MARGIN)
+        )
     }
 }
