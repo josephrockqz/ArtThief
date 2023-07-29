@@ -104,7 +104,8 @@
 
     <!--Augmented tab strings-->
     <string name="augmented_visualize_header">Visualize Art on Your Wall</string>
-    <string name="augmented_visualize_text">Use that camera on your device to place a virtual copy of the art on any wall.</string>
+    <string name="augmented_supported_visualize_text">Use that camera on your device to place a virtual copy of the art on a wall.</string>
+    <string name="augmented_unsupported_visualize_text">Your device needs to support ARCore in order to use the augmented reality feature.</string>
     <string name="augmented_visualize_button_text">Launch</string>
 
     <!--Send tab strings-->

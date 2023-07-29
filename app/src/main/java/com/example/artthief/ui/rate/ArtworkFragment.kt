@@ -125,8 +125,8 @@ class ArtworkFragment : Fragment() {
                 ?.navigate(R.id.action_artworkToRate)
         }
 
-        val availability = ArCoreApk.getInstance().checkAvailability(context)
-        if (availability.isSupported) {
+        val arAvailability = ArCoreApk.getInstance().checkAvailability(context)
+        if (arAvailability.isSupported) {
             toolbar[2].visibility = View.VISIBLE
             toolbar[2].isEnabled = true
 

@@ -71,12 +71,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/augmented_visualize_text"
+                android:text="@string/augmented_supported_visualize_text"
                 android:textAlignment="center"
                 android:textColor="@color/art_thief_primary"
                 android:textSize="12sp"/>
 
             <FrameLayout
+                android:id="@+id/fl_augmentedLaunch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
