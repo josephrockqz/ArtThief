@@ -12,7 +12,6 @@ import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-// TODO: landscape mode - fix overview page 2
 // TODO: landscape mode - fix overview page 3
 // TODO: landscape mode - fix overview page 4
 // TODO: landscape mode - fix send tab

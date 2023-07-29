@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -42,20 +42,21 @@
 
             <!--Bullet point 1-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bulletPoint1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_appName">
 
                 <TextView
                     android:id="@+id/tv_bp_1_num"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
                     app:layout_constrainedWidth="true"
-                    app:layout_constraintEnd_toStartOf="@id/tv_bp_1_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:background="@drawable/plan_bullet_point"
@@ -66,33 +67,38 @@
 
                 <TextView
                     android:id="@+id/tv_bp_1_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintStart_toEndOf="@id/tv_bp_1_num"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:lineSpacingExtra="5sp"
                     android:text="@string/overview_fragment_3_bp_1_text"
+                    android:textAlignment="textStart"
                     android:textColor="@color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--Bullet point 2-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bulletPoint2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_bulletPoint1">
 
                 <TextView
                     android:id="@+id/tv_bp_2_num"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toStartOf="@id/tv_bp_2_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,14 +111,16 @@
 
                 <TextView
                     android:id="@+id/tv_bp_2_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintStart_toEndOf="@id/tv_bp_2_num"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:lineSpacingExtra="5sp"
                     android:text="@string/overview_fragment_3_bp_2_text"
+                    android:textAlignment="textStart"
                     android:textColor="@color/white"
                     android:textSize="16sp"/>
 
@@ -120,18 +128,21 @@
 
             <!--Bullet point 3-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bulletPoint3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_bulletPoint2">
 
                 <TextView
                     android:id="@+id/tv_bp_3_num"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toStartOf="@id/tv_bp_3_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -144,14 +155,16 @@
 
                 <TextView
                     android:id="@+id/tv_bp_3_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintStart_toEndOf="@id/tv_bp_3_num"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:lineSpacingExtra="5sp"
                     android:text="@string/overview_fragment_3_bp_3_text"
+                    android:textAlignment="textStart"
                     android:textColor="@color/white"
                     android:textSize="16sp"/>
 
@@ -159,18 +172,21 @@
 
             <!--Bullet point 4-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_bulletPoint4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_bulletPoint3">
 
                 <TextView
                     android:id="@+id/tv_bp_4_num"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toStartOf="@id/tv_bp_4_text"
                     app:layout_constraintStart_toStartOf="parent"
@@ -183,14 +199,16 @@
 
                 <TextView
                     android:id="@+id/tv_bp_4_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintStart_toEndOf="@id/tv_bp_4_num"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:lineSpacingExtra="5sp"
                     android:text="@string/overview_fragment_3_bp_4_text"
+                    android:textAlignment="textStart"
                     android:textColor="@color/white"
                     android:textSize="16sp"/>
 
@@ -207,9 +225,12 @@
                 android:layout_marginBottom="40dp"
                 android:padding="15dp"
                 android:text="@string/overview_fragment_3_link"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_bulletPoint4" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
