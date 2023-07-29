@@ -32,9 +32,8 @@ import java.util.*
 import kotlin.math.roundToInt
 import kotlin.reflect.jvm.internal.impl.builtins.StandardNames.FqNames
 
-
-// TODO: fix zoom slider not working sometimes
-// TODO: fix bug where artworks aren't assigned orders when PageArtworkFragment isn't exited after rating change
+// TODO: BUG - fix zoom slider not working sometimes
+// TODO: BUG - fix bug where artworks aren't assigned orders when PageArtworkFragment isn't exited after rating change
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null
@@ -729,6 +728,8 @@ class RateFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder
             ) {
                 super.clearView(recyclerView, viewHolder)
+
+                viewModel.artworkSelectedGridReadyToBeUpdated = true
 
                 if (dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
                     viewModel.updateArtworkRatingsDragAndDrop(

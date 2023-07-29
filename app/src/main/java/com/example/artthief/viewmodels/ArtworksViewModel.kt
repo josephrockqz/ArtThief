@@ -62,6 +62,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     private lateinit var _artworkSelectedGrid: ArtThiefArtwork
     val artworkSelectedGrid: ArtThiefArtwork
         get() = _artworkSelectedGrid
+    var artworkSelectedGridReadyToBeUpdated = true
+
 
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)
@@ -168,8 +170,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    // TODO: D&D - dynamically update artwork rating based on dragging and dropping
-    // TODO: D&D - make sure to accommodate for artwork ordering logic when changing rating
     fun updateArtworkRatingsDragAndDrop(
         artworksListGridView: List<ArtThiefArtwork>,
         dragFrom: Int,
@@ -191,9 +191,11 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
                 artworksListGridView[dragTo - 1].rating
             }
         }
+        Log.i("artwork new rating", selectedArtworkNewRating.toString())
 
         val selectedArtworkOldRating = _artworkSelectedGrid.rating
         if (selectedArtworkOldRating == selectedArtworkNewRating) {
+            Log.i("howdy", "rating doesn't change")
             val artworksInSection = mutableListOf<ArtThiefArtwork>()
             for (i in artworksListGridView.indices) {
                 if (artworksListGridView[i].rating == selectedArtworkOldRating) {
@@ -208,15 +210,69 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
                 )
             }
         } else {
-            // TODO: update orders of artworks in old rating section
+            // update orders of artworks in old rating section
             val selectedArtworkOldOrder = _artworkSelectedGrid.order
-            
-            // TODO: update moving artwork rating and order
-            // TODO: update orders of artworks in new rating section
+            artworksListGridView.forEach {
+                if (it.rating == selectedArtworkOldRating && it.order > selectedArtworkOldOrder) {
+                    updateArtwork(
+                        it
+                            .copy(order = it.order - 1)
+                            .asDatabaseModel()
+                    )
+                }
+            }
+            // artwork is being moved up in ranking and/or ordering
+            if (dragFrom > dragTo) {
+                Log.i("howdy", "rating/order increased")
+                val newRating = artworksListGridView[dragTo + 1].rating
+                val newOrder = artworksListGridView[dragTo + 1].order
+                // re-order artworks in new section before assigning selected artwork its new order
+                artworksListGridView.forEach {
+                    if (it.rating == newRating && it.order >= newOrder) {
+                        updateArtwork(
+                            it
+                                .copy(order = it.order + 1)
+                                .asDatabaseModel()
+                        )
+                    }
+                }
+                // update selected artwork rating and order
+                updateArtwork(
+                    _artworkSelectedGrid
+                        .copy(rating = newRating, order = newOrder)
+                        .asDatabaseModel()
+                )
+            }
+            // artwork is being moved down in ranking and/or ordering
+            else {
+                Log.i("howdy", "rating/order decreases")
+                val newRating = artworksListGridView[dragTo - 1].rating
+                val newOrder = artworksListGridView[dragTo - 1].order + 1
+                // re-order artworks in new section before assigning selected artwork its new order
+                artworksListGridView.forEach {
+                    if (it.rating == newRating && it.rating != 0 && it.order >= newOrder) {
+                        updateArtwork(
+                            it
+                                .copy(order = it.order + 1)
+                                .asDatabaseModel()
+                        )
+                    }
+                }
+                // update selected artwork rating and order
+                updateArtwork(
+                    _artworkSelectedGrid
+                        .copy(rating = newRating, order = newOrder)
+                        .asDatabaseModel()
+                )
+            }
         }
     }
 
     fun updateSelectedGridArtwork(artwork: ArtThiefArtwork) {
-        _artworkSelectedGrid = artwork.copy()
+        Log.i("update howdy", artwork.toString())
+        if (artworkSelectedGridReadyToBeUpdated) {
+            _artworkSelectedGrid = artwork.copy()
+            artworkSelectedGridReadyToBeUpdated = false
+        }
     }
 }

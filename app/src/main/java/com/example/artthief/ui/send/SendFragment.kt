@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.artthief.databinding.FragmentSendBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-// TODO: implement send functionality
+// TODO: SEND - implement send functionality
 class SendFragment : Fragment() {
 
     private val viewModel: ArtworksViewModel by activityViewModels()
