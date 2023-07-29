@@ -26,77 +26,107 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/tv_directions"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_top"
-        android:layout_margin="20dp"
-        android:text="@string/send_fragment_directions"
-        android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
-    <RelativeLayout
-        android:id="@+id/rl_input_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_directions"
-        android:layout_marginHorizontal="20dp"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="50dp"
-        android:background="@drawable/send_input_box_background">
-
-        <TextView
-            android:id="@+id/tv_input_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@string/send_fragment_input_header"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:id="@+id/et_input_text"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_input_header"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/send_edit_text_background"
-            android:hint="@string/send_fragment_input_hint"
-            android:inputType="text|textNoSuggestions"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="10dp"/>
+            android:layout_height="wrap_content">
 
-        <android.widget.Button
-            android:id="@+id/b_send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_below="@id/et_input_text"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/send_button_background"
-            android:elevation="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="20dp"
-            android:paddingHorizontal="30dp"
-            android:paddingVertical="5dp"
-            android:text="@string/send_fragment_button_text"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_directions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/send_fragment_directions"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_input_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_directions"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="50dp"
+                android:background="@drawable/send_input_box_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_directions">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_input_box"
-        android:layout_margin="20dp"
-        android:text="@string/send_fragment_disclaimer"
-        android:textColor="@color/white"
-        android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/tv_input_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/send_fragment_input_header"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/et_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_input_header"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/send_edit_text_background"
+                    android:hint="@string/send_fragment_input_hint"
+                    android:inputType="text|textNoSuggestions"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="10dp"/>
+
+                <android.widget.Button
+                    android:id="@+id/b_send_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/et_input_text"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/send_button_background"
+                    android:elevation="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="5dp"
+                    android:text="@string/send_fragment_button_text"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_disclaimer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_input_box"
+                android:layout_margin="20dp"
+                android:text="@string/send_fragment_disclaimer"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rl_input_box"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_disclaimer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

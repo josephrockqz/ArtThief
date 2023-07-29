@@ -12,7 +12,6 @@ import com.example.artthief.R
 import com.example.artthief.databinding.ActivityMainBinding
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-// TODO: landscape mode - fix send tab
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: ArtworksViewModel by viewModels()
