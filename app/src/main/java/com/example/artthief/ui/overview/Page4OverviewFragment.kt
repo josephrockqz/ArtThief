@@ -36,6 +36,34 @@ class Page4OverviewFragment : Fragment() {
             false
         )
 
+        setLayoutMarginParams()
+
+        val orientation = activity?.resources?.configuration?.orientation
+        if (orientation == 1) {
+            binding.easel.visibility = View.VISIBLE
+            binding.ivHighestRatedArtwork.visibility = View.VISIBLE
+            viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
+                if (it.image_large != String()) {
+                    Picasso
+                        .get()
+                        .load(it.image_large)
+                        .into(binding.ivHighestRatedArtwork)
+                }
+            }
+        } else {
+            binding.easel.visibility = View.GONE
+            binding.ivHighestRatedArtwork.visibility = View.GONE
+        }
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setLayoutMarginParams() {
         val highestRatedArtwork = binding.ivHighestRatedArtwork
         val highestRatedArtworkLayoutParams = highestRatedArtwork.layoutParams as ViewGroup.MarginLayoutParams
         highestRatedArtworkLayoutParams.setMargins(
@@ -53,21 +81,5 @@ class Page4OverviewFragment : Fragment() {
             0,
             dpToPixels(resources.displayMetrics.density, BURGLAR_BOTTOM_MARGIN)
         )
-
-        viewModel.highestRatedArtworkUrl.observe(viewLifecycleOwner) {
-            if (it.image_large != String()) {
-                Picasso
-                    .get()
-                    .load(it.image_large)
-                    .into(binding.ivHighestRatedArtwork)
-            }
-        }
-
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
