@@ -8,6 +8,7 @@ import com.example.artthief.database.asDomainModel
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.defaultArtThiefArtwork
 import com.example.artthief.network.ArtThiefNetwork
+import com.example.artthief.network.NetworkListData
 import com.example.artthief.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -76,8 +77,21 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
 
     override suspend fun refreshArtworks() {
         withContext(Dispatchers.IO) {
-            val artworkList = ArtThiefNetwork.artThiefArtworks.getArtworkList("fb56a1e6-ee06-4911-ad33-c35c298fddbd")
-            database.artworkDao.insertAll(artworkList.asDatabaseModel())
+            val artworkList = ArtThiefNetwork
+                .artThiefArtworks
+                .getArtworkList("fb56a1e6-ee06-4911-ad33-c35c298fddbd")
+
+            database
+                .artworkDao
+                .insertAll(artworkList.asDatabaseModel())
+        }
+    }
+
+    override suspend fun sendArtworkList(listData: NetworkListData) {
+        withContext(Dispatchers.IO) {
+            ArtThiefNetwork
+                .artThiefArtworks
+                .postArtworkList(listData)
         }
     }
 

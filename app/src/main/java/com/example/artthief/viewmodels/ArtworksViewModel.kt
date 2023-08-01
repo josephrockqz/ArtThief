@@ -7,7 +7,7 @@ import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
-import com.example.artthief.domain.defaultArtThiefArtwork
+import com.example.artthief.network.NetworkListData
 import com.example.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -73,6 +73,14 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             try {
                 artworksRepo.refreshArtworks()
+            } catch (_: IOException) { }
+        }
+    }
+
+    fun sendArtworkList(listData: NetworkListData) {
+        viewModelScope.launch {
+            try {
+                artworksRepo.sendArtworkList(listData)
             } catch (_: IOException) { }
         }
     }
@@ -175,11 +183,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         dragFrom: Int,
         dragTo: Int,
     ) {
-        Log.i("drag from", dragFrom.toString())
-        Log.i("drag to", dragTo.toString())
-        Log.i("selected artwork", _artworkSelectedGrid.toString())
-        Log.i("grid artworks", artworksListGridView.toString())
-
         val selectedArtworkNewRating = if (dragTo == 0) {
             artworksListGridView[1].rating
         } else if (dragTo == artworksListGridView.size - 1) {
@@ -191,11 +194,9 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
                 artworksListGridView[dragTo - 1].rating
             }
         }
-        Log.i("artwork new rating", selectedArtworkNewRating.toString())
 
         val selectedArtworkOldRating = _artworkSelectedGrid.rating
         if (selectedArtworkOldRating == selectedArtworkNewRating) {
-            Log.i("howdy", "rating doesn't change")
             val artworksInSection = mutableListOf<ArtThiefArtwork>()
             for (i in artworksListGridView.indices) {
                 if (artworksListGridView[i].rating == selectedArtworkOldRating) {
@@ -223,7 +224,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
             }
             // artwork is being moved up in ranking and/or ordering
             if (dragFrom > dragTo) {
-                Log.i("howdy", "rating/order increased")
                 val newRating = artworksListGridView[dragTo + 1].rating
                 val newOrder = artworksListGridView[dragTo + 1].order
                 // re-order artworks in new section before assigning selected artwork its new order
@@ -245,7 +245,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
             }
             // artwork is being moved down in ranking and/or ordering
             else {
-                Log.i("howdy", "rating/order decreases")
                 val newRating = artworksListGridView[dragTo - 1].rating
                 val newOrder = artworksListGridView[dragTo - 1].order + 1
                 // re-order artworks in new section before assigning selected artwork its new order
@@ -269,7 +268,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun updateSelectedGridArtwork(artwork: ArtThiefArtwork) {
-        Log.i("update howdy", artwork.toString())
         if (artworkSelectedGridReadyToBeUpdated) {
             _artworkSelectedGrid = artwork.copy()
             artworkSelectedGridReadyToBeUpdated = false

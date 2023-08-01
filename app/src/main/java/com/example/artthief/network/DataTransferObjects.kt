@@ -1,6 +1,7 @@
 package com.example.artthief.network
 
 import com.example.artthief.database.DatabaseArtwork
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
@@ -68,3 +69,11 @@ fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
         )
     }
 }
+
+@JsonClass(generateAdapter = true)
+data class NetworkListData(
+    @Json(name = "artworks")
+    val artworks: List<Int>,
+    @Json(name = "patronCode")
+    val codeName: String
+)

@@ -1,14 +1,20 @@
 package com.example.artthief.ui.send
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.artthief.databinding.FragmentSendBinding
+import com.example.artthief.domain.ArtThiefArtwork
+import com.example.artthief.network.NetworkListData
 import com.example.artthief.viewmodels.ArtworksViewModel
 
-// TODO: SEND - implement send functionality
 class SendFragment : Fragment() {
+
+    companion object {
+        private const val BASE_URL = "https://api.example.com"
+    }
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
@@ -28,20 +34,20 @@ class SendFragment : Fragment() {
             false
         )
 
-        // make title centered
-        binding
-            .sendFragmentAppBar
-            .isTitleCentered = true
+        binding.sendFragmentAppBar.isTitleCentered = true
 
         viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
-            val artworksWithoutUnratedDeletedTaken = artworks.filter { artwork ->
+            val artworksNotUnratedDeletedTaken = artworks.filter { artwork ->
                 artwork.rating != 0 && !artwork.taken && !artwork.deleted
             }
-            val numArtworks = artworksWithoutUnratedDeletedTaken.size
+            val numArtworks = artworksNotUnratedDeletedTaken.size
             val buttonText = "Send $numArtworks Artworks"
-            binding
-                .bSendButton
-                .text = buttonText
+            binding.bSendButton.apply {
+                text = buttonText
+                setOnClickListener {
+                    sendArtworksPostRequest(artworksNotUnratedDeletedTaken)
+                }
+            }
         }
 
         return binding.root
@@ -50,5 +56,19 @@ class SendFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // TODO: SEND - finish implementing
+    private fun sendArtworksPostRequest(artworks: List<ArtThiefArtwork>) {
+        val codeName = binding
+            .etInputText
+            .text
+            .toString()
+        Log.i("code name", codeName)
+        val listData = NetworkListData(
+            artworks = listOf(),
+            codeName = codeName
+        )
+        viewModel.sendArtworkList(listData)
     }
 }

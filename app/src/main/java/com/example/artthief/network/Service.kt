@@ -1,9 +1,9 @@
 package com.example.artthief.network
 
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * If more services are needed, split into multiple files
@@ -16,6 +16,10 @@ import retrofit2.http.Query
 interface ArtThiefService {
     @GET("artwork")
     suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
+
+    @Headers("Content-Type: application/json")
+    @POST("send")
+    suspend fun postArtworkList(@Body listData: NetworkListData): Response<NetworkListData>
 }
 
 /**
