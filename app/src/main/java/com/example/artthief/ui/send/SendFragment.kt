@@ -7,14 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.artthief.databinding.FragmentSendBinding
 import com.example.artthief.domain.ArtThiefArtwork
-import com.example.artthief.network.NetworkListData
+import com.example.artthief.network.NetworkArtworkPreferenceList
 import com.example.artthief.viewmodels.ArtworksViewModel
 
 class SendFragment : Fragment() {
-
-    companion object {
-        private const val BASE_URL = "https://api.example.com"
-    }
 
     private val viewModel: ArtworksViewModel by activityViewModels()
 
@@ -58,17 +54,23 @@ class SendFragment : Fragment() {
         _binding = null
     }
 
-    // TODO: SEND - finish implementing
+    // TODO: SEND - get POST request to successfully go through
+    // TODO: SEND - clean up log statements
     private fun sendArtworksPostRequest(artworks: List<ArtThiefArtwork>) {
         val codeName = binding
             .etInputText
             .text
             .toString()
         Log.i("code name", codeName)
-        val listData = NetworkListData(
-            artworks = listOf(),
-            codeName = codeName
+        Log.i("artworks", artworks.toString())
+        val artworkIdsInPreferenceOrder = artworks.map {
+            it.artThiefID
+        }
+        Log.i("artwork ids", artworkIdsInPreferenceOrder.toString())
+        val artworks = NetworkArtworkPreferenceList(
+            artworks = artworkIdsInPreferenceOrder
         )
-        viewModel.sendArtworkList(listData)
+        Log.i("artwork ids class", artworks.toString())
+        viewModel.sendArtworkList(codeName, artworks)
     }
 }

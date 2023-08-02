@@ -8,7 +8,7 @@ import com.example.artthief.database.asDomainModel
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.defaultArtThiefArtwork
 import com.example.artthief.network.ArtThiefNetwork
-import com.example.artthief.network.NetworkListData
+import com.example.artthief.network.NetworkArtworkPreferenceList
 import com.example.artthief.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,6 +17,10 @@ import kotlinx.coroutines.withContext
  * Repository for fetching Art Thief artwork from the network and storing them on disk
  */
 class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
+
+    companion object {
+        private const val PASSCODE = "fb56a1e6-ee06-4911-ad33-c35c298fddbd"
+    }
 
     override val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
@@ -79,7 +83,7 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         withContext(Dispatchers.IO) {
             val artworkList = ArtThiefNetwork
                 .artThiefArtworks
-                .getArtworkList("fb56a1e6-ee06-4911-ad33-c35c298fddbd")
+                .getArtworkList(PASSCODE)
 
             database
                 .artworkDao
@@ -87,11 +91,18 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         }
     }
 
-    override suspend fun sendArtworkList(listData: NetworkListData) {
+    override suspend fun sendArtworkList(
+        codeName: String,
+        artworkList: NetworkArtworkPreferenceList
+    ) {
         withContext(Dispatchers.IO) {
             ArtThiefNetwork
                 .artThiefArtworks
-                .postArtworkList(listData)
+                .postArtworkList(
+                    codeName,
+                    PASSCODE,
+                    artworkList
+                )
         }
     }
 

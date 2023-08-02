@@ -18,8 +18,12 @@ interface ArtThiefService {
     suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
 
     @Headers("Content-Type: application/json")
-    @POST("send")
-    suspend fun postArtworkList(@Body listData: NetworkListData): Response<NetworkListData>
+    @POST("user/{codeName}/selections")
+    suspend fun postArtworkList(
+        @Path("codeName") codeName: String,
+        @Query("passcode") passcode: String,
+        @Body artworkList: NetworkArtworkPreferenceList
+    ): Response<NetworkArtworkPreferenceList>
 }
 
 /**

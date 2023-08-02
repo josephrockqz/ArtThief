@@ -1,13 +1,12 @@
 package com.example.artthief.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.getDatabase
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.asDatabaseModel
-import com.example.artthief.network.NetworkListData
+import com.example.artthief.network.NetworkArtworkPreferenceList
 import com.example.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -77,10 +76,13 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun sendArtworkList(listData: NetworkListData) {
+    fun sendArtworkList(
+        codeName: String,
+        artworkList: NetworkArtworkPreferenceList
+    ) {
         viewModelScope.launch {
             try {
-                artworksRepo.sendArtworkList(listData)
+                artworksRepo.sendArtworkList(codeName, artworkList)
             } catch (_: IOException) { }
         }
     }

@@ -71,9 +71,7 @@ fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
 }
 
 @JsonClass(generateAdapter = true)
-data class NetworkListData(
+data class NetworkArtworkPreferenceList(
     @Json(name = "artworks")
-    val artworks: List<Int>,
-    @Json(name = "patronCode")
-    val codeName: String
+    val artworks: List<Int>
 )

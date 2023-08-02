@@ -3,7 +3,7 @@ package com.example.artthief.repository
 import androidx.lifecycle.LiveData
 import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.domain.ArtThiefArtwork
-import com.example.artthief.network.NetworkListData
+import com.example.artthief.network.NetworkArtworkPreferenceList
 
 interface ArtworksRepo {
 
@@ -25,7 +25,10 @@ interface ArtworksRepo {
 
     suspend fun refreshArtworks()
 
-    suspend fun sendArtworkList(listData: NetworkListData)
+    suspend fun sendArtworkList(
+        codeName: String,
+        artworkList: NetworkArtworkPreferenceList
+    )
 
     suspend fun updateArtwork(artwork: DatabaseArtwork)
 }
