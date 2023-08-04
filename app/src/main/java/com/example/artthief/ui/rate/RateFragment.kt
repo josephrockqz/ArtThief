@@ -30,10 +30,8 @@ import com.example.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import com.example.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.reflect.jvm.internal.impl.builtins.StandardNames.FqNames
 
 // TODO: BUG - fix zoom slider not working sometimes (possible solution: explicitly close slider each time grid view is exited)
-// TODO: BUG - fix bug where artworks aren't assigned orders when PageArtworkFragment isn't exited after rating change (possible solution: some view model field needs to be updated inside PageArtworkFragment)
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null

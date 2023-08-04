@@ -143,6 +143,9 @@ class PageArtworkFragment(
                 oldRating
             )
         }
+        viewModel.artworksLive.observe(viewLifecycleOwner) { artworks ->
+            viewModel.setArtworkList(artworks)
+        }
     }
 
     private fun setStarDrawables(rating: Int) {

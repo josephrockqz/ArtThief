@@ -58,7 +58,10 @@ class CompareFragment : Fragment() {
 
         sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
-            Log.i("section artworks", it.toString())
+            Log.i("section artworks", "section artworks")
+            it.forEach { compareArtwork ->
+                Log.i("compare artwork", compareArtwork.toString())
+            }
 
             for (i in it.indices) {
                 viewModel.artworkSectionCompareTotalNumComparisonsForCompletion += i

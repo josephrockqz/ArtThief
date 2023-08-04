@@ -86,7 +86,6 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
 
             artworkList.forEach {
                 // for each artwork received from network GET request,
-                Log.i("artwork ID", it.artThiefID.toString())
                 // retrieve artwork entry from database (if it exists),
                 val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
                 if (databaseArtworkEntry == null) {
@@ -94,7 +93,6 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
                         .artworkDao
                         .insert(networkArtworkToDatabaseArtwork(it))
                 } else {
-                    Log.i("howdy", databaseArtworkEntry.toString())
                     // then see if the `taken` status differs between network and database,
                     if (databaseArtworkEntry.taken != it.taken) {
                         // if so, update database entry to reflect new result from network request
