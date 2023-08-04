@@ -15,6 +15,7 @@ import com.google.ar.core.Config.InstantPlacementMode
 import com.google.ar.core.Session
 import com.google.ar.core.exceptions.*
 
+// TODO: AR - implement custom toolbar with back button to close ArActivity
 class ArActivity : AppCompatActivity() {
 
     companion object {

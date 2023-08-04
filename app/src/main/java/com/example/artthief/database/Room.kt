@@ -9,11 +9,13 @@ interface ArtworksDao {
     @Query("select * from databaseArtwork")
     fun getArtworks(): LiveData<List<DatabaseArtwork>>
 
+    @Query("select * from databaseArtwork where artThiefID = :artThiefID")
+    fun getArtworkById(artThiefID: Int): DatabaseArtwork
+
     /**
      * On conflict strategy is ignore. This way, if an artwork has already been given
      * a rating, its rating will not be lost
      */
-    // TODO: update logic so that if an artwork has been changed to TAKEN by another user, it is updated locally and its rating is kept
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(
         artworks: List<DatabaseArtwork>

@@ -1,5 +1,6 @@
 package com.example.artthief.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.artthief.database.ArtworksDatabase
@@ -7,9 +8,7 @@ import com.example.artthief.database.DatabaseArtwork
 import com.example.artthief.database.asDomainModel
 import com.example.artthief.domain.ArtThiefArtwork
 import com.example.artthief.domain.defaultArtThiefArtwork
-import com.example.artthief.network.ArtThiefNetwork
-import com.example.artthief.network.NetworkArtworkPreferenceList
-import com.example.artthief.network.asDatabaseModel
+import com.example.artthief.network.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -85,9 +84,31 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
                 .artThiefArtworks
                 .getArtworkList(PASSCODE)
 
-            database
-                .artworkDao
-                .insertAll(artworkList.asDatabaseModel())
+            artworkList.forEach {
+                // for each artwork received from network GET request,
+                Log.i("artwork ID", it.artThiefID.toString())
+                // retrieve artwork entry from database (if it exists),
+                val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
+                if (databaseArtworkEntry == null) {
+                    database
+                        .artworkDao
+                        .insert(networkArtworkToDatabaseArtwork(it))
+                } else {
+                    Log.i("howdy", databaseArtworkEntry.toString())
+                    // then see if the `taken` status differs between network and database,
+                    if (databaseArtworkEntry.taken != it.taken) {
+                        // if so, update database entry to reflect new result from network request
+                        database
+                            .artworkDao
+                            .insert(
+                                updateArtworkTakenStatus(
+                                    it.taken,
+                                    databaseArtworkEntry
+                                )
+                            )
+                    }
+                }
+            }
         }
     }
 
