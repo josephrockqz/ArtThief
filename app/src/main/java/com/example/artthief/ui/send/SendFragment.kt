@@ -54,23 +54,19 @@ class SendFragment : Fragment() {
         _binding = null
     }
 
-    // TODO: SEND - get POST request to successfully go through
-    // TODO: SEND - clean up log statements
     private fun sendArtworksPostRequest(artworks: List<ArtThiefArtwork>) {
         val codeName = binding
             .etInputText
             .text
             .toString()
-        Log.i("code name", codeName)
-        Log.i("artworks", artworks.toString())
         val artworkIdsInPreferenceOrder = artworks.map {
             it.artThiefID
         }
-        Log.i("artwork ids", artworkIdsInPreferenceOrder.toString())
-        val artworks = NetworkArtworkPreferenceList(
-            artworks = artworkIdsInPreferenceOrder
+        viewModel.sendArtworkList(
+            codeName,
+            NetworkArtworkPreferenceList(
+                artworks = artworkIdsInPreferenceOrder
+            )
         )
-        Log.i("artwork ids class", artworks.toString())
-        viewModel.sendArtworkList(codeName, artworks)
     }
 }
