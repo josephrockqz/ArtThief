@@ -15,7 +15,6 @@ import com.google.ar.core.Config.InstantPlacementMode
 import com.google.ar.core.Session
 import com.google.ar.core.exceptions.*
 
-// TODO: AR - implement custom back button
 class ArActivity : AppCompatActivity() {
 
     companion object {

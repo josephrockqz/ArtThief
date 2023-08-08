@@ -15,22 +15,6 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
 
     val root: View = View.inflate(activity, R.layout.activity_ar, null)
     val surfaceView: GLSurfaceView = root.findViewById<GLSurfaceView>(R.id.surfaceView)
-    val settingsButton =
-        root.findViewById<ImageButton>(R.id.ib_arInfoButton).apply {
-            setOnClickListener { v ->
-                PopupMenu(activity, v).apply {
-                    setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.point_cloud -> launchPointCloudSettingsMenuDialog()
-                            R.id.vertical_plane_info -> launchVerticalPlaneDetectionInfoDialog()
-                            else -> null
-                        } != null
-                    }
-                    inflate(R.menu.augmented_settings_menu)
-                    show()
-                }
-            }
-        }
 
     val session
         get() = activity.arCoreSessionHelper.session
@@ -38,12 +22,45 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
     val snackbarHelper = SnackbarHelper()
     val tapHelper = TapHelper(activity).also { surfaceView.setOnTouchListener(it) }
 
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+        configureButtonClickListeners()
+    }
+
     override fun onResume(owner: LifecycleOwner) {
         surfaceView.onResume()
     }
 
     override fun onPause(owner: LifecycleOwner) {
         surfaceView.onPause()
+    }
+
+    private fun configureButtonClickListeners() {
+        val backButton = root.findViewById<ImageButton>(R.id.ib_arBackButton)
+        backButton.apply {
+            setOnClickListener {
+                activity.finish()
+            }
+        }
+
+        val settingsButton = root.findViewById<ImageButton>(R.id.ib_arInfoButton)
+        settingsButton.apply {
+            root.findViewById<ImageButton>(R.id.ib_arInfoButton).apply {
+                setOnClickListener { v ->
+                    PopupMenu(activity, v).apply {
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.point_cloud -> launchPointCloudSettingsMenuDialog()
+                                R.id.vertical_plane_info -> launchVerticalPlaneDetectionInfoDialog()
+                                else -> null
+                            } != null
+                        }
+                        inflate(R.menu.augmented_settings_menu)
+                        show()
+                    }
+                }
+            }
+        }
     }
 
     private fun launchPointCloudSettingsMenuDialog() {
