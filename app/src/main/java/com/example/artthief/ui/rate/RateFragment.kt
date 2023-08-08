@@ -31,6 +31,7 @@ import com.example.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
 
+// TODO: BUG - fix grid view drag and drop functionality
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null

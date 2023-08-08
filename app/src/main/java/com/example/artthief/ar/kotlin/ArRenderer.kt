@@ -196,8 +196,8 @@ class ArRenderer(
                     Texture.ColorFormat.SRGB
                 )
 
-            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork.obj")
-//            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork2.obj")
+//            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork.obj")
+            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork2.obj")
             virtualObjectShader =
                 Shader.createFromAssets(
                     render,
@@ -351,11 +351,10 @@ class ArRenderer(
             // during calls to session.update() as ARCore refines its estimate of the world.
             anchor.pose.toMatrix(modelMatrix, 0)
 
-            // TODO: AR - figure out virtual artwork object placement: 1) change artwork2 vn values, 2) Matrix rotations
+            // TODO: AR - figure out virtual artwork object placement
             // Calculate model/view/projection matrices
             Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0)
             Matrix.multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0)
-//            Matrix.rotateM(FloatArray(16), 0, 90.0F, 0f, 1f, 0f)
 
             // Update shader properties and draw
             virtualObjectShader.setMat4("u_ModelView", modelViewMatrix)
