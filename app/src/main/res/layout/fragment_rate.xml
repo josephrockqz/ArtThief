@@ -65,7 +65,7 @@
             android:orientation="horizontal"
             android:padding="25dp"
             android:translationZ="2dp"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <SeekBar
                 android:id="@+id/sb_zoomSlider"

@@ -31,7 +31,6 @@ import com.example.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
 
-// TODO: BUG - fix zoom slider not working sometimes (possible solution: explicitly close slider each time grid view is exited)
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null
@@ -90,6 +89,9 @@ class RateFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.sbZoomSlider.visibility = View.GONE
+        binding.llZoomSliderContainer.visibility = View.GONE
+        binding.ivSliderXButton.visibility = View.GONE
         _binding = null
     }
 
@@ -273,17 +275,10 @@ class RateFragment : Fragment() {
     private fun configureZoomSlider() {
         when (getDisplayTypeState()) {
             "list" -> {
-//                binding.llZoomSliderContainer.visibility = View.INVISIBLE
                 toggleGridZoomSlider(false)
             }
             "grid" -> {
-                if (getZoomSliderVisibility()) {
-                    toggleGridZoomSlider(true)
-//                    binding.llZoomSliderContainer.visibility = View.VISIBLE
-                } else {
-                    toggleGridZoomSlider(false)
-//                    binding.llZoomSliderContainer.visibility = View.INVISIBLE
-                }
+                toggleGridZoomSlider(getZoomSliderVisibility())
                 binding.sbZoomSlider.progress = getZoomLevel() - 1
             }
         }
@@ -358,22 +353,7 @@ class RateFragment : Fragment() {
                     putInt("zoom_level", updatedNumColumns)
                     apply()
                 }
-                viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
-                    artworks?.apply {
-                        val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                        val artworksFilterGridView = filterGridView(artworksFilterTakenAndDeleted)
-                        gridView.apply {
-                            artworkGridAdapter = ArtworkGridAdapter(
-                                artworks = artworks,
-                                artworkImageSize = calculateGridViewImageSize(updatedNumColumns)
-                            )
-                            adapter = artworkGridAdapter
-                            layoutManager = GridLayoutManager(context, updatedNumColumns)
-                        }
-                        val itemTouchHelper = configureDragHelper(artworksFilterGridView)
-                        itemTouchHelper.attachToRecyclerView(gridView)
-                    }
-                }
+                refreshRateFragment()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 // No-Op
@@ -387,11 +367,6 @@ class RateFragment : Fragment() {
     private fun setZoomSliderCancelButtonListener() {
         binding.ivSliderXButton.setOnClickListener {
             toggleGridZoomSlider(false)
-//            binding.llZoomSliderContainer.visibility = View.INVISIBLE
-//            with (sharedPreferences.edit()) {
-//                putBoolean("show_zoom_slider", false)
-//                apply()
-//            }
         }
     }
 
@@ -404,7 +379,6 @@ class RateFragment : Fragment() {
             recyclerView.visibility = View.VISIBLE
             gridView.visibility = View.INVISIBLE
             toggleGridZoomSlider(false)
-//            binding.llZoomSliderContainer.visibility = View.INVISIBLE
             toolbar.menu[0].icon = resources.getDrawable(R.drawable.ic_list_teal_24dp)
             toolbar.menu[0].subMenu?.get(0)?.isChecked = true
             toolbar.menu[0].subMenu?.get(1)?.isChecked = false
@@ -543,10 +517,8 @@ class RateFragment : Fragment() {
         if (enable) {
             binding.llZoomSliderContainer.bringToFront()
             binding.llZoomSliderContainer.visibility = View.VISIBLE
-            setZoomSliderCancelButtonListener()
-            setZoomSliderChangeListener()
         } else {
-            binding.llZoomSliderContainer.visibility = View.INVISIBLE
+            binding.llZoomSliderContainer.visibility = View.GONE
         }
         with (sharedPreferences.edit()) {
             putBoolean("show_zoom_slider", enable)
