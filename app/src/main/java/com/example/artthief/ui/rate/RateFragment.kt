@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.view.get
@@ -31,7 +30,6 @@ import com.example.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
 
-// TODO: BUG - fix grid view drag and drop functionality
 class RateFragment : Fragment() {
 
     private var _binding: FragmentRateBinding? = null
@@ -712,6 +710,8 @@ class RateFragment : Fragment() {
 
                 dragFrom = -1
                 dragTo = -1
+
+                refreshRateFragment()
             }
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No-Op
