@@ -68,6 +68,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:text="@string/rate_fragment_unrated"
+            android:textColor="@color/artwork_unrated_text"
             android:visibility="gone"/>
 
         <!--Compare button-->

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:id="@+id/art_card_view"
-    card_view:cardBackgroundColor="?attr/colorOnPrimary"
+    card_view:cardBackgroundColor="@color/white"
     android:foreground="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true">

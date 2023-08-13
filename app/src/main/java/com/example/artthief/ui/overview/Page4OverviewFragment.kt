@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.artthief.databinding.FragmentOverviewPage4Binding
 import com.example.artthief.ui.overview.OverviewFragment.Companion.BURGLAR_BOTTOM_MARGIN
-import com.example.artthief.common.dpToPixels
+import com.example.artthief.utils.dpToPixels
 import com.example.artthief.viewmodels.ArtworksViewModel
 import com.squareup.picasso.Picasso
 

@@ -17,15 +17,17 @@
     <color name="artwork_card_background">#EEEEEE</color>
     <color name="artwork_card_right_text">#787878</color>
     <color name="artwork_unfilled_star">#CBCACA</color>
+    <color name="artwork_unrated_text">#818181</color>
 
     <color name="toolbar_bottom_border">#808080</color>
 
     <color name="link_background">#666666</color>
     <color name="link_background_hover">#7A807D</color>
 
-    <color name="send_button_background">#3E8076</color>
     <color name="compare_button_background">#DFDFDF</color>
     <color name="compare_button_text">#818181</color>
-
     <color name="compare_image_background">#DFDFDF</color>
+
+    <color name="send_edit_text_hint">#787878</color>
+    <color name="send_button_background">#3E8076</color>
 </resources>
