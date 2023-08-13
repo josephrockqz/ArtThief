@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_overview"
-        android:name="com.example.artthief.ui.overview.OverviewFragment"
+        android:name="com.joerock.artthief.ui.overview.OverviewFragment"
         android:label="@string/title_overview"
         tools:layout="@layout/fragment_overview" />
 
     <fragment
         android:id="@+id/navigation_rate"
-        android:name="com.example.artthief.ui.rate.RateFragment"
+        android:name="com.joerock.artthief.ui.rate.RateFragment"
         android:label="@string/title_rate"
         tools:layout="@layout/fragment_rate">
 
@@ -30,7 +30,7 @@
     <!--Artwork fragment: NOT part of app bar configuration-->
     <fragment
         android:id="@+id/navigation_artwork"
-        android:name="com.example.artthief.ui.rate.ArtworkFragment"
+        android:name="com.joerock.artthief.ui.rate.ArtworkFragment"
         android:label="@string/title_artwork"
         tools:layout="@layout/fragment_artwork">
 
@@ -43,7 +43,7 @@
     <!--Compare fragment: NOT part of app bar configuration-->
     <fragment
         android:id="@+id/navigation_compare"
-        android:name="com.example.artthief.ui.rate.CompareFragment"
+        android:name="com.joerock.artthief.ui.rate.CompareFragment"
         android:label="@string/title_compare"
         tools:layout="@layout/fragment_compare">
 
@@ -60,7 +60,7 @@
     <!--Compare settings fragment: NOT part of app bar configuration-->
     <fragment
         android:id="@+id/navigation_compareSettings"
-        android:name="com.example.artthief.ui.rate.CompareSettingsFragment"
+        android:name="com.joerock.artthief.ui.rate.CompareSettingsFragment"
         android:label="@string/compare_art_settings_title"
         tools:layout="@layout/fragment_compare_settings">
 
@@ -72,13 +72,13 @@
 
     <fragment
         android:id="@+id/navigation_augmented"
-        android:name="com.example.artthief.ui.augmented.AugmentedFragment"
+        android:name="com.joerock.artthief.ui.augmented.AugmentedFragment"
         android:label="@string/title_augmented"
         tools:layout="@layout/fragment_augmented" />
 
     <fragment
         android:id="@+id/navigation_send"
-        android:name="com.example.artthief.ui.send.SendFragment"
+        android:name="com.joerock.artthief.ui.send.SendFragment"
         android:label="@string/title_send"
         tools:layout="@layout/fragment_send" />
 </navigation>

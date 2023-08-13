@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.artthief'
+    namespace 'com.joerock.artthief'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.artthief"
+        applicationId "com.joerock.artthief"
         minSdk 24
         targetSdk 33
         versionCode 1
