@@ -6,30 +6,14 @@ import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.artthief.R
-import com.google.ar.core.Anchor
-import com.google.ar.core.Camera
-import com.google.ar.core.DepthPoint
-import com.google.ar.core.Frame
-import com.google.ar.core.InstantPlacementPoint
-import com.google.ar.core.LightEstimate
-import com.google.ar.core.Plane
-import com.google.ar.core.Point
-import com.google.ar.core.Session
-import com.google.ar.core.Trackable
-import com.google.ar.core.TrackingFailureReason
-import com.google.ar.core.TrackingState
 import com.example.artthief.ar.java.common.helpers.DisplayRotationHelper
 import com.example.artthief.ar.java.common.helpers.TrackingStateHelper
-import com.example.artthief.ar.java.common.samplerender.Framebuffer
-import com.example.artthief.ar.java.common.samplerender.GLError
+import com.example.artthief.ar.java.common.samplerender.*
 import com.example.artthief.ar.java.common.samplerender.Mesh
-import com.example.artthief.ar.java.common.samplerender.SampleRender
-import com.example.artthief.ar.java.common.samplerender.Shader
-import com.example.artthief.ar.java.common.samplerender.Texture
-import com.example.artthief.ar.java.common.samplerender.VertexBuffer
 import com.example.artthief.ar.java.common.samplerender.arcore.BackgroundRenderer
 import com.example.artthief.ar.java.common.samplerender.arcore.PlaneRenderer
 import com.example.artthief.ar.java.common.samplerender.arcore.SpecularCubemapFilter
+import com.google.ar.core.*
 import com.google.ar.core.exceptions.CameraNotAvailableException
 import com.google.ar.core.exceptions.NotYetAvailableException
 import java.io.IOException
@@ -196,8 +180,7 @@ class ArRenderer(
                     Texture.ColorFormat.SRGB
                 )
 
-//            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork.obj")
-            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork2.obj")
+            virtualObjectMesh = Mesh.createFromAsset(render, "models/artwork.obj")
             virtualObjectShader =
                 Shader.createFromAssets(
                     render,
@@ -351,7 +334,9 @@ class ArRenderer(
             // during calls to session.update() as ARCore refines its estimate of the world.
             anchor.pose.toMatrix(modelMatrix, 0)
 
-            // TODO: AR - figure out virtual artwork object placement
+            Matrix.rotateM(modelMatrix, 0, 90f, 90f, 0f, 0f)
+            Matrix.rotateM(modelMatrix, 0, 180f, 0f, 0f, 180f)
+
             // Calculate model/view/projection matrices
             Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0)
             Matrix.multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0)
