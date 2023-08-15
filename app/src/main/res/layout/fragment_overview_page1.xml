@@ -20,14 +20,14 @@
             android:layout_height="280dp"
             android:layout_weight="1"
             android:scaleType="fitXY"
-            android:src="@drawable/backgroundleft_1"/>
+            android:src="@drawable/backgroundleft"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="280dp"
             android:layout_weight="1"
             android:scaleType="fitXY"
-            android:src="@drawable/backgroundright_1"/>
+            android:src="@drawable/backgroundright"/>
 
     </LinearLayout>
 
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:scaleType="fitXY"
-        android:src="@drawable/backgroundright_1"
+        android:src="@drawable/backgroundright"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -103,7 +103,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="fitXY"
-        android:src="@drawable/burglar_1"
+        android:src="@drawable/burglar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

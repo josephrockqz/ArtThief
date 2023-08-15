@@ -2,7 +2,6 @@ package com.joerock.artthief.ui.rate
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,11 +57,6 @@ class CompareFragment : Fragment() {
 
         sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
-            Log.i("section artworks", "section artworks")
-            it.forEach { compareArtwork ->
-                Log.i("compare artwork", compareArtwork.toString())
-            }
-
             for (i in it.indices) {
                 viewModel.artworkSectionCompareTotalNumComparisonsForCompletion += i
                 viewModel.artworkSectionCompareMapping[it[i].artThiefID] = mutableListOf()
