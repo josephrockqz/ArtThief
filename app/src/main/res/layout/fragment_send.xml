@@ -20,7 +20,6 @@
             android:layout_height="?attr/actionBarSize"
             app:itemIconTint="@color/teal_200"
             app:itemBackground="@color/teal_200"
-            app:menu="@menu/send_menu"
             app:title="@string/title_send"
             app:titleTextColor="@color/white"
             style="@style/Widget.MaterialComponents.Toolbar.Primary" />
