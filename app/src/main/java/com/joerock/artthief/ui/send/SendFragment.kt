@@ -20,6 +20,8 @@ class SendFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    private var buttonHasBeenClicked = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,30 +45,32 @@ class SendFragment : Fragment() {
             binding.bSendButton.apply {
                 text = buttonText
                 setOnClickListener {
+                    buttonHasBeenClicked = true
                     sendArtworksPostRequest(artworksNotUnratedDeletedTaken)
                 }
             }
         }
 
         viewModel.sendArtworkListResponse.observe(viewLifecycleOwner) { responseBody ->
-            // TODO: SEND - make sure popup doesn't show up unnecessarily when returning to tab
-            when (responseBody.status) {
-                "success" -> {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle(R.string.send_fragment_success_dialog_title)
-                        .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
-                        .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
-                        .show()
-                }
-                "error" -> {
-                    AlertDialog.Builder(requireContext())
-                        .setTitle(responseBody.status)
-                        .setMessage(responseBody.message)
-                        .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
-                        .show()
-                }
-                else -> {
-                    Log.e("SendFragment", "Send POST Request returned a non-success and non-error message")
+            if (buttonHasBeenClicked) {
+                when (responseBody.status) {
+                    "success" -> {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle(R.string.send_fragment_success_dialog_title)
+                            .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
+                            .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
+                            .show()
+                    }
+                    "error" -> {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle(responseBody.status)
+                            .setMessage(responseBody.message)
+                            .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
+                            .show()
+                    }
+                    else -> {
+                        Log.e("SendFragment", "Send POST Request returned a non-success and non-error message")
+                    }
                 }
             }
         }
