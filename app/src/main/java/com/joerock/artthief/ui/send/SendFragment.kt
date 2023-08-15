@@ -49,22 +49,20 @@ class SendFragment : Fragment() {
         }
 
         viewModel.sendArtworkListResponse.observe(viewLifecycleOwner) { responseBody ->
-            // TODO: handle response from POST request and display appropriate popup (make sure popup doesn't show up unnecessarily when returning to tab)
-            Log.i("responseBody", responseBody.toString())
+            // TODO: SEND - make sure popup doesn't show up unnecessarily when returning to tab
             when (responseBody.status) {
                 "success" -> {
-                    val successMessage = "You successfully sent the list for " + responseBody.message + ". If you change your list you can send it again anytime before the drawing."
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Success!")
-                        .setMessage(successMessage)
-                        .setPositiveButton("Okay") { _, _ -> }
+                        .setTitle(R.string.send_fragment_success_dialog_title)
+                        .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
+                        .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
                         .show()
                 }
                 "error" -> {
                     AlertDialog.Builder(requireContext())
                         .setTitle(responseBody.status)
                         .setMessage(responseBody.message)
-                        .setPositiveButton("Okay") { _, _ -> }
+                        .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
                         .show()
                 }
                 else -> {

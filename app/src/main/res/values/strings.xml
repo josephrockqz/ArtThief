@@ -114,6 +114,9 @@
     <string name="send_fragment_input_hint">Assigned to You</string>
     <string name="send_fragment_button_text">Send _ Artworks</string>
     <string name="send_fragment_disclaimer">Only artwork with one or more stars are sent. You can update and resend your list anytime.</string>
+    <string name="send_fragment_success_dialog_title">Success!</string>
+    <string name="send_fragment_success_dialog_message">You successfully sent the list for %1$s. If you change your list you can send it again anytime before the drawing.</string>
+    <string name="send_fragment_dialog_ok_button_text">Okay</string>
 
     <!--AR activity strings-->
     <string name="searching_planes">Searching for surfaces…</string>
