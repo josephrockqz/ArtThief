@@ -1,14 +1,17 @@
 package com.joerock.artthief.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.joerock.artthief.database.DatabaseArtwork
 import com.joerock.artthief.database.getDatabase
 import com.joerock.artthief.domain.ArtThiefArtwork
 import com.joerock.artthief.domain.asDatabaseModel
+import com.joerock.artthief.network.NetworkArtworkListPostResponse
 import com.joerock.artthief.network.NetworkArtworkPreferenceList
 import com.joerock.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.io.IOException
 
 /**
@@ -63,6 +66,7 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         get() = _artworkSelectedGrid
     var artworkSelectedGridReadyToBeUpdated = true
 
+    var sendArtworkListResponse: MutableLiveData<NetworkArtworkListPostResponse> = MutableLiveData()
 
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)
@@ -82,7 +86,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     ) {
         viewModelScope.launch {
             try {
-                artworksRepo.sendArtworkList(codeName, artworkList)
+                val response = artworksRepo.sendArtworkList(codeName, artworkList)
+                sendArtworkListResponse.value = response.body()
             } catch (_: IOException) { }
         }
     }

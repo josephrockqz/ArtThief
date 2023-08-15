@@ -3,7 +3,9 @@ package com.joerock.artthief.repository
 import androidx.lifecycle.LiveData
 import com.joerock.artthief.database.DatabaseArtwork
 import com.joerock.artthief.domain.ArtThiefArtwork
+import com.joerock.artthief.network.NetworkArtworkListPostResponse
 import com.joerock.artthief.network.NetworkArtworkPreferenceList
+import retrofit2.Response
 
 interface ArtworksRepo {
 
@@ -28,7 +30,7 @@ interface ArtworksRepo {
     suspend fun sendArtworkList(
         codeName: String,
         artworkList: NetworkArtworkPreferenceList
-    )
+    ): Response<NetworkArtworkListPostResponse>
 
     suspend fun updateArtwork(artwork: DatabaseArtwork)
 }

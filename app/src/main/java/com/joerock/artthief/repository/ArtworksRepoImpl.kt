@@ -1,6 +1,5 @@
 package com.joerock.artthief.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.joerock.artthief.database.ArtworksDatabase
@@ -11,6 +10,7 @@ import com.joerock.artthief.domain.defaultArtThiefArtwork
 import com.joerock.artthief.network.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 /**
  * Repository for fetching Art Thief artwork from the network and storing them on disk
@@ -114,8 +114,8 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
     override suspend fun sendArtworkList(
         codeName: String,
         artworkList: NetworkArtworkPreferenceList
-    ) {
-        withContext(Dispatchers.IO) {
+    ): Response<NetworkArtworkListPostResponse> {
+        return withContext(Dispatchers.IO) {
             ArtThiefNetwork
                 .artThiefArtworks
                 .postArtworkList(

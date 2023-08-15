@@ -111,3 +111,13 @@ data class NetworkArtworkPreferenceList(
     @Json(name = "artworks")
     val artworks: List<Int>
 )
+
+@JsonClass(generateAdapter = true)
+data class NetworkArtworkListPostResponse(
+    @Json(name = "status")
+    val status: String,
+    @Json(name = "message")
+    val message: String,
+    @Json(name = "data")
+    val data: List<Int>
+)
