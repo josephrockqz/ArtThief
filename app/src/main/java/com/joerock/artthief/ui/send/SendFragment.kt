@@ -63,7 +63,7 @@ class SendFragment : Fragment() {
                     }
                     "error" -> {
                         AlertDialog.Builder(requireContext())
-                            .setTitle(responseBody.status)
+                            .setTitle(R.string.send_fragment_error_dialog_title)
                             .setMessage(responseBody.message)
                             .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
                             .show()

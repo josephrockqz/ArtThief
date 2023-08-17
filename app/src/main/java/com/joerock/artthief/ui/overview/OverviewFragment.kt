@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.joerock.artthief.databinding.FragmentOverviewBinding
+import com.joerock.artthief.ui.overview.adapter.OverviewPagerAdapter
 
 class OverviewFragment : Fragment() {
 
