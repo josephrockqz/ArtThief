@@ -12,6 +12,7 @@
 
     <ImageButton
         android:id="@+id/ib_arBackButton"
+        android:contentDescription="@string/ar_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -22,6 +23,7 @@
 
     <ImageButton
         android:id="@+id/ib_arInfoButton"
+        android:contentDescription="@string/ar_settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

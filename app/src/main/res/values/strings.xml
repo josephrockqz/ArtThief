@@ -129,4 +129,34 @@
     <string name="vertical_plane_info">Vertical Plane Detection Info</string>
     <string name="vertical_plane_info_description">It is difficult to detect walls and other vertical surfaces with Android phones that don\'t have LiDAR scanners. As a result, you may find difficulty placing artwork in augmented reality mode.\n\nThe best experiences happen when using a wall with complex patterns such as a well-lit brick wall or a wall with pictures on it.</string>
     <string name="done">Done</string>
+
+    <!--Accessibility Content Descriptions-->
+    <string name="art_card_image">Artwork Image</string>
+    <string name="ar_back_button">Back Button</string>
+    <string name="ar_settings_button">Settings Button</string>
+    <string name="artwork_page_artwork_image">Artwork Image</string>
+    <string name="artwork_page_one_star">One Star Rating</string>
+    <string name="artwork_page_two_star">Two Star Rating</string>
+    <string name="artwork_page_three_star">Three Star Rating</string>
+    <string name="artwork_page_four_star">Four Star Rating</string>
+    <string name="artwork_page_five_star">Five Star Rating</string>
+    <string name="compare_page_artwork_1">Image of Artwork 1</string>
+    <string name="compare_page_artwork_2">Image of Artwork 2</string>
+    <string name="augmented_page_wall_background">Image of Wall in Background</string>
+    <string name="augmented_page_artwork_image">Image of highest rated artwork on wall</string>
+    <string name="overview_page_4_background">Image of Wall in background</string>
+    <string name="overview_page_4_easel">Easel for artwork to rest on</string>
+    <string name="overview_page_4_artwork_image">Image of highest rated artwork on easel</string>
+    <string name="overview_page_3_background">Image of Wall in background</string>
+    <string name="overview_page_2_background">Image of Wall in background</string>
+    <string name="overview_page_1_background">Image of Wall in background</string>
+    <string name="overview_page_1_burglar_image">Image of Burglar</string>
+    <string name="artwork_section_one_star">One Star Rating</string>
+    <string name="artwork_section_two_star">Two Star Rating</string>
+    <string name="artwork_section_three_star">Three Star Rating</string>
+    <string name="artwork_section_four_star">Four Star Rating</string>
+    <string name="artwork_section_five_star">Five Star Rating</string>
+    <string name="augmented_virtual_artwork_image">Virtual Image of Artwork in Augmented Reality</string>
+    <string name="rate_page_grid_view_artwork_image">Image of Artwork in Grid</string>
+    <string name="rate_page_grid_view_slider_cancel_button">Button to close zoom slider</string>
 </resources>

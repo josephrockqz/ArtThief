@@ -9,7 +9,7 @@ import com.joerock.artthief.domain.ArtThiefArtwork
  */
 
 /**
- * DatabaseVideo represents a video entity in the database.
+ * DatabaseArtwork represents an artwork entity in the database.
  */
 @Entity
 data class DatabaseArtwork constructor(
@@ -30,7 +30,7 @@ data class DatabaseArtwork constructor(
 )
 
 /**
- * Map DatabaseVideos to domain entities
+ * Map DatabaseArtwork to domain entities
  */
 fun List<DatabaseArtwork>.asDomainModel(): List<ArtThiefArtwork> {
     return map {

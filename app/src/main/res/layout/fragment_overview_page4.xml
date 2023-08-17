@@ -10,6 +10,7 @@
     <!--Burglar background-->
     <ImageView
         android:id="@+id/iv_burglarBackgroundP4"
+        android:contentDescription="@string/overview_page_4_background"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:scaleType="fitXY"
@@ -103,6 +104,7 @@
 
     <ImageView
         android:id="@+id/easel"
+        android:contentDescription="@string/overview_page_4_easel"
         android:layout_width="wrap_content"
         android:layout_height="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -112,6 +114,7 @@
 
     <ImageView
         android:id="@+id/iv_highestRatedArtwork"
+        android:contentDescription="@string/overview_page_4_artwork_image"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:adjustViewBounds="true"

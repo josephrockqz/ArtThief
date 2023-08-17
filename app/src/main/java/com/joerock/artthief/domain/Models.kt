@@ -6,8 +6,8 @@ import com.joerock.artthief.database.DatabaseArtwork
  * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
  * objects that should be displayed on screen, or manipulated by the app.
  *
- * @see database for objects that are mapped to the database
- * @see network for objects that parse or prepare network calls
+ * @see com.joerock.artthief.database for objects that are mapped to the database
+ * @see com.joerock.artthief.network for objects that parse or prepare network calls
  */
 data class ArtThiefArtwork(
     val artThiefID: Int,
@@ -24,9 +24,6 @@ data class ArtThiefArtwork(
     var rating: Int,
     var order: Int
 ) {
-    /**
-     * Dimensions is used for displaying artwork's 2 dimensions
-     */
     val dimensions: String
         get() {
             val width = width.toString()
@@ -70,7 +67,7 @@ val defaultArtThiefArtwork = ArtThiefArtwork(
     width = 1.toFloat(),
     height = 1.toFloat(),
     taken = true,
-    deleted = false, // an artwork is not hidden until the user deleted (hides) it
+    deleted = false, // an artwork is not hidden until the user deleted (hides) it by default
     rating = 0, // 0 stars represents that it's unrated
     order = 0
 )

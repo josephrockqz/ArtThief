@@ -674,7 +674,7 @@ class RateFragment : Fragment() {
                 val toPosition = target.adapterPosition
 
                 if (dragFrom == -1) {
-                    dragFrom =  fromPosition;
+                    dragFrom =  fromPosition
                 }
                 dragTo = toPosition
                 viewModel.updateSelectedGridArtwork(artworksFilterGridView[dragFrom])

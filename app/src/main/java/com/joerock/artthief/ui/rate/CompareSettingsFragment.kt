@@ -2,10 +2,8 @@ package com.joerock.artthief.ui.rate
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.get
@@ -26,8 +24,6 @@ class CompareSettingsFragment : Fragment() {
         requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
     private val toolbar by lazy { binding.toolbarCompareSettingsTop }
-
-    private val viewModel: ArtworksViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -79,6 +79,7 @@
 
             <ImageView
                 android:id="@+id/iv_sliderXButton"
+                android:contentDescription="@string/rate_page_grid_view_slider_cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

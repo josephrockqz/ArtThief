@@ -1,7 +1,6 @@
 package com.joerock.artthief.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.joerock.artthief.database.DatabaseArtwork
 import com.joerock.artthief.database.getDatabase
@@ -11,7 +10,6 @@ import com.joerock.artthief.network.NetworkArtworkListPostResponse
 import com.joerock.artthief.network.NetworkArtworkPreferenceList
 import com.joerock.artthief.repository.ArtworksRepoImpl
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.io.IOException
 
 /**
@@ -21,7 +19,7 @@ import java.io.IOException
  * results after the new Fragment or Activity is available
  *
  * @param application The application that this view model is attached to, it's safe to hold a
- * reference to applications across rotation since Application is never recreated during actiivty
+ * reference to applications across rotation since Application is never recreated during activty
  * or fragment lifecycle events
  */
 class ArtworksViewModel(application: Application) : AndroidViewModel(application) {
@@ -62,8 +60,6 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     var artworkSectionCompareTotalNumComparisonsForCompletion = 0
 
     private lateinit var _artworkSelectedGrid: ArtThiefArtwork
-    val artworkSelectedGrid: ArtThiefArtwork
-        get() = _artworkSelectedGrid
     var artworkSelectedGridReadyToBeUpdated = true
 
     var sendArtworkListResponse: MutableLiveData<NetworkArtworkListPostResponse> = MutableLiveData()

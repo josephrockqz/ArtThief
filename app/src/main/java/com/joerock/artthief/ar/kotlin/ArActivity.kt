@@ -24,7 +24,7 @@ class ArActivity : AppCompatActivity() {
 
     lateinit var arCoreSessionHelper: ARCoreSessionLifecycleHelper
     lateinit var view: ArView
-    lateinit var renderer: ArRenderer
+    private lateinit var renderer: ArRenderer
 
     private var sharedPreferences: SharedPreferences? = null
     private var pointCloudEnabled = true

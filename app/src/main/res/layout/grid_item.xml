@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/iv_artImageGridView"
+        android:contentDescription="@string/rate_page_grid_view_artwork_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

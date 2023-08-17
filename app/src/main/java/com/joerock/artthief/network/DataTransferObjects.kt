@@ -47,29 +47,6 @@ data class NetworkArtwork(
     val taken: Boolean
 )
 
-/**
- * Convert Network results to database objects
- */
-fun List<NetworkArtwork>.asDatabaseModel(): List<DatabaseArtwork> {
-    return map {
-        DatabaseArtwork(
-            artThiefID = it.artThiefID,
-            showID = it.showID,
-            title = it.title,
-            artist = it.artist,
-            media = it.media,
-            image_large = it.image_large,
-            image_small = it.image_small,
-            width = it.width,
-            height = it.height,
-            taken = it.taken,
-            deleted = false, // an artwork is not hidden until the user deleted (hides) it
-            rating = 0, // 0 stars represents that it's unrated
-            order = 0
-        )
-    }
-}
-
 fun networkArtworkToDatabaseArtwork(networkArtwork: NetworkArtwork): DatabaseArtwork {
     return DatabaseArtwork(
         artThiefID = networkArtwork.artThiefID,

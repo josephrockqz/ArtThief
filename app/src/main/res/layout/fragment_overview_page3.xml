@@ -9,6 +9,7 @@
     <!--Burglar background-->
     <ImageView
         android:id="@+id/iv_burglarBackgroundP3"
+        android:contentDescription="@string/overview_page_3_background"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:scaleType="fitXY"

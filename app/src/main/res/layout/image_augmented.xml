@@ -3,15 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_augmentedImage"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:adjustViewBounds="true"-->
-<!--        android:scaleType="centerInside" />-->
-
     <ImageView
         android:id="@+id/iv_augmentedImage"
+        android:contentDescription="@string/augmented_virtual_artwork_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/burglar" />

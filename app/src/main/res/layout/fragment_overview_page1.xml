@@ -16,6 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
+            android:contentDescription="@string/overview_page_1_background"
             android:layout_width="wrap_content"
             android:layout_height="280dp"
             android:layout_weight="1"
@@ -23,6 +24,7 @@
             android:src="@drawable/backgroundleft"/>
 
         <ImageView
+            android:contentDescription="@string/overview_page_1_background"
             android:layout_width="wrap_content"
             android:layout_height="280dp"
             android:layout_weight="1"
@@ -34,6 +36,7 @@
     <!--Burglar background landscape mode-->
     <ImageView
         android:id="@+id/iv_burglarBackgroundLandscape"
+        android:contentDescription="@string/overview_page_1_background"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:scaleType="fitXY"
@@ -96,6 +99,7 @@
     <!--Burglar vector-->
     <ImageView
         android:id="@+id/iv_burglar"
+        android:contentDescription="@string/overview_page_1_burglar_image"
         android:layout_width="wrap_content"
         android:layout_height="280dp"
         android:layout_gravity="center"

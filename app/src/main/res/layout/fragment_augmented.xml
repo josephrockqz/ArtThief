@@ -40,6 +40,7 @@
 
         <!--Background wall image-->
         <ImageView
+            android:contentDescription="@string/augmented_page_wall_background"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
@@ -101,6 +102,7 @@
 
         <ImageView
             android:id="@+id/iv_augmentedHighestRatedArtwork"
+            android:contentDescription="@string/augmented_page_artwork_image"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

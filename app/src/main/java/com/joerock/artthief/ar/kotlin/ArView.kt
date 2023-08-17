@@ -14,9 +14,9 @@ import com.joerock.artthief.ar.java.common.helpers.TapHelper
 class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
 
     val root: View = View.inflate(activity, R.layout.activity_ar, null)
-    val surfaceView: GLSurfaceView = root.findViewById<GLSurfaceView>(R.id.surfaceView)
+    val surfaceView: GLSurfaceView = root.findViewById(R.id.surfaceView)
 
-    val session
+    private val session
         get() = activity.arCoreSessionHelper.session
 
     val snackbarHelper = SnackbarHelper()

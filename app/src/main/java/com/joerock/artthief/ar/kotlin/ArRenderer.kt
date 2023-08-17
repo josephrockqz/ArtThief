@@ -48,49 +48,49 @@ class ArRenderer(
     }
 
     lateinit var render: SampleRender
-    lateinit var planeRenderer: PlaneRenderer
-    lateinit var backgroundRenderer: BackgroundRenderer
-    lateinit var virtualSceneFramebuffer: Framebuffer
-    var hasSetTextureNames = false
+    private lateinit var planeRenderer: PlaneRenderer
+    private lateinit var backgroundRenderer: BackgroundRenderer
+    private lateinit var virtualSceneFramebuffer: Framebuffer
+    private var hasSetTextureNames = false
 
     // Point Cloud
-    lateinit var pointCloudVertexBuffer: VertexBuffer
-    lateinit var pointCloudMesh: Mesh
-    lateinit var pointCloudShader: Shader
+    private lateinit var pointCloudVertexBuffer: VertexBuffer
+    private lateinit var pointCloudMesh: Mesh
+    private lateinit var pointCloudShader: Shader
 
     // Keep track of the last point cloud rendered to avoid updating the VBO if point cloud
     // was not changed.  Do this using the timestamp since we can't compare PointCloud objects.
-    var lastPointCloudTimestamp: Long = 0
+    private var lastPointCloudTimestamp: Long = 0
 
     // Virtual object (ARCore pawn)
-    lateinit var virtualObjectMesh: Mesh
-    lateinit var virtualObjectShader: Shader
-    lateinit var virtualObjectAlbedoTexture: Texture
+    private lateinit var virtualObjectMesh: Mesh
+    private lateinit var virtualObjectShader: Shader
+    private lateinit var virtualObjectAlbedoTexture: Texture
 
     private val wrappedAnchors = mutableListOf<WrappedAnchor>()
 
     // Environmental HDR
-    lateinit var dfgTexture: Texture
-    lateinit var cubemapFilter: SpecularCubemapFilter
+    private lateinit var dfgTexture: Texture
+    private lateinit var cubemapFilter: SpecularCubemapFilter
 
     // Temporary matrix allocated here to reduce number of allocations for each frame.
-    val modelMatrix = FloatArray(16)
-    val viewMatrix = FloatArray(16)
-    val projectionMatrix = FloatArray(16)
-    val modelViewMatrix = FloatArray(16) // view x model
+    private val modelMatrix = FloatArray(16)
+    private val viewMatrix = FloatArray(16)
+    private val projectionMatrix = FloatArray(16)
+    private val modelViewMatrix = FloatArray(16) // view x model
 
-    val modelViewProjectionMatrix = FloatArray(16) // projection x view x model
+    private val modelViewProjectionMatrix = FloatArray(16) // projection x view x model
 
-    val sphericalHarmonicsCoefficients = FloatArray(9 * 3)
-    val viewInverseMatrix = FloatArray(16)
-    val worldLightDirection = floatArrayOf(0.0f, 0.0f, 0.0f, 0.0f)
-    val viewLightDirection = FloatArray(4) // view x world light direction
+    private val sphericalHarmonicsCoefficients = FloatArray(9 * 3)
+    private val viewInverseMatrix = FloatArray(16)
+    private val worldLightDirection = floatArrayOf(0.0f, 0.0f, 0.0f, 0.0f)
+    private val viewLightDirection = FloatArray(4) // view x world light direction
 
-    val session
+    private val session
         get() = activity.arCoreSessionHelper.session
 
-    val displayRotationHelper = DisplayRotationHelper(activity)
-    val trackingStateHelper = TrackingStateHelper(activity)
+    private val displayRotationHelper = DisplayRotationHelper(activity)
+    private val trackingStateHelper = TrackingStateHelper(activity)
 
     override fun onResume(owner: LifecycleOwner) {
         displayRotationHelper.onResume()

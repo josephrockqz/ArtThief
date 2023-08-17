@@ -15,6 +15,8 @@ interface ArtworksDao {
     /**
      * On conflict strategy is ignore. This way, if an artwork has already been given
      * a rating, its rating will not be lost
+     *
+     * NOT currently being used
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(

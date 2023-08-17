@@ -1,6 +1,5 @@
 package com.joerock.artthief.network
 
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -32,24 +31,21 @@ interface ArtThiefService {
  */
 object ArtThiefNetwork {
 
-    private val httpClient = OkHttpClient.Builder().addInterceptor(object: Interceptor {
-        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
-            val originalRequest = chain.request()
-            val request = originalRequest.newBuilder()
-                .header("Content-Type", "application/json")
-                .method(originalRequest.method(), originalRequest.body())
-                .build()
+    private val httpClient = OkHttpClient.Builder().addInterceptor { chain ->
+        val originalRequest = chain.request()
+        val request = originalRequest.newBuilder()
+            .header("Content-Type", "application/json")
+            .method(originalRequest.method(), originalRequest.body())
+            .build()
 
-            return chain.proceed(request)
-        }
-    }).build()
+        chain.proceed(request)
+    }.build()
 
-    // Configure retrofit to parse JSON and use coroutines
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://patronsshow.theartleague.org/api/")
         .addConverterFactory(MoshiConverterFactory.create())
         .client(httpClient)
         .build()
 
-    val artThiefArtworks = retrofit.create(ArtThiefService::class.java)
+    val artThiefArtworks: ArtThiefService = retrofit.create(ArtThiefService::class.java)
 }

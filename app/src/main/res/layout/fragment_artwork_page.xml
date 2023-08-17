@@ -16,6 +16,7 @@
 
         <ImageView
             android:id="@+id/iv_artworkPageImage"
+            android:contentDescription="@string/artwork_page_artwork_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
@@ -52,30 +53,35 @@
 
                 <ImageView
                     android:id="@+id/iv_artworkPageStar1"
+                    android:contentDescription="@string/artwork_page_one_star"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
                     android:id="@+id/iv_artworkPageStar2"
+                    android:contentDescription="@string/artwork_page_two_star"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
                     android:id="@+id/iv_artworkPageStar3"
+                    android:contentDescription="@string/artwork_page_three_star"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
                     android:id="@+id/iv_artworkPageStar4"
+                    android:contentDescription="@string/artwork_page_four_star"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_rate_sharp_24dp"/>
 
                 <ImageView
                     android:id="@+id/iv_artworkPageStar5"
+                    android:contentDescription="@string/artwork_page_five_star"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_rate_sharp_24dp"/>
