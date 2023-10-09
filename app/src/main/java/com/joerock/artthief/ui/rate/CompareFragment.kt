@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
@@ -54,6 +55,7 @@ class CompareFragment : Fragment() {
 
         setMenuItemOnClickListeners(inflater)
         configureImageDescriptionUIBasedOnSettings()
+        overrideOnBackPressed()
 
         sectionRating = getCompareSectionRating()
         viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
@@ -211,6 +213,12 @@ class CompareFragment : Fragment() {
         return nextArtworks
     }
 
+    private fun goBack() {
+        activity
+            ?.findNavController(R.id.nav_host_fragment_activity_main)
+            ?.navigate(R.id.action_compareToRate)
+    }
+
     private fun loadArtworkDataUI(artwork1: ArtThiefArtwork, artwork2: ArtThiefArtwork) {
         Picasso
             .get()
@@ -269,12 +277,20 @@ class CompareFragment : Fragment() {
         }
     }
 
+    private fun overrideOnBackPressed() {
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    goBack()
+                }
+            })
+    }
+
     private fun setMenuItemOnClickListeners(inflater: LayoutInflater) {
 
         toolbar.menu[1].setOnMenuItemClickListener {
-            activity
-                ?.findNavController(R.id.nav_host_fragment_activity_main)
-                ?.navigate(R.id.action_compareToRate)
+            goBack()
             true
         }
 
@@ -294,9 +310,7 @@ class CompareFragment : Fragment() {
                 setCustomTitle(view)
                 setView(R.layout.compare_finished_dialog_content)
                 setPositiveButton(R.string.instructions_ok) { _, _ ->
-                    activity
-                        ?.findNavController(R.id.nav_host_fragment_activity_main)
-                        ?.navigate(R.id.action_compareToRate)
+                    goBack()
                 }
                 setCancelable(false)
             }

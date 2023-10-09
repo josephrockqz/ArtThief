@@ -58,7 +58,6 @@ class RateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_rate,
@@ -533,7 +532,8 @@ class RateFragment : Fragment() {
 
     private fun refreshRateFragment() {
         viewModel.refreshDataFromRepository()
-        activity?.supportFragmentManager
+        activity
+            ?.supportFragmentManager
             ?.beginTransaction()
             ?.replace(R.id.rl_rateFragment, RateFragment())
             ?.commit()

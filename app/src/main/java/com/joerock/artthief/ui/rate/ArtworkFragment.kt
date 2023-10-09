@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -49,6 +50,8 @@ class ArtworkFragment : Fragment() {
 
         configurePagerAdapter()
 
+        overrideOnBackPressed()
+
         return binding.root
     }
 
@@ -60,6 +63,7 @@ class ArtworkFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
     }
 
@@ -119,10 +123,9 @@ class ArtworkFragment : Fragment() {
 
         val toolbar = binding.artworkFragmentAppBar
         toolbar.isTitleCentered = true
+
         toolbar[1].setOnClickListener {
-            activity
-                ?.findNavController(R.id.nav_host_fragment_activity_main)
-                ?.navigate(R.id.action_artworkToRate)
+            goBack()
         }
 
         val arAvailability = ArCoreApk.getInstance().checkAvailability(context)
@@ -140,5 +143,21 @@ class ArtworkFragment : Fragment() {
             toolbar[2].visibility = View.INVISIBLE
             toolbar[2].isEnabled = false
         }
+    }
+
+    private fun goBack() {
+        activity
+            ?.findNavController(R.id.nav_host_fragment_activity_main)
+            ?.navigate(R.id.action_artworkToRate)
+    }
+
+    private fun overrideOnBackPressed() {
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    goBack()
+                }
+            })
     }
 }
