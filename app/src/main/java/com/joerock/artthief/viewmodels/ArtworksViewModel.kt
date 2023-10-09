@@ -60,6 +60,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     var artworkSectionCompareTotalNumComparisonsForCompletion = 0
 
     private lateinit var _artworkSelectedGrid: ArtThiefArtwork
+    val artworkSelectedGrid: ArtThiefArtwork
+        get() = _artworkSelectedGrid
     var artworkSelectedGridReadyToBeUpdated = true
 
     var sendArtworkListResponse: MutableLiveData<NetworkArtworkListPostResponse> = MutableLiveData()
@@ -185,20 +187,9 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         artworksListGridView: List<ArtThiefArtwork>,
         dragFrom: Int,
         dragTo: Int,
+        selectedArtworkNewRating: Int,
+        selectedArtworkOldRating: Int
     ) {
-        val selectedArtworkNewRating = if (dragTo == 0) {
-            artworksListGridView[1].rating
-        } else if (dragTo == artworksListGridView.size - 1) {
-            artworksListGridView[artworksListGridView.size - 2].rating
-        } else {
-            if (dragFrom > dragTo) {
-                artworksListGridView[dragTo + 1].rating
-            } else {
-                artworksListGridView[dragTo - 1].rating
-            }
-        }
-
-        val selectedArtworkOldRating = _artworkSelectedGrid.rating
         if (selectedArtworkOldRating == selectedArtworkNewRating) {
             val artworksInSection = mutableListOf<ArtThiefArtwork>()
             for (i in artworksListGridView.indices) {

@@ -701,11 +701,28 @@ class RateFragment : Fragment() {
                 viewModel.artworkSelectedGridReadyToBeUpdated = true
 
                 if (dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
+                    val selectedArtworkNewRating = if (dragTo == 0) {
+                        artworksListGridView[1].rating
+                    } else if (dragTo == artworksListGridView.size - 1) {
+                        artworksListGridView[artworksListGridView.size - 2].rating
+                    } else {
+                        if (dragFrom > dragTo) {
+                            artworksListGridView[dragTo + 1].rating
+                        } else {
+                            artworksListGridView[dragTo - 1].rating
+                        }
+                    }
+                    val selectedArtworkOldRating = viewModel.artworkSelectedGrid.rating
                     viewModel.updateArtworkRatingsDragAndDrop(
-                        artworksListGridView,
-                        dragFrom,
-                        dragTo
+                        artworksListGridView = artworksListGridView,
+                        dragFrom = dragFrom,
+                        dragTo = dragTo,
+                        selectedArtworkNewRating = selectedArtworkNewRating,
+                        selectedArtworkOldRating = selectedArtworkOldRating
                     )
+                    if (selectedArtworkNewRating != selectedArtworkOldRating && selectedArtworkNewRating != 0) {
+                        updateSectionSortedStatus(selectedArtworkNewRating)
+                    }
                 }
 
                 dragFrom = -1
@@ -820,6 +837,41 @@ class RateFragment : Fragment() {
     private fun updateGridFilterChecks(filter: Int = getGridViewDisplayFilter()) {
         for (i in 0..6) {
             toolbar.menu[2].subMenu?.get(i)?.isChecked = i == filter
+        }
+    }
+
+    private fun updateSectionSortedStatus(rating: Int) {
+        when (rating) {
+            1 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("one_stars_sorted", false)
+                    apply()
+                }
+            }
+            2 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("two_stars_sorted", false)
+                    apply()
+                }
+            }
+            3 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("three_stars_sorted", false)
+                    apply()
+                }
+            }
+            4 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("four_stars_sorted", false)
+                    apply()
+                }
+            }
+            5 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("five_stars_sorted", false)
+                    apply()
+                }
+            }
         }
     }
 }

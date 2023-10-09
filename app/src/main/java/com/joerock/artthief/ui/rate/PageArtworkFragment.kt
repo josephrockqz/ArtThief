@@ -119,6 +119,11 @@ class PageArtworkFragment(
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun handleStarClick(rating: Int) {
         val oldRating = artwork.rating
         if (rating == artwork.rating) {
@@ -137,6 +142,7 @@ class PageArtworkFragment(
                 rating,
                 oldRating
             )
+            updateSectionSortedStatus(rating)
         }
         viewModel.artworksLive.observe(viewLifecycleOwner) { artworks ->
             viewModel.setArtworkList(artworks)
@@ -151,8 +157,38 @@ class PageArtworkFragment(
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun updateSectionSortedStatus(rating: Int) {
+        when (rating) {
+            1 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("one_stars_sorted", false)
+                    apply()
+                }
+            }
+            2 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("two_stars_sorted", false)
+                    apply()
+                }
+            }
+            3 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("three_stars_sorted", false)
+                    apply()
+                }
+            }
+            4 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("four_stars_sorted", false)
+                    apply()
+                }
+            }
+            5 -> {
+                with (sharedPreferences.edit()) {
+                    putBoolean("five_stars_sorted", false)
+                    apply()
+                }
+            }
+        }
     }
 }
