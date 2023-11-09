@@ -14,11 +14,19 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--Styling for Alert Dialogs-->
     <style name="AlertDialogTheme" parent="android:Theme.Material.Light.Dialog.NoActionBar">
-        <item name="android:buttonBarButtonStyle">@style/MyButtonsStyle</item>
         <item name="android:background">@color/white</item>
+        <item name="android:buttonBarButtonStyle">@style/MyButtonsStyle</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="MyButtonsStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/teal_700</item>
+    </style>
+
+    <!--Styling for Switch Compats-->
+    <style name="SwitchCompatTheme">
+        <item name="colorSwitchThumbNormal">@color/compare_button_background</item>
+        <item name="android:colorForeground">@color/black</item>
     </style>
 </resources>
