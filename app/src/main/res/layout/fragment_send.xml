@@ -80,6 +80,7 @@
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/send_edit_text_background"
                     android:hint="@string/send_fragment_input_hint"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/send_edit_text_hint"
                     android:inputType="text|textNoSuggestions"
                     android:layout_marginHorizontal="10dp"

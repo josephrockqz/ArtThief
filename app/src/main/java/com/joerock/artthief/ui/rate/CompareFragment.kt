@@ -304,7 +304,7 @@ class CompareFragment : Fragment() {
 
     private fun showCompareDoneDialog(inflater: LayoutInflater) {
         activity?.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it, R.style.AlertDialogTheme)
             builder.apply {
                 val view: View = inflater.inflate(R.layout.compare_finished_dialog_title, null)
                 setCustomTitle(view)
@@ -321,7 +321,7 @@ class CompareFragment : Fragment() {
 
     private fun showInstructionsDialog(inflater: LayoutInflater): Boolean {
         activity?.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it, R.style.AlertDialogTheme)
             builder.apply {
                 val view: View = inflater.inflate(R.layout.compare_instructions_dialog_title, null)
                 setCustomTitle(view)

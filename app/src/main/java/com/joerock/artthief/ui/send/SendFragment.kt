@@ -55,14 +55,14 @@ class SendFragment : Fragment() {
             if (buttonHasBeenClicked) {
                 when (responseBody.status) {
                     "success" -> {
-                        AlertDialog.Builder(requireContext())
+                        AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
                             .setTitle(R.string.send_fragment_success_dialog_title)
                             .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
                             .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
                             .show()
                     }
                     "error" -> {
-                        AlertDialog.Builder(requireContext())
+                        AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
                             .setTitle(R.string.send_fragment_error_dialog_title)
                             .setMessage(responseBody.message)
                             .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }

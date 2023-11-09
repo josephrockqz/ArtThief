@@ -67,7 +67,7 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
         val resources = activity.resources
         val strings = resources.getStringArray(R.array.point_cloud_array)
         val checked = booleanArrayOf(activity.isPointCloudEnabled())
-        AlertDialog.Builder(activity)
+        AlertDialog.Builder(activity, R.style.AlertDialogTheme)
             .setTitle(R.string.options_title_point_cloud)
             .setMultiChoiceItems(strings, checked) { _, which, isChecked ->
                 checked[which] = isChecked
@@ -81,7 +81,7 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
     }
 
     private fun launchVerticalPlaneDetectionInfoDialog() {
-        AlertDialog.Builder(activity)
+        AlertDialog.Builder(activity, R.style.AlertDialogTheme)
             .setTitle(R.string.vertical_plane_info)
             .setMessage(R.string.vertical_plane_info_description)
             .setPositiveButton(R.string.done) { _, _ ->
