@@ -124,9 +124,7 @@
     <string name="waiting_taps">Tap on a surface to place an object.</string>
     <string name="point_cloud">Point Cloud</string>
     <string name="options_title_point_cloud">Point Cloud Options</string>
-    <string-array translatable="false" name="point_cloud_array">
-        <item>Enable Point Cloud</item>
-    </string-array>
+    <string name="point_cloud_enable_string">Enable Point Cloud</string>
     <string name="vertical_plane_info">Vertical Plane Detection Info</string>
     <string name="vertical_plane_info_description">It is difficult to detect walls and other vertical surfaces with Android phones that don\'t have LiDAR scanners. As a result, you may find difficulty placing artwork in augmented reality mode.\n\nThe best experiences happen when using a wall with complex patterns such as a well-lit brick wall or a wall with pictures on it.</string>
     <string name="done">Done</string>

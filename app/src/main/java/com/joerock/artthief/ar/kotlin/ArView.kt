@@ -2,6 +2,7 @@ package com.joerock.artthief.ar.kotlin
 
 import android.opengl.GLSurfaceView
 import android.view.View
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
@@ -64,20 +65,24 @@ class ArView(val activity: ArActivity) : DefaultLifecycleObserver {
     }
 
     private fun launchPointCloudSettingsMenuDialog() {
-        val resources = activity.resources
-        val strings = resources.getStringArray(R.array.point_cloud_array)
-        val checked = booleanArrayOf(activity.isPointCloudEnabled())
-        AlertDialog.Builder(activity, R.style.AlertDialogTheme)
-            .setTitle(R.string.options_title_point_cloud)
-            .setMultiChoiceItems(strings, checked) { _, which, isChecked ->
-                checked[which] = isChecked
-            }
-            .setPositiveButton(R.string.done) { _, _ ->
-                val session = session ?: return@setPositiveButton
-                activity.setPointCloudEnabled(checked[0])
-                activity.configureSession(session)
-            }
-            .show()
+        val builder = AlertDialog.Builder(activity, R.style.AlertDialogTheme)
+        val inflater = this.activity.layoutInflater
+        val view = inflater.inflate(R.layout.ar_point_cloud_dialog_content, null)
+        builder.setTitle(R.string.options_title_point_cloud)
+        builder.setView(view)
+        builder.setPositiveButton(R.string.done) { _, _ ->
+            val session = session ?: return@setPositiveButton
+            activity.setPointCloudEnabled(activity.isPointCloudEnabled())
+            activity.configureSession(session)
+        }
+        val dialog = builder.create()
+        dialog.show()
+
+        val pointCloudEnabledCheckBox = view.findViewById<CheckBox>(R.id.cb_arPointCloudEnabled)
+        pointCloudEnabledCheckBox.isChecked = activity.isPointCloudEnabled()
+        pointCloudEnabledCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            activity.setPointCloudEnabled(isChecked)
+        }
     }
 
     private fun launchVerticalPlaneDetectionInfoDialog() {
