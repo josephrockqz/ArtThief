@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:layout_margin="20dp">
 
-        <ImageView
+        <com.ortiz.touchview.TouchImageView
             android:id="@+id/iv_artworkPageImage"
             android:contentDescription="@string/artwork_page_artwork_image"
             android:layout_width="match_parent"
