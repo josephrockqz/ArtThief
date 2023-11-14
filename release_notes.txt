@@ -1,0 +1,6 @@
+1) Change app version name in build.gradle (:app) and strings.xml files
+2) Increment version code value by 1 in build.gradle (:app)
+3) Build ==> Generate Signed Bundle / APK ==> Android App Bundle
+4) Locate generated .aab file and place in releases folder
+5) Go to Production tab in Google Play Developer Console
+6) Press Create new release, upload .aab file, and add release notes
