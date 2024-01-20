@@ -1,5 +1,6 @@
 package com.joerock.artthief.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.joerock.artthief.database.ArtworksDatabase
@@ -80,34 +81,38 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
     }
 
     override suspend fun refreshArtworks() {
-        withContext(Dispatchers.IO) {
-            val artworkList = ArtThiefNetwork
-                .artThiefArtworks
-                .getArtworkList(PASSCODE_GET_REQUEST)
+        try {
+            withContext(Dispatchers.IO) {
+                val artworkList = ArtThiefNetwork
+                    .artThiefArtworks
+                    .getArtworkList(PASSCODE_GET_REQUEST)
 
-            artworkList.forEach {
-                // for each artwork received from network GET request,
-                // retrieve artwork entry from database (if it exists),
-                val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
-                if (databaseArtworkEntry == null) {
-                    database
-                        .artworkDao
-                        .insert(networkArtworkToDatabaseArtwork(it))
-                } else {
-                    // then see if the `taken` status differs between network and database,
-                    if (databaseArtworkEntry.taken != it.taken) {
-                        // if so, update database entry to reflect new result from network request
+                artworkList.forEach {
+                    // for each artwork received from network GET request,
+                    // retrieve artwork entry from database (if it exists),
+                    val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
+                    if (databaseArtworkEntry == null) {
                         database
                             .artworkDao
-                            .insert(
-                                updateArtworkTakenStatus(
-                                    it.taken,
-                                    databaseArtworkEntry
+                            .insert(networkArtworkToDatabaseArtwork(it))
+                    } else {
+                        // then see if the `taken` status differs between network and database,
+                        if (databaseArtworkEntry.taken != it.taken) {
+                            // if so, update database entry to reflect new result from network request
+                            database
+                                .artworkDao
+                                .insert(
+                                    updateArtworkTakenStatus(
+                                        it.taken,
+                                        databaseArtworkEntry
+                                    )
                                 )
-                            )
+                        }
                     }
                 }
             }
+        } catch (e: Throwable) {
+            Log.e("Problem retrieving artworks", e.toString())
         }
     }
 
