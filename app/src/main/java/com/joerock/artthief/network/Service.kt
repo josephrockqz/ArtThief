@@ -10,8 +10,8 @@ import retrofit2.http.*
  * A retrofit service to fetch a Art Thief playlist.
  */
 interface ArtThiefService {
-    @GET("artwork")
-    suspend fun getArtworkList(@Query("passcode") passcode: String): NetworkArtworkObject
+    @GET("artwork/beta")
+    suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
 
     @POST("user/{codeName}/selections")
     suspend fun postArtworkList(

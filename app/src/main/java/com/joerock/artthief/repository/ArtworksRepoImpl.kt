@@ -86,7 +86,6 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
                 val artworkList = ArtThiefNetwork
                     .artThiefArtworks
                     .getArtworkList(PASSCODE_GET_REQUEST)
-                    .artWorks
 
                 artworkList.forEach {
                     // for each artwork received from network GET request,

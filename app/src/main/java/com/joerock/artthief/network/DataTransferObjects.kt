@@ -31,14 +31,6 @@ import com.squareup.moshi.JsonClass
  */
 
 /**
- * Artwork object represents JSON body returned from network call
- */
-@JsonClass(generateAdapter = true)
-data class NetworkArtworkObject(
-    val artWorks: List<NetworkArtwork>
-)
-
-/**
  * Artworks represent an Art Thief item that can be viewed, rated.
  */
 @JsonClass(generateAdapter = true)
