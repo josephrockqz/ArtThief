@@ -19,8 +19,7 @@ import retrofit2.Response
 class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
 
     companion object {
-        private const val PASSCODE_GET_REQUEST = "fb56a1e6-ee06-4911-ad33-c35c298fddbd"
-        private const val PASSCODE_POST_REQUEST = "c10561cf-b9ea-46b3-89ab-5c48af2cccf0"
+        private const val ART_THIEF_PASSCODE = "c10561cf-b9ea-46b3-89ab-5c48af2cccf0"
     }
 
     override val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
@@ -85,7 +84,7 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
             withContext(Dispatchers.IO) {
                 val artworkList = ArtThiefNetwork
                     .artThiefArtworks
-                    .getArtworkList(PASSCODE_GET_REQUEST)
+                    .getArtworkList(ART_THIEF_PASSCODE)
 
                 artworkList.forEach {
                     // for each artwork received from network GET request,
@@ -125,7 +124,7 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
                 .artThiefArtworks
                 .postArtworkList(
                     codeName,
-                    PASSCODE_POST_REQUEST,
+                    ART_THIEF_PASSCODE,
                     artworkList
                 )
         }
