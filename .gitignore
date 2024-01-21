@@ -12,3 +12,6 @@ local.properties
 *.apk
 *.json
 *.aab
+
+secrets.txt
+sql.txt
