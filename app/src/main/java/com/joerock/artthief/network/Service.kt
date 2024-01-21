@@ -11,7 +11,7 @@ import retrofit2.http.*
  */
 interface ArtThiefService {
     @GET("artwork")
-    suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
+    suspend fun getArtworkList(@Query("passcode") passcode: String): NetworkArtworkObject
 
     @POST("user/{codeName}/selections")
     suspend fun postArtworkList(
