@@ -86,6 +86,14 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
                     .artThiefArtworks
                     .getArtworkList(ART_THIEF_PASSCODE)
 
+                val artworkIdList = artworkList.map {
+                    it.artThiefID
+                }
+
+                database
+                    .artworkDao
+                    .deleteArtworksById(artworkIdList)
+
                 artworkList.forEach {
                     // for each artwork received from network GET request,
                     // retrieve artwork entry from database (if it exists),

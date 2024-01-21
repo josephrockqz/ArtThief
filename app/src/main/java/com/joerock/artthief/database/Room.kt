@@ -31,6 +31,11 @@ interface ArtworksDao {
     fun insert(
         artwork: DatabaseArtwork
     )
+
+    @Query("delete from databaseArtwork where artThiefID not in (:artworksIdList)")
+    fun deleteArtworksById(
+        artworksIdList: List<Int>
+    )
 }
 
 @Database(entities = [DatabaseArtwork::class], version = 1)
