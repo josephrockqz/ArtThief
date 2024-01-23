@@ -8,6 +8,7 @@ import com.joerock.artthief.R
 import com.joerock.artthief.databinding.ArtCardViewBinding
 import com.joerock.artthief.domain.ArtThiefArtwork
 import com.joerock.artthief.ui.rate.data.ArtworkClickListener
+import com.joerock.artthief.utils.getShowIdDisplayValue
 import com.squareup.picasso.Picasso
 
 class ArtworkAdapter(
@@ -65,7 +66,7 @@ class ArtworkAdapter(
                 this.tvArtShowId.text = context.getString(R.string.art_card_deleted)
                 this.tvArtShowId.setTextColor(context.resources.getColor(R.color.red))
             } else {
-                this.tvArtShowId.text = artworks[i].showID
+                this.tvArtShowId.text = getShowIdDisplayValue(artworks[i].showID)
                 this.tvArtShowId.setTextColor(context.resources.getColor(R.color.artwork_card_right_text))
             }
         }

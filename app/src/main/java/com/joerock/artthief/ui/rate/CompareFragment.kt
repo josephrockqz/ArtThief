@@ -15,6 +15,7 @@ import com.joerock.artthief.R
 import com.joerock.artthief.databinding.FragmentCompareBinding
 import com.joerock.artthief.domain.ArtThiefArtwork
 import com.joerock.artthief.domain.asDatabaseModel
+import com.joerock.artthief.utils.getShowIdDisplayValue
 import com.joerock.artthief.viewmodels.ArtworksViewModel
 import com.squareup.picasso.Picasso
 
@@ -229,13 +230,13 @@ class CompareFragment : Fragment() {
             .load(artwork2.image_large)
             .into(binding.ivCompareImage2)
 
-        binding.tvArtworkShowId1.text = artwork1.showID
+        binding.tvArtworkShowId1.text = getShowIdDisplayValue(artwork1.showID)
         binding.tvArtworkTitle1.text = artwork1.title
         binding.tvArtworkArtist1.text = artwork1.artist
         binding.tvArtworkMedia1.text = artwork1.media
         binding.tvArtworkDimensions1.text = artwork1.dimensions
 
-        binding.tvArtworkShowId2.text = artwork2.showID
+        binding.tvArtworkShowId2.text = getShowIdDisplayValue(artwork2.showID)
         binding.tvArtworkTitle2.text = artwork2.title
         binding.tvArtworkArtist2.text = artwork2.artist
         binding.tvArtworkMedia2.text = artwork2.media
