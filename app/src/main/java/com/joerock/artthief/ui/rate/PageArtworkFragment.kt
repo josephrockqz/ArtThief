@@ -18,6 +18,7 @@ import com.joerock.artthief.domain.ArtThiefArtwork
 import com.joerock.artthief.domain.defaultArtThiefArtwork
 import com.joerock.artthief.viewmodels.ArtworksViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import com.joerock.artthief.utils.getShowIdDisplayValue
 import com.squareup.picasso.Picasso
 
 @SuppressLint("UseCompatLoadingForDrawables")
@@ -102,7 +103,7 @@ class PageArtworkFragment(
             .text = artwork.dimensions
         binding
             .tvArtworkShowId
-            .text = artwork.showID
+            .text = getShowIdDisplayValue(artwork.showID)
 
         star1 = binding.ivArtworkPageStar1
         star1.setOnClickListener { handleStarClick(1) }
