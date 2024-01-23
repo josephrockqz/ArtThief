@@ -53,24 +53,34 @@ class SendFragment : Fragment() {
 
         viewModel.sendArtworkListResponse.observe(viewLifecycleOwner) { responseBody ->
             if (buttonHasBeenClicked) {
-                when (responseBody.status) {
-                    "success" -> {
-                        AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
-                            .setTitle(R.string.send_fragment_success_dialog_title)
-                            .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
-                            .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
-                            .show()
+                if (responseBody != null) {
+                    when (responseBody.status) {
+                        "success" -> {
+                            AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
+                                .setTitle(R.string.send_fragment_success_dialog_title)
+                                .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
+                                .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
+                                .show()
+                        }
+                        "error" -> {
+                            AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
+                                .setTitle(R.string.send_fragment_error_dialog_title)
+                                .setMessage(responseBody.message)
+                                .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
+                                .show()
+                            Log.e("SendFragment", "Send POST Request returned an error")
+                        }
+                        else -> {
+                            Log.e("SendFragment", "Send POST Request returned a non-success and non-error message")
+                        }
                     }
-                    "error" -> {
-                        AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
-                            .setTitle(R.string.send_fragment_error_dialog_title)
-                            .setMessage(responseBody.message)
-                            .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
-                            .show()
-                    }
-                    else -> {
-                        Log.e("SendFragment", "Send POST Request returned a non-success and non-error message")
-                    }
+                } else {
+                    AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
+                        .setTitle(R.string.send_fragment_error_dialog_title)
+                        .setMessage("Unable to send list")
+                        .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
+                        .show()
+                    Log.e("SendFragment", "Send POST Request failed")
                 }
             }
         }

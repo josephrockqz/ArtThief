@@ -7,15 +7,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 /**
- * If more services are needed, split into multiple files
- * Make sure to share retrofit object between services
- */
-
-/**
  * A retrofit service to fetch a Art Thief playlist.
  */
 interface ArtThiefService {
-    @GET("artwork")
+    @GET("artwork/beta")
     suspend fun getArtworkList(@Query("passcode") passcode: String): List<NetworkArtwork>
 
     @POST("user/{codeName}/selections")
@@ -27,7 +22,7 @@ interface ArtThiefService {
 }
 
 /**
- * Main entry point for network access. Call like `ArtThiefNetwork.artThiefArtworks.getPlaylist()`
+ * Main entry point for network access
  */
 object ArtThiefNetwork {
 

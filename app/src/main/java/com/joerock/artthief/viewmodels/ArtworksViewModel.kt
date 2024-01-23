@@ -78,6 +78,14 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun refreshDataFromRepositoryAndDeleteOldData() {
+        viewModelScope.launch {
+            try {
+                artworksRepo.refreshArtworksAndDeleteOldData()
+            } catch (_: IOException) { }
+        }
+    }
+
     fun sendArtworkList(
         codeName: String,
         artworkList: NetworkArtworkPreferenceList
