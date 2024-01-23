@@ -82,41 +82,20 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
     override suspend fun refreshArtworks() {
         try {
             withContext(Dispatchers.IO) {
-                val artworkList = ArtThiefNetwork
-                    .artThiefArtworks
-                    .getArtworkList(ART_THIEF_PASSCODE)
+                val artworkList = getArtworkList()
+                updateArtworkDatabase(artworkList)
+            }
+        } catch (e: Throwable) {
+            Log.e("Problem retrieving artworks", e.toString())
+        }
+    }
 
-                val artworkIdList = artworkList.map {
-                    it.artThiefID
-                }
-
-                database
-                    .artworkDao
-                    .deleteArtworksById(artworkIdList)
-
-                artworkList.forEach {
-                    // for each artwork received from network GET request,
-                    // retrieve artwork entry from database (if it exists),
-                    val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
-                    if (databaseArtworkEntry == null) {
-                        database
-                            .artworkDao
-                            .insert(networkArtworkToDatabaseArtwork(it))
-                    } else {
-                        // then see if the `taken` status differs between network and database,
-                        if (databaseArtworkEntry.taken != it.taken) {
-                            // if so, update database entry to reflect new result from network request
-                            database
-                                .artworkDao
-                                .insert(
-                                    updateArtworkTakenStatus(
-                                        it.taken,
-                                        databaseArtworkEntry
-                                    )
-                                )
-                        }
-                    }
-                }
+    override suspend fun refreshArtworksAndDeleteOldData() {
+        try {
+            withContext(Dispatchers.IO) {
+                val artworkList = getArtworkList()
+                deleteOldData(artworkList)
+                updateArtworkDatabase(artworkList)
             }
         } catch (e: Throwable) {
             Log.e("Problem retrieving artworks", e.toString())
@@ -141,6 +120,46 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
     override suspend fun updateArtwork(artwork: DatabaseArtwork) {
         withContext(Dispatchers.IO) {
             database.artworkDao.insert(artwork)
+        }
+    }
+
+    private fun deleteOldData(artworkList: List<NetworkArtwork>) {
+        val artworkIdList = artworkList.map { it.artThiefID }
+        database
+            .artworkDao
+            .deleteArtworksById(artworkIdList)
+    }
+
+    private suspend fun getArtworkList(): List<NetworkArtwork> {
+        return ArtThiefNetwork
+            .artThiefArtworks
+            .getArtworkList(ART_THIEF_PASSCODE)
+
+    }
+
+    private fun updateArtworkDatabase(artworkList: List<NetworkArtwork>) {
+        artworkList.forEach {
+            // for each artwork received from network GET request,
+            // retrieve artwork entry from database (if it exists),
+            val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
+            if (databaseArtworkEntry == null) {
+                database
+                    .artworkDao
+                    .insert(networkArtworkToDatabaseArtwork(it))
+            } else {
+                // then see if the `taken` status differs between network and database,
+                if (databaseArtworkEntry.taken != it.taken) {
+                    // if so, update database entry to reflect new result from network request
+                    database
+                        .artworkDao
+                        .insert(
+                            updateArtworkTakenStatus(
+                                it.taken,
+                                databaseArtworkEntry
+                            )
+                        )
+                }
+            }
         }
     }
 }

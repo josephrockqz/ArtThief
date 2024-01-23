@@ -23,6 +23,8 @@ interface ArtworksRepo {
 
     suspend fun refreshArtworks()
 
+    suspend fun refreshArtworksAndDeleteOldData()
+
     suspend fun sendArtworkList(
         codeName: String,
         artworkList: NetworkArtworkPreferenceList
