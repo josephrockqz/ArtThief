@@ -60,58 +60,80 @@ class RatingSectionAdapter(
          * calculate number of artworks in prior sections
          * so [artworkClickListener] has correct index
          */
-        sectionAmounts = mutableListOf(0, 0, 0, 0, 0, 0)
-        sections.forEach {
-            if (it.rating != 0) sectionAmounts[it.rating - 1] = it.artworks.size
-        }
-        for (j in 4 downTo 0) {
-            sectionAmounts[j] = sectionAmounts[j] + sectionAmounts[j+1]
-        }
-
-        val section = sections[i]
-        SectionRatingContainerBinding.bind(viewHolder.itemView).apply {
-            val star1 = this.ivArtworkStar1
-            val star2 = this.ivArtworkStar2
-            val star3 = this.ivArtworkStar3
-            val star4 = this.ivArtworkStar4
-            val star5 = this.ivArtworkStar5
-            val unratedTitle = this.tvRatingSectionName
-
-            if (section.rating < 5) star5.visibility = View.GONE
-            if (section.rating < 4) star4.visibility = View.GONE
-            if (section.rating < 3) star3.visibility = View.GONE
-            if (section.rating < 2) star2.visibility = View.GONE
-            if (section.rating < 1) {
-                star1.visibility = View.GONE
-                unratedTitle.visibility = View.VISIBLE
+        // TODO: use worker thread here
+        Thread(Runnable {
+            sectionAmounts = mutableListOf(0, 0, 0, 0, 0, 0)
+            sections.forEach {
+                if (it.rating != 0) sectionAmounts[it.rating - 1] = it.artworks.size
             }
-
-            implementCompareButtonLogic(this, section)
-
-            val recyclerView = this.rvRatingSection
-            recyclerView.setHasFixedSize(true)
-            recyclerView.isNestedScrollingEnabled = false
-
-            val layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
-            recyclerView.layoutManager = layoutManager
-
-            artworkAdapter = ArtworkAdapter(
-                artworkClickListener = artworkClickListener,
-                artworks = section.artworks,
-                context = context,
-                numPriorArtworks = sectionAmounts[section.rating]
-            )
-            recyclerView.apply {
-                adapter = artworkAdapter
+            for (j in 4 downTo 0) {
+                sectionAmounts[j] = sectionAmounts[j] + sectionAmounts[j+1]
             }
-
-            val swipeHelper = configureSwipeHelper(sectionAmounts[section.rating])
-            swipeHelper.attachToRecyclerView(recyclerView)
-        }
+            val section = sections[i]
+//            SectionRatingContainerBinding.bind(viewHolder.itemView).apply {
+//                val star1 = this.ivArtworkStar1
+//                val star2 = this.ivArtworkStar2
+//                val star3 = this.ivArtworkStar3
+//                val star4 = this.ivArtworkStar4
+//                val star5 = this.ivArtworkStar5
+//                val unratedTitle = this.tvRatingSectionName
+//
+//                if (section.rating < 5) {
+//                    star5.post {
+//                        star5.visibility = View.GONE
+//                    }
+//                }
+//                if (section.rating < 4) {
+//                    star4.post {
+//                        star4.visibility = View.GONE
+//                    }
+//                }
+//                if (section.rating < 3) {
+//                    star3.post {
+//                        star3.visibility = View.GONE
+//                    }
+//                }
+//                if (section.rating < 2) {
+//                    star2.post {
+//                        star2.visibility = View.GONE
+//                    }
+//                }
+//                if (section.rating < 1) {
+//                    star1.post {
+//                        star1.visibility = View.GONE
+//                    }
+//                    unratedTitle.post {
+//                        unratedTitle.visibility = View.VISIBLE
+//                    }
+//                }
+//
+//                implementCompareButtonLogic(this, section)
+//
+//                val recyclerView = this.rvRatingSection
+//                val layoutManager = LinearLayoutManager(
+//                    context,
+//                    LinearLayoutManager.VERTICAL,
+//                    false
+//                )
+//                recyclerView.post {
+//                    recyclerView.setHasFixedSize(true)
+//                    recyclerView.isNestedScrollingEnabled = false
+//                    recyclerView.layoutManager = layoutManager
+//                }
+//
+//                artworkAdapter = ArtworkAdapter(
+//                    artworkClickListener = artworkClickListener,
+//                    artworks = section.artworks,
+//                    context = context,
+//                    numPriorArtworks = sectionAmounts[section.rating]
+//                )
+//                val swipeHelper = configureSwipeHelper(sectionAmounts[section.rating])
+//                recyclerView.post {
+//                    recyclerView.adapter = artworkAdapter
+//                    swipeHelper.attachToRecyclerView(recyclerView)
+//                }
+//            }
+        })
     }
 
     override fun getItemCount() = sections.size

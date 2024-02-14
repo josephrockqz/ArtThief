@@ -31,6 +31,7 @@ internal class ArtworkGridAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        // TODO: use worker thread here
         holder.itemImageView.maxWidth = artworkImageSize
         holder.itemImageView.maxHeight = artworkImageSize
         holder.itemImageView.adjustViewBounds = true

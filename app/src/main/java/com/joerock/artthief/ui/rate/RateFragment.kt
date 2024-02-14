@@ -150,80 +150,87 @@ class RateFragment : Fragment() {
 
         if (displayTypeState == "grid" || (rvListOrderState != "show_id" && rvListOrderState != "artist")) {
             viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
-                val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                artworksListGridView = filterGridView(artworksFilterTakenAndDeleted)
-                if (displayTypeState == "grid") {
-                    gridView.apply {
+                Thread(Runnable {
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                    artworksListGridView = filterGridView(artworksFilterTakenAndDeleted)
+                    if (displayTypeState == "grid") {
                         artworkGridAdapter = ArtworkGridAdapter(
                             artworks = artworksListGridView,
                             artworkImageSize = calculateGridViewImageSize(getZoomLevel())
                         )
-                        adapter = artworkGridAdapter
-                        layoutManager = GridLayoutManager(context, getZoomLevel())
+                        gridView.post {
+                            gridView.adapter = artworkGridAdapter
+                            gridView.layoutManager = GridLayoutManager(context, getZoomLevel())
+                            val itemTouchHelper = configureDragHelper(artworksListGridView)
+                            itemTouchHelper.attachToRecyclerView(gridView)
+                        }
+                        viewModel.setSortedArtworkListByRating(artworksListGridView)
                     }
-                    val itemTouchHelper = configureDragHelper(artworksListGridView)
-                    itemTouchHelper.attachToRecyclerView(gridView)
-                    viewModel.setSortedArtworkListByRating(artworksListGridView)
-                }
-                viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
+                    viewModel.setSortedArtworkListByRating(artworksFilterTakenAndDeleted)
+                })
             }
             if (displayTypeState != "grid" && rvListOrderState == "rating") {
                 viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
-                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                    val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
-                    // partition artworks by rating then assign to rv's sections
-                    val artworkRatingMap = artworksFilterSearchBar.groupBy { artwork ->
-                        artwork.rating
-                    }
-                    val artworkRatingSections = mutableListOf<RecyclerViewSection>()
-                    for (i in 5 downTo 0) {
-                        artworkRatingMap[i]?.let { list ->
-                            artworkRatingSections.add(RecyclerViewSection(i, list))
+                    Thread(Runnable {
+                        val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                        val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
+                        // partition artworks by rating then assign to rv's sections
+                        val artworkRatingMap = artworksFilterSearchBar.groupBy { artwork ->
+                            artwork.rating
                         }
-                    }
-
-                    recyclerView.apply {
+                        val artworkRatingSections = mutableListOf<RecyclerViewSection>()
+                        for (i in 5 downTo 0) {
+                            artworkRatingMap[i]?.let { list ->
+                                artworkRatingSections.add(RecyclerViewSection(i, list))
+                            }
+                        }
                         ratingSectionAdapter = RatingSectionAdapter(
                             artworkClickListener = artworkClickListener,
                             compareClickListener = compareClickListener,
-                            context = context,
+                            context = this.requireContext(),
                             resources = resources,
                             sections = artworkRatingSections,
                             sharedPreferences = sharedPreferences,
                             swipeUpdateArtworkDeleted = swipeUpdateArtworkDeleted
                         )
-                        adapter = ratingSectionAdapter
-                    }
-                    viewModel.setSortedArtworkListByRating(artworksFilterSearchBar)
+                        recyclerView.post {
+                            recyclerView.adapter = ratingSectionAdapter
+                        }
+                        viewModel.setSortedArtworkListByRating(artworksFilterSearchBar)
+                    }).start()
                 }
             }
         } else if (rvListOrderState == "show_id") {
             viewModel.artworkListByShowIdLive.observe(viewLifecycleOwner) { artworks ->
-                val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
-                recyclerView.apply {
+                Thread(Runnable {
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                    val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
                     artworkAdapter = ArtworkAdapter(
                         artworkClickListener = artworkClickListener,
                         artworks = artworksFilterSearchBar,
-                        context = context
+                        context = this.requireContext()
                     )
-                    adapter = artworkAdapter
-                }
-                viewModel.setSortedArtworkListByShowId(artworksFilterSearchBar)
+                    recyclerView.post {
+                        recyclerView.adapter = artworkAdapter
+                    }
+                    viewModel.setSortedArtworkListByShowId(artworksFilterSearchBar)
+                }).start()
             }
         } else {
             viewModel.artworkListByArtistLive.observe(viewLifecycleOwner) { artworks ->
-                val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
-                val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
-                recyclerView.apply {
+                Thread(Runnable {
+                    val artworksFilterTakenAndDeleted = filterTakenAndDeletedArtworks(artworks)
+                    val artworksFilterSearchBar = filterQueryText(artworksFilterTakenAndDeleted)
                     artworkAdapter = ArtworkAdapter(
                         artworkClickListener = artworkClickListener,
                         artworks = artworksFilterSearchBar,
-                        context = context
+                        context = this.requireContext()
                     )
-                    adapter = artworkAdapter
-                }
-                viewModel.setSortedArtworkListByArtist(artworksFilterSearchBar)
+                    recyclerView.post {
+                        recyclerView.adapter = artworkAdapter
+                    }
+                    viewModel.setSortedArtworkListByArtist(artworksFilterSearchBar)
+                }).start()
             }
         }
 
