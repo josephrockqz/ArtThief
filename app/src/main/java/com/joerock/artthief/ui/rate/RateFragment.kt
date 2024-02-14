@@ -87,6 +87,12 @@ class RateFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        with (sharedPreferences.edit()) {
+            putString("query_text", String())
+            apply()
+        }
+
         binding.sbZoomSlider.visibility = View.GONE
         binding.llZoomSliderContainer.visibility = View.GONE
         binding.ivSliderXButton.visibility = View.GONE
