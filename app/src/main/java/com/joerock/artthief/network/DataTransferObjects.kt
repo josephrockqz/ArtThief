@@ -65,10 +65,14 @@ fun networkArtworkToDatabaseArtwork(networkArtwork: NetworkArtwork): DatabaseArt
     )
 }
 
-fun updateArtworkTakenStatus(networkTakenStatus: Boolean, databaseArtwork: DatabaseArtwork): DatabaseArtwork {
+fun updateArtworkTakenStatusAndShowId(
+    networkShowId: String,
+    networkTakenStatus: Boolean,
+    databaseArtwork: DatabaseArtwork
+): DatabaseArtwork {
     return DatabaseArtwork(
         artThiefID = databaseArtwork.artThiefID,
-        showID = databaseArtwork.showID,
+        showID = networkShowId,
         title = databaseArtwork.title,
         artist = databaseArtwork.artist,
         media = databaseArtwork.media,
