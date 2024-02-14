@@ -40,14 +40,21 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
     override val artworksByShowId: LiveData<List<ArtThiefArtwork>> = Transformations.map(
         database.artworkDao.getArtworks()
     ) { list ->
-        try {
-            list.asDomainModel().sortedBy { artwork ->
-                artwork.showID.toInt()
+        val comparator = Comparator { artwork1: DatabaseArtwork, artwork2: DatabaseArtwork ->
+            val artwork1ShowId = try {
+                artwork1.showID.toInt()
+            } catch (e: Throwable) {
+                5000000
             }
-        } catch (e: Throwable) {
-            e.message?.let { Log.e("show ID invalid format", it) }
-            list.asDomainModel()
+            val artwork2ShowId = try {
+                artwork2.showID.toInt()
+            } catch (e: Throwable) {
+                5000000
+            }
+            return@Comparator artwork1ShowId - artwork2ShowId
         }
+        val sortedArtworkList = list.sortedWith(comparator)
+        sortedArtworkList.asDomainModel()
     }
 
     override val artworksByArtist: LiveData<List<ArtThiefArtwork>> = Transformations.map(
