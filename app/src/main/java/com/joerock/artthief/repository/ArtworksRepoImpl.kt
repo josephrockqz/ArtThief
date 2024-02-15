@@ -159,15 +159,20 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
                     .artworkDao
                     .insert(networkArtworkToDatabaseArtwork(it))
             } else {
-                // then see if the `taken` or `showID` values differ between network and database,
-                if (databaseArtworkEntry.taken != it.taken || databaseArtworkEntry.showID != it.showID) {
-                    // if so, update database entry to reflect new result from network request
+                // then see if values differ between network and database,
+                if (databaseArtworkEntry.showID != it.showID || databaseArtworkEntry.title != it.title ||
+                    databaseArtworkEntry.artist != it.artist || databaseArtworkEntry.media != it.media ||
+                    databaseArtworkEntry.image_large != it.image_large ||
+                    databaseArtworkEntry.image_small != it.image_small ||
+                    databaseArtworkEntry.width != it.width || databaseArtworkEntry.height != it.height ||
+                    databaseArtworkEntry.taken != it.taken)
+                {
+                    // if so, update database entry to reflect new data from network response
                     database
                         .artworkDao
                         .insert(
-                            updateArtworkTakenStatusAndShowId(
-                                it.showID,
-                                it.taken,
+                            updateArtworkInformation(
+                                it,
                                 databaseArtworkEntry
                             )
                         )

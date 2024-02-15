@@ -65,24 +65,23 @@ fun networkArtworkToDatabaseArtwork(networkArtwork: NetworkArtwork): DatabaseArt
     )
 }
 
-fun updateArtworkTakenStatusAndShowId(
-    networkShowId: String,
-    networkTakenStatus: Boolean,
+fun updateArtworkInformation(
+    networkArtwork: NetworkArtwork,
     databaseArtwork: DatabaseArtwork
 ): DatabaseArtwork {
     return DatabaseArtwork(
         artThiefID = databaseArtwork.artThiefID,
-        showID = networkShowId,
-        title = databaseArtwork.title,
-        artist = databaseArtwork.artist,
-        media = databaseArtwork.media,
-        image_large = databaseArtwork.image_large,
-        image_small = databaseArtwork.image_small,
-        width = databaseArtwork.width,
-        height = databaseArtwork.height,
-        taken = networkTakenStatus,
-        deleted = databaseArtwork.deleted, // an artwork is not hidden until the user deleted (hides) it
-        rating = databaseArtwork.rating, // 0 stars represents that it's unrated
+        showID = networkArtwork.showID,
+        title = networkArtwork.title,
+        artist = networkArtwork.artist,
+        media = networkArtwork.media,
+        image_large = networkArtwork.image_large,
+        image_small = networkArtwork.image_small,
+        width = networkArtwork.width,
+        height = networkArtwork.height,
+        taken = networkArtwork.taken,
+        deleted = databaseArtwork.deleted,
+        rating = databaseArtwork.rating,
         order = databaseArtwork.order
     )
 }
