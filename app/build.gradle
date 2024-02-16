@@ -12,8 +12,8 @@ android {
         applicationId "com.joerock.artthief"
         minSdk 24
         targetSdk 33
-        versionCode 5
-        versionName "1.2.1" // https://medium.com/javarevisited/application-versioning-strategies-de353a84faaa#:~:text=Semantic%20Versioning%20(SemVer)%20is%20the,the%20API%2C%20not%20the%20application.
+        versionCode 6
+        versionName "1.2.2" // https://medium.com/javarevisited/application-versioning-strategies-de353a84faaa#:~:text=Semantic%20Versioning%20(SemVer)%20is%20the,the%20API%2C%20not%20the%20application.
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
