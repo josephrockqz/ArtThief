@@ -88,11 +88,6 @@ class RateFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        with (sharedPreferences.edit()) {
-            putString("query_text", String())
-            apply()
-        }
-
         binding.sbZoomSlider.visibility = View.GONE
         binding.llZoomSliderContainer.visibility = View.GONE
         binding.ivSliderXButton.visibility = View.GONE
@@ -193,6 +188,7 @@ class RateFragment : Fragment() {
                             swipeUpdateArtworkDeleted = swipeUpdateArtworkDeleted
                         )
                         adapter = ratingSectionAdapter
+                        isNestedScrollingEnabled = false
                     }
                     viewModel.setSortedArtworkListByRating(artworksFilterSearchBar)
                 }
@@ -208,6 +204,7 @@ class RateFragment : Fragment() {
                         context = context
                     )
                     adapter = artworkAdapter
+                    isNestedScrollingEnabled = false
                 }
                 viewModel.setSortedArtworkListByShowId(artworksFilterSearchBar)
             }
@@ -222,6 +219,7 @@ class RateFragment : Fragment() {
                         context = context
                     )
                     adapter = artworkAdapter
+                    isNestedScrollingEnabled = false
                 }
                 viewModel.setSortedArtworkListByArtist(artworksFilterSearchBar)
             }

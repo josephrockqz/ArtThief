@@ -1,5 +1,6 @@
 package com.joerock.artthief.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,10 +18,18 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: ArtworksViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
+    private val sharedPreferences by lazy {
+        getPreferences(Context.MODE_PRIVATE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        with (sharedPreferences.edit()) {
+            putString("query_text", String())
+            apply()
+        }
 
         viewModel.refreshDataFromRepositoryAndDeleteOldData()
 
