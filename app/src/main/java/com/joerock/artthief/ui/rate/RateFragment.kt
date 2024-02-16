@@ -188,7 +188,6 @@ class RateFragment : Fragment() {
                             swipeUpdateArtworkDeleted = swipeUpdateArtworkDeleted
                         )
                         adapter = ratingSectionAdapter
-                        isNestedScrollingEnabled = false
                     }
                     viewModel.setSortedArtworkListByRating(artworksFilterSearchBar)
                 }
@@ -204,7 +203,6 @@ class RateFragment : Fragment() {
                         context = context
                     )
                     adapter = artworkAdapter
-                    isNestedScrollingEnabled = false
                 }
                 viewModel.setSortedArtworkListByShowId(artworksFilterSearchBar)
             }
@@ -219,7 +217,6 @@ class RateFragment : Fragment() {
                         context = context
                     )
                     adapter = artworkAdapter
-                    isNestedScrollingEnabled = false
                 }
                 viewModel.setSortedArtworkListByArtist(artworksFilterSearchBar)
             }
