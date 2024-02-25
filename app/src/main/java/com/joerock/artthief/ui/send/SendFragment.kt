@@ -46,7 +46,15 @@ class SendFragment : Fragment() {
                 text = buttonText
                 setOnClickListener {
                     buttonHasBeenClicked = true
-                    sendArtworksPostRequest(artworksNotUnratedDeletedTaken)
+                    if (artworksNotUnratedDeletedTaken.isNotEmpty()) {
+                        sendArtworksPostRequest(artworksNotUnratedDeletedTaken)
+                    } else {
+                        AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
+                            .setTitle(R.string.send_fragment_empty_list_dialog_title)
+                            .setMessage(R.string.send_fragment_empty_list_message)
+                            .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
+                            .show()
+                    }
                 }
             }
         }
