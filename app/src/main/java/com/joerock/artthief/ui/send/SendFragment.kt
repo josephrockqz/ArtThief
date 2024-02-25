@@ -1,9 +1,11 @@
 package com.joerock.artthief.ui.send
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.joerock.artthief.R
@@ -20,6 +22,10 @@ class SendFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    private val sharedPreferences by lazy {
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+    }
+
     private var buttonHasBeenClicked = false
 
     override fun onCreateView(
@@ -35,6 +41,14 @@ class SendFragment : Fragment() {
         )
 
         binding.sendFragmentAppBar.isTitleCentered = true
+
+        binding.etInputText.setText(sharedPreferences.getString("code_name", ""))
+        binding.etInputText.doOnTextChanged { text, _, _, _ ->
+            with (sharedPreferences.edit()) {
+                putString("code_name", text.toString())
+                apply()
+            }
+        }
 
         viewModel.artworkListByRatingLive.observe(viewLifecycleOwner) { artworks ->
             val artworksNotUnratedDeletedTaken = artworks.filter { artwork ->
