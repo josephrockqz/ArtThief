@@ -11,7 +11,9 @@ import androidx.fragment.app.activityViewModels
 import com.joerock.artthief.R
 import com.joerock.artthief.databinding.FragmentSendBinding
 import com.joerock.artthief.domain.ArtThiefArtwork
+import com.joerock.artthief.network.NetworkArtworkListPostResponse
 import com.joerock.artthief.network.NetworkArtworkPreferenceList
+import com.joerock.artthief.utils.formatListSubmissionDate
 import com.joerock.artthief.viewmodels.ArtworksViewModel
 
 class SendFragment : Fragment() {
@@ -41,6 +43,11 @@ class SendFragment : Fragment() {
         )
 
         binding.sendFragmentAppBar.isTitleCentered = true
+
+        val lastListSubmissionText = sharedPreferences.getString("last_list_submission_text", "")!!
+        if (lastListSubmissionText != String()) {
+            binding.tvLastListSubmissionText.text = lastListSubmissionText
+        }
 
         binding.etInputText.setText(sharedPreferences.getString("code_name", ""))
         binding.etInputText.doOnTextChanged { text, _, _, _ ->
@@ -83,6 +90,8 @@ class SendFragment : Fragment() {
                                 .setMessage(resources.getString(R.string.send_fragment_success_dialog_message, responseBody.message))
                                 .setPositiveButton(R.string.send_fragment_dialog_ok_button_text) { _, _ -> }
                                 .show()
+
+                            setMostRecentListSubmissionMetadata(responseBody)
                         }
                         "error" -> {
                             AlertDialog.Builder(requireContext(), R.style.AlertDialogTheme)
@@ -129,5 +138,15 @@ class SendFragment : Fragment() {
                 artworks = artworkIdsInPreferenceOrder
             )
         )
+    }
+
+    private fun setMostRecentListSubmissionMetadata(responseBody: NetworkArtworkListPostResponse) {
+        val date = formatListSubmissionDate()
+        val lastListSubmissionText = "Last sent for ${responseBody.message} on $date"
+        with (sharedPreferences.edit()) {
+            putString("last_list_submission_text", lastListSubmissionText)
+            apply()
+        }
+        binding.tvLastListSubmissionText.text = lastListSubmissionText
     }
 }
