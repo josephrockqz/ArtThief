@@ -150,6 +150,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/mi_loading"
+        android:icon="@drawable/ic_loading_animated"
+        android:title="Loading"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/mi_search"
         android:title="@string/mi_title_search"
         app:actionViewClass="android.widget.SearchView"
