@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -68,6 +69,7 @@ class RateFragment : Fragment() {
 
         setArtworkList()
         configureDisplays()
+        configureArtworkLoadingListener()
 
         return binding.root
     }
@@ -224,6 +226,22 @@ class RateFragment : Fragment() {
 
         if (displayTypeState != "grid" && rvListOrderState != "rating") {
             swipeHelper.attachToRecyclerView(recyclerView)
+        }
+    }
+
+    private fun configureArtworkLoadingListener() {
+        val animatedVectorDrawable: AnimatedVectorDrawable = resources.getDrawable(R.drawable.ic_loading_animated) as AnimatedVectorDrawable
+        binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).icon = animatedVectorDrawable
+        animatedVectorDrawable.start()
+
+        viewModel.isDataLoading.observe(viewLifecycleOwner) { isDataLoading ->
+            if (isDataLoading == true) {
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = true
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = false
+            } else {
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = false
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = true
+            }
         }
     }
 
