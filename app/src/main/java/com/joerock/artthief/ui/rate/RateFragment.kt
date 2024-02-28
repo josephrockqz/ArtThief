@@ -232,15 +232,16 @@ class RateFragment : Fragment() {
     private fun configureArtworkLoadingListener() {
         val animatedVectorDrawable: AnimatedVectorDrawable = resources.getDrawable(R.drawable.ic_loading_animated) as AnimatedVectorDrawable
         binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).icon = animatedVectorDrawable
-        animatedVectorDrawable.start()
 
         viewModel.isDataLoading.observe(viewLifecycleOwner) { isDataLoading ->
             if (isDataLoading == true) {
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = true
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = false
+                animatedVectorDrawable.start()
             } else {
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = false
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = true
+                animatedVectorDrawable.stop()
             }
         }
     }
