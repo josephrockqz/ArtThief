@@ -1,7 +1,11 @@
 package com.joerock.artthief.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.*
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.joerock.artthief.database.DatabaseArtwork
 import com.joerock.artthief.database.getDatabase
 import com.joerock.artthief.domain.ArtThiefArtwork
@@ -66,6 +70,8 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
 
     var sendArtworkListResponse: MutableLiveData<NetworkArtworkListPostResponse> = MutableLiveData()
 
+    var isDataLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+
     fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> {
         return artworksRepo.getArtworksByRating(rating)
     }
@@ -73,8 +79,15 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
+                isDataLoading.value = true
                 artworksRepo.refreshArtworks()
-            } catch (_: IOException) { }
+            } catch (e: IOException) {
+                e.message?.let {
+                    Log.e("ArtworksViewModel", it)
+                }
+            } finally {
+                isDataLoading.value = false
+            }
         }
     }
 

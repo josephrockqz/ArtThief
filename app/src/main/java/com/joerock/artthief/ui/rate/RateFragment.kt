@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -26,11 +27,16 @@ import com.joerock.artthief.ui.rate.data.ArtworkClickListener
 import com.joerock.artthief.ui.rate.data.CompareClickListener
 import com.joerock.artthief.ui.rate.data.RecyclerViewSection
 import com.joerock.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
+import com.joerock.artthief.utils.vibratePhone
 import com.joerock.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
 
 class RateFragment : Fragment() {
+
+    companion object {
+        private const val VIBRATION_DURATION: Long = 500
+    }
 
     private var _binding: FragmentRateBinding? = null
     private val binding
@@ -68,6 +74,7 @@ class RateFragment : Fragment() {
 
         setArtworkList()
         configureDisplays()
+        configureArtworkLoadingListener()
 
         return binding.root
     }
@@ -224,6 +231,23 @@ class RateFragment : Fragment() {
 
         if (displayTypeState != "grid" && rvListOrderState != "rating") {
             swipeHelper.attachToRecyclerView(recyclerView)
+        }
+    }
+
+    private fun configureArtworkLoadingListener() {
+        val animatedVectorDrawable: AnimatedVectorDrawable = resources.getDrawable(R.drawable.ic_loading_animated) as AnimatedVectorDrawable
+        binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).icon = animatedVectorDrawable
+
+        viewModel.isDataLoading.observe(viewLifecycleOwner) { isDataLoading ->
+            if (isDataLoading == true) {
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = true
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = false
+                animatedVectorDrawable.start()
+            } else {
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = false
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = true
+                animatedVectorDrawable.stop()
+            }
         }
     }
 
@@ -527,6 +551,9 @@ class RateFragment : Fragment() {
     }
 
     private fun refreshRateFragmentFromIcon(): Boolean {
+        context?.let {
+            vibratePhone(it, VIBRATION_DURATION)
+        }
         refreshRateFragment()
         return true
     }
