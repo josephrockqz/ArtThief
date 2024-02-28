@@ -2,7 +2,10 @@ package com.joerock.artthief.viewmodels
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.joerock.artthief.database.DatabaseArtwork
 import com.joerock.artthief.database.getDatabase
 import com.joerock.artthief.domain.ArtThiefArtwork
