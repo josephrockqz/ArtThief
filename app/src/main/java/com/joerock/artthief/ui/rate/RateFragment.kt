@@ -377,7 +377,8 @@ class RateFragment : Fragment() {
                     apply()
                 }
                 // TODO: remove call and make sure nothing breaks
-                refreshRateFragment()
+                refreshArtworkData()
+                replaceRateFragment()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 // No-Op
@@ -412,7 +413,8 @@ class RateFragment : Fragment() {
             toolbar.menu[3].isVisible = false
             toolbar.menu[5].isVisible = true
             toolbar.title = resources.getString(R.string.title_rate)
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -434,7 +436,8 @@ class RateFragment : Fragment() {
             toolbar.menu[3].isVisible = true
             toolbar.menu[5].isVisible = false
             toolbar.title = resources.getString(R.string.title_grid_sort)
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -455,7 +458,8 @@ class RateFragment : Fragment() {
         }
         updateGridFilterChecks(filter)
         // TODO: only relaunch fragment, don't make refresh call
-        refreshRateFragment()
+        refreshArtworkData()
+        replaceRateFragment()
         return true
     }
 
@@ -470,7 +474,8 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(1)?.isChecked = false
             toolbar.menu[1].subMenu?.get(2)?.isChecked = false
             // TODO: only relaunch fragment, don't make refresh call
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -486,7 +491,8 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(1)?.isChecked = true
             toolbar.menu[1].subMenu?.get(2)?.isChecked = false
             // TODO: only relaunch fragment, don't make refresh call
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -502,7 +508,8 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(1)?.isChecked = false
             toolbar.menu[1].subMenu?.get(2)?.isChecked = true
             // TODO: only relaunch fragment, don't make refresh call
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -521,7 +528,8 @@ class RateFragment : Fragment() {
             apply()
         }
         // TODO: only relaunch fragment, don't make refresh call
-        refreshRateFragment()
+        refreshArtworkData()
+        replaceRateFragment()
         return true
     }
 
@@ -539,7 +547,8 @@ class RateFragment : Fragment() {
             apply()
         }
         // TODO: only relaunch fragment, don't make refresh call
-        refreshRateFragment()
+        refreshArtworkData()
+        replaceRateFragment()
         return true
     }
 
@@ -561,14 +570,17 @@ class RateFragment : Fragment() {
         context?.let {
             vibratePhone(it, VIBRATION_DURATION)
         }
-        refreshRateFragment()
+        refreshArtworkData()
+        replaceRateFragment()
         return true
     }
 
-    private fun refreshRateFragment() {
-        // TODO: refactor so that view model refresh and fragment replace are separate
+    private fun refreshArtworkData() {
         // TODO: update all usages accordingly
         viewModel.refreshDataFromRepository()
+    }
+
+    private fun replaceRateFragment() {
         activity
             ?.supportFragmentManager
             ?.beginTransaction()
@@ -682,7 +694,8 @@ class RateFragment : Fragment() {
                         apply()
                     }
                     // TODO: only relaunch fragment, don't make refresh call
-                    refreshRateFragment()
+                    refreshArtworkData()
+                    replaceRateFragment()
                 }
                 return true
             }
@@ -767,7 +780,8 @@ class RateFragment : Fragment() {
                 dragTo = -1
 
                 // TODO: change this call - still need to figure out exactly how
-                refreshRateFragment()
+                refreshArtworkData()
+                replaceRateFragment()
             }
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No-Op
