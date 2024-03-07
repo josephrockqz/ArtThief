@@ -376,8 +376,6 @@ class RateFragment : Fragment() {
                     putInt("zoom_level", updatedNumColumns)
                     apply()
                 }
-                // TODO: remove call and make sure nothing breaks
-                refreshArtworkData()
                 replaceRateFragment()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -457,8 +455,6 @@ class RateFragment : Fragment() {
             apply()
         }
         updateGridFilterChecks(filter)
-        // TODO: only relaunch fragment, don't make refresh call
-        refreshArtworkData()
         replaceRateFragment()
         return true
     }
@@ -473,8 +469,6 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(0)?.isChecked = true
             toolbar.menu[1].subMenu?.get(1)?.isChecked = false
             toolbar.menu[1].subMenu?.get(2)?.isChecked = false
-            // TODO: only relaunch fragment, don't make refresh call
-            refreshArtworkData()
             replaceRateFragment()
         }
         return true
@@ -490,8 +484,6 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(0)?.isChecked = false
             toolbar.menu[1].subMenu?.get(1)?.isChecked = true
             toolbar.menu[1].subMenu?.get(2)?.isChecked = false
-            // TODO: only relaunch fragment, don't make refresh call
-            refreshArtworkData()
             replaceRateFragment()
         }
         return true
@@ -507,8 +499,6 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(0)?.isChecked = false
             toolbar.menu[1].subMenu?.get(1)?.isChecked = false
             toolbar.menu[1].subMenu?.get(2)?.isChecked = true
-            // TODO: only relaunch fragment, don't make refresh call
-            refreshArtworkData()
             replaceRateFragment()
         }
         return true
@@ -527,8 +517,6 @@ class RateFragment : Fragment() {
             putBoolean("show_deleted_artwork", !showDeletedArtworkState)
             apply()
         }
-        // TODO: only relaunch fragment, don't make refresh call
-        refreshArtworkData()
         replaceRateFragment()
         return true
     }
@@ -546,8 +534,6 @@ class RateFragment : Fragment() {
             putBoolean("show_taken_artwork", !showTakenArtworkState)
             apply()
         }
-        // TODO: only relaunch fragment, don't make refresh call
-        refreshArtworkData()
         replaceRateFragment()
         return true
     }
@@ -576,7 +562,6 @@ class RateFragment : Fragment() {
     }
 
     private fun refreshArtworkData() {
-        // TODO: update all usages accordingly
         viewModel.refreshDataFromRepository()
     }
 
@@ -693,8 +678,6 @@ class RateFragment : Fragment() {
                         putString("query_text", newText.lowercase(Locale.ROOT))
                         apply()
                     }
-                    // TODO: only relaunch fragment, don't make refresh call
-                    refreshArtworkData()
                     replaceRateFragment()
                 }
                 return true
@@ -778,10 +761,6 @@ class RateFragment : Fragment() {
 
                 dragFrom = -1
                 dragTo = -1
-
-                // TODO: change this call - still need to figure out exactly how
-                refreshArtworkData()
-                replaceRateFragment()
             }
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No-Op
