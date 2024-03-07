@@ -376,7 +376,7 @@ class RateFragment : Fragment() {
                     putInt("zoom_level", updatedNumColumns)
                     apply()
                 }
-                refreshRateFragment()
+                replaceRateFragment()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 // No-Op
@@ -411,7 +411,8 @@ class RateFragment : Fragment() {
             toolbar.menu[3].isVisible = false
             toolbar.menu[5].isVisible = true
             toolbar.title = resources.getString(R.string.title_rate)
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -433,7 +434,8 @@ class RateFragment : Fragment() {
             toolbar.menu[3].isVisible = true
             toolbar.menu[5].isVisible = false
             toolbar.title = resources.getString(R.string.title_grid_sort)
-            refreshRateFragment()
+            refreshArtworkData()
+            replaceRateFragment()
         }
         return true
     }
@@ -453,7 +455,7 @@ class RateFragment : Fragment() {
             apply()
         }
         updateGridFilterChecks(filter)
-        refreshRateFragment()
+        replaceRateFragment()
         return true
     }
 
@@ -467,7 +469,7 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(0)?.isChecked = true
             toolbar.menu[1].subMenu?.get(1)?.isChecked = false
             toolbar.menu[1].subMenu?.get(2)?.isChecked = false
-            refreshRateFragment()
+            replaceRateFragment()
         }
         return true
     }
@@ -482,7 +484,7 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(0)?.isChecked = false
             toolbar.menu[1].subMenu?.get(1)?.isChecked = true
             toolbar.menu[1].subMenu?.get(2)?.isChecked = false
-            refreshRateFragment()
+            replaceRateFragment()
         }
         return true
     }
@@ -497,7 +499,7 @@ class RateFragment : Fragment() {
             toolbar.menu[1].subMenu?.get(0)?.isChecked = false
             toolbar.menu[1].subMenu?.get(1)?.isChecked = false
             toolbar.menu[1].subMenu?.get(2)?.isChecked = true
-            refreshRateFragment()
+            replaceRateFragment()
         }
         return true
     }
@@ -515,7 +517,7 @@ class RateFragment : Fragment() {
             putBoolean("show_deleted_artwork", !showDeletedArtworkState)
             apply()
         }
-        refreshRateFragment()
+        replaceRateFragment()
         return true
     }
 
@@ -532,7 +534,7 @@ class RateFragment : Fragment() {
             putBoolean("show_taken_artwork", !showTakenArtworkState)
             apply()
         }
-        refreshRateFragment()
+        replaceRateFragment()
         return true
     }
 
@@ -554,12 +556,16 @@ class RateFragment : Fragment() {
         context?.let {
             vibratePhone(it, VIBRATION_DURATION)
         }
-        refreshRateFragment()
+        refreshArtworkData()
+        replaceRateFragment()
         return true
     }
 
-    private fun refreshRateFragment() {
+    private fun refreshArtworkData() {
         viewModel.refreshDataFromRepository()
+    }
+
+    private fun replaceRateFragment() {
         activity
             ?.supportFragmentManager
             ?.beginTransaction()
@@ -672,7 +678,7 @@ class RateFragment : Fragment() {
                         putString("query_text", newText.lowercase(Locale.ROOT))
                         apply()
                     }
-                    refreshRateFragment()
+                    replaceRateFragment()
                 }
                 return true
             }
@@ -755,8 +761,6 @@ class RateFragment : Fragment() {
 
                 dragFrom = -1
                 dragTo = -1
-
-                refreshRateFragment()
             }
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // No-Op
