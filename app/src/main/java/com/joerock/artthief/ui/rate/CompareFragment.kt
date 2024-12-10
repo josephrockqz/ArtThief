@@ -32,69 +32,37 @@ class CompareFragment : Fragment() {
     private val viewModel: ArtworksViewModel by activityViewModels()
 
     private var sectionRating: Int = 0
-    private lateinit var topArtwork: ArtThiefArtwork
-    private lateinit var bottomArtwork: ArtThiefArtwork
-    private lateinit var winningArtwork: ArtThiefArtwork
-    private var winningArtworkOnTopBool: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentCompareBinding.inflate(
             inflater,
             container,
             false
         )
 
-        viewModel.artworkSectionCompareMapping.clear()
+        viewModel.isComparisonFinalized = false
+
         viewModel.artworkSectionCompareOrdering.clear()
-        viewModel.artworkSectionCompletedComparisonsCounter = 0
-        viewModel.artworkSectionCompareTotalNumComparisonsForCompletion = 0
+        viewModel.artworksToCompare.clear()
+        viewModel.preferenceGraph.clear()
+        viewModel.currentWinningArtwork = null
 
         setMenuItemOnClickListeners(inflater)
         configureImageDescriptionUIBasedOnSettings()
         overrideOnBackPressed()
 
         sectionRating = getCompareSectionRating()
-        viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) {
-            for (i in it.indices) {
-                viewModel.artworkSectionCompareTotalNumComparisonsForCompletion += i
-                viewModel.artworkSectionCompareMapping[it[i].artThiefID] = mutableListOf()
-                viewModel.artworkSectionCompareOrdering += it[i].copy()
+        viewModel.getArtworksByRating(sectionRating).observe(viewLifecycleOwner) { artworks ->
+            for (i in artworks.indices) {
+                viewModel.artworkSectionCompareOrdering += artworks[i].copy()
             }
 
-            val nextArtworks = getNextCompareArtworks()
-            topArtwork = nextArtworks[1]
-            bottomArtwork = nextArtworks[0]
-            loadArtworkDataUI(topArtwork, bottomArtwork)
-
-            binding.flCompareArtwork1.setOnClickListener {
-                winningArtwork = topArtwork
-                winningArtworkOnTopBool = true
-                viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
-                viewModel.artworkSectionCompareMapping[bottomArtwork.artThiefID]!! += topArtwork.artThiefID
-                if (topArtwork.order > bottomArtwork.order) {
-                    val indexOfLosingArtwork = viewModel.artworkSectionCompareOrdering.indexOf(bottomArtwork)
-                    viewModel.artworkSectionCompareOrdering.remove(topArtwork)
-                    viewModel.artworkSectionCompareOrdering.add(indexOfLosingArtwork, topArtwork)
-                }
-                checkIfSectionCompareCompleted(inflater)
-            }
-            binding.flCompareArtwork2.setOnClickListener {
-                winningArtwork = bottomArtwork
-                winningArtworkOnTopBool = false
-                viewModel.artworkSectionCompareMapping[topArtwork.artThiefID]!! += bottomArtwork.artThiefID
-                viewModel.artworkSectionCompareMapping[bottomArtwork.artThiefID]!! += topArtwork.artThiefID
-                if (bottomArtwork.order > topArtwork.order) {
-                    val indexOfLosingArtwork = viewModel.artworkSectionCompareOrdering.indexOf(topArtwork)
-                    viewModel.artworkSectionCompareOrdering.remove(bottomArtwork)
-                    viewModel.artworkSectionCompareOrdering.add(indexOfLosingArtwork, bottomArtwork)
-                }
-                checkIfSectionCompareCompleted(inflater)
-            }
+            viewModel.artworksToCompare = artworks.toMutableList()
+            startComparison()
         }
 
         return binding.root
@@ -103,21 +71,146 @@ class CompareFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+        viewModel.getArtworksByRating(sectionRating).removeObservers(viewLifecycleOwner)
+
         _binding = null
     }
 
-    private fun checkIfSectionCompareCompleted(inflater: LayoutInflater) {
-        viewModel.artworkSectionCompletedComparisonsCounter += 1
-        if (viewModel.artworkSectionCompletedComparisonsCounter >= viewModel.artworkSectionCompareTotalNumComparisonsForCompletion) {
-            showCompareDoneDialog(inflater)
-            markSectionAsCompareCompleted()
-            updateArtworkOrderingDatabase()
-        } else {
-            val nextArtworks = getNextCompareArtworks(winningArtwork)
-            topArtwork = nextArtworks[1]
-            bottomArtwork = nextArtworks[0]
-            loadArtworkDataUI(topArtwork, bottomArtwork)
+    private fun startComparison() {
+        if (viewModel.artworksToCompare.isEmpty()) return
+
+        viewModel.currentWinningArtwork = viewModel.artworksToCompare[0]
+
+        compareWithNextArtwork()
+    }
+
+    private fun compareWithNextArtwork() {
+        // Find the next artwork to compare
+        val nextArtwork = viewModel.artworksToCompare.find { artwork ->
+            artwork.artThiefID != viewModel.currentWinningArtwork!!.artThiefID &&
+            !hasPreference(viewModel.currentWinningArtwork!!.artThiefID, artwork.artThiefID) &&
+            !hasPreference(artwork.artThiefID, viewModel.currentWinningArtwork!!.artThiefID)
         }
+        if (nextArtwork != null) {
+            loadArtworkDataUI(viewModel.currentWinningArtwork!!, nextArtwork)
+    
+            binding.flCompareArtwork1.setOnClickListener {
+                handleComparisonResult(viewModel.currentWinningArtwork!!, nextArtwork)
+            }
+            binding.flCompareArtwork2.setOnClickListener {
+                handleComparisonResult(nextArtwork, viewModel.currentWinningArtwork!!)
+            }
+        } else {
+            finalizeComparison()
+        }
+    }
+
+    private fun handleComparisonResult(winningArtwork: ArtThiefArtwork, losingArtwork: ArtThiefArtwork) {
+
+        updatePreferenceGraph(winningArtwork.artThiefID, losingArtwork.artThiefID)
+
+        val currentArtworkNeedsMoreComparisons = viewModel.artworksToCompare.any { artwork ->
+            artwork.artThiefID != viewModel.currentWinningArtwork!!.artThiefID &&
+            !hasPreference(viewModel.currentWinningArtwork!!.artThiefID, artwork.artThiefID)
+        }
+
+        if (!currentArtworkNeedsMoreComparisons) {
+            // Find a new artwork that needs more comparisons
+            viewModel.currentWinningArtwork = viewModel.artworksToCompare.find { artwork ->
+                viewModel.artworksToCompare.any { other ->
+                    artwork.artThiefID != other.artThiefID && 
+                    !hasPreference(artwork.artThiefID, other.artThiefID) &&
+                    !hasPreference(other.artThiefID, artwork.artThiefID)
+                }
+            }
+    
+            if (viewModel.currentWinningArtwork != null) {
+                compareWithNextArtwork()
+            } else {
+                finalizeComparison()
+            }
+        } else {
+            // Current winning artwork still needs more comparisons
+            viewModel.currentWinningArtwork = winningArtwork
+            compareWithNextArtwork()
+        }
+    }
+
+    private fun updatePreferenceGraph(winnerId: Int, loserId: Int) {
+        viewModel.preferenceGraph.putIfAbsent(winnerId, mutableSetOf())
+        viewModel.preferenceGraph[winnerId]!!.add(loserId)
+    }
+
+    private fun hasPreference(artworkId1: Int, artworkId2: Int): Boolean {
+        // Perform a DFS to check if there's a path from artworkId1 to artworkId2
+        return dfs(artworkId1, artworkId2, mutableSetOf())
+    }
+
+    private fun dfs(currentId: Int, targetId: Int, visited: MutableSet<Int>): Boolean {
+        if (currentId == targetId) return true
+        visited.add(currentId)
+
+        viewModel.preferenceGraph[currentId]?.forEach { neighborId ->
+            if (!visited.contains(neighborId) && dfs(neighborId, targetId, visited)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun createOrderedArtworkList(): List<ArtThiefArtwork> {
+        val inDegree = mutableMapOf<Int, Int>()
+        viewModel.artworksToCompare.forEach { artwork ->
+            inDegree[artwork.artThiefID] = 0
+        }
+        
+        viewModel.preferenceGraph.forEach { (_, losers) ->
+            losers.forEach { loserId ->
+                inDegree[loserId] = (inDegree[loserId] ?: 0) + 1
+            }
+        }
+        
+        val queue = ArrayDeque<Int>()
+        inDegree.forEach { (id, degree) ->
+            if (degree == 0) queue.add(id)
+        }
+        
+        val orderedIds = mutableListOf<Int>()
+        
+        while (queue.isNotEmpty()) {
+            val winnerId = queue.removeFirst()
+            orderedIds.add(winnerId)
+            
+            viewModel.preferenceGraph[winnerId]?.forEach { loserId ->
+                inDegree[loserId] = inDegree[loserId]!! - 1
+                if (inDegree[loserId] == 0) {
+                    queue.add(loserId)
+                }
+            }
+        }
+        
+        // Map ordered IDs back to ArtThiefArtwork objects
+        val idToArtwork = viewModel.artworksToCompare.associateBy { it.artThiefID }
+        return orderedIds.map { id -> idToArtwork[id]!! }
+    }
+
+    private fun finalizeComparison() {
+        if (viewModel.isComparisonFinalized) return
+        
+        // Create ordered list based on preference graph
+        val orderedArtworks = createOrderedArtworkList()
+        viewModel.artworkSectionCompareOrdering = orderedArtworks.toMutableList()
+
+        viewModel.getArtworksByRating(sectionRating).removeObservers(viewLifecycleOwner)
+        
+        updateArtworkOrderingDatabase()
+        markSectionAsCompareCompleted()
+        
+        view?.post {
+            showCompareDoneDialog(layoutInflater)
+        }
+
+        viewModel.isComparisonFinalized = true
     }
 
     private fun configureImageDescriptionUIBasedOnSettings() {
@@ -172,46 +265,6 @@ class CompareFragment : Fragment() {
             binding.flCompareImage1Description.visibility = View.GONE
             binding.flCompareImage2Description.visibility = View.GONE
         }
-    }
-
-    private fun getNextCompareArtworks(
-        winningArtwork: ArtThiefArtwork? = null
-    ): MutableList<ArtThiefArtwork> {
-        val nextArtworks = mutableListOf<ArtThiefArtwork>()
-
-        if (winningArtwork != null) {
-            val winningArtworkPreviousComparisonAmount =
-                viewModel
-                    .artworkSectionCompareMapping[winningArtwork.artThiefID]!!
-                    .size
-            if (winningArtworkPreviousComparisonAmount < viewModel.artworkSectionCompareOrdering.size - 1) {
-                nextArtworks += winningArtwork.copy()
-            }
-        }
-
-        var parsingIndex = viewModel.artworkSectionCompareOrdering.size - 1
-        while (nextArtworks.size < 2 && parsingIndex >= 0) {
-            val artwork = viewModel.artworkSectionCompareOrdering[parsingIndex]
-            val artworkPreviousComparisonAmount =
-                viewModel
-                    .artworkSectionCompareMapping[artwork.artThiefID]!!
-                    .size
-            if (nextArtworks.size == 0 && artworkPreviousComparisonAmount < viewModel.artworkSectionCompareOrdering.size - 1) {
-                nextArtworks += artwork.copy()
-            } else if (nextArtworks.size == 1 &&
-                artworkPreviousComparisonAmount < viewModel.artworkSectionCompareOrdering.size - 1 &&
-                    !viewModel.artworkSectionCompareMapping[artwork.artThiefID]!!.contains(nextArtworks[0].artThiefID) &&
-                        nextArtworks[0].artThiefID != artwork.artThiefID
-            ) {
-                if (winningArtworkOnTopBool) {
-                    nextArtworks.add(0, artwork.copy())
-                } else {
-                    nextArtworks += artwork.copy()
-                }
-            }
-            parsingIndex -= 1
-        }
-        return nextArtworks
     }
 
     private fun goBack() {
@@ -346,11 +399,12 @@ class CompareFragment : Fragment() {
     }
 
     private fun updateArtworkOrderingDatabase() {
-        for (i in viewModel.artworkSectionCompareOrdering.indices) {
+        viewModel.getArtworksByRating(sectionRating).removeObservers(viewLifecycleOwner)
+
+        viewModel.artworkSectionCompareOrdering.forEachIndexed { index, artwork ->
             viewModel.updateArtwork(
-                viewModel
-                    .artworkSectionCompareOrdering[i]
-                    .copy(order = i)
+                artwork
+                    .copy(order = index)
                     .asDatabaseModel()
             )
         }

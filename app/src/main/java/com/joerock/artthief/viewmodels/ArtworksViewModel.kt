@@ -58,10 +58,11 @@ class ArtworksViewModel(application: Application) : AndroidViewModel(application
     val artworkListByArtist: List<ArtThiefArtwork>
         get() = _artworkListByArtist
 
-    val artworkSectionCompareOrdering = mutableListOf<ArtThiefArtwork>()
-    val artworkSectionCompareMapping = mutableMapOf<Int, MutableList<Int>>()
-    var artworkSectionCompletedComparisonsCounter = 0
-    var artworkSectionCompareTotalNumComparisonsForCompletion = 0
+    var artworkSectionCompareOrdering = mutableListOf<ArtThiefArtwork>()
+    var artworksToCompare: MutableList<ArtThiefArtwork> = mutableListOf()
+    var preferenceGraph: MutableMap<Int, MutableSet<Int>> = mutableMapOf() // Adjacency list
+    var currentWinningArtwork: ArtThiefArtwork? = null
+    var isComparisonFinalized: Boolean = false
 
     private lateinit var _artworkSelectedGrid: ArtThiefArtwork
     val artworkSelectedGrid: ArtThiefArtwork
