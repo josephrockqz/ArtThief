@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.joerock.artthief'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.joerock.artthief"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 8
         versionName "1.4.1" // https://medium.com/javarevisited/application-versioning-strategies-de353a84faaa#:~:text=Semantic%20Versioning%20(SemVer)%20is%20the,the%20API%2C%20not%20the%20application.
 
