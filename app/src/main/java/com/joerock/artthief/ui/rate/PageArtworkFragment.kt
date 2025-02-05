@@ -60,19 +60,26 @@ class PageArtworkFragment(
             false
         )
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         /**
          * navigate back to rate fragment if artwork fragment is being opened
          * directly from a different tab - not from the rate fragment
          */
-        if (artwork.showID == String()) {
-            activity
-                ?.findNavController(R.id.nav_host_fragment_activity_main)
-                ?.popBackStack(R.id.navigation_rate, false)
-        } else {
-            Picasso
-                .get()
-                .load(artwork.image_large)
-                .into(binding.ivArtworkPageImage)
+        // Delay the navigation logic to ensure the view is fully created
+        view.post {
+            if (artwork.showID == String()) {
+                activity
+                    ?.findNavController(R.id.nav_host_fragment_activity_main)
+                    ?.popBackStack(R.id.navigation_rate, false)
+            } else {
+                Picasso
+                    .get()
+                    .load(artwork.image_large)
+                    .into(binding.ivArtworkPageImage)
+            }
         }
 
         val currentViewPagerIndex = parentFragment
@@ -116,8 +123,6 @@ class PageArtworkFragment(
         star5 = binding.ivArtworkPageStar5
         star5.setOnClickListener { handleStarClick(5) }
         setStarDrawables(artwork.rating)
-
-        return binding.root
     }
 
     override fun onDestroyView() {

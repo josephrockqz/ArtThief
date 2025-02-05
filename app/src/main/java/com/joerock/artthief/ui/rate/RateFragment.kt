@@ -73,14 +73,14 @@ class RateFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setArtworkList()
-        configureDisplays()
-        configureArtworkLoadingListener()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        configureDisplays()
+        configureArtworkLoadingListener()
         configureListAndGridView()
         configureToolbar()
         configureZoomSlider()
