@@ -2,7 +2,7 @@
 
     <!--Main-->
     <string name="app_name">Art Thief</string>
-    <string name="app_version">Version 1.4.2</string>
+    <string name="app_version">Version 1.5.3</string>
     <string name="title_overview">Overview</string>
     <string name="title_rate">Rate Art</string>
     <string name="title_artwork">Artwork</string>

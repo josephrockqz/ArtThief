@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace 'com.joerock.artthief'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.joerock.artthief"
         minSdk 24
-        targetSdk 34
-        versionCode 10
-        versionName "1.4.2" // https://medium.com/javarevisited/application-versioning-strategies-de353a84faaa#:~:text=Semantic%20Versioning%20(SemVer)%20is%20the,the%20API%2C%20not%20the%20application.
+        targetSdk 35
+        versionCode 12
+        versionName "1.5.3" // https://medium.com/javarevisited/application-versioning-strategies-de353a84faaa#:~:text=Semantic%20Versioning%20(SemVer)%20is%20the,the%20API%2C%20not%20the%20application.
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,8 +48,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.8.4"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
 
     // moshi for parsing the JSON format
-    def moshi_version = "1.13.0"
+    def moshi_version = "1.15.1"
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
