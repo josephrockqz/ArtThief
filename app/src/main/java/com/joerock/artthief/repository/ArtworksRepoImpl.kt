@@ -2,7 +2,7 @@ package com.joerock.artthief.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.joerock.artthief.database.ArtworksDatabase
 import com.joerock.artthief.database.DatabaseArtwork
 import com.joerock.artthief.database.asDomainModel
@@ -22,74 +22,62 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         private const val ART_THIEF_PASSCODE = "c10561cf-b9ea-46b3-89ab-5c48af2cccf0"
     }
 
-    override val artworks: LiveData<List<ArtThiefArtwork>> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        list.asDomainModel()
-    }
+    override val artworks: LiveData<List<ArtThiefArtwork>> =
+        database.artworkDao.getArtworks().map { list ->
+            list.asDomainModel()
+        }
 
-    override val artworksByRating: LiveData<List<ArtThiefArtwork>> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        list.asDomainModel().sortedWith(
-            compareByDescending<ArtThiefArtwork> { it.rating }
-                .thenBy { it.order }
-        )
-    }
+    override val artworksByRating: LiveData<List<ArtThiefArtwork>> =
+        database.artworkDao.getArtworks().map { list ->
+            list.asDomainModel().sortedWith(
+                compareByDescending<ArtThiefArtwork> { it.rating }
+                    .thenBy { it.order }
+            )
+        }
 
-    override val artworksByShowId: LiveData<List<ArtThiefArtwork>> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        val comparator = Comparator { artwork1: DatabaseArtwork, artwork2: DatabaseArtwork ->
-            val artwork1ShowId = try {
-                artwork1.showID.toInt()
-            } catch (e: Throwable) {
-                5000000
+    override val artworksByShowId: LiveData<List<ArtThiefArtwork>> =
+        database.artworkDao.getArtworks().map { list ->
+            val comparator = Comparator { artwork1: DatabaseArtwork, artwork2: DatabaseArtwork ->
+                val artwork1ShowId = try {
+                    artwork1.showID.toInt()
+                } catch (e: Throwable) {
+                    5000000
+                }
+                val artwork2ShowId = try {
+                    artwork2.showID.toInt()
+                } catch (e: Throwable) {
+                    5000000
+                }
+                return@Comparator artwork1ShowId - artwork2ShowId
             }
-            val artwork2ShowId = try {
-                artwork2.showID.toInt()
-            } catch (e: Throwable) {
-                5000000
-            }
-            return@Comparator artwork1ShowId - artwork2ShowId
+            val sortedArtworkList = list.sortedWith(comparator)
+            sortedArtworkList.asDomainModel()
         }
-        val sortedArtworkList = list.sortedWith(comparator)
-        sortedArtworkList.asDomainModel()
-    }
 
-    override val artworksByArtist: LiveData<List<ArtThiefArtwork>> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        list.asDomainModel().sortedWith(
-            compareBy<ArtThiefArtwork> { it.artist }
-                .thenBy { it.title }
-        )
-    }
+    override val artworksByArtist: LiveData<List<ArtThiefArtwork>> =
+        database.artworkDao.getArtworks().map { list ->
+            list.asDomainModel().sortedWith(
+                compareBy<ArtThiefArtwork> { it.artist }
+                    .thenBy { it.title }
+            )
+        }
 
-    override val highestRatedArtwork: LiveData<ArtThiefArtwork> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        val filterTakenAndDeletedArtworks = list.filter {
-            !it.taken && !it.deleted
+    override val highestRatedArtwork: LiveData<ArtThiefArtwork> =
+        database.artworkDao.getArtworks().map { list ->
+            val filterTakenAndDeletedArtworks = list.filter { !it.taken && !it.deleted }
+            val listByRating = filterTakenAndDeletedArtworks.asDomainModel().sortedWith(
+                compareByDescending<ArtThiefArtwork> { it.rating }
+                    .thenBy { it.order }
+            )
+            if (listByRating.isNotEmpty()) listByRating[0]
+            else defaultArtThiefArtwork
         }
-        val listByRating = filterTakenAndDeletedArtworks.asDomainModel().sortedWith(
-            compareByDescending<ArtThiefArtwork> { it.rating }
-                .thenBy { it.order }
-        )
-        if (listByRating.isNotEmpty()) listByRating[0]
-        else defaultArtThiefArtwork
-    }
 
-    override fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> = Transformations.map(
-        database.artworkDao.getArtworks()
-    ) { list ->
-        val filterArtworksWithRating = list.filter {
-            it.rating == rating
+    override fun getArtworksByRating(rating: Int): LiveData<List<ArtThiefArtwork>> =
+        database.artworkDao.getArtworks().map { list ->
+            val filterArtworksWithRating = list.filter { it.rating == rating }
+            filterArtworksWithRating.asDomainModel().sortedBy { it.order }
         }
-        filterArtworksWithRating.asDomainModel().sortedBy { artwork ->
-            artwork.order
-        }
-    }
 
     override suspend fun refreshArtworks() {
         try {
