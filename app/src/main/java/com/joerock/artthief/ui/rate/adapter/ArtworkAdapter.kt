@@ -46,9 +46,14 @@ class ArtworkAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
 
         ArtCardViewBinding.bind(viewHolder.itemView).apply {
+            // Ensure bitmap matches view bounds to reduce memory usage
             Picasso
                 .get()
                 .load(artworks[i].image_small)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.ic_loading_24dp)
+                .error(R.drawable.ic_outline_circle_24dp)
                 .into(this.ivArtImage)
 
             this.tvArtTitle.text = artworks[i].title
@@ -70,6 +75,14 @@ class ArtworkAdapter(
                 this.tvArtShowId.setTextColor(context.resources.getColor(R.color.artwork_card_right_text))
             }
         }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        // Cancel any pending image requests to avoid holding onto bitmaps
+        val binding = ArtCardViewBinding.bind(holder.itemView)
+        Picasso.get().cancelRequest(binding.ivArtImage)
+        binding.ivArtImage.setImageDrawable(null)
     }
 
     override fun getItemCount() = artworks.size

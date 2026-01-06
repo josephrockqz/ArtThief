@@ -28,6 +28,8 @@ import com.joerock.artthief.ui.rate.data.CompareClickListener
 import com.joerock.artthief.ui.rate.data.RecyclerViewSection
 import com.joerock.artthief.ui.rate.data.SwipeUpdateArtworkDeleted
 import com.joerock.artthief.utils.vibratePhone
+import android.util.Log
+import androidx.core.content.ContextCompat
 import com.joerock.artthief.viewmodels.ArtworksViewModel
 import java.util.*
 import kotlin.math.roundToInt
@@ -93,11 +95,14 @@ class RateFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        // Clean up animated drawable to prevent memory leaks
+        animatedVectorDrawable?.stop()
+        animatedVectorDrawable = null
+        
+        // Clear any pending callbacks
+        binding.root.handler?.removeCallbacksAndMessages(null)
+        
         super.onDestroyView()
-
-        binding.sbZoomSlider.visibility = View.GONE
-        binding.llZoomSliderContainer.visibility = View.GONE
-        binding.ivSliderXButton.visibility = View.GONE
         _binding = null
     }
 
@@ -234,19 +239,28 @@ class RateFragment : Fragment() {
         }
     }
 
+    private var animatedVectorDrawable: AnimatedVectorDrawable? = null
+    
     private fun configureArtworkLoadingListener() {
-        val animatedVectorDrawable: AnimatedVectorDrawable = resources.getDrawable(R.drawable.ic_loading_animated) as AnimatedVectorDrawable
-        binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).icon = animatedVectorDrawable
+        try {
+            // Use requireContext() and ContextCompat for better resource handling
+            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_loading_animated)
+            animatedVectorDrawable = (drawable?.constantState?.newDrawable() as? AnimatedVectorDrawable)?.apply {
+                binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).icon = this
+            }
+        } catch (e: Exception) {
+            Log.e("RateFragment", "Error loading animated drawable", e)
+        }
 
         viewModel.isDataLoading.observe(viewLifecycleOwner) { isDataLoading ->
             if (isDataLoading == true) {
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = true
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = false
-                animatedVectorDrawable.start()
+                animatedVectorDrawable?.start()
             } else {
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_loading).isVisible = false
                 binding.rateFragmentAppBar.menu.findItem(R.id.mi_refresh).isVisible = true
-                animatedVectorDrawable.stop()
+                animatedVectorDrawable?.stop()
             }
         }
     }

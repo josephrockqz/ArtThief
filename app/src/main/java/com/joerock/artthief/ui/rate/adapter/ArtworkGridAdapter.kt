@@ -38,7 +38,17 @@ internal class ArtworkGridAdapter(
         Picasso
             .get()
             .load(artworks[position].image_small)
+            .resize(artworkImageSize, artworkImageSize)
+            .centerCrop()
+            .placeholder(R.drawable.ic_loading_24dp)
+            .error(R.drawable.ic_outline_circle_24dp)
             .into(holder.itemImageView)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        Picasso.get().cancelRequest(holder.itemImageView)
+        holder.itemImageView.setImageDrawable(null)
     }
 
     override fun getItemCount(): Int = artworks.size

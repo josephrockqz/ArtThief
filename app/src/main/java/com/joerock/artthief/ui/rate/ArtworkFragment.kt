@@ -17,8 +17,10 @@ import com.joerock.artthief.R
 import com.joerock.artthief.ar.kotlin.ArActivity
 import com.joerock.artthief.databinding.FragmentArtworkBinding
 import com.joerock.artthief.ui.rate.adapter.ArtworkPagerAdapter
+import android.util.Log
 import com.joerock.artthief.viewmodels.ArtworksViewModel
 import com.google.ar.core.ArCoreApk
+import java.lang.Runtime
 
 class ArtworkFragment : Fragment() {
 
@@ -62,16 +64,60 @@ class ArtworkFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
-
+        logMemoryUsage("Before onDestroyView cleanup")
+        
+        // Clear ViewPager and adapter to prevent memory leaks
+        viewPager?.apply {
+            // Remove all views and clear any references
+            removeAllViews()
+            adapter = null
+        }
+        
+        // Clear fragments and their views
+        artworkPagerAdapter.clearFragments()
+        
+        // Clear any large bitmaps from memory
+        System.runFinalization()
+        System.gc()
+        
         _binding = null
+        logMemoryUsage("After onDestroyView cleanup")
+        super.onDestroyView()
+    }
+
+    private fun logMemoryUsage(tag: String) {
+        val runtime = Runtime.getRuntime()
+        val maxMemory = runtime.maxMemory() / (1024 * 1024)
+        val usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024)
+        Log.d("MemoryUsage", "$tag - Used: ${usedMemory}MB / Max: ${maxMemory}MB")
     }
 
     private fun configurePagerAdapter() {
-
+        logMemoryUsage("Before PagerAdapter init")
+        
+        // Clear any existing adapter and views
+        binding.pagerArtwork.adapter = null
+        
         artworkPagerAdapter = ArtworkPagerAdapter(childFragmentManager)
-        viewPager = binding.pagerArtwork
-        viewPager.adapter = artworkPagerAdapter
+        viewPager = binding.pagerArtwork.apply {
+            // Set a ViewTreeObserver to clean up when the view is detached
+            addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View) {}
+                override fun onViewDetachedFromWindow(v: View) {
+                    // Clean up when view is detached
+                    removeAllViews()
+                    adapter = null
+                }
+            })
+            
+            // Set a page limit to reduce memory usage
+            offscreenPageLimit = 1 // Only keep 1 page in memory on each side
+            
+            // Set the adapter last
+            adapter = artworkPagerAdapter
+        }
+        
+        logMemoryUsage("After PagerAdapter init")
 
         val artworksRvListOrder = when (
             sharedPreferences.getString("rv_list_order", "rating")
@@ -84,6 +130,9 @@ class ArtworkFragment : Fragment() {
         artworkPagerAdapter.artworks = artworksRvListOrder
         // Set view pager's artwork based on what row (artwork) is pressed
         viewPager.currentItem = viewModel.currentArtworkIndex
+        
+        // Free up memory by clearing the previous adapter if it exists
+        (viewPager.adapter as? ArtworkPagerAdapter)?.clearFragments()
 
         /**
          * Add on page change listener to set the artwork fragment's app bar
