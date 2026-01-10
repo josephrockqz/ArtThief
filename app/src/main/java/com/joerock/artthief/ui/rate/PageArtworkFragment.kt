@@ -2,8 +2,12 @@ package com.joerock.artthief.ui.rate
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -99,9 +103,7 @@ class PageArtworkFragment(
             ?.findViewById<MaterialToolbar>(R.id.artworkFragmentAppBar)
             ?.title = currentArtworkTitle
 
-        binding
-            .tvArtworkArtist
-            .text = artwork.artist
+        setupArtistTextView()
         binding
             .tvArtworkMedia
             .text = artwork.media
@@ -161,6 +163,45 @@ class PageArtworkFragment(
         if (rating > 2) star3.setImageDrawable(starFilledDrawable) else star3.setImageDrawable(starUnfilledDrawable)
         if (rating > 3) star4.setImageDrawable(starFilledDrawable) else star4.setImageDrawable(starUnfilledDrawable)
         if (rating > 4) star5.setImageDrawable(starFilledDrawable) else star5.setImageDrawable(starUnfilledDrawable)
+    }
+
+    private fun setupArtistTextView() {
+        val artistTextView = binding.tvArtworkArtist
+        val artistUrlIcon = binding.ivArtistUrl
+        val artistContainer = binding.llArtistContainer
+        val artistFallbackTextView = binding.tvArtworkArtistFallback
+        
+        if (!artwork.artistUrl.isNullOrEmpty()) {
+            // Artist has a valid URL, show background container with both text and icon clickable
+            artistContainer.visibility = View.VISIBLE
+            artistFallbackTextView.visibility = View.GONE
+            
+            val spannableString = SpannableString(artwork.artist)
+            spannableString.setSpan(UnderlineSpan(), 0, artwork.artist.length, 0)
+            artistTextView.text = spannableString
+            artistTextView.setTextColor(resources.getColor(R.color.black, null))
+            artistTextView.setOnClickListener {
+                openUrl(artwork.artistUrl)
+            }
+            
+            // Show and configure URL icon
+            artistUrlIcon.visibility = View.VISIBLE
+            artistUrlIcon.setOnClickListener {
+                openUrl(artwork.artistUrl)
+            }
+        } else {
+            // No valid URL, hide background container and show fallback text
+            artistContainer.visibility = View.GONE
+            artistFallbackTextView.visibility = View.VISIBLE
+            artistFallbackTextView.text = artwork.artist
+            artistFallbackTextView.setTextColor(resources.getColor(R.color.black, null))
+            artistFallbackTextView.setOnClickListener(null)
+        }
+    }
+
+    private fun openUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 
     private fun updateSectionSortedStatus(rating: Int) {
