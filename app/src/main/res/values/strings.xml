@@ -141,6 +141,7 @@
     <string name="artwork_page_three_star">Three Star Rating</string>
     <string name="artwork_page_four_star">Four Star Rating</string>
     <string name="artwork_page_five_star">Five Star Rating</string>
+    <string name="artist_url_icon">Artist URL Link</string>
     <string name="compare_page_artwork_1">Image of Artwork 1</string>
     <string name="compare_page_artwork_2">Image of Artwork 2</string>
     <string name="augmented_page_wall_background">Image of Wall in Background</string>

@@ -3,6 +3,8 @@ package com.joerock.artthief.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room.migration.Migration
 
 @Dao
 interface ArtworksDao {
@@ -38,19 +40,27 @@ interface ArtworksDao {
     )
 }
 
-@Database(entities = [DatabaseArtwork::class], version = 1)
+@Database(entities = [DatabaseArtwork::class], version = 2, exportSchema = false)
 abstract class ArtworksDatabase: RoomDatabase() {
     abstract val artworkDao: ArtworksDao
 }
 
 private lateinit var INSTANCE: ArtworksDatabase
 
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE databaseArtwork ADD COLUMN artistUrl TEXT")
+    }
+}
+
 fun getDatabase(context: Context): ArtworksDatabase {
     synchronized(ArtworksDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                 ArtworksDatabase::class.java,
-                "artworks").build()
+                "artworks")
+                .addMigrations(MIGRATION_1_2)
+                .build()
         }
     }
     return INSTANCE

@@ -134,33 +134,33 @@ class ArtworksRepoImpl(private val database: ArtworksDatabase) : ArtworksRepo {
         return ArtThiefNetwork
             .artThiefArtworks
             .getArtworkList(ART_THIEF_PASSCODE)
-
     }
 
     private fun updateArtworkDatabase(artworkList: List<NetworkArtwork>) {
-        artworkList.forEach {
+        artworkList.forEach { networkArtwork ->
             // for each artwork received from network GET request,
             // retrieve artwork entry from database (if it exists),
-            val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(it.artThiefID)
+            val databaseArtworkEntry: DatabaseArtwork = database.artworkDao.getArtworkById(networkArtwork.artThiefID)            
             if (databaseArtworkEntry == null) {
                 database
                     .artworkDao
-                    .insert(networkArtworkToDatabaseArtwork(it))
+                    .insert(networkArtworkToDatabaseArtwork(networkArtwork))
             } else {
                 // then see if values differ between network and database,
-                if (databaseArtworkEntry.showID != it.showID || databaseArtworkEntry.title != it.title ||
-                    databaseArtworkEntry.artist != it.artist || databaseArtworkEntry.media != it.media ||
-                    databaseArtworkEntry.image_large != it.image_large ||
-                    databaseArtworkEntry.image_small != it.image_small ||
-                    databaseArtworkEntry.width != it.width || databaseArtworkEntry.height != it.height ||
-                    databaseArtworkEntry.taken != it.taken)
+                if (databaseArtworkEntry.showID != networkArtwork.showID || databaseArtworkEntry.title != networkArtwork.title ||
+                    databaseArtworkEntry.artist != networkArtwork.artist || databaseArtworkEntry.artistUrl != networkArtwork.artistUrl ||
+                    databaseArtworkEntry.media != networkArtwork.media ||
+                    databaseArtworkEntry.image_large != networkArtwork.image_large ||
+                    databaseArtworkEntry.image_small != networkArtwork.image_small ||
+                    databaseArtworkEntry.width != networkArtwork.width || databaseArtworkEntry.height != networkArtwork.height ||
+                    databaseArtworkEntry.taken != networkArtwork.taken || databaseArtworkEntry.artistUrl != networkArtwork.artistUrl)
                 {
                     // if so, update database entry to reflect new data from network response
                     database
                         .artworkDao
                         .insert(
                             updateArtworkInformation(
-                                it,
+                                networkArtwork,
                                 databaseArtworkEntry
                             )
                         )
