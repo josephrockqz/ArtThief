@@ -107,58 +107,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_artworkArtist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:text="@string/artwork_default_author"
+                    android:textColor="@color/black"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="200dp"
+                    android:background="@android:color/transparent"/>
 
-                    <LinearLayout
-                        android:id="@+id/ll_artistContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@drawable/artist_url_background"
-                        android:paddingStart="8dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="4dp">
-
-                        <TextView
-                            android:id="@+id/tv_artworkArtist"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/artwork_default_author"
-                            android:textColor="@color/black"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:maxWidth="200dp"
-                            android:background="@android:color/transparent"/>
-
-                        <ImageView
-                            android:id="@+id/iv_artistUrl"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_marginStart="4dp"
-                            android:src="@drawable/ic_link_12dp"
-                            android:visibility="gone"
-                            android:contentDescription="@string/artist_url_icon"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:background="@android:color/transparent"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tv_artworkArtistFallback"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/artwork_default_author"
-                        android:textColor="@color/black"
-                        android:visibility="gone"/>
-
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_artworkMedia"

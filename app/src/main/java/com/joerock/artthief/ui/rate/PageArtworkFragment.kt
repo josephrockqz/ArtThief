@@ -167,35 +167,20 @@ class PageArtworkFragment(
 
     private fun setupArtistTextView() {
         val artistTextView = binding.tvArtworkArtist
-        val artistUrlIcon = binding.ivArtistUrl
-        val artistContainer = binding.llArtistContainer
-        val artistFallbackTextView = binding.tvArtworkArtistFallback
-        
+
+        artistTextView.text = artwork.artist
+        artistTextView.setTextColor(resources.getColor(R.color.black, null))
+
+        // Artist has a valid URL, make text green and add link icon
         if (!artwork.artistUrl.isNullOrEmpty()) {
-            // Artist has a valid URL, show background container with both text and icon clickable
-            artistContainer.visibility = View.VISIBLE
-            artistFallbackTextView.visibility = View.GONE
-            
-            val spannableString = SpannableString(artwork.artist)
-            spannableString.setSpan(UnderlineSpan(), 0, artwork.artist.length, 0)
-            artistTextView.text = spannableString
-            artistTextView.setTextColor(resources.getColor(R.color.black, null))
+            artistTextView.text = artwork.artist + " 🔗"
+            artistTextView.setTextColor(resources.getColor(R.color.art_thief_primary, null))
             artistTextView.setOnClickListener {
-                openUrl(artwork.artistUrl)
-            }
-            
-            // Show and configure URL icon
-            artistUrlIcon.visibility = View.VISIBLE
-            artistUrlIcon.setOnClickListener {
-                openUrl(artwork.artistUrl)
+                 openUrl(artwork.artistUrl)
             }
         } else {
-            // No valid URL, hide background container and show fallback text
-            artistContainer.visibility = View.GONE
-            artistFallbackTextView.visibility = View.VISIBLE
-            artistFallbackTextView.text = artwork.artist
-            artistFallbackTextView.setTextColor(resources.getColor(R.color.black, null))
-            artistFallbackTextView.setOnClickListener(null)
+            // No URL, remove click listener
+            artistTextView.setOnClickListener(null)
         }
     }
 
